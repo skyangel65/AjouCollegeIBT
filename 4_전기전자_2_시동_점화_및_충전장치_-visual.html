@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자동차정비기능사 — 시동·점화·충전장치 핵심정리</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #181c27;
+    --bg3: #1f2435;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.15);
+    --text: #e8eaf0;
+    --text2: #9ba3b8;
+    --text3: #636b82;
+    --red: #ff5c5c;
+    --red-bg: rgba(255,92,92,0.12);
+    --blue: #5b9ef7;
+    --blue-bg: rgba(91,158,247,0.12);
+    --green: #4ecb8d;
+    --green-bg: rgba(78,203,141,0.1);
+    --amber: #f0a830;
+    --amber-bg: rgba(240,168,48,0.12);
+    --purple: #a78bfa;
+    --purple-bg: rgba(167,139,250,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, #1a1f35 0%, #0f1117 60%);
+    border-bottom: 0.5px solid var(--border2);
+    padding: 28px 32px 20px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-top { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; }
+  .header-tag {
+    font-size: 11px; font-weight: 600; letter-spacing: .06em;
+    color: var(--amber); background: var(--amber-bg);
+    border: 0.5px solid rgba(240,168,48,.3);
+    padding: 3px 10px; border-radius: 20px; text-transform: uppercase;
+  }
+  .header h1 { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -.01em; }
+  .header p { font-size: 12px; color: var(--text3); }
+  /* ── Tabs ── */
+  .tabs {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .tab {
+    padding: 6px 16px; font-size: 12px; font-weight: 500;
+    border: 0.5px solid var(--border); border-radius: 20px;
+    background: transparent; color: var(--text2);
+    cursor: pointer; transition: all .15s;
+  }
+  .tab:hover { border-color: var(--border2); color: var(--text); }
+  .tab.active {
+    background: var(--blue-bg); color: var(--blue);
+    border-color: rgba(91,158,247,.4);
+  }
+  /* ── Main layout ── */
+  .main { padding: 24px 32px 48px; max-width: 1100px; }
+  .section { display: none; }
+  .section.active { display: block; }
+  /* ── Freq bar ── */
+  .freq-block {
+    background: var(--bg2); border: 0.5px solid var(--border);
+    border-radius: 10px; padding: 14px 16px; margin-bottom: 18px;
+  }
+  .freq-row {
+    display: flex; align-items: center; gap: 10px;
+    margin: 5px 0; font-size: 12px; color: var(--text2);
+  }
+  .freq-label { min-width: 100px; }
+  .freq-bg { flex: 1; height: 7px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .freq-fill { height: 100%; border-radius: 4px; background: var(--blue); opacity: .7; }
+  .freq-star { min-width: 80px; color: var(--amber); font-size: 11px; }
+  /* ── Grid ── */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 18px; }
+  /* ── Card ── */
+  .card {
+    background: var(--bg2); border: 0.5px solid var(--border);
+    border-radius: 10px; padding: 13px 14px;
+    transition: border-color .15s;
+  }
+  .card:hover { border-color: var(--border2); }
+  .badge {
+    display: inline-block; font-size: 10px; font-weight: 600;
+    letter-spacing: .04em; padding: 2px 8px; border-radius: 4px; margin-bottom: 7px;
+  }
+  .badge.r  { background: var(--red-bg);    color: var(--red);    border: 0.5px solid rgba(255,92,92,.25); }
+  .badge.b  { background: var(--blue-bg);   color: var(--blue);   border: 0.5px solid rgba(91,158,247,.25); }
+  .badge.g  { background: var(--green-bg);  color: var(--green);  border: 0.5px solid rgba(78,203,141,.25); }
+  .badge.w  { background: var(--amber-bg);  color: var(--amber);  border: 0.5px solid rgba(240,168,48,.25); }
+  .card-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+  .card-body  { font-size: 12px; color: var(--text2); line-height: 1.8; }
+  .hi { color: var(--red); font-weight: 600; }
+  .hi-b { color: var(--blue); font-weight: 600; }
+  /* ── Formula ── */
+  .formula {
+    background: var(--bg3); border: 0.5px solid var(--border2);
+    border-radius: 5px; padding: 5px 10px;
+    font-size: 12px; font-family: 'Courier New', monospace;
+    color: var(--green); margin: 5px 0;
+  }
+  /* ── Table ── */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 12px; margin: 6px 0; }
+  .tbl th {
+    text-align: left; font-weight: 600; color: var(--text3);
+    padding: 5px 8px; border-bottom: 0.5px solid var(--border2);
+    background: var(--bg3);
+  }
+  .tbl td { padding: 5px 8px; color: var(--text2); border-bottom: 0.5px solid var(--border); }
+  .tbl tr:last-child td { border-bottom: none; }
+  /* ── Section head ── */
+  .sec-head {
+    font-size: 11px; font-weight: 600; color: var(--text3);
+    letter-spacing: .06em; text-transform: uppercase;
+    margin: 0 0 10px; padding-bottom: 6px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  /* ── Trap box ── */
+  .trap-box {
+    background: var(--bg2); border: 0.5px solid var(--border);
+    border-radius: 10px; padding: 4px 0; margin-bottom: 18px;
+  }
+  .trap-item {
+    display: flex; gap: 10px; padding: 8px 16px;
+    font-size: 12px; border-bottom: 0.5px solid var(--border);
+    align-items: flex-start;
+  }
+  .trap-item:last-child { border-bottom: none; }
+  .num-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 20px; height: 20px; border-radius: 50%;
+    font-size: 10px; font-weight: 700;
+    background: var(--red-bg); color: var(--red);
+    border: 0.5px solid rgba(255,92,92,.3); flex-shrink: 0;
+  }
+  .trap-q { color: var(--text2); flex: 1; }
+  .trap-a { color: var(--red); font-weight: 600; min-width: 160px; text-align: right; }
+  /* ── Calc box ── */
+  .calc-box {
+    background: var(--bg2); border: 0.5px solid var(--border);
+    border-radius: 10px; padding: 14px 16px; margin-bottom: 12px;
+  }
+  .calc-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 10px; }
+  .calc-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px; }
+  .calc-row label { font-size: 12px; color: var(--text2); min-width: 120px; }
+  .calc-row input {
+    width: 90px; padding: 5px 8px; font-size: 13px;
+    background: var(--bg3); border: 0.5px solid var(--border2);
+    border-radius: 5px; color: var(--text); outline: none;
+  }
+  .calc-row input:focus { border-color: var(--blue); }
+  .calc-result {
+    font-size: 14px; font-weight: 700; color: var(--blue);
+    padding: 8px 12px; background: var(--blue-bg);
+    border: 0.5px solid rgba(91,158,247,.3); border-radius: 6px;
+  }
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+</style>
+<style>
+.school-header-bar{background:#fff;border-bottom:3px solid #185FA5;padding:10px 1.5rem;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:999;box-shadow:0 2px 6px rgba(0,0,0,0.07);}
+.school-logo-img{height:48px;width:auto;object-fit:contain;}
+.school-divider-line{width:1.5px;height:38px;background:#d0cfc8;flex-shrink:0;}
+.school-info-box{display:flex;flex-direction:column;gap:2px;flex:1;}
+.school-innovation-text{font-size:15px;font-weight:700;color:#185FA5;letter-spacing:-0.3px;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;}
+.school-sub-text{font-size:11px;color:#8a8a82;}
+.back-to-main{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#E6F1FB;color:#0C447C;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;border:1px solid #b8d4f0;transition:all .15s;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;}
+.back-to-main:hover{background:#185FA5;color:#fff;border-color:#185FA5;}
+@media(max-width:600px){.school-logo-img{height:36px;}.school-innovation-text{font-size:13px;}.back-to-main{font-size:12px;padding:6px 10px;}}
+</style>
+</head>
+<body>
+<!-- 학교 로고 헤더 -->
+<div class="school-header-bar">
+  <img src="아주자동차대학UI.jpg" alt="아주자동차대학교" class="school-logo-img">
+  <div class="school-divider-line"></div>
+  <div class="school-info-box">
+    <span class="school-innovation-text">혁신지원사업단</span>
+    <span class="school-sub-text">자동차정비 전공 교육자료</span>
+  </div>
+  <a href="index.html" class="back-to-main">🏠 메인으로</a>
+</div>
+
+
+<div class="header">
+  <div class="header-top">
+    <span class="header-tag">자동차정비기능사 필기</span>
+    <h1>시동 · 점화 · 충전장치 핵심정리</h1>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('battery',this)">① 축전지</button>
+    <button class="tab" onclick="showTab('start',this)">② 시동장치</button>
+    <button class="tab" onclick="showTab('ignition',this)">③ 점화장치</button>
+    <button class="tab" onclick="showTab('charge',this)">④ 충전장치</button>
+    <button class="tab" onclick="showTab('trap',this)">⚠ 함정 + 계산기</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ① 축전지 -->
+<div id="battery" class="section active">
+  <p class="sec-head">기출 빈도 분석 — 전체 단원 중 출제 1위</p>
+  <div class="freq-block">
+    <div class="freq-row"><span class="freq-label">비중·온도</span><div class="freq-bg"><div class="freq-fill" style="width:95%"></div></div><span class="freq-star">★★★★★ 최다</span></div>
+    <div class="freq-row"><span class="freq-label">극판 구성</span><div class="freq-bg"><div class="freq-fill" style="width:88%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-label">충전 방법</span><div class="freq-bg"><div class="freq-fill" style="width:80%"></div></div><span class="freq-star">★★★★☆</span></div>
+    <div class="freq-row"><span class="freq-label">충·방전 반응</span><div class="freq-bg"><div class="freq-fill" style="width:72%"></div></div><span class="freq-star">★★★★☆</span></div>
+    <div class="freq-row"><span class="freq-label">황산화·이상현상</span><div class="freq-bg"><div class="freq-fill" style="width:60%"></div></div><span class="freq-star">★★★☆☆</span></div>
+  </div>
+
+  <p class="sec-head">핵심 암기 카드</p>
+  <div class="grid">
+    <div class="card">
+      <div class="badge r">★★★ 1순위</div>
+      <p class="card-title">셀 구성 &amp; 전압</p>
+      <p class="card-body">납산 셀 전압: <span class="hi">2.1~2.3V</span><br>6셀 직렬 → 공칭전압 <span class="hi">12V</span><br>셀 수↑ → 전압↑<br>극판 수↑ → 용량↑<br>알카리 셀: 1.2V → <span class="hi">10셀</span> 필요</p>
+    </div>
+    <div class="card">
+      <div class="badge r">★★★ 매년 출제</div>
+      <p class="card-title">극판 장수 (함정 주의)</p>
+      <p class="card-body"><span class="hi">음극판 = 양극판 + 1장</span><br>이유①: 충격에 강해 바깥 배치<br>이유②: 양극판 활성 균형 유지<br>양극판: 암갈색 / 음극판: 회색</p>
+    </div>
+    <div class="card">
+      <div class="badge r">★★★ 1순위</div>
+      <p class="card-title">비중 → 충전 상태</p>
+      <p class="card-body"><span class="hi">1.260 → 100%</span> (완전충전·온대)<br>1.210 → 75% / 1.150 → 50%<br>1.100 → 25% / 1.050 → 0%<br>한대: 1.280 / 열대: 1.240</p>
+    </div>
+    <div class="card">
+      <div class="badge r">★★★ 1순위</div>
+      <p class="card-title">온도 ↔ 비중 관계</p>
+      <p class="card-body">온도↑ → 비중<span class="hi">↓</span><br>온도↓ → 비중↑<br>변화량: 1℃당 <span class="hi">0.0007</span><br><br><span class="formula">S₂₀ = Sₜ + 0.0007(t − 20)</span></p>
+    </div>
+    <div class="card">
+      <div class="badge b">★★★ 충전 방법</div>
+      <p class="card-title">충전 전류 암기</p>
+      <p class="card-body">정전류: 용량의 <span class="hi">1/10</span> → 가장 이상적<br>급속: 용량의 <span class="hi">1/2</span> · 45℃ 이하<br>초충전: 1/10~1/20 · 60~70시간<br>급속 최대 전압: <span class="hi">15~16V</span></p>
+    </div>
+    <div class="card">
+      <div class="badge b">★★★ 화학반응</div>
+      <p class="card-title">충·방전 반응</p>
+      <p class="card-body">방전: 양·음극 → <span class="hi">황산납(PbSO₄)</span><br>전해액(황산) → 물 / 비중↓<br>충전 +단자: <span class="hi">산소</span> 발생<br>충전 −단자: <span class="hi">수소</span> 발생</p>
+    </div>
+    <div class="card">
+      <div class="badge w">★★★ 이상 현상</div>
+      <p class="card-title">황산화(설페이션) 원인</p>
+      <p class="card-body">극판 공기 노출<br>과방전 / 불충전 반복<br>전해액 비중 과다·과소<br>이물질 유입 / 장시간 방전<br>→ 극판이 <span class="hi">영구 황산납</span>으로</p>
+    </div>
+    <div class="card">
+      <div class="badge w">★★ 과충전</div>
+      <p class="card-title">과충전 시 증상</p>
+      <p class="card-body">가스 발생↑ / 전해액 부족<br>온도↑ / 비중↑<br>전해액 <span class="hi">갈색</span>으로 변함<br>양극 커넥터 <span class="hi">부풀어</span> 오름</p>
+    </div>
+  </div>
+
+  <p class="sec-head">공식 정리</p>
+  <div class="grid">
+    <div class="card">
+      <p class="card-title">용량 &amp; 종지전압</p>
+      <div class="formula">용량[AH] = 방전전류[A] × 방전시간[H]</div>
+      <p class="card-body">방전종지전압: 셀당 <span class="hi">1.75V</span><br>12V 배터리 전체: <span class="hi">10.5V</span><br>자기방전: 1일 0.3~1.5%</p>
+    </div>
+    <div class="card">
+      <p class="card-title">충전전류 계산</p>
+      <div class="formula">정전류 = 용량 ÷ 10</div>
+      <div class="formula">급속 = 용량 ÷ 2</div>
+      <p class="card-body">예) 45AH → 정전류 <span class="hi">4.5A</span><br>예) 45AH → 급속 <span class="hi">22.5A</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- ② 시동장치 -->
+<div id="start" class="section">
+  <div class="grid">
+    <div class="card">
+      <div class="badge r">★★★ 계산 필수</div>
+      <p class="card-title">필요 회전력 공식</p>
+      <div class="formula">F = Rs × (피니언 잇수 / 링기어 잇수)</div>
+      <p class="card-body">기출 예) Rs=7, 링기어=115, 피니언=9<br>→ 7 × (9/115) = <span class="hi">0.55 kgf·m</span><br>기어비: <span class="hi">10~15:1</span>로 회전력 증대</p>
+    </div>
+    <div class="card">
+      <div class="badge r">★★★ 핵심</div>
+      <p class="card-title">직류직권 전동기</p>
+      <p class="card-body">계자코일 + 전기자코일 <span class="hi">직렬</span> 접속<br>부하↑ → 전류↑ → <span class="hi">회전력↑</span><br>부하↓ → 회전수↑<br>→ 시동전동기로 사용</p>
+    </div>
+    <div class="card">
+      <div class="badge b">★★ 종류 비교</div>
+      <p class="card-title">직권·분권·복권</p>
+      <table class="tbl">
+        <tr><th>종류</th><th>결선</th><th>용도</th></tr>
+        <tr><td>직권</td><td>직렬</td><td>시동전동기</td></tr>
+        <tr><td>분권</td><td>병렬</td><td>팬·히터 모터</td></tr>
+        <tr><td>복권</td><td>직+병렬</td><td>와이퍼 모터</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="badge b">★★★ 암기</div>
+      <p class="card-title">오버런닝 클러치</p>
+      <p class="card-body">피니언 섭동식 → <span class="hi">필수</span><br>벤딕스식 → <span class="hi">불필요</span><br>종류: 롤러·다판·스프래그<br>기동 후 역전달 방지</p>
+    </div>
+    <div class="card">
+      <div class="badge w">★★★ 판정</div>
+      <p class="card-title">무부하 시험</p>
+      <p class="card-body">전압: 배터리의 <span class="hi">90% 이상</span><br>= 12V × 0.9 = <span class="hi">10.8V 이상</span><br>전류: 정격출력의 90% 이하</p>
+    </div>
+    <div class="card">
+      <div class="badge w">★★★ 판정</div>
+      <p class="card-title">부하 시험 (크랭킹)</p>
+      <p class="card-body"><span class="hi">5초 이내</span> 측정<br>전압: 배터리의 <span class="hi">80% 이상</span><br>= 12V × 0.8 = <span class="hi">9.6V 이상</span><br>전류: 용량의 <span class="hi">3배 이하</span></p>
+    </div>
+    <div class="card">
+      <div class="badge g">★★</div>
+      <p class="card-title">링기어 안 물리는 원인</p>
+      <p class="card-body">마그네틱 스위치 불량<br>피니언·링기어 과다 마모<br>오버런닝 클러치 불량<br>시프트 레버 고정핀 마모</p>
+    </div>
+    <div class="card">
+      <div class="badge g">★★</div>
+      <p class="card-title">회전 느린 원인</p>
+      <p class="card-body">축전지 전압강하·비중 저하<br>케이블 접촉불량<br>정류자·브러시 접촉불량<br>전기자·계자코일 <span class="hi">단락</span></p>
+    </div>
+    <div class="card">
+      <div class="badge b">★★</div>
+      <p class="card-title">정류자 &amp; 브러시</p>
+      <p class="card-body">브러시: <span class="hi">1/3 마모</span> 시 교환<br>언더컷: <span class="hi">0.5~0.8mm 낮게</span><br>언더컷 적으면 → 접촉 <span class="hi">불량</span></p>
+    </div>
+    <div class="card">
+      <div class="badge b">★★</div>
+      <p class="card-title">풀인·홀딩 코일</p>
+      <p class="card-body">풀인 코일: 배터리와 <span class="hi">직렬</span><br>홀딩 코일: 배터리와 <span class="hi">병렬</span><br>접점 붙으면 풀인 코일 차단<br>홀딩 코일만 남아 유지</p>
+    </div>
+  </div>
+</div>
+
+<!-- ③ 점화장치 -->
+<div id="ignition" class="section">
+  <div class="grid">
+    <div class="card">
+      <div class="badge r">★★★ 흐름 암기</div>
+      <p class="card-title">전자제어 점화 순서</p>
+      <p class="card-body" style="color:var(--blue);font-weight:600;font-size:13px;margin-bottom:6px;">크랭크각 센서 → ECU → 파워TR → 점화코일</p>
+      <p class="card-body">ECU → 파워TR의 <span class="hi">베이스</span> 제어<br>1차전류: <span class="hi">컬렉터 → 이미터</span><br>파워TR 고장 시 크랭킹은 가능</p>
+    </div>
+    <div class="card">
+      <div class="badge r">★★★</div>
+      <p class="card-title">점화장치 종류</p>
+      <table class="tbl">
+        <tr><th>방식</th><th>특징</th></tr>
+        <tr><td>접점식</td><td>현재 미사용</td></tr>
+        <tr><td>트랜지스터</td><td>파워TR 단속</td></tr>
+        <tr><td>DLI</td><td>배전기 없음</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="badge b">★★★ DLI 특징</div>
+      <p class="card-title">DLI 장점</p>
+      <p class="card-body">배전기 누전 없음<br>로터·캡 간 에너지 손실 없음<br>전파 잡음 없음<br>점화진각 폭 <span class="hi">제한 없음</span><br>내구성↑ · 신뢰성↑<br>※ 단속 TR 수는 <span class="hi">많아짐</span></p>
+    </div>
+    <div class="card">
+      <div class="badge b">★★</div>
+      <p class="card-title">점화코일 유도 원리</p>
+      <p class="card-body">자기유도: 1차 전류 변화 → 역기전력<br>상호유도: 2차에 <span class="hi">25,000~35,000V</span><br><div class="formula">E₂ = (N₂/N₁) × E₁</div>절연저항 측정: <span class="hi">메가옴 시험기</span></p>
+    </div>
+    <div class="card">
+      <div class="badge r">★★★ 암기</div>
+      <p class="card-title">자기청정온도</p>
+      <p class="card-body">유지 온도: <span class="hi">500~800℃</span><br>낮음 → <span class="hi">카본 퇴적</span> (오손)<br>높음 → <span class="hi">조기점화</span><br>간극: 1.1~1.3mm</p>
+    </div>
+    <div class="card">
+      <div class="badge r">★★★ 암기</div>
+      <p class="card-title">열가 (냉형 vs 열형)</p>
+      <p class="card-body">냉형: 절연체 <span class="hi">짧음</span> → 열 방출↑<br>→ <span class="hi">고압축·고속 엔진</span><br>열형: 절연체 <span class="hi">김</span> → 열 방출↓<br>→ 저압축·저속 엔진<br>열가 숫자 <span class="hi">크면 냉형</span></p>
+    </div>
+    <div class="card">
+      <div class="badge w">★★</div>
+      <p class="card-title">착화성 향상 3가지</p>
+      <p class="card-body">① 간극을 <span class="hi">넓게</span><br>② 중심전극을 <span class="hi">가늘게</span><br>③ 접지전극에 <span class="hi">U자 홈</span><br>소염작용 크면 착화성↓</p>
+    </div>
+    <div class="card">
+      <div class="badge w">★★ 계산</div>
+      <p class="card-title">크랭크 회전각도</p>
+      <div class="formula">각도 = 6 × R × T</div>
+      <p class="card-body">예) 2500rpm, 1/600초<br>→ 6 × 2500 × 1/600 = <span class="hi">25°</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- ④ 충전장치 -->
+<div id="charge" class="section">
+  <div class="grid">
+    <div class="card">
+      <div class="badge r">★★★ 함정</div>
+      <p class="card-title">플레밍 법칙 구분</p>
+      <table class="tbl">
+        <tr><th>법칙</th><th>적용</th><th>엄지</th></tr>
+        <tr><td><span class="hi">왼손</span></td><td>전동기 (힘)</td><td>힘 방향</td></tr>
+        <tr><td><span class="hi-b">오른손</span></td><td>발전기 (기전력)</td><td>도선 운동방향</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="badge r">★★★ 비교</div>
+      <p class="card-title">DC vs AC 발전기</p>
+      <table class="tbl">
+        <tr><th>항목</th><th>DC</th><th>AC</th></tr>
+        <tr><td>유도전기</td><td>전기자</td><td><span class="hi">스테이터</span></td></tr>
+        <tr><td>역류방지</td><td>컷아웃 릴레이</td><td><span class="hi">다이오드</span></td></tr>
+        <tr><td>브러시</td><td>정류자</td><td><span class="hi">슬립링</span></td></tr>
+        <tr><td>계자</td><td>계자코일</td><td><span class="hi">로터</span></td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="badge r">★★★ 반복</div>
+      <p class="card-title">AC 다이오드 역할</p>
+      <p class="card-body">교류 → <span class="hi">직류로 정류</span><br>축전지에서 역류 <span class="hi">방지</span><br>→ 컷아웃 릴레이 <span class="hi">불필요</span><br>→ 전류 제한기도 <span class="hi">불필요</span><br>(+)다이오드 3개 + (-)다이오드 3개</p>
+    </div>
+    <div class="card">
+      <div class="badge b">★★★ 장점</div>
+      <p class="card-title">AC 발전기 장점</p>
+      <p class="card-body">크기 작고 가볍다<br>공회전·저속 충전 가능<br>정류자 소손 고장 없음<br>브러시 수명↑ / 불꽃↓<br>전압 조정기만으로 충분</p>
+    </div>
+    <div class="card">
+      <div class="badge b">★★ 결선</div>
+      <p class="card-title">Y결선 vs Δ결선</p>
+      <p class="card-body">Y결선: <span class="hi">AC 발전기</span> 사용<br><div class="formula">선간전압 = √3 × 상전압</div>Δ결선: DC 발전기 적용<br>자동차 → Y결선 (저속 고전압 유리)</p>
+    </div>
+    <div class="card">
+      <div class="badge b">★★</div>
+      <p class="card-title">전압 조정 원리</p>
+      <p class="card-body">발전전압 ∝ 계자자속 × 회전수<br>회전수 조절 불가<br>→ <span class="hi">로터 코일 전류</span> 가감으로 조정</p>
+    </div>
+    <div class="card">
+      <div class="badge w">★★ 고장 구분</div>
+      <p class="card-title">발전기 고장 vs 충전 불량</p>
+      <p class="card-body">발전기 자체: 정류자·브러시·슬립링<br><br>충전 불량:<br>벨트 헐거움·슬립<br>조정전압 낮음<br>터미널 불량 → <span class="hi">출력은 정상</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- ⚠ 함정 + 계산기 -->
+<div id="trap" class="section">
+  <p class="sec-head">기출 반복 함정 선택지 TOP 12</p>
+  <div class="trap-box">
+    <div class="trap-item"><span class="num-badge">1</span><span class="trap-q">음극판 vs 양극판, 어느 쪽이 많나?</span><span class="trap-a">음극판이 1장 많다</span></div>
+    <div class="trap-item"><span class="num-badge">2</span><span class="trap-q">정전류 충전 = 일정한 충전 전압?</span><span class="trap-a">아니다, 일정한 전류</span></div>
+    <div class="trap-item"><span class="num-badge">3</span><span class="trap-q">충전 시 +단자에서 수소 발생?</span><span class="trap-a">아니다, +는 산소</span></div>
+    <div class="trap-item"><span class="num-badge">4</span><span class="trap-q">방전 시 전해액 비중이 높아진다?</span><span class="trap-a">아니다, 낮아진다</span></div>
+    <div class="trap-item"><span class="num-badge">5</span><span class="trap-q">온도 올라가면 비중도 올라간다?</span><span class="trap-a">아니다, 내려간다</span></div>
+    <div class="trap-item"><span class="num-badge">6</span><span class="trap-q">언더컷 적을수록 브러시 접촉 양호?</span><span class="trap-a">아니다, 접촉 불량</span></div>
+    <div class="trap-item"><span class="num-badge">7</span><span class="trap-q">플레밍 오른손 엄지 = 기전력 방향?</span><span class="trap-a">아니다, 도선 운동방향</span></div>
+    <div class="trap-item"><span class="num-badge">8</span><span class="trap-q">AC 발전기에 전류 제한기 필요?</span><span class="trap-a">필요없다 (다이오드)</span></div>
+    <div class="trap-item"><span class="num-badge">9</span><span class="trap-q">DLI는 내구성이 떨어진다?</span><span class="trap-a">아니다, 내구성↑</span></div>
+    <div class="trap-item"><span class="num-badge">10</span><span class="trap-q">파워TR 고장 → 크랭킹도 안된다?</span><span class="trap-a">아니다, 크랭킹 가능</span></div>
+    <div class="trap-item"><span class="num-badge">11</span><span class="trap-q">AC 발전기 유도전기는 로터에서?</span><span class="trap-a">아니다, 스테이터</span></div>
+    <div class="trap-item"><span class="num-badge">12</span><span class="trap-q">벤딕스식도 오버런닝 클러치 필요?</span><span class="trap-a">아니다, 불필요</span></div>
+  </div>
+
+  <p class="sec-head">기출 계산 문제 연습기</p>
+
+  <div class="calc-box">
+    <p class="calc-title">① 기동전동기 필요 회전력 (기출 15번 유형)</p>
+    <div class="calc-row">
+      <label>회전저항 (kgf·m)</label>
+      <input type="number" id="c1_rs" value="7" oninput="calc1()">
+      <label>피니언 잇수</label>
+      <input type="number" id="c1_zp" value="9" oninput="calc1()">
+      <label>링기어 잇수</label>
+      <input type="number" id="c1_zr" value="115" oninput="calc1()">
+    </div>
+    <div class="calc-result" id="c1_result">필요 회전력 = 0.548 kgf·m</div>
+  </div>
+
+  <div class="calc-box">
+    <p class="calc-title">② 크랭크축 회전각도 (기출 24번 유형)</p>
+    <div class="calc-row">
+      <label>엔진 rpm</label>
+      <input type="number" id="c2_r" value="2500" oninput="calc2()">
+      <label>연소지연 분모 (1/N 초)</label>
+      <input type="number" id="c2_t" value="600" oninput="calc2()">
+    </div>
+    <div class="calc-result" id="c2_result">회전각도 = 25.0°</div>
+  </div>
+
+  <div class="calc-box">
+    <p class="calc-title">③ 충전 전류 계산 (기출 12번 유형)</p>
+    <div class="calc-row">
+      <label>배터리 용량 (AH)</label>
+      <input type="number" id="c3_ah" value="45" oninput="calc3()">
+    </div>
+    <div class="calc-result" id="c3_result">정전류: 4.5A   /   급속 충전: 22.5A</div>
+  </div>
+
+</div><!-- /main -->
+</div>
+
+<script>
+function showTab(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+function calc1() {
+  var rs = parseFloat(document.getElementById('c1_rs').value) || 0;
+  var zp = parseFloat(document.getElementById('c1_zp').value) || 1;
+  var zr = parseFloat(document.getElementById('c1_zr').value) || 1;
+  var f = (rs * zp / zr).toFixed(3);
+  document.getElementById('c1_result').textContent = '필요 회전력 = ' + f + ' kgf·m';
+}
+function calc2() {
+  var r = parseFloat(document.getElementById('c2_r').value) || 0;
+  var t = parseFloat(document.getElementById('c2_t').value) || 1;
+  var deg = (6 * r * (1 / t)).toFixed(1);
+  document.getElementById('c2_result').textContent = '회전각도 = ' + deg + '°';
+}
+function calc3() {
+  var ah = parseFloat(document.getElementById('c3_ah').value) || 0;
+  document.getElementById('c3_result').textContent =
+    '정전류: ' + (ah / 10).toFixed(1) + 'A   /   급속 충전: ' + (ah / 2).toFixed(1) + 'A';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>냉난방장치 핵심내용 | 자동차정비기능사</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+body { margin: 0; padding: 0; font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background: #f5f4f0; }
+:root {
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f0eeea;
+  --color-background-tertiary: #e8e6e0;
+  --color-background-info: #E6F1FB;
+  --color-background-success: #E1F5EE;
+  --color-background-warning: #FAEEDA;
+  --color-background-danger: #FCEBEB;
+  --color-text-primary: #1a1a18;
+  --color-text-secondary: #5a5a55;
+  --color-text-tertiary: #9a9a92;
+  --color-text-info: #0C447C;
+  --color-text-success: #085041;
+  --color-text-warning: #633806;
+  --color-text-danger: #791F1F;
+  --color-border-primary: rgba(0,0,0,0.15);
+  --color-border-secondary: rgba(0,0,0,0.12);
+  --color-border-tertiary: rgba(0,0,0,0.08);
+  --color-border-info: #185FA5;
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --font-mono: 'Courier New', monospace;
+}
+.school-header-bar{background:#fff;border-bottom:3px solid #185FA5;padding:10px 1.5rem;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:999;box-shadow:0 2px 6px rgba(0,0,0,0.07);}
+.school-logo-img{height:48px;width:auto;object-fit:contain;}
+.school-divider-line{width:1.5px;height:38px;background:#d0cfc8;flex-shrink:0;}
+.school-info-box{display:flex;flex-direction:column;gap:2px;flex:1;}
+.school-innovation-text{font-size:15px;font-weight:700;color:#185FA5;letter-spacing:-0.3px;}
+.school-sub-text{font-size:11px;color:#8a8a82;}
+.back-to-main{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#E6F1FB;color:#0C447C;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;border:1px solid #b8d4f0;transition:all .15s;}
+.back-to-main:hover{background:#185FA5;color:#fff;border-color:#185FA5;}
+.page-content { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem; }
+@media(max-width:600px){.school-logo-img{height:36px;}.school-innovation-text{font-size:13px;}.back-to-main{font-size:12px;padding:6px 10px;}}
+</style>
+</head>
+<body>
+<div class="school-header-bar">
+  <img src="아주자동차대학UI.jpg" alt="아주자동차대학교" class="school-logo-img">
+  <div class="school-divider-line"></div>
+  <div class="school-info-box">
+    <span class="school-innovation-text">혁신지원사업단</span>
+    <span class="school-sub-text">자동차정비 전공 교육자료</span>
+  </div>
+  <a href="index.html" class="back-to-main">&#127968; 메인으로</a>
+</div>
+<div class="page-content">
+
+<style>
+  * { box-sizing: border-box; }
+  .tab-bar { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tab { padding: 6px 14px; border: 0.5px solid var(--color-border-secondary); border-radius: 20px; font-size: 13px; cursor: pointer; background: var(--color-background-secondary); color: var(--color-text-secondary); transition: all .15s; white-space: nowrap; }
+  .tab.active { background: var(--color-background-info); color: var(--color-text-info); border-color: transparent; font-weight: 500; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* 출제 빈도 바 */
+  .freq-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; font-size: 13px; }
+  .freq-label { width: 160px; color: var(--color-text-primary); flex-shrink: 0; }
+  .freq-bar-wrap { flex: 1; height: 14px; background: var(--color-background-secondary); border-radius: 7px; overflow: hidden; }
+  .freq-bar { height: 100%; border-radius: 7px; }
+  .freq-count { width: 40px; text-align: right; color: var(--color-text-secondary); font-size: 12px; }
+
+  /* 기출 문제 카드 */
+  .q-card { border: 0.5px solid var(--color-border-tertiary); border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+  .q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .q-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); line-height: 1.5; flex: 1; }
+  .q-year { font-size: 11px; color: var(--color-text-secondary); background: var(--color-background-secondary); padding: 2px 8px; border-radius: 10px; white-space: nowrap; margin-left: 8px; }
+  .q-options { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+  .q-opt { font-size: 12px; color: var(--color-text-secondary); padding: 5px 10px; border: 0.5px solid var(--color-border-tertiary); border-radius: 6px; line-height: 1.4; }
+  .q-opt.correct { background: #EAF3DE; color: #27500A; border-color: #97C459; font-weight: 500; }
+  .q-opt.wrong { background: var(--color-background-secondary); text-decoration: none; }
+  .q-ans { font-size: 12px; color: var(--color-text-secondary); background: var(--color-background-secondary); padding: 8px 10px; border-radius: 6px; line-height: 1.5; }
+  .ans-label { color: #0C447C; font-weight: 500; margin-right: 4px; }
+
+  /* 오답 함정 */
+  .trap-card { border-left: 3px solid #E24B4A; border-radius: 0 8px 8px 0; background: var(--color-background-primary); border-top: 0.5px solid var(--color-border-tertiary); border-right: 0.5px solid var(--color-border-tertiary); border-bottom: 0.5px solid var(--color-border-tertiary); padding: 12px; margin-bottom: 10px; }
+  .trap-title { font-size: 13px; font-weight: 500; color: #A32D2D; margin-bottom: 6px; }
+  .trap-body { font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; }
+  .badge { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 10px; margin: 0 2px; }
+  .b-red { background: #FCEBEB; color: #791F1F; }
+  .b-blue { background: #E6F1FB; color: #0C447C; }
+  .b-green { background: #EAF3DE; color: #27500A; }
+  .b-amber { background: #FAEEDA; color: #633806; }
+
+  @media (prefers-color-scheme: dark) {
+    .q-opt.correct { background: #173404; color: #C0DD97; border-color: #639922; }
+    .b-red { background: #501313; color: #F7C1C1; }
+    .b-blue { background: #042C53; color: #B5D4F4; }
+    .b-green { background: #173404; color: #C0DD97; }
+    .b-amber { background: #412402; color: #FAC775; }
+    .trap-card { border-left-color: #E24B4A; }
+    .trap-title { color: #F09595; }
+  }
+</style>
+
+<div style="padding: 1rem 0;">
+
+<div class="tab-bar">
+  <div class="tab active" onclick="showTab('freq')">출제 빈도 분석</div>
+  <div class="tab" onclick="showTab('q1')">순환과정 문제</div>
+  <div class="tab" onclick="showTab('q2')">부품 기능 문제</div>
+  <div class="tab" onclick="showTab('q3')">냉매·R-134a</div>
+  <div class="tab" onclick="showTab('q4')">FATC·매니폴드</div>
+  <div class="tab" onclick="showTab('trap')">자주 틀리는 함정</div>
+</div>
+
+<!-- 출제 빈도 -->
+<div class="panel active" id="panel-freq">
+  <div style="font-size:13px; color:var(--color-text-secondary); margin-bottom:12px;">기출문제 파일 전체 분석 결과 — 냉·난방장치 관련 문항 출제 빈도</div>
+  <div class="freq-row"><div class="freq-label">냉매 순환과정 (순서)</div><div class="freq-bar-wrap"><div class="freq-bar" style="width:95%; background:#3B8BD4;"></div></div><div class="freq-count">★★★★★</div></div>
+  <div class="freq-row"><div class="freq-label">신냉매 R-134a 특징</div><div class="freq-bar-wrap"><div class="freq-bar" style="width:90%; background:#3B8BD4;"></div></div><div class="freq-count">★★★★★</div></div>
+  <div class="freq-row"><div class="freq-label">응축기 기능</div><div class="freq-bar-wrap"><div class="freq-bar" style="width:82%; background:#1D9E75;"></div></div><div class="freq-count">★★★★</div></div>
+  <div class="freq-row"><div class="freq-label">팽창밸브 기능</div><div class="freq-bar-wrap"><div class="freq-bar" style="width:80%; background:#1D9E75;"></div></div><div class="freq-count">★★★★</div></div>
+  <div class="freq-row"><div class="freq-label">냉매 취급 방법 (틀린것)</div><div class="freq-bar-wrap"><div class="freq-bar" style="width:75%; background:#1D9E75;"></div></div><div class="freq-count">★★★★</div></div>
+  <div class="freq-row"><div class="freq-label">FATC ECU 입력 센서</div><div class="freq-bar-wrap"><div class="freq-bar" style="width:65%; background:#BA7517;"></div></div><div class="freq-count">★★★</div></div>
+  <div class="freq-row"><div class="freq-label">매니폴드 게이지 접속</div><div class="freq-bar-wrap"><div class="freq-bar" style="width:60%; background:#BA7517;"></div></div><div class="freq-count">★★★</div></div>
+  <div class="freq-row"><div class="freq-label">가변용량 컴프레셔 장점</div><div class="freq-bar-wrap"><div class="freq-bar" style="width:45%; background:#888780;"></div></div><div class="freq-count">★★</div></div>
+  <div class="freq-row"><div class="freq-label">핀서모 센서 기능</div><div class="freq-bar-wrap"><div class="freq-bar" style="width:40%; background:#888780;"></div></div><div class="freq-count">★★</div></div>
+  <div class="freq-row"><div class="freq-label">건조기(리시버 드라이어) 역할</div><div class="freq-bar-wrap"><div class="freq-bar" style="width:35%; background:#888780;"></div></div><div class="freq-count">★★</div></div>
+
+  <div style="margin-top:16px; padding:10px 12px; background:var(--color-background-secondary); border-radius:8px; font-size:12px; color:var(--color-text-secondary); line-height:1.7;">
+    <strong style="color:var(--color-text-primary);">기출 패턴 요약</strong><br>
+    매 회차 거의 빠지지 않고 출제되는 주제: <span class="badge b-blue">냉매 순환순서</span> <span class="badge b-blue">R-134a 특징</span> <span class="badge b-green">응축기/팽창밸브 기능</span><br>
+    전기 파트에서 함께 출제되는 연계 주제: <span class="badge b-amber">FATC 센서 신호</span> <span class="badge b-amber">핀서모 센서</span>
+  </div>
+</div>
+
+<!-- 순환과정 문제 -->
+<div class="panel" id="panel-q1">
+  <div class="q-card">
+    <div class="q-header"><div class="q-title">자동차 에어컨 장치의 순환과정으로 맞는 것은?</div><div class="q-year">다수 연도 반복 출제</div></div>
+    <div class="q-options">
+      <div class="q-opt correct">① 압축기 → 응축기 → 건조기 → 팽창밸브 → 증발기</div>
+      <div class="q-opt wrong">② 압축기 → 응축기 → 팽창밸브 → 건조기 → 증발기</div>
+      <div class="q-opt wrong">③ 압축기 → 팽창밸브 → 건조기 → 응축기 → 증발기</div>
+      <div class="q-opt wrong">④ 압축기 → 건조기 → 팽창밸브 → 응축기 → 증발기</div>
+    </div>
+    <div class="q-ans"><span class="ans-label">정답 ①</span>compressor → condenser → receiver drier → expansion valve → evaporator<br>핵심: <strong>건조기는 팽창밸브 앞</strong>에 위치. ②번 오답(건조기·팽창밸브 순서 바뀜)이 단골 함정.</div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-title">팽창밸브식 에어컨에서 냉매가 흐르는 경로로 맞는 것은? (건조기 포함)</div><div class="q-year">2016, 반복</div></div>
+    <div class="q-options">
+      <div class="q-opt wrong">① 압축기 → 증발기 → 응축기 → 팽창밸브</div>
+      <div class="q-opt wrong">② 압축기 → 팽창밸브 → 증발기 → 응축기</div>
+      <div class="q-opt correct">③ 압축기 → 응축기 → 건조기 → 팽창밸브 → 증발기</div>
+      <div class="q-opt wrong">④ 압축기 → 팽창밸브 → 응축기 → 증발기</div>
+    </div>
+    <div class="q-ans"><span class="ans-label">정답 ③</span>건조기(receiver drier)가 응축기 뒤, 팽창밸브 앞에 있음을 반드시 기억.</div>
+  </div>
+</div>
+
+<!-- 부품 기능 문제 -->
+<div class="panel" id="panel-q2">
+  <div class="q-card">
+    <div class="q-header"><div class="q-title">에어컨에서 고압의 기체 냉매를 냉각시켜 액화시키는 작용을 하는 것은?</div><div class="q-year">2016, 반복</div></div>
+    <div class="q-options">
+      <div class="q-opt wrong">① 압축기</div>
+      <div class="q-opt correct">② 응축기 (콘덴서)</div>
+      <div class="q-opt wrong">③ 팽창밸브</div>
+      <div class="q-opt wrong">④ 증발기</div>
+    </div>
+    <div class="q-ans"><span class="ans-label">정답 ②</span>응축기는 라디에이터 앞쪽 설치. 고온 고압 기체 → 액화. 증발기(④)는 반대로 액체 → 기체 변화로 실내를 냉각.</div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-title">자동차 에어컨에서 고압의 액체 냉매를 저압의 냉매로 바꾸어 주는 부품은?</div><div class="q-year">반복 출제</div></div>
+    <div class="q-options">
+      <div class="q-opt wrong">① 압축기</div>
+      <div class="q-opt correct">② 팽창밸브</div>
+      <div class="q-opt wrong">③ 컴프레서</div>
+      <div class="q-opt wrong">④ 리퀴드 탱크</div>
+    </div>
+    <div class="q-ans"><span class="ans-label">정답 ②</span>팽창밸브: 중온고압 액체 → 저온저압 습포화 증기. 유량 조절 가능(가변밸브). 오리피스 튜브와 혼동 금지 — 오리피스는 유량조절 불가.</div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-title">자동차 에어컨 시스템에 사용되는 가변용량 컴프레셔의 장점이 아닌 것은?</div><div class="q-year">최근 출제</div></div>
+    <div class="q-options">
+      <div class="q-opt wrong">① 냉방성능 향상</div>
+      <div class="q-opt wrong">② 소음진동 향상</div>
+      <div class="q-opt wrong">③ 연비 향상</div>
+      <div class="q-opt correct">④ 냉매 충진 효율 향상</div>
+    </div>
+    <div class="q-ans"><span class="ans-label">정답 ④</span>가변용량 컴프레셔의 장점: 냉방성능↑, 소음진동↓, 연비↑, 차량 운전성 향상. '냉매 충진 효율'은 해당 없음.</div>
+  </div>
+</div>
+
+<!-- 냉매 R-134a -->
+<div class="panel" id="panel-q3">
+  <div class="q-card">
+    <div class="q-header"><div class="q-title">R-12의 염소(Cl)로 인한 오존층 파괴를 줄이고자 사용하는 자동차용 대체 냉매는?</div><div class="q-year">다수 연도 반복</div></div>
+    <div class="q-options">
+      <div class="q-opt correct">① R-134a</div>
+      <div class="q-opt wrong">② R-22a</div>
+      <div class="q-opt wrong">③ R-16a</div>
+      <div class="q-opt wrong">④ R-12a</div>
+    </div>
+    <div class="q-ans"><span class="ans-label">정답 ①</span>프레온 가스 R-12는 오존층 파괴·온실효과 유발 → 대체가스로 R-134a 사용. 오존층 파괴 염소(Cl)가 없음.</div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-title">R-134a 냉매의 특징을 설명한 것으로 틀린 것은?</div><div class="q-year">반복 출제</div></div>
+    <div class="q-options">
+      <div class="q-opt correct">① 액화 및 증발되지 않아 오존층이 보존된다.</div>
+      <div class="q-opt wrong">② 무색, 무취, 무미하다.</div>
+      <div class="q-opt wrong">③ 화학적으로 안정되고 내열성이 좋다.</div>
+      <div class="q-opt wrong">④ 온난화 계수가 구냉매보다 낮다.</div>
+    </div>
+    <div class="q-ans"><span class="ans-label">정답 ①</span>R-134a도 액화·증발은 됨(에어컨 원리 자체가 액화·증발 반복). 오존층이 보존되는 이유는 염소(Cl)가 없기 때문. ①의 설명이 틀린 것.</div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-title">자동차 에어컨 가스 냉매용기의 취급사항으로 틀린 것은?</div><div class="q-year">반복 출제</div></div>
+    <div class="q-options">
+      <div class="q-opt wrong">① 냉매 용기는 직사광선이 비치는 곳에 방치하지 않는다.</div>
+      <div class="q-opt wrong">② 냉매 용기의 보호 캡을 항상 씌워 둔다.</div>
+      <div class="q-opt wrong">③ 냉매가 피부에 접촉되지 않도록 한다.</div>
+      <div class="q-opt correct">④ 냉매 충전 시에는 냉매 용기에 완전히 채우도록 한다.</div>
+    </div>
+    <div class="q-ans"><span class="ans-label">정답 ④</span>냉매 충전은 폭발위험이 있으므로 80%만 채움. "완전히 채운다"가 틀린 항목. 교재에서도 "완전히 채우지 않도록 한다"고 명시.</div>
+  </div>
+</div>
+
+<!-- FATC·매니폴드 -->
+<div class="panel" id="panel-q4">
+  <div class="q-card">
+    <div class="q-header"><div class="q-title">전자동에어컨(FATC) 시스템의 ECU에 입력되는 센서 신호로 거리가 먼 것은?</div><div class="q-year">2016, 반복</div></div>
+    <div class="q-options">
+      <div class="q-opt wrong">① 외기온도 센서</div>
+      <div class="q-opt correct">② 차고 센서</div>
+      <div class="q-opt wrong">③ 일사 센서</div>
+      <div class="q-opt wrong">④ 내기온도 센서</div>
+    </div>
+    <div class="q-ans"><span class="ans-label">정답 ②</span>차고 센서는 전자제어 현가장치(ECS)의 입력신호. FATC 입력센서: 실내온도, 외기온도, 일사량, 핀서모, 수온, AQS, 습도 센서 등.</div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-title">전자제어 에어컨 장치(FATC)에서 컨트롤 유닛이 제어하지 않는 것은?</div><div class="q-year">과년도</div></div>
+    <div class="q-options">
+      <div class="q-opt wrong">① 히터 밸브</div>
+      <div class="q-opt wrong">② 송풍기 속도</div>
+      <div class="q-opt wrong">③ 컴프레서 클러치</div>
+      <div class="q-opt correct">④ 리시버 드라이어</div>
+    </div>
+    <div class="q-ans"><span class="ans-label">정답 ④</span>리시버 드라이어는 냉매 저장·수분흡수 등 수동적 역할만 함. ECU 제어 대상 아님. FATC 제어 대상: 히터밸브, 송풍기 속도, 컴프레서 클러치, 풍향, 내외기.</div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-title">에어컨 매니폴드 게이지 접속 시 주의사항으로 틀린 것은?</div><div class="q-year">반복 출제</div></div>
+    <div class="q-options">
+      <div class="q-opt wrong">① 연결 시 모든 밸브를 잠근 후 실시</div>
+      <div class="q-opt correct">② 진공펌프를 작동시키고 센터 호스를 저압라인에 연결</div>
+      <div class="q-opt wrong">③ 황색 호스를 진공펌프나 냉매회수기에 연결</div>
+      <div class="q-opt wrong">④ 충전되어 있을 때 충전호스·밸브 전부 잠근 후 분리</div>
+    </div>
+    <div class="q-ans"><span class="ans-label">정답 ②</span>진공작업 시 센터 호스를 진공펌프에 연결해야 함 (저압라인이 아님). 황색(센터) 호스 → 진공펌프 연결이 올바른 순서.</div>
+  </div>
+</div>
+
+<!-- 자주 틀리는 함정 -->
+<div class="panel" id="panel-trap">
+  <div class="trap-card">
+    <div class="trap-title">함정 1 — 건조기와 팽창밸브 순서 혼동</div>
+    <div class="trap-body">
+      <span class="badge b-red">최빈 오답</span> 오답 선지로 "압축기 → 응축기 → <u>팽창밸브 → 건조기</u> → 증발기"가 자주 등장.<br>
+      기억법: 건조기는 냉매 속 <strong>수분을 먼저 제거</strong>한 후 팽창밸브로 보내야 하므로 반드시 팽창밸브 앞.
+    </div>
+  </div>
+  <div class="trap-card">
+    <div class="trap-title">함정 2 — 응축기와 증발기 기능 혼동</div>
+    <div class="trap-body">
+      <span class="badge b-red">자주 혼동</span> 둘 다 열교환기지만 방향이 반대.<br>
+      응축기: 기체 → 액체 (열 방출, 라디에이터 앞 설치)<br>
+      증발기: 액체 → 기체 (열 흡수, 실내 냉각)
+    </div>
+  </div>
+  <div class="trap-card">
+    <div class="trap-title">함정 3 — R-134a "액화·증발 안 된다"는 설명</div>
+    <div class="trap-body">
+      <span class="badge b-red">출제 포인트</span> "오존층이 보존되는 이유 = 액화·증발이 안 됨" → 완전히 틀린 설명.<br>
+      R-134a는 정상적으로 액화·증발됨. 오존층 보존 이유는 <strong>염소(Cl) 성분이 없기 때문</strong>.
+    </div>
+  </div>
+  <div class="trap-card">
+    <div class="trap-title">함정 4 — 냉매 충전량: "완전히 채운다"</div>
+    <div class="trap-body">
+      <span class="badge b-red">단골 오답</span> "냉매 충전 시 냉매 용기에 완전히 채운다" → 틀림.<br>
+      폭발 위험으로 <strong>80% 이하</strong>만 채워야 함. 50℃ 이상 가열 금지도 함께 기억.
+    </div>
+  </div>
+  <div class="trap-card">
+    <div class="trap-title">함정 5 — FATC 입력센서에 "차고 센서" 포함</div>
+    <div class="trap-body">
+      <span class="badge b-amber">연계 출제</span> 차고 센서는 ECS(전자제어 현가장치) 센서. FATC와 무관.<br>
+      반면 <strong>핀서모 센서, 일사량 센서, 수온 센서, AQS 센서</strong>는 모두 FATC 입력 신호.
+    </div>
+  </div>
+  <div class="trap-card">
+    <div class="trap-title">함정 6 — 팽창밸브 vs 오리피스 튜브 유량조절</div>
+    <div class="trap-body">
+      <span class="badge b-amber">비교 문제</span> 팽창밸브: 유량 조절 가능(가변밸브) / 오리피스 튜브: 유량 조절 불가(항상 고정 개방)<br>
+      오리피스 튜브 시스템은 건조기 대신 <strong>어큐뮬레이터</strong>를 증발기 뒤에 사용.
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('panel-'+id).classList.add('active');
+}
+</script>
+
+</div>
+</body>
+</html>

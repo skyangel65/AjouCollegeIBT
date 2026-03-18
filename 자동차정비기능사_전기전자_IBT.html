@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자동차정비기능사 전기·전자 예상문제</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface2: #22263a;
+  --surface3: #2a2f45;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.14);
+  --text: #e8eaf0;
+  --text2: #8b90a8;
+  --text3: #555a72;
+  --accent: #4f8ef7;
+  --accent-dim: rgba(79,142,247,0.15);
+  --green: #3ecf8e;
+  --green-dim: rgba(62,207,142,0.15);
+  --red: #f76f6f;
+  --red-dim: rgba(247,111,111,0.15);
+  --amber: #f5a623;
+  --amber-dim: rgba(245,166,35,0.12);
+  --purple: #a78bfa;
+  --purple-dim: rgba(167,139,250,0.15);
+  --part1: #4f8ef7;
+  --part2: #f5894a;
+  --part3: #3ecf8e;
+  --part4: #a78bfa;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-badge {
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+.logo-text { font-size: 14px; font-weight: 500; color: var(--text2); }
+.header-actions { display: flex; gap: 8px; }
+
+/* ── SETUP SCREEN ── */
+#setupScreen {
+  max-width: 760px;
+  margin: 48px auto;
+  padding: 0 20px;
+}
+.setup-title {
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+.setup-sub { color: var(--text2); font-size: 15px; margin-bottom: 36px; }
+
+.config-section { margin-bottom: 28px; }
+.config-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text3);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.part-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.part-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: all 0.18s;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.part-card:hover { border-color: var(--border2); background: var(--surface2); }
+.part-card.selected { border-color: var(--accent); background: var(--accent-dim); }
+.part-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.part-card-info { flex: 1; }
+.part-card-name { font-size: 14px; font-weight: 500; }
+.part-card-count { font-size: 12px; color: var(--text2); margin-top: 2px; }
+.part-card input { display: none; }
+
+.toggle-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.toggle-btn {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all 0.18s;
+  text-align: center;
+  color: var(--text2);
+  font-size: 13px;
+  font-weight: 500;
+}
+.toggle-btn:hover { border-color: var(--border2); color: var(--text); }
+.toggle-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+
+.count-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.count-chip {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text2);
+  transition: all 0.15s;
+}
+.count-chip:hover { border-color: var(--border2); color: var(--text); }
+.count-chip.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+
+.start-btn {
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  margin-top: 8px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.start-btn:hover { opacity: 0.9; }
+.start-btn:active { transform: scale(0.99); }
+
+/* ── QUIZ SCREEN ── */
+#quizScreen { display: none; max-width: 820px; margin: 0 auto; padding: 24px 20px 80px; }
+
+.quiz-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+.progress-wrap { flex: 1; }
+.progress-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 6px;
+}
+.progress-bar {
+  height: 4px;
+  background: var(--surface3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.score-badge {
+  background: var(--green-dim);
+  border: 1px solid var(--green);
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.question-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 28px 24px;
+  margin-bottom: 14px;
+}
+.q-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.q-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text3);
+}
+.q-part-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+.q-text {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.choices { display: flex; flex-direction: column; gap: 9px; }
+.choice-btn {
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text);
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: all 0.15s;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  line-height: 1.6;
+}
+.choice-btn:hover:not(:disabled) { background: var(--surface3); border-color: var(--border2); }
+.choice-btn .choice-label {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--surface3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: all 0.15s;
+  font-family: 'JetBrains Mono', monospace;
+}
+.choice-btn.correct {
+  background: var(--green-dim);
+  border-color: var(--green);
+  color: var(--text);
+}
+.choice-btn.correct .choice-label { background: var(--green); color: #000; }
+.choice-btn.wrong {
+  background: var(--red-dim);
+  border-color: var(--red);
+  color: var(--text2);
+}
+.choice-btn.wrong .choice-label { background: var(--red); color: #fff; }
+.choice-btn.reveal-answer {
+  background: var(--green-dim);
+  border-color: var(--green);
+}
+.choice-btn.reveal-answer .choice-label { background: var(--green); color: #000; }
+.choice-btn:disabled { cursor: default; }
+
+/* explanation */
+.explanation-box {
+  background: var(--amber-dim);
+  border: 1px solid rgba(245,166,35,0.3);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-top: 14px;
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--text);
+  display: none;
+}
+.explanation-box.visible { display: block; }
+.exp-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--amber);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+/* action bar */
+.action-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+.mode-toggle-group { display: flex; gap: 6px; }
+.mode-chip {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.mode-chip.on { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+.mode-chip.on.exp { background: var(--amber-dim); border-color: rgba(245,166,35,0.4); color: var(--amber); }
+
+.nav-btns { margin-left: auto; display: flex; gap: 8px; }
+.nav-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.nav-btn:hover { background: var(--surface3); }
+.nav-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.nav-btn.primary:hover { opacity: 0.88; }
+.nav-btn:disabled { opacity: 0.35; cursor: default; }
+
+/* ── RESULT SCREEN ── */
+#resultScreen { display: none; max-width: 680px; margin: 48px auto; padding: 0 20px 80px; }
+
+.result-hero {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px 32px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.result-score-ring {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  position: relative;
+}
+.result-score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring-bg { fill: none; stroke: var(--surface3); stroke-width: 8; }
+.ring-fill { fill: none; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
+.ring-text {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.ring-score { font-size: 28px; font-weight: 900; font-family: 'JetBrains Mono', monospace; }
+.ring-denom { font-size: 12px; color: var(--text2); }
+.result-grade { font-size: 22px; font-weight: 900; margin-bottom: 6px; }
+.result-sub { color: var(--text2); font-size: 14px; }
+
+.result-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 24px;
+}
+.stat-card {
+  background: var(--surface2);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+.stat-val { font-size: 22px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+.stat-lbl { font-size: 11px; color: var(--text2); margin-top: 3px; }
+
+.part-result-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.part-result-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.pr-name { font-size: 14px; font-weight: 500; flex: 1; }
+.pr-bar-wrap { flex: 2; height: 6px; background: var(--surface3); border-radius: 3px; overflow: hidden; }
+.pr-bar-fill { height: 100%; border-radius: 3px; }
+.pr-score { font-size: 13px; font-weight: 700; font-family: 'JetBrains Mono', monospace; min-width: 50px; text-align: right; }
+
+.result-actions { display: flex; gap: 10px; }
+.res-btn {
+  flex: 1;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: opacity 0.15s;
+}
+.res-btn:hover { opacity: 0.88; }
+.res-btn.primary { background: var(--accent); color: #fff; }
+.res-btn.secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+
+/* wrong list */
+.wrong-section { margin-top: 28px; }
+.section-title-sm { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: var(--text3); text-transform: uppercase; margin-bottom: 12px; }
+.wrong-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+.wrong-qtext { color: var(--text); line-height: 1.6; margin-bottom: 8px; }
+.wrong-ans { color: var(--green); font-size: 12px; font-weight: 600; }
+.wrong-exp { color: var(--text2); font-size: 12px; line-height: 1.6; margin-top: 4px; }
+
+/* util */
+.hidden { display: none !important; }
+</style>
+<style>
+.school-header-bar{background:#fff;border-bottom:3px solid #185FA5;padding:10px 1.5rem;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:999;box-shadow:0 2px 6px rgba(0,0,0,0.07);}
+.school-logo-img{height:48px;width:auto;object-fit:contain;}
+.school-divider-line{width:1.5px;height:38px;background:#d0cfc8;flex-shrink:0;}
+.school-info-box{display:flex;flex-direction:column;gap:2px;flex:1;}
+.school-innovation-text{font-size:15px;font-weight:700;color:#185FA5;letter-spacing:-0.3px;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;}
+.school-sub-text{font-size:11px;color:#8a8a82;}
+.back-to-main{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#E6F1FB;color:#0C447C;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;border:1px solid #b8d4f0;transition:all .15s;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;}
+.back-to-main:hover{background:#185FA5;color:#fff;border-color:#185FA5;}
+@media(max-width:600px){.school-logo-img{height:36px;}.school-innovation-text{font-size:13px;}.back-to-main{font-size:12px;padding:6px 10px;}}
+</style>
+</head>
+<body>
+<!-- 학교 로고 헤더 -->
+<div class="school-header-bar">
+  <img src="아주자동차대학UI.jpg" alt="아주자동차대학교" class="school-logo-img">
+  <div class="school-divider-line"></div>
+  <div class="school-info-box">
+    <span class="school-innovation-text">혁신지원사업단</span>
+    <span class="school-sub-text">자동차정비 전공 교육자료</span>
+  </div>
+  <a href="index.html" class="back-to-main">🏠 메인으로</a>
+</div>
+
+
+<div class="header">
+  <div class="logo">
+    <span class="logo-badge">기능사</span>
+    <span class="logo-text">자동차정비기능사 · 전기·전자 예상문제</span>
+  </div>
+  <div class="header-actions">
+    <button class="nav-btn" id="btnBackToSetup" onclick="backToSetup()" style="display:none">⟵ 처음으로</button>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div id="setupScreen">
+  <div class="setup-title">전기·전자 파트 예상문제 연습</div>
+  <div class="setup-sub">NCS 출제기준 반영 · 총 80문항 · 파트·문항 수·모드 선택 후 시작</div>
+
+  <div class="config-section">
+    <div class="config-label">파트 선택 (복수 가능)</div>
+    <div class="part-grid">
+      <label class="part-card selected" data-part="1">
+        <span class="part-dot" style="background:var(--part1)"></span>
+        <div class="part-card-info">
+          <div class="part-card-name">PART 1 · 전기 기초</div>
+          <div class="part-card-count">20문항 · 회로·소자·계측</div>
+        </div>
+        <input type="checkbox" value="1" checked>
+      </label>
+      <label class="part-card selected" data-part="2">
+        <span class="part-dot" style="background:var(--part2)"></span>
+        <div class="part-card-info">
+          <div class="part-card-name">PART 2 · 시동·점화·충전</div>
+          <div class="part-card-count">20문항 · 스타터·발전기</div>
+        </div>
+        <input type="checkbox" value="2" checked>
+      </label>
+      <label class="part-card selected" data-part="3">
+        <span class="part-dot" style="background:var(--part3)"></span>
+        <div class="part-card-info">
+          <div class="part-card-name">PART 3 · 계기·등화·편의</div>
+          <div class="part-card-count">20문항 · 경고등·BCM·조명</div>
+        </div>
+        <input type="checkbox" value="3" checked>
+      </label>
+      <label class="part-card selected" data-part="4">
+        <span class="part-dot" style="background:var(--part4)"></span>
+        <div class="part-card-info">
+          <div class="part-card-name">PART 4 · 냉·난방장치</div>
+          <div class="part-card-count">20문항 · 에어컨·히터</div>
+        </div>
+        <input type="checkbox" value="4" checked>
+      </label>
+    </div>
+  </div>
+
+  <div class="config-section">
+    <div class="config-label">출제 모드</div>
+    <div class="toggle-row">
+      <div class="toggle-btn active" id="modeRandomQ" onclick="setMode('randomQ',this)">🔀 문항 랜덤</div>
+      <div class="toggle-btn active" id="modeRandomC" onclick="setMode('randomC',this)">🔀 보기 랜덤</div>
+      <div class="toggle-btn" id="modeShowAns" onclick="setMode('showAns',this)">✅ 정답 표시</div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="toggle-row">
+      <div class="toggle-btn" id="modeShowExp" onclick="setMode('showExp',this)">📖 해설 표시</div>
+      <div class="toggle-btn active" id="modeOnlyWrong" onclick="setMode('onlyWrong',this)" style="display:none">❌ 오답만</div>
+      <div></div>
+    </div>
+  </div>
+
+  <div class="config-section">
+    <div class="config-label">문항 수</div>
+    <div class="count-row">
+      <div class="count-chip" onclick="setCount(10,this)">10문항</div>
+      <div class="count-chip" onclick="setCount(20,this)">20문항</div>
+      <div class="count-chip active" onclick="setCount(40,this)">40문항</div>
+      <div class="count-chip" onclick="setCount(60,this)">60문항</div>
+      <div class="count-chip" onclick="setCount(80,this)">80문항 전체</div>
+    </div>
+  </div>
+
+  <button class="start-btn" onclick="startQuiz()">시작하기 →</button>
+</div>
+
+<!-- QUIZ -->
+<div id="quizScreen">
+  <div class="quiz-topbar">
+    <div class="progress-wrap">
+      <div class="progress-text">
+        <span id="progLabel">1 / 40</span>
+        <span id="progPart"></span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <div class="score-badge" id="scoreBadge">0 / 0</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-meta">
+      <span class="q-num" id="qNum">Q01</span>
+      <span class="q-part-tag" id="qPartTag"></span>
+    </div>
+    <div class="q-text" id="qText"></div>
+  </div>
+
+  <div class="choices" id="choicesWrap"></div>
+
+  <div class="explanation-box" id="explanationBox">
+    <div class="exp-label">해 설</div>
+    <div id="explanationText"></div>
+  </div>
+
+  <div class="action-bar" style="margin-top:14px">
+    <div class="mode-toggle-group">
+      <div class="mode-chip" id="chipAns" onclick="toggleAnsMode()">정답 보기</div>
+      <div class="mode-chip exp" id="chipExp" onclick="toggleExpMode()">해설 보기</div>
+    </div>
+    <div class="nav-btns">
+      <button class="nav-btn" id="btnPrev" onclick="navigate(-1)">← 이전</button>
+      <button class="nav-btn primary" id="btnNext" onclick="navigate(1)">다음 →</button>
+      <button class="nav-btn primary hidden" id="btnFinish" onclick="showResult()">결과 보기</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="resultScreen">
+  <div class="result-hero">
+    <div class="result-score-ring">
+      <svg viewBox="0 0 120 120">
+        <circle class="ring-bg" cx="60" cy="60" r="52"/>
+        <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="52"/>
+      </svg>
+      <div class="ring-text">
+        <div class="ring-score" id="ringScore">0</div>
+        <div class="ring-denom" id="ringDenom">/ 0</div>
+      </div>
+    </div>
+    <div class="result-grade" id="resultGrade">—</div>
+    <div class="result-sub" id="resultSub"></div>
+    <div class="result-stats">
+      <div class="stat-card"><div class="stat-val" id="statCorrect" style="color:var(--green)">0</div><div class="stat-lbl">정답</div></div>
+      <div class="stat-card"><div class="stat-val" id="statWrong" style="color:var(--red)">0</div><div class="stat-lbl">오답</div></div>
+      <div class="stat-card"><div class="stat-val" id="statSkip" style="color:var(--text2)">0</div><div class="stat-lbl">미응답</div></div>
+      <div class="stat-card"><div class="stat-val" id="statPct" style="color:var(--accent)">0%</div><div class="stat-lbl">정답률</div></div>
+    </div>
+  </div>
+
+  <div class="section-title-sm" style="margin-bottom:12px">파트별 결과</div>
+  <div class="part-result-list" id="partResultList"></div>
+
+  <div class="result-actions">
+    <button class="res-btn secondary" onclick="backToSetup()">⚙ 다시 설정</button>
+    <button class="res-btn primary" onclick="restartSame()">↺ 같은 설정 재시작</button>
+  </div>
+
+  <div class="wrong-section" id="wrongSection">
+    <div class="section-title-sm" style="margin-bottom:12px">오답 노트</div>
+    <div id="wrongList"></div>
+  </div>
+</div>
+
+<script>
+// ========================================================
+//  QUESTION DATA  (80 questions)
+// ========================================================
+const ALL_QUESTIONS = [
+// ── PART 1: 전기 기초 ──
+{id:1,part:1,q:"자동차 전기 회로에서 전압(V), 전류(I), 저항(R)의 관계를 나타내는 옴의 법칙으로 옳은 것은?",choices:["V = I + R","V = I × R","V = I - R","V = I ÷ R²"],ans:1,exp:"옴의 법칙: 전압(V) = 전류(I) × 저항(R). 자동차 전기 회로의 모든 계산의 기본이 되는 공식이다."},
+{id:2,part:1,q:"12V 배터리에 4Ω 저항을 연결했을 때 흐르는 전류는?",choices:["1A","2A","3A","4A"],ans:2,exp:"I = V ÷ R = 12 ÷ 4 = 3A. 옴의 법칙: 전류(A) = 전압(V) ÷ 저항(Ω)."},
+{id:3,part:1,q:"자동차 배선에서 병렬 회로의 특징으로 옳은 것은?",choices:["각 소자에 흐르는 전류가 동일하다","각 소자에 걸리는 전압이 동일하다","총 저항이 각 저항의 합과 같다","한 소자가 단선되면 전체 회로가 차단된다"],ans:1,exp:"병렬 회로: 각 소자에 같은 전압이 걸린다. 전류는 각 가지에서 나뉘며, 총 저항은 개별 저항보다 작다."},
+{id:4,part:1,q:"자동차 전기 회로에서 단락(Short Circuit)이 발생하면 나타나는 현상으로 옳은 것은?",choices:["전류가 흐르지 않는다","과대 전류가 흐른다","전압이 높아진다","저항이 증가한다"],ans:1,exp:"단락(쇼트)은 저항이 거의 0이 되어 과전류가 흐르고, 퓨즈 단선·화재가 발생할 수 있다."},
+{id:5,part:1,q:"자동차에 사용하는 납산 배터리(12V)의 셀(Cell) 수와 셀 1개당 전압이 올바르게 짝지어진 것은?",choices:["4셀 / 3V","6셀 / 2V","8셀 / 1.5V","12셀 / 1V"],ans:1,exp:"납산 배터리 셀 1개 전압 = 2V. 12V 배터리는 2V 셀 6개를 직렬 연결하여 구성한다."},
+{id:6,part:1,q:"자동차 전기 회로에서 접지(GND) 방식으로 가장 많이 사용하는 것은?",choices:["양극 접지(+ 접지)","음극 접지(- 접지)","중성점 접지","비접지 방식"],ans:1,exp:"자동차는 차체를 (-)극으로 접지하는 음극 접지 방식을 사용한다. 이는 부식 방지 및 안전 면에서 유리하다."},
+{id:7,part:1,q:"전류 20A가 흐르는 도선에서 30초 동안 발생하는 열량[J]은? (단, 저항은 0.5Ω이다)",choices:["3,000J","6,000J","9,000J","12,000J"],ans:1,exp:"줄의 법칙: Q = I²Rt = 20² × 0.5 × 30 = 400 × 0.5 × 30 = 6,000J."},
+{id:8,part:1,q:"자동차 배선에서 퓨즈(Fuse)의 역할로 가장 옳은 것은?",choices:["전압 강하를 방지한다","과전류 발생 시 회로를 보호한다","전류의 방향을 제어한다","배터리를 충전시킨다"],ans:1,exp:"퓨즈는 규정 이상의 전류(과전류)가 흐를 때 용단되어 배선 및 전기 부품을 보호한다."},
+{id:9,part:1,q:"자동차 전기 회로에서 릴레이(Relay)를 사용하는 주된 이유로 옳은 것은?",choices:["전압을 높이기 위해","소 전류로 대 전류 회로를 제어하기 위해","주파수를 변환하기 위해","배터리 용량을 증가시키기 위해"],ans:1,exp:"릴레이는 스위치(소전류)로 코일을 여자시켜 접점을 통해 대전류 회로를 ON/OFF 제어한다."},
+{id:10,part:1,q:"자동차 배터리 비중계(hydrometer)로 측정하는 것은?",choices:["배터리 전압","전해액 비중","배터리 용량(Ah)","배터리 내부 저항"],ans:1,exp:"비중계는 전해액(황산+물)의 비중을 측정하여 충전 상태를 파악한다. 완충 시 1.260~1.280이 정상이다."},
+{id:11,part:1,q:"자동차에서 사용하는 다이오드(Diode)의 주요 기능으로 옳은 것은?",choices:["전류를 증폭한다","교류를 직류로 정류한다","전압을 변환한다","주파수를 높인다"],ans:1,exp:"다이오드는 전류를 한 방향으로만 흐르게 하는 정류 소자로, 발전기의 교류를 직류로 변환하는 데 사용한다."},
+{id:12,part:1,q:"자동차 전기 회로에서 전류가 흐르는 도체 주변에 발생하는 것은?",choices:["정전기장","자기장","방사선","초음파"],ans:1,exp:"전류가 흐르는 도체 주변에는 자기장이 형성된다(앙페르 법칙). 이 원리를 이용해 모터·솔레노이드 등을 구성한다."},
+{id:13,part:1,q:"자동차 배선 회로 점검 시 전압계 연결 방법으로 옳은 것은?",choices:["측정할 부품과 직렬로 연결","측정할 부품과 병렬로 연결","회로를 끊고 연결","접지 쪽만 연결"],ans:1,exp:"전압계는 측정 부품에 병렬 연결한다. 내부 저항이 매우 크므로 회로 전류에 거의 영향을 주지 않는다."},
+{id:14,part:1,q:"자동차 정비 시 전기 회로 단선(Open Circuit) 점검에 가장 적합한 계측기는?",choices:["전압계","전류계","멀티미터(저항 측정)","오실로스코프"],ans:2,exp:"단선 점검 시 멀티미터로 저항을 측정한다. 단선 시 저항이 무한대(∞)로 표시된다. (회로 전원 OFF 상태에서 측정)"},
+{id:15,part:1,q:"NPN 트랜지스터에서 베이스(B)에 전류를 흘렸을 때 나타나는 현상으로 옳은 것은?",choices:["이미터에서 컬렉터 방향으로 전류가 흐른다","컬렉터에서 이미터 방향으로 전류가 흐른다","전류가 차단된다","역방향 전류가 발생한다"],ans:1,exp:"NPN 트랜지스터는 베이스 전류가 흐를 때 컬렉터(+) → 이미터(-) 방향으로 전류가 흐른다(증폭/스위칭 작용)."},
+{id:16,part:1,q:"자동차 전기 배선에서 하네스(Harness)를 묶는 주된 이유가 아닌 것은?",choices:["배선 보호","정비 편의성","전기 저항 감소","누전 방지"],ans:2,exp:"하네스로 묶는 이유: 기계적 보호, 정비 편의, 단락·누전 방지. 하네스 자체가 전기 저항을 감소시키지는 않는다."},
+{id:17,part:1,q:"자동차 전기 회로에서 커패시터(콘덴서)의 주요 역할로 옳은 것은?",choices:["전류를 증폭한다","직류를 차단하고 교류를 통과시킨다","전압을 상승시킨다","저항값을 조절한다"],ans:1,exp:"커패시터는 직류(DC)는 차단하고 교류(AC) 성분은 통과시킨다. 노이즈 필터, 서지 전압 흡수 등에 활용된다."},
+{id:18,part:1,q:"자동차 12V 회로에서 40W 전구의 정상 전류값[A]은?",choices:["약 1.5A","약 2.5A","약 3.3A","약 4.8A"],ans:2,exp:"P = V × I → I = P ÷ V = 40 ÷ 12 = 약 3.33A."},
+{id:19,part:1,q:"자동차 회로 점검 시 접촉 저항이 증가하는 원인으로 가장 거리가 먼 것은?",choices:["커넥터 단자 부식","단자 접촉 불량","배선 피복 손상","단자 조임 불량"],ans:2,exp:"배선 피복 손상은 단락(쇼트)의 원인이 된다. 접촉 저항 증가는 단자 부식, 접촉 불량, 조임 불량이 주된 원인이다."},
+{id:20,part:1,q:"자동차 전기 시스템에서 CAN(Controller Area Network) 통신의 특징으로 옳은 것은?",choices:["단방향 통신만 가능하다","각 제어모듈이 버스를 공유하여 통신한다","통신 속도가 매우 느리다","아날로그 신호만 처리한다"],ans:1,exp:"CAN 통신은 2선식(CAN-H/CAN-L) 차동 신호를 사용하며, 여러 ECU가 버스를 공유하는 다중 통신 방식이다. 고속(최대 1Mbps)이다."},
+// ── PART 2: 시동·점화·충전 ──
+{id:21,part:2,q:"기동 전동기(스타터 모터)에서 피니언 기어가 링 기어와 맞물리는 방식으로 현재 가장 많이 사용하는 것은?",choices:["벤딕스 방식","전기자 이동식","마그네틱 스위치식(감속 기어형)","피니언 이동식(직결식)"],ans:2,exp:"현재 주류: 마그네틱 스위치(전자 스위치)가 풀인 코일·홀드인 코일로 피니언을 링 기어에 치합시키는 방식. 감속 기어형이 소형화·고토크로 많이 사용된다."},
+{id:22,part:2,q:"기동 전동기의 마그네틱 스위치에서 풀인 코일(Pull-in Coil)의 역할로 옳은 것은?",choices:["플런저를 당겨 피니언을 전진시킨다","플런저를 잡아두는 역할을 한다","브러시에 전류를 공급한다","전기자 코일을 여자시킨다"],ans:0,exp:"풀인 코일: 플런저를 강한 자력으로 당겨 피니언을 전진·링 기어 치합 및 주회로 접점을 닫는다. 홀드인 코일은 치합 상태를 유지한다."},
+{id:23,part:2,q:"전자 제어 가솔린 엔진에서 점화 시기(Ignition Timing)를 결정하는 주요 입력 신호로 옳지 않은 것은?",choices:["크랭크 각 센서(CAS) 신호","흡기 매니폴드 압력(MAP) 신호","냉각수 온도 신호","배기가스 재순환(EGR) 밸브 개도 신호"],ans:3,exp:"점화 시기는 엔진 회전수(CAS), 부하(MAP/MAF), 냉각수 온도 등으로 결정한다. EGR 밸브 개도는 배기가스 제어용으로 점화 시기 직접 입력 신호가 아니다."},
+{id:24,part:2,q:"DLI(Distributor Less Ignition) 방식의 특징으로 옳은 것은?",choices:["기계식 배전기를 통해 고전압을 분배한다","배전기 없이 ECU가 각 실린더에 직접 점화를 제어한다","1개의 점화 코일로 모든 실린더를 점화한다","점화 플러그 교환이 불필요하다"],ans:1,exp:"DLI는 배전기(Distributor) 없이 ECU가 각 실린더별 점화 코일을 직접 제어(동시 점화 또는 독립 점화)하는 방식이다."},
+{id:25,part:2,q:"점화 플러그의 열 값(Heat Range)과 관련하여 옳은 것은?",choices:["열 값이 낮을수록 열형(Hot type) 플러그이다","열 값이 높을수록 냉형(Cold type) 플러그이다","고회전 고출력 엔진에는 열형 플러그를 사용한다","냉형 플러그는 열 방출이 느리다"],ans:1,exp:"열 값이 높을수록 냉형(열을 빨리 방출). 고부하·고회전 엔진에 냉형 플러그 사용. 열형은 열 방출이 느려 저온 환경·저회전에 적합."},
+{id:26,part:2,q:"점화 1차 코일의 단선을 멀티미터로 점검할 때 정상 저항값 범위로 가장 적합한 것은?",choices:["0.1Ω 이하","0.5~3Ω","10~50Ω","100Ω 이상"],ans:1,exp:"1차 코일 저항: 보통 0.5~3Ω 범위(차종마다 다름). 0이면 단락, ∞이면 단선. 2차 코일은 수 kΩ 이상."},
+{id:27,part:2,q:"교류 발전기(Alternator)에서 스테이터(Stator) 코일의 역할로 옳은 것은?",choices:["직류 전압을 발생시킨다","로터 자기장 내에서 교류 전력을 유도 발생시킨다","회전자(로터)를 구동한다","정류 작용을 담당한다"],ans:1,exp:"스테이터(고정자)는 로터(회전 전자석)의 자기장 변화에 의해 교류 기전력이 유도된다. 정류는 다이오드(Rectifier)가 담당."},
+{id:28,part:2,q:"자동차 발전기에서 전압 조정기(Regulator)의 주된 역할은?",choices:["발전기 출력 전류를 일정하게 유지한다","발전기 출력 전압을 일정(약 13.5~14.5V)하게 조절한다","배터리 충전 전류를 차단한다","로터 코일의 단락을 방지한다"],ans:1,exp:"레귤레이터는 엔진 회전수 변화에 관계없이 발전기 출력 전압을 13.5~14.5V로 일정하게 유지하여 배터리 과충전·과방전을 방지한다."},
+{id:29,part:2,q:"발전기 충전 경고등(배터리 표시등)이 엔진 가동 중 점등되는 원인으로 옳지 않은 것은?",choices:["발전기 구동 벨트 절손","전압 조정기 불량","발전기 다이오드 단락","배터리 전해액 부족"],ans:3,exp:"충전 경고등 점등 원인: 발전기 고장(다이오드, 코일 불량), 벨트 절손, 레귤레이터 불량. 전해액 부족은 직접적인 점등 원인이 아니다."},
+{id:30,part:2,q:"기동 전동기의 클러치(오버러닝 클러치)의 역할로 옳은 것은?",choices:["엔진 시동 시 링 기어 회전력을 피니언에 전달한다","엔진 시동 후 피니언이 링 기어에 의해 과회전하는 것을 방지한다","배터리 방전을 방지한다","점화 시기를 앞당긴다"],ans:1,exp:"오버러닝 클러치: 시동 후 엔진 회전력이 스타터 모터로 역전달되는 것을 차단하여 모터 과회전 손상을 방지한다."},
+{id:31,part:2,q:"자동차 점화 회로에서 노킹(Knocking) 발생 시 ECU가 취하는 조치로 옳은 것은?",choices:["점화 시기를 진각(Advance)시킨다","점화 시기를 지각(Retard)시킨다","연료 분사량을 줄인다","EGR 밸브를 닫는다"],ans:1,exp:"노킹 감지 시 ECU는 점화 시기를 지각(늦춤)하여 노킹을 억제한다. 이후 정상화되면 단계적으로 진각 복원."},
+{id:32,part:2,q:"발전기의 출력 점검 시 배터리 단자 전압을 측정하였더니 12.5V였다. 엔진 공회전 상태에서 정상적인 충전 전압 범위는?",choices:["11.5~12.5V","13.5~14.5V","15~16V","10~11V"],ans:1,exp:"엔진 가동 중 정상 충전 전압: 13.5~14.5V. 12.5V라면 충전이 이루어지지 않는 상태로 발전기 점검이 필요하다."},
+{id:33,part:2,q:"자동차 발전기에서 사용하는 3상 전파 정류 회로에서 다이오드의 최소 개수는?",choices:["2개","4개","6개","8개"],ans:2,exp:"3상 전파 정류: 각 상마다 (+)측 1개, (-)측 1개씩 = 3×2 = 6개의 다이오드가 필요하다."},
+{id:34,part:2,q:"크랭크 각 센서(CAS)의 주요 기능으로 옳은 것은?",choices:["흡기 온도를 측정한다","엔진 회전수 및 크랭크 위치를 ECU에 전달한다","냉각수 온도를 측정한다","스로틀 개도를 감지한다"],ans:1,exp:"CAS(크랭크 각 센서)는 크랭크샤프트의 회전 위치(TDC 기준)와 엔진 회전수(RPM)를 ECU에 전달하여 점화 시기·연료 분사 시기 계산에 사용된다."},
+{id:35,part:2,q:"ISG(Idle Stop & Go) 시스템에서 엔진 재시동 시 스타터 모터의 특징으로 옳은 것은?",choices:["일반 스타터와 동일한 사양을 사용한다","내구성과 재시동 횟수 대응이 강화된 전용 스타터를 사용한다","재시동 없이 컨버터만 사용한다","발전기가 모터 역할을 대신한다"],ans:1,exp:"ISG 스타터는 빈번한 재시동(수만 회) 내구성을 갖춘 전용 고내구 스타터를 사용한다. 일부 마일드 하이브리드는 ISG(통합 스타터 발전기)를 사용."},
+{id:36,part:2,q:"점화 플러그의 전극 간극(Gap)이 규정값보다 넓을 때 나타나는 현상으로 옳은 것은?",choices:["실화(Misfire) 발생이 많아진다","연료 소비가 줄어든다","엔진 출력이 향상된다","점화 코일의 수명이 길어진다"],ans:0,exp:"간극이 넓으면 고전압이 더 많이 필요하여 실화(점화 실패) 가능성이 높아진다. 좁으면 조기 점화, 플러그 오염 가능성이 증가한다."},
+{id:37,part:2,q:"HEI(High Energy Ignition) 시스템의 특징으로 가장 옳은 것은?",choices:["포인트(단속기)를 사용한다","트랜지스터를 이용한 무접점 방식이다","배전기 없이 개별 코일을 사용한다","기계식 원심 진각 장치만 사용한다"],ans:1,exp:"HEI는 기계식 포인트 대신 트랜지스터를 이용한 무접점 전자식 점화 방식으로, 포인트 마모 없이 안정된 고전압을 발생시킨다."},
+{id:38,part:2,q:"자동차 배터리 방전 시 MF(무보수) 배터리 상태 표시창(인디케이터) 색상이 녹색일 때의 의미로 옳은 것은?",choices:["충전 불량 상태","충전 양호 상태","전해액 부족 상태","배터리 교환 필요"],ans:1,exp:"MF 배터리 인디케이터: 녹색=충전 양호, 검정(어두운 색)=충전 불량(재충전 필요), 흰색/밝은색=전해액 부족(교환 필요)."},
+{id:39,part:2,q:"자동차 발전기 브러시(Brush)의 마모 한계치 이하로 짧아졌을 때 발생하는 현상으로 옳은 것은?",choices:["발전 전압이 낮아지거나 충전이 되지 않는다","발전 전압이 과도하게 높아진다","배터리가 방전된다","스타터 모터가 작동하지 않는다"],ans:0,exp:"브러시가 마모되면 로터 슬립링과 접촉 불량이 되어 로터 코일에 여자 전류 공급이 불안정해져 발전 불량이 발생한다."},
+{id:40,part:2,q:"스타터 모터 점검 시 무부하 시험에서 전류가 규정값보다 현저히 높을 때 원인으로 옳은 것은?",choices:["브러시 마모","전기자 코일 단락","배터리 방전","커뮤테이터 오염"],ans:1,exp:"무부하 전류가 과다하면 전기자 코일 단락 또는 계자 코일 단락이 원인이다. 내부 저항이 낮아져 과전류가 흐른다."},
+// ── PART 3: 계기·등화·편의 ──
+{id:41,part:3,q:"자동차 연료계(Fuel Gauge)에서 연료 탱크의 연료 잔량을 감지하는 센서로 옳은 것은?",choices:["서미스터(thermistor)","플로트 방식 가변 저항(float arm unit)","압전 소자(piezoelectric sensor)","홀 센서(hall sensor)"],ans:1,exp:"연료계는 탱크 내 플로트가 연료 잔량에 따라 움직이며 연결된 가변 저항값을 변화시켜 계기판 지침을 구동한다."},
+{id:42,part:3,q:"자동차 속도계의 표시 속도와 실제 속도를 비교할 때 법적으로 허용되는 속도계 오차 기준으로 옳은 것은?",choices:["표시 속도가 실제보다 항상 낮아야 한다","표시 속도가 실제 속도보다 낮거나 같아야 한다(양수 오차)","오차가 없어야 한다","±10% 이내면 된다"],ans:1,exp:"자동차 속도계는 안전상 실제 속도 이상(과다 표시)으로 표시되어야 한다. 즉, 표시값 ≥ 실제 속도."},
+{id:43,part:3,q:"자동차 전조등의 광도 단위로 옳은 것은?",choices:["루멘(lm)","칸델라(cd)","럭스(lx)","와트(W)"],ans:1,exp:"전조등 광도 단위는 칸델라(cd). 루멘은 광속, 럭스는 조도(단위면적당 광속)이다."},
+{id:44,part:3,q:"LED 전조등의 특징으로 옳지 않은 것은?",choices:["할로겐 대비 소비 전력이 낮다","수명이 길다","즉시 최대 밝기에 도달한다","수은 등 유해물질을 포함한다"],ans:3,exp:"LED는 반도체 발광이므로 수은 등 유해물질을 사용하지 않는다. 이는 HID(Xenon) 램프와 달리 친환경적이다."},
+{id:45,part:3,q:"자동차 방향지시등(Turn Signal)의 점멸 주기로 도로교통법에서 규정하는 것은?",choices:["분당 30~60회","분당 60~120회","분당 120~150회","분당 150~200회"],ans:1,exp:"방향지시등 점멸 횟수: 분당 60~120회(약 0.5~1초 주기). 이 범위를 벗어나면 불량(단선 등) 점검이 필요하다."},
+{id:46,part:3,q:"자동차 후진등(Back-up Light)이 점등되는 조건으로 옳은 것은?",choices:["브레이크 페달 조작 시","변속기를 후진(R) 위치로 이동 시","주차 브레이크 작동 시","도어를 열었을 때"],ans:1,exp:"후진등은 변속 레버를 후진(R) 위치에 놓으면 자동 점등된다. 후방 시인성 확보 및 후방 경고 기능을 한다."},
+{id:47,part:3,q:"전자 제어 계기판(클러스터)에서 CAN 통신을 이용하는 주된 이유로 옳은 것은?",choices:["배선 수 감소 및 정확한 데이터 전달","전력 소비 증가","계기 반응 속도 감소","아날로그 신호 전송"],ans:0,exp:"CAN 통신으로 클러스터에 연결되는 배선 수를 대폭 줄이고, ECU·변속기·ABS 등에서 디지털 데이터를 정확하게 수신한다."},
+{id:48,part:3,q:"자동차 와이퍼 모터의 파킹(Parking) 기능에 대한 설명으로 옳은 것은?",choices:["와이퍼 스위치 OFF 시 와이퍼가 즉시 정지한다","와이퍼 스위치 OFF 후 와이퍼가 초기 위치(최하단)로 복귀 후 정지한다","와이퍼가 항상 운전자 시야 중앙에서 정지한다","와이퍼 모터에는 파킹 기능이 없다"],ans:1,exp:"파킹 기능: 스위치 OFF 후에도 캠 접점으로 회로가 유지되어 와이퍼가 정해진 초기 위치(파킹 포지션)까지 이동 후 멈춘다."},
+{id:49,part:3,q:"자동차 경음기(Horn)가 작동하지 않을 때 가장 먼저 점검해야 하는 것은?",choices:["경음기 릴레이 및 퓨즈","배터리 완전 교환","ECU 초기화","스티어링 기어박스 점검"],ans:0,exp:"경음기 미작동 시 1차 점검: 퓨즈 단선 여부 확인 → 릴레이 점검 → 경음기 단품 점검 → 스위치 점검 순으로 진행한다."},
+{id:50,part:3,q:"HID(Xenon) 전조등의 특징으로 옳지 않은 것은?",choices:["할로겐 대비 밝기가 강하다","점등 초기 약간의 웜업(예열) 시간이 필요하다","자동 레벨링(수평 조정)이 법적 의무이다","직류 12V를 그대로 사용한다"],ans:3,exp:"HID는 수천 볼트의 고전압 방전으로 아크를 발생시키므로, 별도의 밸러스트(안정기)로 전압을 변환해야 한다."},
+{id:51,part:3,q:"자동차 전동 파워 스티어링(MDPS)에서 조향 보조력을 제어하는 주요 입력 신호로 가장 옳은 것은?",choices:["차속 및 조향 토크 센서 신호","냉각수 온도 및 흡기 온도 신호","배터리 전압 및 연료량 신호","스로틀 개도 및 엔진 RPM 신호"],ans:0,exp:"MDPS는 차량 속도(고속 = 보조력 감소)와 스티어링 컬럼의 토크 센서 신호를 기반으로 EPS 모터 구동력을 제어한다."},
+{id:52,part:3,q:"자동차 도어 잠금장치(파워 도어 록)에서 올 도어 록(All Door Lock) 기능이 작동하지 않을 때 가장 먼저 확인해야 할 것은?",choices:["에어백 ECU","도어 록 릴레이 및 퓨즈","엔진 ECU","ABS ECU"],ans:1,exp:"파워 도어 록 불량 시 도어 록 전용 퓨즈 및 릴레이 점검이 1순위. 이후 BCM(바디 컨트롤 모듈) 및 액추에이터 순으로 점검."},
+{id:53,part:3,q:"자동차 온도계(냉각수 온도 경고등)가 H(Hot) 쪽으로 올라가는 원인으로 가장 거리가 먼 것은?",choices:["냉각수 부족","서모스탯 고착(닫힘)","라디에이터 막힘","에어컨 컴프레서 벨트 절손"],ans:3,exp:"에어컨 컴프레서 벨트 절손은 에어컨 작동 불량의 원인이지 직접적인 과열 원인은 아니다. 과열 원인: 냉각수 부족, 서모스탯 불량, 라디에이터 막힘, 워터펌프 불량."},
+{id:54,part:3,q:"자동차 오토라이트(Auto Light) 시스템에 사용되는 조도 감지 센서로 옳은 것은?",choices:["서미스터","포토 다이오드(광 센서)","산소 센서","노킹 센서"],ans:1,exp:"오토라이트는 포토 다이오드(또는 CdS 광전도 소자)로 외부 밝기를 감지하여 자동으로 전조등을 점멸시킨다."},
+{id:55,part:3,q:"계기판 OBD 경고등(MIL: Malfunction Indicator Lamp)이 점등되는 조건으로 옳은 것은?",choices:["배터리 전압 저하 시","엔진 관련 배출가스 제어 시스템 고장 감지 시","오일 교환 시기 도달 시","연료 잔량이 10% 이하일 때"],ans:1,exp:"MIL(엔진 경고등)은 배출가스 관련 시스템(산소 센서, EGR, EVAP 등)의 이상을 ECU가 감지했을 때 점등되며 OBD-II DTC가 저장된다."},
+{id:56,part:3,q:"자동차 유리 열선(Rear Window Defroster)이 작동하지 않을 때 점검 방법으로 옳은 것은?",choices:["열선 라인에 직류 전압을 가하여 단선 위치를 확인한다","오실로스코프로 교류 파형을 측정한다","배터리를 분리 후 점검한다","인젝터 저항을 측정한다"],ans:0,exp:"멀티미터 전압계로 열선 라인의 양쪽 단을 탐침으로 이동하며 전압 변화로 단선 위치를 확인하는 것이 일반적인 방법이다."},
+{id:57,part:3,q:"자동차 안개등(Fog Lamp) 장착 기준으로 옳은 것은?",choices:["전조등 상부에 장착해야 한다","지면으로부터 800mm 이하에 장착해야 한다","흰색 또는 황색 전방 안개등을 사용해야 한다","반드시 자동 소등 기능이 있어야 한다"],ans:2,exp:"전방 안개등: 흰색 또는 황색만 허용. 후방 안개등: 적색. 높이 기준: 지면에서 250mm 이상, 800mm 이하(차종에 따라 다름)."},
+{id:58,part:3,q:"자동차 에어백(SRS) 시스템에서 충돌 시 에어백 전개를 결정하는 핵심 센서는?",choices:["가속도 센서(충격 센서)","산소 센서","노킹 센서","크랭크 각 센서"],ans:0,exp:"에어백 SRS의 가속도 센서(G-Sensor)가 충돌 충격(급감속)을 감지하여 에어백 ECU에 신호를 보내고, 전개 여부를 결정한다."},
+{id:59,part:3,q:"BCM(Body Control Module)이 제어하는 기능으로 옳지 않은 것은?",choices:["도어 잠금/해제","전동 윈도우 제어","실내 조명 제어","엔진 연료 분사량 제어"],ans:3,exp:"BCM은 도어 록, 윈도우, 실내등, 와이퍼, 경음기 등 바디 전장계를 담당한다. 연료 분사량은 엔진 ECU(ECM)가 제어한다."},
+{id:60,part:3,q:"자동차 계기판의 ABS 경고등이 주행 중 점등되었을 때 설명으로 옳은 것은?",choices:["일반 제동력도 완전히 상실된다","ABS 기능은 정지되나 일반 브레이크는 작동한다","차량을 즉시 정차해야만 한다","자동으로 복구되므로 정비가 필요 없다"],ans:1,exp:"ABS 경고등 점등 시 ABS 기능은 비활성화되지만, 일반(유압식) 브레이크는 정상 작동한다. 다만 조기에 점검·정비해야 한다."},
+// ── PART 4: 냉·난방장치 ──
+{id:61,part:4,q:"자동차 에어컨 냉매 사이클에서 냉매가 순환하는 순서로 옳은 것은?",choices:["압축기→팽창밸브→응축기→증발기","압축기→응축기→팽창밸브→증발기","압축기→증발기→응축기→팽창밸브","팽창밸브→응축기→압축기→증발기"],ans:1,exp:"냉매 사이클: 압축기(고온고압 기체) → 응축기(고온고압 액화) → 팽창밸브(저온저압 무화) → 증발기(흡열 기화) → 압축기."},
+{id:62,part:4,q:"자동차 에어컨에서 현재 가장 많이 사용하는 냉매로 옳은 것은?",choices:["R-12(CFC-12)","R-22(HCFC-22)","R-134a(HFC-134a)","R-290(프로판)"],ans:2,exp:"현행 차량 대부분은 R-134a를 사용. 최근 GWP(지구온난화지수) 저감을 위해 R-1234yf로 전환 중. R-12는 오존층 파괴로 퇴출."},
+{id:63,part:4,q:"에어컨 압축기(Compressor)가 작동 중 이상한 소음이 발생할 때 가장 먼저 점검해야 할 사항은?",choices:["냉매 압력 및 냉매 충전량 확인","라디에이터 냉각수 점검","점화 플러그 점검","배터리 전압 점검"],ans:0,exp:"압축기 소음의 주요 원인: 냉매 부족(이물질 유입) 또는 과충전, 오일 부족. 먼저 고압·저압 매니폴드 게이지로 냉매 압력을 확인한다."},
+{id:64,part:4,q:"에어컨 팽창 밸브(Expansion Valve, TXV)의 역할로 옳은 것은?",choices:["냉매를 고온·고압으로 압축한다","고압 액체 냉매를 저온·저압으로 팽창시킨다","기체 냉매를 액체로 응축시킨다","냉매의 냉각 효과를 제거한다"],ans:1,exp:"팽창 밸브: 응축기에서 나온 고압 액체 냉매를 교축(팽창)시켜 저온·저압 무화 상태로 증발기에 공급한다."},
+{id:65,part:4,q:"자동차 에어컨 시스템에서 리시버 드라이어(Receiver Dryer)의 기능으로 옳은 것은?",choices:["냉매를 압축한다","냉매 내 수분·불순물 제거 및 액체 냉매를 일시 저장한다","냉매를 증발시킨다","냉매 압력을 조절한다"],ans:1,exp:"리시버 드라이어: 응축기와 팽창 밸브 사이에 위치. 냉매 내 수분을 건조제(desiccant)로 흡수하고, 기포 제거, 여분 냉매를 저장한다."},
+{id:66,part:4,q:"자동차 에어컨에서 고압 측 압력이 비정상적으로 높을 때 원인으로 옳지 않은 것은?",choices:["냉매 과충전","응축기 방열 불량","냉각팬 작동 불량","냉매 부족"],ans:3,exp:"고압 상승 원인: 냉매 과충전, 응축기 방열 불량(막힘, 팬 불량), 에어 혼입. 냉매 부족은 오히려 고압·저압 모두 낮아진다."},
+{id:67,part:4,q:"에어컨 작동 시 증발기(Evaporator) 주변에 결빙(Icing)이 발생하면 나타나는 현상으로 옳은 것은?",choices:["냉방 효율이 증가한다","공기 흐름이 차단되어 냉방 효율이 급격히 저하된다","냉매 누출이 증가한다","압축기 회전수가 증가한다"],ans:1,exp:"증발기 결빙 시 공기 통로가 막혀 실내 냉각 효율이 급감한다. 방지를 위해 서모스탯 또는 압력 스위치로 압축기를 ON/OFF 제어한다."},
+{id:68,part:4,q:"자동차 에어컨 시스템에서 사이트글라스(Sight Glass)로 확인할 수 있는 것은?",choices:["냉매의 산성도","냉매 유량 및 기포(거품) 발생 여부","냉매 온도","냉매 색상 변화"],ans:1,exp:"사이트글라스: 리시버 드라이어 또는 고압 라인에 장착. 기포 없이 맑은 액체 흐름=정상, 거품=냉매 부족, 안개=수분 혼입."},
+{id:69,part:4,q:"자동차 에어컨 클러치(Magnetic Clutch) 작동 불량 시 가장 적절한 점검 방법은?",choices:["클러치 코일 저항 및 공극(Air Gap) 측정","엔진 오일 점도 측정","연료 압력 측정","타이어 공기압 측정"],ans:0,exp:"마그네틱 클러치 불량 점검: 코일 저항(단선·단락 여부, 보통 3~5Ω), 클러치 공극(0.3~0.8mm), 전원·접지 공급 여부를 확인한다."},
+{id:70,part:4,q:"자동차 히터(Heater) 코어에서 열을 발생시키는 열원으로 옳은 것은?",choices:["전기 저항 열선","엔진 냉각수의 열","배기가스 열","연료 연소 직접 열"],ans:1,exp:"자동차 히터는 엔진 냉각수(수냉식)가 히터 코어를 통과하면서 팬에 의한 실내 공기를 가열하는 방식(온수 히터)이다."},
+{id:71,part:4,q:"오토 에어컨(Full Auto A/C)에서 목표 온도를 유지하기 위해 제어하는 요소로 옳지 않은 것은?",choices:["블로어 모터 속도","에어믹스 도어(온도 조절 도어) 개도","모드 도어(바람 방향) 위치","엔진 점화 시기"],ans:3,exp:"오토 에어컨 제어 요소: 블로어 속도, 에어믹스 도어, 모드 도어(face/foot/def), 압축기 ON/OFF 등. 점화 시기는 A/C 제어 범위 밖이다."},
+{id:72,part:4,q:"전기자동차(EV)의 히터 시스템으로 가장 많이 사용하는 방식은?",choices:["엔진 냉각수 히터","PTC(정특성 서미스터) 전기 히터 또는 히트펌프","가솔린 연소 히터","배기가스 회수 히터"],ans:1,exp:"EV는 엔진 열이 없으므로 PTC(Positive Temperature Coefficient) 전기 히터 또는 히트펌프(에너지 효율이 높음)로 난방한다."},
+{id:73,part:4,q:"에어컨 냉매 회수 작업 시 반드시 사용해야 하는 장비는?",choices:["진공 펌프","냉매 회수·재생·충전 장비(리커버리 머신)","오실로스코프","멀티미터"],ans:1,exp:"냉매는 대기 방출이 법으로 금지(오존층 보호법). 반드시 전용 리커버리 장비로 회수·재생 후 충전해야 한다."},
+{id:74,part:4,q:"자동차 에어컨 시스템에서 냉매 충전량이 부족할 때 나타나는 증상으로 옳지 않은 것은?",choices:["냉방 능력 저하","압축기 이상 소음 발생","고압·저압 측 압력이 모두 낮아짐","고압 측 압력이 과도하게 상승"],ans:3,exp:"냉매 부족: 냉방 능력 저하, 압축기 소음, 고압·저압 모두 낮음. 고압 과상승은 냉매 과충전, 응축기 불량이 원인이다."},
+{id:75,part:4,q:"자동차 실내 공기질 관리를 위해 에어컨 시스템에 장착된 필터의 명칭으로 옳은 것은?",choices:["에어 클리너 필터","케빈(캐빈) 에어 필터(에어컨 필터)","오일 필터","연료 필터"],ans:1,exp:"케빈(Cabin) 에어 필터: 외기 또는 내기가 실내 블로어를 통해 들어올 때 먼지·꽃가루·오염물을 걸러주는 필터. 정기 교환 필요."},
+{id:76,part:4,q:"에어컨 압력 스위치(Pressure Switch)의 역할로 옳은 것은?",choices:["냉매 온도를 측정한다","냉매 압력이 비정상적으로 높거나 낮을 때 압축기를 보호하기 위해 차단한다","냉매의 상태(기체/액체)를 변환한다","팽창 밸브 개도를 조절한다"],ans:1,exp:"압력 스위치(고압·저압 겸용 또는 각각)는 냉매 압력이 규정 범위를 벗어나면 압축기 마그네틱 클러치를 OFF시켜 시스템을 보호한다."},
+{id:77,part:4,q:"자동차 에어컨 작동 시 엔진 공회전 rpm이 올라가는 이유로 옳은 것은?",choices:["압축기 구동 부하로 인한 엔진 부하 증가를 보상하기 위해 ISC 밸브가 열린다","냉각 팬 작동으로 엔진이 냉각되기 때문","연료 분사량이 줄어들기 때문","스로틀 바디가 기계적으로 열리기 때문"],ans:0,exp:"A/C ON 시 압축기 구동 부하로 rpm이 떨어지는 것을 방지하기 위해 ECU가 ISC(IACV) 밸브를 제어하여 공기량을 늘려 rpm을 보상한다."},
+{id:78,part:4,q:"자동차 히터 코어(Heater Core)에서 냉각수가 새면 발생하는 주요 증상으로 옳은 것은?",choices:["냉각수 온도계 이상 없음, 히터 작동 정상","실내에 달콤한 냄새와 앞 유리 안쪽 김 서림 발생","에어컨 냉매 누출 경고등 점등","오일 온도 상승"],ans:1,exp:"히터 코어 누수: 냉각수(부동액, 달콤한 냄새)가 실내로 유입되어 앞 유리 안쪽에 유막·김 서림이 발생하고 냉각수가 감소한다."},
+{id:79,part:4,q:"자동차 에어컨 시스템에 진공 작업(Vacuuming)을 실시하는 목적으로 옳은 것은?",choices:["냉매를 충전하기 위해","시스템 내 수분과 공기를 제거하기 위해","압축기 오일을 순환시키기 위해","냉매 압력을 높이기 위해"],ans:1,exp:"진공 작업: 냉매 교환 전 시스템 내 공기(습기)를 진공 펌프로 제거. 수분이 남으면 빙결·산화·슬러지가 생겨 시스템을 손상시킨다."},
+{id:80,part:4,q:"하이브리드 자동차(HEV)에서 에어컨 컴프레서에 관한 설명으로 옳은 것은?",choices:["엔진 벨트로만 구동된다","전동 컴프레서(전기 모터 구동)를 사용하여 엔진 정지 중에도 냉방이 가능하다","엔진 정지 시 에어컨을 사용할 수 없다","냉매가 필요 없다"],ans:1,exp:"HEV/EV는 고전압 배터리로 구동하는 전동 컴프레서를 사용하므로, 엔진 정지(ISG 상태) 중에도 지속적인 냉방이 가능하다."},
+];
+
+const PART_INFO = {
+  1:{name:"전기 기초",color:"var(--part1)",short:"PART 1"},
+  2:{name:"시동·점화·충전",color:"var(--part2)",short:"PART 2"},
+  3:{name:"계기·등화·편의",color:"var(--part3)",short:"PART 3"},
+  4:{name:"냉·난방장치",color:"var(--part4)",short:"PART 4"},
+};
+
+// ========================================================
+//  STATE
+// ========================================================
+let cfg = { parts:[1,2,3,4], randomQ:true, randomC:true, showAns:false, showExp:false, count:40 };
+let quiz = []; // shuffled question list with mapped choices
+let cur = 0;   // current index
+let answers = []; // per-question: { chosen: idx|null, correct: bool, skipped: bool }
+
+function shuffle(arr){ return [...arr].sort(()=>Math.random()-0.5); }
+
+// ========================================================
+//  SETUP
+// ========================================================
+document.querySelectorAll('.part-card').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    const cb = card.querySelector('input');
+    cb.checked = !cb.checked;
+    card.classList.toggle('selected', cb.checked);
+  });
+});
+
+function setMode(key,el){
+  cfg[key] = !cfg[key];
+  el.classList.toggle('active', cfg[key]);
+}
+function setCount(n,el){
+  cfg.count = n;
+  document.querySelectorAll('.count-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function startQuiz(){
+  const selectedParts = [...document.querySelectorAll('.part-card input:checked')].map(c=>+c.value);
+  if(!selectedParts.length){ alert('파트를 1개 이상 선택하세요.'); return; }
+  cfg.parts = selectedParts;
+
+  let pool = ALL_QUESTIONS.filter(q=>cfg.parts.includes(q.part));
+  if(cfg.randomQ) pool = shuffle(pool);
+  pool = pool.slice(0, Math.min(cfg.count, pool.length));
+
+  quiz = pool.map(q=>{
+    const choiceIdxs = q.choices.map((_,i)=>i);
+    const mapped = cfg.randomC ? shuffle(choiceIdxs) : choiceIdxs;
+    const newAns = mapped.indexOf(q.ans); // new position of correct answer
+    return { ...q, displayChoices: mapped.map(i=>q.choices[i]), mappedAns: newAns };
+  });
+
+  answers = quiz.map(()=>({ chosen: null, correct: false, skipped: true }));
+  cur = 0;
+
+  document.getElementById('setupScreen').style.display = 'none';
+  document.getElementById('resultScreen').style.display = 'none';
+  document.getElementById('quizScreen').style.display = 'block';
+  document.getElementById('btnBackToSetup').style.display = '';
+  renderQuestion();
+}
+
+// ========================================================
+//  QUIZ
+// ========================================================
+function renderQuestion(){
+  const q = quiz[cur];
+  const a = answers[cur];
+  const total = quiz.length;
+
+  // progress
+  document.getElementById('progLabel').textContent = `${cur+1} / ${total}`;
+  document.getElementById('progressFill').style.width = `${((cur+1)/total)*100}%`;
+  const pi = PART_INFO[q.part];
+  document.getElementById('progPart').textContent = pi.short + ' · ' + pi.name;
+
+  // score
+  const done = answers.filter(x=>!x.skipped).length;
+  const correct = answers.filter(x=>x.correct).length;
+  document.getElementById('scoreBadge').textContent = `${correct} / ${done}`;
+
+  // question header
+  document.getElementById('qNum').textContent = `Q${String(cur+1).padStart(2,'0')}`;
+  const tag = document.getElementById('qPartTag');
+  tag.textContent = pi.short;
+  tag.style.background = pi.color + '22';
+  tag.style.color = pi.color;
+  tag.style.border = `1px solid ${pi.color}55`;
+
+  document.getElementById('qText').textContent = q.q;
+
+  // choices
+  const wrap = document.getElementById('choicesWrap');
+  wrap.innerHTML = '';
+  const labels = ['①','②','③','④'];
+  const answered = a.chosen !== null;
+
+  q.displayChoices.forEach((ch, i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.disabled = answered;
+
+    const lbl = document.createElement('span');
+    lbl.className = 'choice-label';
+    lbl.textContent = labels[i];
+    btn.appendChild(lbl);
+
+    const txt = document.createElement('span');
+    txt.textContent = ch;
+    btn.appendChild(txt);
+
+    // styling after answer
+    if(answered){
+      if(i === q.mappedAns) btn.classList.add('correct');
+      else if(i === a.chosen) btn.classList.add('wrong');
+    } else if(cfg.showAns && i === q.mappedAns){
+      btn.classList.add('reveal-answer');
+    }
+
+    btn.onclick = ()=>selectAnswer(i);
+    wrap.appendChild(btn);
+  });
+
+  // explanation
+  const expBox = document.getElementById('explanationBox');
+  document.getElementById('explanationText').textContent = q.exp;
+  expBox.classList.toggle('visible', cfg.showExp || answered);
+
+  // chips
+  document.getElementById('chipAns').classList.toggle('on', cfg.showAns);
+  document.getElementById('chipExp').classList.toggle('on', cfg.showExp);
+
+  // nav buttons
+  document.getElementById('btnPrev').disabled = cur === 0;
+  const isLast = cur === total - 1;
+  document.getElementById('btnNext').classList.toggle('hidden', isLast);
+  document.getElementById('btnFinish').classList.toggle('hidden', !isLast);
+}
+
+function selectAnswer(idx){
+  const q = quiz[cur];
+  const correct = idx === q.mappedAns;
+  answers[cur] = { chosen: idx, correct, skipped: false };
+  renderQuestion();
+}
+
+function toggleAnsMode(){
+  cfg.showAns = !cfg.showAns;
+  renderQuestion();
+}
+function toggleExpMode(){
+  cfg.showExp = !cfg.showExp;
+  renderQuestion();
+}
+
+function navigate(dir){
+  cur = Math.max(0, Math.min(quiz.length-1, cur+dir));
+  renderQuestion();
+}
+
+// ========================================================
+//  RESULT
+// ========================================================
+function showResult(){
+  document.getElementById('quizScreen').style.display = 'none';
+  document.getElementById('resultScreen').style.display = 'block';
+
+  const total = quiz.length;
+  const correct = answers.filter(x=>x.correct).length;
+  const wrong = answers.filter(x=>!x.skipped && !x.correct).length;
+  const skip = answers.filter(x=>x.skipped).length;
+  const pct = Math.round(correct/total*100);
+
+  // ring
+  const circ = 2*Math.PI*52;
+  const fill = document.getElementById('ringFill');
+  fill.style.strokeDasharray = circ;
+  fill.style.strokeDashoffset = circ;
+  const grade = pct>=90?{t:'최우수',c:'var(--green)'}:pct>=70?{t:'합격권',c:'var(--accent)'}:pct>=60?{t:'합격',c:'var(--amber)'}:{t:'불합격',c:'var(--red)'};
+  fill.style.stroke = grade.c;
+  setTimeout(()=>{ fill.style.strokeDashoffset = circ*(1-pct/100); },100);
+
+  document.getElementById('ringScore').textContent = correct;
+  document.getElementById('ringDenom').textContent = `/ ${total}`;
+  document.getElementById('ringScore').style.color = grade.c;
+  document.getElementById('resultGrade').textContent = `${grade.t}  ${pct}점`;
+  document.getElementById('resultGrade').style.color = grade.c;
+  document.getElementById('resultSub').textContent = `${total}문항 중 ${correct}문항 정답 · 오답 ${wrong}문항 · 미응답 ${skip}문항`;
+
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statSkip').textContent = skip;
+  document.getElementById('statPct').textContent = pct+'%';
+
+  // part breakdown
+  const partList = document.getElementById('partResultList');
+  partList.innerHTML = '';
+  const partCounts = {};
+  quiz.forEach((q,i)=>{
+    if(!partCounts[q.part]) partCounts[q.part] = {total:0,correct:0};
+    partCounts[q.part].total++;
+    if(answers[i].correct) partCounts[q.part].correct++;
+  });
+  Object.entries(partCounts).forEach(([p,c])=>{
+    const pi = PART_INFO[p];
+    const pct2 = Math.round(c.correct/c.total*100);
+    const row = document.createElement('div');
+    row.className = 'part-result-row';
+    row.innerHTML = `<div class="pr-name" style="color:${pi.color}">${pi.short} ${pi.name}</div>
+      <div class="pr-bar-wrap"><div class="pr-bar-fill" style="width:${pct2}%;background:${pi.color}"></div></div>
+      <div class="pr-score" style="color:${pi.color}">${c.correct}/${c.total}</div>`;
+    partList.appendChild(row);
+  });
+
+  // wrong list
+  const wrongList = document.getElementById('wrongList');
+  wrongList.innerHTML = '';
+  const wrongItems = quiz.map((q,i)=>({q,a:answers[i],i})).filter(x=>!x.a.correct&&!x.a.skipped);
+  if(wrongItems.length){
+    wrongItems.forEach(({q,a})=>{
+      const pi = PART_INFO[q.part];
+      const div = document.createElement('div');
+      div.className = 'wrong-item';
+      div.innerHTML = `<div class="wrong-qtext"><span style="font-weight:700;color:${pi.color}">[${pi.short}]</span> ${q.q}</div>
+        <div class="wrong-ans">✓ 정답: ${q.displayChoices[q.mappedAns]}</div>
+        <div class="wrong-exp">${q.exp}</div>`;
+      wrongList.appendChild(div);
+    });
+  } else {
+    wrongList.innerHTML = '<div style="color:var(--green);font-size:14px;padding:16px;text-align:center">🎉 오답이 없습니다!</div>';
+  }
+}
+
+function backToSetup(){
+  document.getElementById('quizScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='none';
+  document.getElementById('setupScreen').style.display='block';
+  document.getElementById('btnBackToSetup').style.display='none';
+}
+
+function restartSame(){
+  startQuiz();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자동차정비기능사 전기전자 핵심정리</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-size:14px;background:#f5f4f0;color:#1a1a18;padding:20px}
+h1{font-size:20px;font-weight:600;margin-bottom:4px;color:#1a1a18}
+.subtitle{font-size:13px;color:#73726c;margin-bottom:20px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.tab{padding:6px 14px;border:1px solid #d3d1c7;border-radius:8px;cursor:pointer;font-size:13px;color:#5f5e5a;background:transparent;transition:all .15s}
+.tab.on{background:#dbeafe;color:#1d4ed8;border-color:transparent}
+.sec{display:none}.sec.on{display:block}
+.card{background:#fff;border:1px solid #e2e0d8;border-radius:12px;padding:1rem 1.25rem;margin-bottom:12px}
+.ct{font-size:15px;font-weight:600;color:#1a1a18;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.bx{font-family:monospace;font-size:14px;background:#f1efe8;border-left:3px solid #2563eb;padding:10px 14px;border-radius:0 8px 8px 0;margin:8px 0;color:#1a1a18;line-height:1.8}
+.tip{background:#fef9c3;border-radius:8px;padding:8px 12px;font-size:13px;color:#854d0e;margin-top:8px}
+.err{background:#fef2f2;border-radius:8px;padding:8px 12px;font-size:13px;color:#991b1b;margin-top:8px}
+.ok{background:#f0fdf4;border-radius:8px;padding:8px 12px;font-size:13px;color:#166534;margin-top:8px}
+.badge{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500}
+.br{background:#fef2f2;color:#dc2626}
+.bb{background:#dbeafe;color:#1d4ed8}
+.bg{background:#dcfce7;color:#16a34a}
+.ba{background:#fef9c3;color:#b45309}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+th{text-align:left;padding:7px 10px;background:#f1efe8;color:#5f5e5a;font-weight:600;border-bottom:1px solid #e2e0d8}
+td{padding:7px 10px;border-bottom:1px solid #e2e0d8;color:#1a1a18;vertical-align:top}
+tr:last-child td{border-bottom:none}
+.qb{border:1px solid #e2e0d8;border-radius:8px;padding:12px 14px;margin-bottom:10px;cursor:pointer;transition:background .1s}
+.qb:hover{background:#f5f4f0}
+.qnum{font-size:11px;color:#9c9a92;float:right;margin-left:8px}
+.qt{font-size:13px;color:#1a1a18;line-height:1.6}
+.qa{display:none;margin-top:10px;padding-top:10px;border-top:1px solid #e2e0d8;font-size:13px;color:#1a1a18;line-height:1.7}
+.qb.open .qa{display:block}
+.ans-key{font-weight:600;color:#2563eb}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.mc{background:#f5f4f0;border-radius:8px;padding:10px 12px;border:1px solid #e2e0d8}
+.ml{font-size:12px;color:#73726c;margin-bottom:4px}
+.mv{font-size:14px;font-weight:600;color:#1a1a18}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.bar-label{font-size:12px;color:#5f5e5a;min-width:120px;flex-shrink:0}
+.bar-track{flex:1;background:#e2e0d8;border-radius:4px;height:16px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px}
+.bar-count{font-size:13px;font-weight:600;color:#1a1a18;min-width:36px;text-align:right}
+.row{display:flex;gap:6px;align-items:flex-start;margin-bottom:6px}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.db{background:#dc2626}.di{background:#2563eb}.dg{background:#16a34a}.da{background:#b45309}
+.rt{font-size:13px;color:#1a1a18;line-height:1.6}
+@media(max-width:500px){.g2,.g3{grid-template-columns:1fr}}
+</style>
+<style>
+.school-header-bar{background:#fff;border-bottom:3px solid #185FA5;padding:10px 1.5rem;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:999;box-shadow:0 2px 6px rgba(0,0,0,0.07);}
+.school-logo-img{height:48px;width:auto;object-fit:contain;}
+.school-divider-line{width:1.5px;height:38px;background:#d0cfc8;flex-shrink:0;}
+.school-info-box{display:flex;flex-direction:column;gap:2px;flex:1;}
+.school-innovation-text{font-size:15px;font-weight:700;color:#185FA5;letter-spacing:-0.3px;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;}
+.school-sub-text{font-size:11px;color:#8a8a82;}
+.back-to-main{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#E6F1FB;color:#0C447C;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;border:1px solid #b8d4f0;transition:all .15s;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;}
+.back-to-main:hover{background:#185FA5;color:#fff;border-color:#185FA5;}
+@media(max-width:600px){.school-logo-img{height:36px;}.school-innovation-text{font-size:13px;}.back-to-main{font-size:12px;padding:6px 10px;}}
+</style>
+</head>
+<body>
+<!-- 학교 로고 헤더 -->
+<div class="school-header-bar">
+  <img src="아주자동차대학UI.jpg" alt="아주자동차대학교" class="school-logo-img">
+  <div class="school-divider-line"></div>
+  <div class="school-info-box">
+    <span class="school-innovation-text">혁신지원사업단</span>
+    <span class="school-sub-text">자동차정비 전공 교육자료</span>
+  </div>
+  <a href="index.html" class="back-to-main">🏠 메인으로</a>
+</div>
+
+<h1>🚗 자동차정비기능사 전기전자 핵심정리</h1>
+<p class="subtitle">기출 27문항 완전 분석 | 출제 빈도별 핵심 정리</p>
+
+<div class="tabs">
+  <button class="tab on" onclick="sw('freq')">📊 출제 빈도 분석</button>
+  <button class="tab" onclick="sw('calc')">⚡ 계산 문제 완전정복</button>
+  <button class="tab" onclick="sw('semi')">💡 반도체 소자 정리</button>
+  <button class="tab" onclick="sw('trap')">⚠️ 함정 유형 정리</button>
+  <button class="tab" onclick="sw('drill')">📝 기출 27문 모의풀이</button>
+</div>
+
+<!-- 출제 빈도 -->
+<div id="s-freq" class="sec on">
+  <div class="card">
+    <div class="ct">기출 27문항 유형별 출제 빈도</div>
+    <div class="bar-row"><div class="bar-label">회로 계산 (옴·전력)</div><div class="bar-track"><div class="bar-fill" style="width:44%;background:#dc2626"></div></div><div class="bar-count">12문</div></div>
+    <div class="bar-row"><div class="bar-label">반도체 소자 구분</div><div class="bar-track"><div class="bar-fill" style="width:33%;background:#2563eb"></div></div><div class="bar-count">9문</div></div>
+    <div class="bar-row"><div class="bar-label">전기기호·논리회로</div><div class="bar-track"><div class="bar-fill" style="width:11%;background:#b45309"></div></div><div class="bar-count">3문</div></div>
+    <div class="bar-row"><div class="bar-label">개념·법칙 구분</div><div class="bar-track"><div class="bar-fill" style="width:11%;background:#16a34a"></div></div><div class="bar-count">3문</div></div>
+    <div class="tip">💡 계산 문제(12문)와 반도체(9문)만 완벽히 잡아도 전체의 78%를 커버합니다.</div>
+  </div>
+  <div class="card">
+    <div class="ct">세부 출제 패턴 (반드시 알아야 할 것)</div>
+    <table>
+      <tr><th>주제</th><th>출제 횟수</th><th>핵심 포인트</th></tr>
+      <tr><td>오옴의 법칙 계산</td><td><span class="badge br">5문</span></td><td>E=I×R, 직렬/병렬 합성 후 전류 구하기</td></tr>
+      <tr><td>전력(W) 계산</td><td><span class="badge br">4문</span></td><td>P=EI, I=P/E 패턴 반복</td></tr>
+      <tr><td>트랜지스터</td><td><span class="badge br">3문</span></td><td>스위칭 작용=릴레이, NPN형 자동차 사용</td></tr>
+      <tr><td>다이오드 종류</td><td><span class="badge bb">3문</span></td><td>LED(순→빛), 포토(빛→전류), 제너(정전압)</td></tr>
+      <tr><td>서미스터·SCR</td><td><span class="badge bb">3문</span></td><td>NTC=온도↑저항↓, SCR단자=A·K·G</td></tr>
+      <tr><td>콘덴서 정전용량</td><td><span class="badge bg">2문</span></td><td>극판거리에 반비례 (나머지 모두 비례)</td></tr>
+      <tr><td>변압기 권선비</td><td><span class="badge bg">1문</span></td><td>V1/V2 = N1/N2</td></tr>
+      <tr><td>논리회로 기호</td><td><span class="badge ba">1문</span></td><td>NOR = OR+반전(○ 붙음)</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 계산 완전정복 -->
+<div id="s-calc" class="sec">
+  <div class="card">
+    <div class="ct">계산 풀이 5단계 공식 <span class="badge br">12문 커버</span></div>
+    <div class="bx">
+      Step 1. 직렬: R합 = R₁ + R₂ + …<br>
+      Step 2. 병렬: 1/R합 = 1/R₁ + 1/R₂ + …<br>
+      Step 3. 직병렬: 병렬 먼저 → 직렬과 합산<br>
+      Step 4. 전류: I = E / R합<br>
+      Step 5. 전력: P = E × I &nbsp;&nbsp;또는&nbsp;&nbsp; I = P / E
+    </div>
+  </div>
+  <div class="card">
+    <div class="ct">기출 계산 6가지 패턴 암기</div>
+    <div class="g2" style="margin-top:8px">
+      <div class="mc"><div class="ml">패턴① 직렬 전류</div><div style="font-size:13px;margin-top:4px;line-height:1.8">R = 2+4+6 = 12Ω<br>I = 12V ÷ 12Ω = <span class="ans-key">1A</span></div></div>
+      <div class="mc"><div class="ml">패턴② 직·병렬 전류</div><div style="font-size:13px;margin-top:4px;line-height:1.8">병렬 2Ω‖2Ω = 1Ω<br>R합 = 1+1 = 2Ω → I = <span class="ans-key">5A</span></div></div>
+      <div class="mc"><div class="ml">패턴③ 전압강하</div><div style="font-size:13px;margin-top:4px;line-height:1.8">I = E/R합 = 2A<br>E₂Ω = I×R = 2×2 = <span class="ans-key">4V</span></div></div>
+      <div class="mc"><div class="ml">패턴④ 전력→전류</div><div style="font-size:13px;margin-top:4px;line-height:1.8">P합 = 60+30 = 90W<br>I = P/E = 90÷12 = <span class="ans-key">7.5A</span></div></div>
+      <div class="mc"><div class="ml">패턴⑤ 병렬 합성저항</div><div style="font-size:13px;margin-top:4px;line-height:1.8">1/R = 1/1+1/3+1/5 = 23/15<br>R = <span class="ans-key">15/23 Ω</span></div></div>
+      <div class="mc"><div class="ml">패턴⑥ 변압기 권선비</div><div style="font-size:13px;margin-top:4px;line-height:1.8">3300 ÷ 110 = <span class="ans-key">30:1</span><br>V₁/V₂ = N₁/N₂</div></div>
+    </div>
+    <div class="tip" style="margin-top:10px">💡 헤드라이트 2개 병렬: 전체 전류에서 1개 출력 = E × (I/2)</div>
+  </div>
+  <div class="card">
+    <div class="ct">실수 방지 체크리스트</div>
+    <div class="row"><div class="dot db"></div><div class="rt">병렬 합성저항은 가장 작은 저항보다 더 작다 → 계산 후 검증 필수</div></div>
+    <div class="row"><div class="dot db"></div><div class="rt">직렬은 같은 전류, 병렬은 같은 전압 → 무엇을 구하는지 먼저 확인</div></div>
+    <div class="row"><div class="dot db"></div><div class="rt">P=EI에서 I=P/E (분모가 E) — 헷갈리면 단위로 확인: W÷V=A</div></div>
+    <div class="row"><div class="dot db"></div><div class="rt">헤드라이트 회로에서 10A는 양쪽 합산 → 1개당 출력 = E×(I÷2)</div></div>
+  </div>
+</div>
+
+<!-- 반도체 소자 -->
+<div id="s-semi" class="sec">
+  <div class="card">
+    <div class="ct">다이오드 4종 완전 비교 <span class="badge br">6문 커버</span></div>
+    <table>
+      <tr><th>종류</th><th>동작 원리</th><th>핵심 키워드</th><th>자동차 용도</th></tr>
+      <tr><td><b>실리콘 다이오드</b></td><td>순방향만 통전</td><td>정류</td><td>충전회로</td></tr>
+      <tr><td><b>제너 다이오드</b></td><td>역방향 일정전압 이상 → 도통 유지</td><td>정전압 회로</td><td>교류발전기 전압조정기</td></tr>
+      <tr><td><b>LED (발광)</b></td><td>순방향 전류 → 빛 발생</td><td>전류→빛</td><td>파일럿램프, 크랭크각센서</td></tr>
+      <tr><td><b>포토 다이오드</b></td><td>빛 → 역방향 전류 흐름</td><td>빛→전류</td><td>라이트센서, 차고센서, TDC</td></tr>
+    </table>
+    <div class="err">❌ 틀린 선지: "발광 다이오드는 역방향 전압을 걸면 빛이 난다" → 순방향이어야 함</div>
+    <div class="err">❌ 틀린 선지: "빛을 받으면 전압이 생긴다"는 LED 설명 → 포토 다이오드 혼동 주의</div>
+  </div>
+  <div class="card">
+    <div class="ct">트랜지스터 핵심 정리 <span class="badge br">3문 커버</span></div>
+    <div class="g2" style="margin-top:6px">
+      <div>
+        <div class="row"><div class="dot di"></div><div class="rt">3단자: <b>이미터(E), 베이스(B), 컬렉터(C)</b></div></div>
+        <div class="row"><div class="dot di"></div><div class="rt"><b>스위칭 작용</b> = 릴레이와 같은 ON/OFF</div></div>
+        <div class="row"><div class="dot di"></div><div class="rt"><b>증폭 작용</b> = 베이스로 큰 전류 제어</div></div>
+        <div class="row"><div class="dot di"></div><div class="rt">자동차 → <b>NPN형</b> 사용</div></div>
+      </div>
+      <div class="mc">
+        <div class="ml">포토 트랜지스터</div>
+        <div class="rt" style="margin-top:4px;line-height:1.7">빛으로 컬렉터 전류 제어<br>조향각센서, 차고센서 사용<br>CDS라고도 함</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ct">서미스터 & 사이리스터 <span class="badge bb">3문 커버</span></div>
+    <div class="g2">
+      <div class="mc">
+        <div class="ml" style="margin-bottom:6px"><b>서미스터 (Thermistor)</b></div>
+        <div class="row"><div class="dot db"></div><div class="rt"><b>NTC(부특성)</b>: 온도↑ → 저항↓</div></div>
+        <div class="row"><div class="dot di"></div><div class="rt"><b>PTC(정특성)</b>: 온도↑ → 저항↑</div></div>
+        <div style="font-size:12px;color:#73726c;margin-top:6px;line-height:1.5">일반적으로 NTC 사용<br>냉각수온센서, 흡기온도센서</div>
+        <div class="err" style="margin-top:6px;font-size:12px">출제: "부특성=온도↑→저항↑" → 틀림!</div>
+      </div>
+      <div class="mc">
+        <div class="ml" style="margin-bottom:6px"><b>사이리스터 (SCR)</b></div>
+        <div class="row"><div class="dot dg"></div><div class="rt">단자: <b>애노드(A) · 캐소드(K) · 게이트(G)</b></div></div>
+        <div class="row"><div class="dot dg"></div><div class="rt">PNPN 4층 구조</div></div>
+        <div class="row"><div class="dot dg"></div><div class="rt">스위칭 작용만 함</div></div>
+        <div class="row"><div class="dot dg"></div><div class="rt">도통 후 게이트 제거해도 계속 도통</div></div>
+        <div class="err" style="margin-top:6px;font-size:12px">출제: "컬렉터가 SCR 단자" → 틀림!</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ct">광도전 셀 (CdS) <span class="badge bg">오토라이트 조도센서</span></div>
+    <div class="row"><div class="dot da"></div><div class="rt">빛 조사량 증가 → 저항 감소 / 빛 감소 → 저항 증가</div></div>
+    <div class="row"><div class="dot da"></div><div class="rt">가시광선 감도 높음 → 가로등 자동점멸, 카메라 노출계, 오토라이트</div></div>
+  </div>
+</div>
+
+<!-- 함정 유형 -->
+<div id="s-trap" class="sec">
+  <div class="card">
+    <div class="ct">⚠️ 시험에서 자주 틀리는 함정 유형 TOP 8</div>
+    <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">함정①</span><div class="qt">부특성 서미스터는 온도가 높아지면 저항이 <u>커진다</u>?</div><div class="qa">❌ <b>틀림.</b> 부특성(NTC) = 온도↑ → 저항↓<br>온도↑→저항↑는 정특성(PTC). 자동차에서는 NTC 사용.</div></div>
+    <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">함정②</span><div class="qt">발광 다이오드는 PN 접합면에 <u>역방향</u> 전압을 걸면 빛이 난다?</div><div class="qa">❌ <b>틀림.</b> LED는 <b>순방향</b> 전압 인가 시 빛 발생. 역방향 도통은 제너 다이오드.</div></div>
+    <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">함정③</span><div class="qt">사이리스터 단자는 애노드, 캐소드, <u>컬렉터</u>?</div><div class="qa">❌ <b>틀림.</b> SCR = 애노드(A), 캐소드(K), 게이트(G). 컬렉터는 트랜지스터 단자.</div></div>
+    <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">함정④</span><div class="qt">콘덴서 정전용량은 절연물의 절연도에 <u>반비례</u>한다?</div><div class="qa">❌ <b>틀림.</b> 절연도에는 <b>비례</b>. 반비례하는 것은 오직 <b>극판 사이의 거리</b>뿐.</div></div>
+    <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">함정⑤</span><div class="qt">자성체란 <u>전자유도</u>에 의해 자화되는 물질이다?</div><div class="qa">❌ <b>틀림.</b> 자성체는 <b>자기유도</b>에 의해 자화되는 물질.</div></div>
+    <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">함정⑥</span><div class="qt">주파수는 <u>직류</u>의 파형이 반복되는 비율이다?</div><div class="qa">❌ <b>틀림.</b> 주파수는 <b>교류</b>의 파형이 반복되는 횟수(Hz). 주기의 역수.</div></div>
+    <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">함정⑦</span><div class="qt">트랜지스터의 릴레이와 같은 작용은 <u>정류 작용</u>이다?</div><div class="qa">❌ <b>틀림.</b> 릴레이와 같은 ON/OFF는 <b>스위칭 작용</b>. 정류는 다이오드 기능.</div></div>
+    <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">함정⑧</span><div class="qt">SCR에서 캐소드→게이트 방향이 순방향이다?</div><div class="qa">❌ <b>틀림.</b> SCR 순방향 = 애노드→캐소드, 게이트→캐소드 방향.</div></div>
+  </div>
+</div>
+
+<!-- 기출 27문 드릴 -->
+<div id="s-drill" class="sec">
+  <p style="font-size:13px;color:#73726c;margin-bottom:12px">27문항 전체 — 클릭하면 해설이 표시됩니다.</p>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q01 [09년4회]</span><div class="qt">부특성 써미스터는 온도가 높아지면 저항이 커진다. → 맞나요?</div><div class="qa"><span class="ans-key">❌ 틀림 (이것이 정답 오답지)</span><br>NTC 부특성 = 온도↑→저항↓. 커지는 것은 PTC(정특성).</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q02 [09년5회]</span><div class="qt">자성체란 전자유도에 의해 자화되는 물질이다. → 맞나요?</div><div class="qa"><span class="ans-key">❌ 틀림</span><br>자성체는 <b>자기유도</b>에 의해 자화되는 물질.</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q03 [08년4회]</span><div class="qt">20Ω 저항에 2A 전류 → 전압은?</div><div class="qa"><span class="ans-key">40V</span><br>E = I×R = 2×20 = 40V</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q04 [09년2회]</span><div class="qt">R₁=1Ω, R₂=3Ω, R₃=5Ω 병렬 합성저항은?</div><div class="qa"><span class="ans-key">15/23 Ω</span><br>1/R = 1/1+1/3+1/5 = 23/15 → R = 15/23</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q05 [07년4회]</span><div class="qt">12V, 직렬 2Ω+4Ω+6Ω → 전류는?</div><div class="qa"><span class="ans-key">1A</span><br>R합=12Ω, I=12÷12=1A</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q06 [07년1회/09년5회]</span><div class="qt">직병렬 회로(1Ω 직렬 + 2Ω‖2Ω 병렬), 12V → 전류는?</div><div class="qa"><span class="ans-key">5A</span><br>2Ω‖2Ω=1Ω, 직병렬합=2Ω, I=12÷(12/5)=5A</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q07 [07년2회]</span><div class="qt">24V, 직렬 2Ω+4Ω+6Ω에서 2Ω에 걸리는 전압은?</div><div class="qa"><span class="ans-key">4V</span><br>I=24÷12=2A, E₂Ω=2×2=4V</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q08 [09년1회]</span><div class="qt">12V, 60W+30W 전구 병렬 → 전체 전류는?</div><div class="qa"><span class="ans-key">7.5A</span><br>P합=90W, I=90÷12=7.5A</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q09 [08년1회]</span><div class="qt">헤드라이트 2개, 6V, 10A → 헤드라이트 1개 출력은?</div><div class="qa"><span class="ans-key">30W</span><br>P(전체)=6×10=60W, 1개=60÷2=30W</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q10 [07년1회]</span><div class="qt">12V 전구에 2.5A → 전구 용량은?</div><div class="qa"><span class="ans-key">30W</span><br>P=12×2.5=30W</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q11 [08년2회]</span><div class="qt">3,300V → 110V 변압기 권선비는?</div><div class="qa"><span class="ans-key">30:1</span><br>3300÷110=30</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q12 [07년1회]</span><div class="qt">55W 전구 2개, 12V 병렬 → 전류는?</div><div class="qa"><span class="ans-key">약 9.2A</span><br>P합=110W, I=110÷12≈9.17A</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q13 [07년5회]</span><div class="qt">콘덴서 용량이 반비례하는 요소는?</div><div class="qa"><span class="ans-key">금속판 사이의 거리</span><br>비례: 전압, 면적, 절연도 / 반비례: 거리</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q14 [08년4회]</span><div class="qt">제너 다이오드를 사용하는 회로는?</div><div class="qa"><span class="ans-key">정전압 회로</span></div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q15 [08년2회]</span><div class="qt">펄스(pulse)의 정의는?</div><div class="qa"><span class="ans-key">주기적으로 반복되는 전압이나 전류의 파형</span></div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q16 [08년1회]</span><div class="qt">주파수는 직류의 파형이 반복되는 비율이다. → 맞나요?</div><div class="qa"><span class="ans-key">❌ 틀림</span><br>주파수는 <b>교류</b>의 파형이 반복되는 횟수 (주기의 역수).</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q17 [08년5회]</span><div class="qt">화살표가 들어가는 방향의 다이오드 기호는?</div><div class="qa"><span class="ans-key">포토 다이오드</span><br>화살표 나감=LED(발광), 들어감=포토 다이오드</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q18 [07년5회/09년1회]</span><div class="qt">LED는 PN 접합면에 역방향 전압을 걸면 빛이 난다. → 맞나요?</div><div class="qa"><span class="ans-key">❌ 틀림</span><br>LED는 <b>순방향</b> 전압 인가 시 빛 발생.</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q19 [08년2회]</span><div class="qt">화살표가 나가는 방향의 다이오드 기호는?</div><div class="qa"><span class="ans-key">발광 다이오드 (LED)</span></div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q20 [07년2회/09년2회]</span><div class="qt">트랜지스터의 기능으로 릴레이와 같은 작용은?</div><div class="qa"><span class="ans-key">스위칭 작용</span></div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q21 [09년5회]</span><div class="qt">LED에 대해 틀린 것: "빛을 받으면 전압이 발생되며 스위칭 회로에 사용"</div><div class="qa"><span class="ans-key">❌ 이것이 틀린 선지</span><br>빛을 받으면 전류가 흐르는 것은 <b>포토 다이오드</b>.</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q22 [09년5회]</span><div class="qt">라이트 센서에서 빛의 세기에 따라 광전류가 변화하는 소자는?</div><div class="qa"><span class="ans-key">포토 다이오드</span></div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q23 [08년4회]</span><div class="qt">오토라이트에 사용되는 조도 센서는?</div><div class="qa"><span class="ans-key">광도전 셀 (CdS)</span><br>빛 증가→저항 감소 특성 이용.</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q24 [09년4회]</span><div class="qt">조향휠 각도센서, 차고센서에 사용되는 반도체는?</div><div class="qa"><span class="ans-key">포토 트랜지스터</span></div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q25 [07년4회]</span><div class="qt">SCR에서 캐소드→게이트 방향이 순방향이다. → 맞나요?</div><div class="qa"><span class="ans-key">❌ 틀림</span><br>SCR 순방향 = 애노드→캐소드, 게이트→캐소드.</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q26 [08년1회]</span><div class="qt">사이리스터(SCR) 구성 단자가 아닌 것은?</div><div class="qa"><span class="ans-key">컬렉터</span><br>SCR = 애노드(A), 캐소드(K), 게이트(G).</div></div>
+  <div class="qb" onclick="this.classList.toggle('open')"><span class="qnum">Q27 [07년1회]</span><div class="qt">OR 기호에 ○(반전)이 붙은 논리회로 기호 명칭은?</div><div class="qa"><span class="ans-key">논리합 부정 (NOR)</span><br>둘 다 0일 때만 출력 1.</div></div>
+</div>
+
+<script>
+function sw(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  event.target.classList.add('on');
+  document.getElementById('s-'+id).classList.add('on');
+}
+</script>
+</body>
+</html>

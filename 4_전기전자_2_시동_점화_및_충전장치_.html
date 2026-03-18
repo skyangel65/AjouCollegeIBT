@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시동·점화·충전장치 핵심내용 | 자동차정비기능사</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+body { margin: 0; padding: 0; font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background: #f5f4f0; }
+:root {
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f0eeea;
+  --color-background-tertiary: #e8e6e0;
+  --color-background-info: #E6F1FB;
+  --color-background-success: #E1F5EE;
+  --color-background-warning: #FAEEDA;
+  --color-background-danger: #FCEBEB;
+  --color-text-primary: #1a1a18;
+  --color-text-secondary: #5a5a55;
+  --color-text-tertiary: #9a9a92;
+  --color-text-info: #0C447C;
+  --color-text-success: #085041;
+  --color-text-warning: #633806;
+  --color-text-danger: #791F1F;
+  --color-border-primary: rgba(0,0,0,0.15);
+  --color-border-secondary: rgba(0,0,0,0.12);
+  --color-border-tertiary: rgba(0,0,0,0.08);
+  --color-border-info: #185FA5;
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --font-mono: 'Courier New', monospace;
+}
+.school-header-bar{background:#fff;border-bottom:3px solid #185FA5;padding:10px 1.5rem;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:999;box-shadow:0 2px 6px rgba(0,0,0,0.07);}
+.school-logo-img{height:48px;width:auto;object-fit:contain;}
+.school-divider-line{width:1.5px;height:38px;background:#d0cfc8;flex-shrink:0;}
+.school-info-box{display:flex;flex-direction:column;gap:2px;flex:1;}
+.school-innovation-text{font-size:15px;font-weight:700;color:#185FA5;letter-spacing:-0.3px;}
+.school-sub-text{font-size:11px;color:#8a8a82;}
+.back-to-main{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#E6F1FB;color:#0C447C;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;border:1px solid #b8d4f0;transition:all .15s;}
+.back-to-main:hover{background:#185FA5;color:#fff;border-color:#185FA5;}
+.page-content { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem; }
+@media(max-width:600px){.school-logo-img{height:36px;}.school-innovation-text{font-size:13px;}.back-to-main{font-size:12px;padding:6px 10px;}}
+</style>
+</head>
+<body>
+<div class="school-header-bar">
+  <img src="아주자동차대학UI.jpg" alt="아주자동차대학교" class="school-logo-img">
+  <div class="school-divider-line"></div>
+  <div class="school-info-box">
+    <span class="school-innovation-text">혁신지원사업단</span>
+    <span class="school-sub-text">자동차정비 전공 교육자료</span>
+  </div>
+  <a href="index.html" class="back-to-main">&#127968; 메인으로</a>
+</div>
+<div class="page-content">
+<div style="padding:1rem 0">
+
+<style>
+.sec-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin:0 0 10px;padding-left:4px;border-left:3px solid var(--color-border-info);}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:18px;}
+.card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px;}
+.card-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin:0 0 6px;}
+.card-body{font-size:12px;color:var(--color-text-secondary);line-height:1.7;margin:0;}
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:2px 8px;border-radius:4px;margin-bottom:6px;}
+.badge-red{background:var(--color-background-danger);color:var(--color-text-danger);}
+.badge-blue{background:var(--color-background-info);color:var(--color-text-info);}
+.badge-green{background:var(--color-background-success);color:var(--color-text-success);}
+.badge-warn{background:var(--color-background-warning);color:var(--color-text-warning);}
+.formula{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:4px;padding:6px 10px;font-size:12px;color:var(--color-text-primary);font-family:var(--font-mono);margin:4px 0;}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:18px 0;}
+.tag{display:inline-block;font-size:11px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:4px;padding:1px 6px;margin:2px 2px 0 0;color:var(--color-text-secondary);}
+.highlight{color:var(--color-text-danger);font-weight:500;}
+.freq-bar{display:flex;align-items:center;gap:8px;margin:3px 0;font-size:12px;color:var(--color-text-secondary);}
+.freq-fill{height:8px;border-radius:4px;background:var(--color-background-info);border:0.5px solid var(--color-border-info);}
+.table-sm{width:100%;border-collapse:collapse;font-size:12px;}
+.table-sm th{text-align:left;font-weight:500;color:var(--color-text-secondary);padding:4px 8px;border-bottom:0.5px solid var(--color-border-tertiary);}
+.table-sm td{padding:4px 8px;color:var(--color-text-primary);border-bottom:0.5px solid var(--color-border-tertiary);}
+.table-sm tr:last-child td{border-bottom:none;}
+</style>
+
+<!-- ██████ 출제 빈도 개요 ██████ -->
+<p class="sec-title">단원별 출제 빈도 (기출 분석)</p>
+<div style="background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:14px 16px;margin-bottom:18px;">
+  <div class="freq-bar"><span style="min-width:90px">축전지</span><div class="freq-fill" style="width:92%"></div><span>★★★★★ 최다</span></div>
+  <div class="freq-bar"><span style="min-width:90px">시동장치</span><div class="freq-fill" style="width:78%"></div><span>★★★★☆</span></div>
+  <div class="freq-bar"><span style="min-width:90px">점화장치</span><div class="freq-fill" style="width:75%"></div><span>★★★★☆</span></div>
+  <div class="freq-bar"><span style="min-width:90px">충전장치</span><div class="freq-fill" style="width:68%"></div><span>★★★★☆</span></div>
+  <div class="freq-bar"><span style="min-width:90px">하이브리드</span><div class="freq-fill" style="width:40%"></div><span>★★★☆☆</span></div>
+</div>
+
+<!-- ██████ 1. 축전지 ██████ -->
+<p class="sec-title">① 축전지 — 시험 1순위</p>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-red">★★★ 반드시 암기</div>
+    <p class="card-title">셀 & 전압 구성</p>
+    <p class="card-body">
+      납산 셀 전압: <span class="highlight">2.1~2.3V</span><br>
+      6셀 직렬 → 공칭전압 <span class="highlight">12V</span><br>
+      셀 수↑ → 전압↑<br>
+      극판 수↑ → 용량↑
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-red">★★★ 반드시 암기</div>
+    <p class="card-title">극판 구성 (함정 주의)</p>
+    <p class="card-body">
+      <span class="highlight">음극판 = 양극판 + 1장</span><br>
+      이유① 충격에 강해 바깥 배치<br>
+      이유② 양극판 활성 균형 유지<br>
+      양극판: 암갈색 / 음극판: 회색
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-red">★★★ 반드시 암기</div>
+    <p class="card-title">비중 & 충전 상태</p>
+    <p class="card-body">
+      완전충전: <span class="highlight">1.260</span> (온대 기준)<br>
+      한대지방: 1.280 / 열대: 1.240<br>
+      1.210 → 75% / 1.150 → 50%<br>
+      1.100 → 25% / 1.050 → 0%
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-red">★★★ 반드시 암기</div>
+    <p class="card-title">온도 & 비중 관계</p>
+    <p class="card-body">
+      온도↑ → 비중↓<br>
+      온도↓ → 비중↑<br>
+      변화량: 1℃당 <span class="highlight">0.0007</span><br>
+      보정: S₂₀ = Sₜ + 0.0007(t−20)
+    </p>
+  </div>
+</div>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-blue">★★★ 계산 문제</div>
+    <p class="card-title">용량 & 방전 종지 전압</p>
+    <div class="formula">용량[AH] = 방전전류[A] × 방전시간[H]</div>
+    <p class="card-body">
+      방전종지전압: 셀당 <span class="highlight">1.75V</span><br>
+      배터리 전체: 1.75 × 6 = <span class="highlight">10.5V</span><br>
+      자기방전: 1일 <span class="highlight">0.3~1.5%</span>
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-blue">★★★ 충전 방법</div>
+    <p class="card-title">충전 종류 & 전류</p>
+    <p class="card-body">
+      정전류: 용량의 <span class="highlight">1/10</span> (가장 이상적)<br>
+      급속: 용량의 <span class="highlight">1/2</span> (45℃ 이하)<br>
+      초충전: 1/10~1/20, 60~70시간<br>
+      보충전: 15일마다 실시
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-warn">★★★ 이상 현상</div>
+    <p class="card-title">황산화(설페이션) 원인</p>
+    <p class="card-body">
+      극판 공기 노출<br>
+      과방전 / 불충전 반복<br>
+      전해액 비중 너무 높거나 낮음<br>
+      이물질 유입 / 장시간 방전
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-warn">★★ 이상 현상</div>
+    <p class="card-title">과충전 시 현상</p>
+    <p class="card-body">
+      가스 발생↑<br>
+      전해액 부족<br>
+      전해액 온도↑<br>
+      전해액 비중↑ / <span class="highlight">갈색</span>으로 변함<br>
+      양극 커넥터 부풀어 오름
+    </p>
+  </div>
+</div>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-green">★★ 충전 화학반응</div>
+    <p class="card-title">충·방전 반응 (함정 주의)</p>
+    <p class="card-body">
+      방전 시: 양·음극판 → <span class="highlight">황산납(PbSO₄)</span><br>
+      전해액(황산) → 물 / 비중↓<br>
+      충전 시: 황산납 → 원래 상태<br>
+      + 단자: 산소 발생 / − 단자: 수소 발생
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-green">★★ 축전지 종류</div>
+    <p class="card-title">종류 비교</p>
+    <p class="card-body">
+      납산: 셀 2.1V, 가격 싸다<br>
+      알카리(니켈-카드뮴): 셀 <span class="highlight">1.2V</span>, 10셀 필요<br>
+      MF(무보수): 자기방전↓, 증류수 불필요<br>
+      알카리 내구성 = 납산의 2배
+    </p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ██████ 2. 시동장치 ██████ -->
+<p class="sec-title">② 시동장치</p>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-red">★★★ 계산 필수</div>
+    <p class="card-title">필요 회전력 공식</p>
+    <div class="formula">F = 회전저항(Rₛ) × 피니언 잇수 / 링기어 잇수</div>
+    <p class="card-body">
+      예) 저항 7kgf·m, 링기어 115, 피니언 9<br>
+      → F = 9/115 × 7 = <span class="highlight">0.55 kgf·m</span><br>
+      기어비: 10~15:1로 회전력 증대
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-red">★★★ 핵심 암기</div>
+    <p class="card-title">직류직권 전동기 (시동용)</p>
+    <p class="card-body">
+      계자코일 + 전기자코일 <span class="highlight">직렬</span> 접속<br>
+      부하↑ → 전류↑ → 회전력↑<br>
+      부하↓ → 회전수↑<br>
+      전자력 F = B × ℓ × I
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-blue">★★ 전동기 종류</div>
+    <p class="card-title">직권·분권·복권 비교</p>
+    <table class="table-sm">
+      <tr><th>종류</th><th>결선</th><th>용도</th></tr>
+      <tr><td>직권</td><td>직렬</td><td>시동 전동기</td></tr>
+      <tr><td>분권</td><td>병렬</td><td>팬·히터 모터</td></tr>
+      <tr><td>복권</td><td>직+병렬</td><td>와이퍼 모터</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="badge badge-blue">★★ 동력전달</div>
+    <p class="card-title">오버런닝 클러치</p>
+    <p class="card-body">
+      피니언 섭동식에서 <span class="highlight">필수</span><br>
+      벤딕스식은 <span class="highlight">불필요</span><br>
+      종류: 롤러식·다판식·스프래그식<br>
+      기관 시동 후 역전달 방지
+    </p>
+  </div>
+</div>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-warn">★★★ 시험 판정</div>
+    <p class="card-title">무부하 시험</p>
+    <p class="card-body">
+      전압: 배터리의 <span class="highlight">90% 이상</span><br>
+      (12V × 0.9 = 10.8V 이상)<br>
+      전류: 정격출력의 90% 이하<br>
+      회전계로 무부하 회전수 측정
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-warn">★★★ 시험 판정</div>
+    <p class="card-title">부하 시험 (크랭킹)</p>
+    <p class="card-body">
+      5초 이내 측정<br>
+      전압강하: 배터리의 <span class="highlight">20% 이상</span><br>
+      (12V × 0.8 = 9.6V 이상)<br>
+      전류: 용량의 <span class="highlight">3배 이하</span> (60AH → ≤180A)
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-green">★★ 회전 느린 원인</div>
+    <p class="card-title">기동전동기 회전 불량</p>
+    <p class="card-body">
+      축전지 전압강하·비중 저하<br>
+      케이블 접촉불량<br>
+      정류자·브러시 접촉불량<br>
+      전기자·계자코일 단락
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-green">★★ 부품 암기</div>
+    <p class="card-title">브러시 & 정류자</p>
+    <p class="card-body">
+      브러시: <span class="highlight">1/3 마모</span> 시 교환<br>
+      정류자 언더컷: 운모를 <span class="highlight">0.5~0.8mm</span> 낮게<br>
+      언더컷 적으면 → 접촉 불량<br>
+      계자철심 수 = 브러시 수
+    </p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ██████ 3. 점화장치 ██████ -->
+<p class="sec-title">③ 점화장치</p>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-red">★★★ 흐름 암기</div>
+    <p class="card-title">전자제어 점화 순서</p>
+    <p class="card-body" style="font-size:13px;font-weight:500;color:var(--color-text-info);">
+      크랭크각 센서 → ECU → 파워TR → 점화코일
+    </p>
+    <p class="card-body">
+      ECU가 파워TR의 <span class="highlight">베이스</span> 제어<br>
+      1차 전류: 컬렉터 → 이미터<br>
+      2차 유도전압: E₂ = (N₂/N₁) × E₁
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-red">★★★ 핵심 비교</div>
+    <p class="card-title">점화장치 종류</p>
+    <table class="table-sm">
+      <tr><th>방식</th><th>특징</th></tr>
+      <tr><td>접점식</td><td>현재 미사용</td></tr>
+      <tr><td>트랜지스터</td><td>파워TR 단속</td></tr>
+      <tr><td>DLI</td><td>배전기 없음·ECU 제어</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="badge badge-blue">★★★ DLI 특징</div>
+    <p class="card-title">DLI (무배전기) 장점</p>
+    <p class="card-body">
+      배전기 누전 없음<br>
+      로터·캡 간 고압 에너지 손실 없음<br>
+      전파 잡음 없음<br>
+      점화진각 폭 <span class="highlight">제한 없음</span><br>
+      내구성↑ 신뢰성↑
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-blue">★★ 점화 코일</div>
+    <p class="card-title">유도 작용 원리</p>
+    <p class="card-body">
+      자기유도: 1차 코일 전류변화<br>
+      → 역기전력 발생<br>
+      상호유도: 1차 자속변화가<br>
+      → 2차에 고전압 <span class="highlight">25,000~35,000V</span> 발생<br>
+      배전기: 크랭크축 <span class="highlight">1/2</span> 회전속도
+    </p>
+  </div>
+</div>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-red">★★★ 반드시 암기</div>
+    <p class="card-title">점화플러그 자기청정온도</p>
+    <p class="card-body">
+      유지온도: <span class="highlight">500~800℃</span><br>
+      너무 낮음 → 카본 퇴적 (오손)<br>
+      너무 높음 → <span class="highlight">조기점화</span> 원인<br>
+      간극: 1.1~1.3mm
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-red">★★★ 반드시 암기</div>
+    <p class="card-title">열가 (냉형 vs 열형)</p>
+    <p class="card-body">
+      냉형: 절연체 짧음 → 열 방출↑<br>
+      → <span class="highlight">고압축·고속 엔진</span> 사용<br>
+      열형: 절연체 김 → 열 방출↓<br>
+      → 저압축·저속 엔진 사용
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-warn">★★ 착화성 향상법</div>
+    <p class="card-title">플러그 착화성 개선</p>
+    <p class="card-body">
+      ① 간극을 <span class="highlight">넓게</span> 한다<br>
+      ② 중심전극을 <span class="highlight">가늘게</span> 한다<br>
+      ③ 접지전극에 <span class="highlight">U자 홈</span> 설치<br>
+      소염작용 크면 착화성↓
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-warn">★★ 계산</div>
+    <p class="card-title">크랭크축 회전각도 계산</p>
+    <div class="formula">회전각도 = 6 × R × T</div>
+    <p class="card-body">
+      R = 엔진 rpm, T = 시간(초)<br>
+      예) 2500rpm, 1/600초<br>
+      → 6 × 2500 × 1/600 = <span class="highlight">25°</span>
+    </p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ██████ 4. 충전장치 ██████ -->
+<p class="sec-title">④ 충전장치</p>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-red">★★★ 법칙 구분</div>
+    <p class="card-title">플레밍 법칙 구분 (함정)</p>
+    <table class="table-sm">
+      <tr><th>법칙</th><th>적용</th><th>손가락 역할</th></tr>
+      <tr><td>왼손</td><td>전동기(힘)</td><td>엄지=힘방향</td></tr>
+      <tr><td>오른손</td><td>발전기(기전력)</td><td>중지=기전력</td></tr>
+    </table>
+    <p class="card-body" style="margin-top:6px">오른손 엄지 = <span class="highlight">도선 운동방향</span></p>
+  </div>
+  <div class="card">
+    <div class="badge badge-red">★★★ 비교 암기</div>
+    <p class="card-title">DC vs AC 발전기 비교</p>
+    <table class="table-sm">
+      <tr><th>항목</th><th>DC</th><th>AC</th></tr>
+      <tr><td>유도전기</td><td>전기자</td><td>스테이터</td></tr>
+      <tr><td>역류방지</td><td>컷아웃 릴레이</td><td>다이오드</td></tr>
+      <tr><td>브러시 접촉</td><td>정류자</td><td>슬립링</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="badge badge-blue">★★★ AC 발전기</div>
+    <p class="card-title">교류발전기 핵심 장점</p>
+    <p class="card-body">
+      실리콘 다이오드 → 역류방지 겸임<br>
+      → 컷아웃 릴레이 <span class="highlight">불필요</span><br>
+      공회전·저속 시 충전 가능<br>
+      정류자 소손 고장 없음<br>
+      브러시 수명↑, 불꽃↓
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-blue">★★ 결선</div>
+    <p class="card-title">Y결선 vs Δ결선</p>
+    <p class="card-body">
+      Y결선: <span class="highlight">AC 발전기 사용</span><br>
+      선간전압 = <span class="highlight">√3</span> × 상전압<br>
+      Δ결선: DC 발전기 적용<br>
+      선간전류 = √3 × 상전류<br>
+      자동차 → Y결선 사용 (고전압 유리)
+    </p>
+  </div>
+</div>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-warn">★★ 출력 조정</div>
+    <p class="card-title">전압 조정 원리</p>
+    <p class="card-body">
+      발전전압 ∝ 계자자속(φ) × 회전수(n)<br>
+      → 회전수 조절 불가<br>
+      → <span class="highlight">로터 코일 전류</span> 가감으로 조정<br>
+      IC식 조정기: 소형·내구성↑ 발전기 내장
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-warn">★★ 고장 판단</div>
+    <p class="card-title">충전 불량 & 발전기 고장</p>
+    <p class="card-body">
+      발전기 고장: 정류자·브러시·슬립링<br>
+      충전 불량: 벨트 헐거움·슬립<br>
+      조정전압 낮음 / 전기 사용 과다<br>
+      축전지 터미널 접촉불량<br>
+      → 출력 정상, 충전만 불량
+    </p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ██████ 5. 하이브리드 ██████ -->
+<p class="sec-title">⑤ 하이브리드 (최근 출제 증가)</p>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-blue">★★ 3대 핵심</div>
+    <p class="card-title">하이브리드 3대 원리</p>
+    <p class="card-body">
+      ① <span class="highlight">아이들 스탑</span>: 정지 시 엔진 자동 정지<br>
+      ② <span class="highlight">동력보조(Power Assist)</span>: 가속 시 모터 구동<br>
+      ③ <span class="highlight">회생제동</span>: 감속 시 배터리 충전<br>
+      (브레이크 → 발전기 역할)
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-blue">★★ 종류 구분</div>
+    <p class="card-title">구동 방식 분류</p>
+    <p class="card-body">
+      시리즈: 구동=모터, 엔진=발전만<br>
+      패러렐: 모터+엔진 동시 구동<br>
+      시리즈-패러렐: 상황별 선택<br>
+      FMED(소프트) / TMED(하드) 타입
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-warn">★★ 안전 주의</div>
+    <p class="card-title">고전압 정비 주의사항</p>
+    <p class="card-body">
+      고전압: <span class="highlight">140~380V</span><br>
+      안전 스위치 OFF 후 <span class="highlight">5분</span> 대기<br>
+      절연장갑·보호안경 착용 필수<br>
+      금속 액세서리 제거 (반지·시계 등)
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-green">★ 모터 시동 금지 조건</div>
+    <p class="card-title">하이브리드 모터 금지</p>
+    <p class="card-body">
+      배터리 온도 &lt; −10℃ 또는 &gt; 45℃<br>
+      SOC <span class="highlight">18%</span> 이하<br>
+      MCU Inverter 온도 &gt; 94℃<br>
+      냉각수 수온 −10℃ 이하
+    </p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ██████ 최빈출 함정 정리 ██████ -->
+<p class="sec-title">⚠ 자주 틀리는 함정 문제 TOP 10</p>
+<div style="background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:14px 16px;">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:var(--color-text-secondary);">
+    <div>① 음극판이 양극판보다 <b style="color:var(--color-text-primary)">1장 많다</b> (반대 아님)</div>
+    <div>② 정전류 충전 = 일정 <b style="color:var(--color-text-primary)">전류</b> (전압 아님)</div>
+    <div>③ 충전 시 +단자 = <b style="color:var(--color-text-primary)">산소</b>, −단자 = 수소 발생</div>
+    <div>④ 온도↑ → 비중 <b style="color:var(--color-text-primary)">낮아짐</b> (높아지는 게 아님)</div>
+    <div>⑤ 방전 시 비중 <b style="color:var(--color-text-primary)">낮아짐</b> (높아지는 게 아님)</div>
+    <div>⑥ 플레밍 오른손 엄지 = <b style="color:var(--color-text-primary)">도선 운동방향</b></div>
+    <div>⑦ AC 발전기 = <b style="color:var(--color-text-primary)">스테이터</b>에서 유도전기 발생</div>
+    <div>⑧ 벤딕스식 = 오버런닝 클러치 <b style="color:var(--color-text-primary)">불필요</b></div>
+    <div>⑨ 언더컷 적으면 → 접촉 <b style="color:var(--color-text-primary)">불량</b> (양호 아님)</div>
+    <div>⑩ 파워TR ECU 연결 단자 = <b style="color:var(--color-text-primary)">베이스</b> (컬렉터 아님)</div>
+  </div>
+</div>
+
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자동차정비기능사 — 계기·등화·편의장치 핵심정리</title>
+<style>
+  body { margin: 0; padding: 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #222; }
+  * { box-sizing: border-box; }
+  h1 { font-size: 17px; font-weight: 700; margin: 0 0 14px; color: #1a1a1a; }
+
+  .tab-bar {
+    display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;
+  }
+  .tab-btn {
+    font-size: 12px; font-weight: 500; padding: 6px 13px;
+    border-radius: 20px; border: 1px solid #ccc;
+    background: #fff; color: #555; cursor: pointer;
+  }
+  .tab-btn.on { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+
+  .panel { display: none; }
+  .panel.on { display: block; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 6px; }
+  th { background: #e8eeff; padding: 6px 8px; text-align: left; font-weight: 600; border-bottom: 2px solid #aac; color: #333; }
+  td { padding: 6px 8px; border-bottom: 1px solid #e8e8e8; vertical-align: top; color: #222; line-height: 1.55; }
+  tr:last-child td { border-bottom: none; }
+
+  .card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  .card-title { font-size: 13px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; }
+
+  .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-right: 4px; }
+  .b-red { background: #fde8e8; color: #b00; }
+  .b-orange { background: #fff0dc; color: #a05000; }
+  .b-blue { background: #e3eeff; color: #1a5cc8; }
+  .kw { font-weight: 700; }
+  .red { color: #c00; font-weight: 700; }
+  .ans-tag { background: #e6f9ee; color: #1a7a3a; font-weight: 700; padding: 1px 6px; border-radius: 4px; font-size: 11px; }
+  .wrong-tag { background: #fde8e8; color: #b00; padding: 1px 6px; border-radius: 4px; font-size: 11px; }
+  .note { font-size: 11px; color: #666; margin-top: 6px; padding: 5px 8px; background: #f8f8f8; border-left: 3px solid #aaa; border-radius: 3px; }
+
+  /* quiz */
+  .q-card { border: 1px solid #ddd; border-radius: 8px; padding: 14px; margin-bottom: 12px; background: #fff; }
+  .q-num { font-size: 11px; color: #888; margin-bottom: 4px; }
+  .q-text { font-size: 13px; font-weight: 700; color: #111; margin-bottom: 10px; line-height: 1.6; }
+  .q-opt { font-size: 12.5px; padding: 8px 11px; border-radius: 6px; border: 1px solid #ddd; cursor: pointer; color: #222; background: #fafafa; margin-bottom: 5px; display: flex; gap: 8px; align-items: flex-start; transition: background .1s; }
+  .q-opt:hover { background: #f0f4ff; border-color: #99b; }
+  .q-opt.correct { background: #e6f9ee; border-color: #4caf50; color: #1a5a2a; }
+  .q-opt.wrong { background: #fde8e8; border-color: #e57; color: #900; }
+  .q-opt.disabled { cursor: default; }
+  .q-exp { font-size: 12px; color: #444; margin-top: 8px; padding: 8px 10px; background: #f0f7ff; border-radius: 6px; border-left: 3px solid #4caf50; display: none; line-height: 1.6; }
+  .q-exp.show { display: block; }
+  .score-box { background: #f0f4ff; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; font-size: 13px; color: #444; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .score-num { font-size: 20px; font-weight: 700; color: #1a1a1a; }
+  .btn-reveal-all { margin-left: auto; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 20px; border: 1px solid #e57c00; background: #fff8f0; color: #c05000; cursor: pointer; }
+  .btn-reveal-all:hover { background: #fff0dc; }
+  .btn-reset { font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 20px; border: 1px solid #aaa; background: #f5f5f5; color: #555; cursor: pointer; }
+  .btn-reset:hover { background: #ececec; }
+  .q-footer { display: flex; justify-content: flex-end; margin-top: 8px; }
+  .btn-hint { font-size: 11px; font-weight: 600; padding: 4px 11px; border-radius: 14px; border: 1px solid #b5d4f4; background: #f0f7ff; color: #1a5cc8; cursor: pointer; }
+  .btn-hint:hover { background: #dceeff; }
+  .btn-hint.used { opacity: 0.45; cursor: default; }
+</style>
+<style>
+.school-header-bar{background:#fff;border-bottom:3px solid #185FA5;padding:10px 1.5rem;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:999;box-shadow:0 2px 6px rgba(0,0,0,0.07);}
+.school-logo-img{height:48px;width:auto;object-fit:contain;}
+.school-divider-line{width:1.5px;height:38px;background:#d0cfc8;flex-shrink:0;}
+.school-info-box{display:flex;flex-direction:column;gap:2px;flex:1;}
+.school-innovation-text{font-size:15px;font-weight:700;color:#185FA5;letter-spacing:-0.3px;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;}
+.school-sub-text{font-size:11px;color:#8a8a82;}
+.back-to-main{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#E6F1FB;color:#0C447C;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;border:1px solid #b8d4f0;transition:all .15s;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;}
+.back-to-main:hover{background:#185FA5;color:#fff;border-color:#185FA5;}
+@media(max-width:600px){.school-logo-img{height:36px;}.school-innovation-text{font-size:13px;}.back-to-main{font-size:12px;padding:6px 10px;}}
+</style>
+</head>
+<body>
+<!-- 학교 로고 헤더 -->
+<div class="school-header-bar">
+  <img src="아주자동차대학UI.jpg" alt="아주자동차대학교" class="school-logo-img">
+  <div class="school-divider-line"></div>
+  <div class="school-info-box">
+    <span class="school-innovation-text">혁신지원사업단</span>
+    <span class="school-sub-text">자동차정비 전공 교육자료</span>
+  </div>
+  <a href="index.html" class="back-to-main">🏠 메인으로</a>
+</div>
+
+
+<h1>자동차정비기능사 — 계기·등화·편의장치 핵심정리</h1>
+
+<div class="tab-bar">
+  <button class="tab-btn on" onclick="show('p1',this)">📊 기출패턴</button>
+  <button class="tab-btn" onclick="show('p2',this)">⚙️ 계기류</button>
+  <button class="tab-btn" onclick="show('p3',this)">💡 등화장치</button>
+  <button class="tab-btn" onclick="show('p4',this)">🔌 배선·회로</button>
+  <button class="tab-btn" onclick="show('p5',this)">🛡️ 안전·편의</button>
+  <button class="tab-btn" onclick="show('p6',this)">✏️ 실전퀴즈</button>
+</div>
+
+<!-- ===== P1 기출패턴 ===== -->
+<div id="p1" class="panel on">
+  <div class="card">
+    <div class="card-title">실제 기출 18문제 — 주제별 출제 빈도</div>
+    <table>
+      <tr><th>주제</th><th>빈도</th><th>핵심 정답</th></tr>
+      <tr><td><span class="kw">배선 색상 약어</span></td><td><span class="badge b-red">최다</span></td><td>Gr=회색(보라 아님!) / B=검정 / Y=노랑</td></tr>
+      <tr><td><span class="kw">계기 고장 → 센서</span></td><td><span class="badge b-red">최다</span></td><td>속도계=VSS / 수온계=CTS / 회전계=CPS</td></tr>
+      <tr><td><span class="kw">전조등 종류</span></td><td><span class="badge b-red">최다</span></td><td>실드빔형=렌즈·반사경·필라멘트 일체</td></tr>
+      <tr><td><span class="kw">조도 계산</span></td><td><span class="badge b-red">최다</span></td><td>25,000cd ÷ 100² = 2.5 Lux (2회 기출)</td></tr>
+      <tr><td><span class="kw">오일 경고등</span></td><td><span class="badge b-orange">빈출</span></td><td>유압 낮을 때 → 엔진 오일 경고등 점등</td></tr>
+      <tr><td><span class="kw">연료계 방식</span></td><td><span class="badge b-orange">빈출</span></td><td>계기식 아닌 것 = 연료면 표시기식</td></tr>
+      <tr><td><span class="kw">맴돌이 전류 계기</span></td><td><span class="badge b-orange">빈출</span></td><td>맴돌이 전류 이용 = 자석식 속도계</td></tr>
+      <tr><td><span class="kw">퓨즈 역할</span></td><td><span class="badge b-orange">빈출</span></td><td>과대전류 흐를 때 회로 차단</td></tr>
+      <tr><td><span class="kw">와이퍼 3요소</span></td><td><span class="badge b-orange">빈출</span></td><td>전동기·링크기구·블레이드 (보호상자 아님)</td></tr>
+      <tr><td><span class="kw">헤드램프 불량 원인</span></td><td><span class="badge b-orange">빈출</span></td><td>와이어링·접지 불량 (미등퓨즈·방향지시등 무관)</td></tr>
+      <tr><td><span class="kw">가솔린 vs 디젤 경고등</span></td><td><span class="badge b-blue">출제</span></td><td>수분감지 경고등 = 디젤 전용</td></tr>
+      <tr><td><span class="kw">IG1/IG2 구분 이유</span></td><td><span class="badge b-blue">출제</span></td><td>ST 시 불필요 전원 차단 → 시동 원활</td></tr>
+      <tr><td><span class="kw">회로 고장 분석</span></td><td><span class="badge b-blue">출제</span></td><td>A-B 간 12V → 스위치쪽 단선</td></tr>
+      <tr><td><span class="kw">전압조정기 조정전압</span></td><td><span class="badge b-blue">출제</span></td><td>배터리 단자전압보다 2~3V 높음</td></tr>
+      <tr><td><span class="kw">시동 시 라디오 차단 이유</span></td><td><span class="badge b-blue">출제</span></td><td>시동모터 작동 원활하게 하기 위함</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title">출제 패턴 4가지</div>
+    <table>
+      <tr><th>패턴</th><th>설명 및 예시</th></tr>
+      <tr><td><span class="kw">센서 연결</span></td><td>계기 고장 → 관련 센서 연결 암기 (속도계=VSS, 수온계=CTS, 회전계=CPS)</td></tr>
+      <tr><td><span class="kw">"아닌 것" 유형</span></td><td>연료면 표시기식 / 보호 상자 / 수분감지(가솔린) 등 소거형 반복 출제</td></tr>
+      <tr><td><span class="kw">수치 암기</span></td><td>조도 공식, 방향지시등 60~120회/분, 제동등=미등의 3배 이상</td></tr>
+      <tr><td><span class="kw">원리→결과</span></td><td>맴돌이 전류=속도계 / Gr=회색 / 접지불량=헤드램프 불량</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== P2 계기류 ===== -->
+<div id="p2" class="panel">
+  <div class="card">
+    <div class="card-title"><span class="badge b-red">최다 출제</span> 계기 고장 시 점검 센서 — 무조건 암기</div>
+    <table>
+      <tr><th>고장 계기</th><th>점검 센서</th><th>영문 풀네임</th></tr>
+      <tr><td><span class="red">속도계</span> 미작동</td><td><span class="ans-tag">VSS</span></td><td>Vehicle Speed Sensor</td></tr>
+      <tr><td><span class="red">수온계</span> 미작동</td><td><span class="ans-tag">CTS</span></td><td>Coolant Temperature Sensor</td></tr>
+      <tr><td><span class="red">회전계(타코미터)</span> 미작동</td><td><span class="ans-tag">CPS</span></td><td>Crankshaft Position Sensor</td></tr>
+    </table>
+    <div class="note">오답 함정: 속도계→CPS(×) / 회전계→VSS(×) / 수온계→MAT·ACP·CPS(×)</div>
+  </div>
+  <div class="card">
+    <div class="card-title">계기 방식별 작동 원리</div>
+    <table>
+      <tr><th>계기</th><th>방식</th><th>핵심 원리</th></tr>
+      <tr><td rowspan="2"><span class="kw">속도계</span></td><td>자석식</td><td>자석 회전 → <span class="red">맴돌이 전류</span> 발생 → 영구자석 상호작용 → 지침 이동</td></tr>
+      <tr><td>디지털식</td><td>케이블→차속센서→전기신호→컴퓨터 계산→표시</td></tr>
+      <tr><td><span class="kw">수온계</span></td><td>바이메탈식</td><td>서미스터: 온도↑→저항↓→전류↑→바이메탈 변형↑→<span class="red">H(고온)쪽</span></td></tr>
+      <tr><td><span class="kw">유압계</span></td><td>인디케이터식</td><td>유압 낮음→다이어프램 수축→접점 닫힘→경고등 <span class="red">점등</span></td></tr>
+      <tr><td rowspan="2"><span class="kw">연료계</span></td><td>바이메탈식</td><td>연료 가득→플로트↑→저항↓→전류↑→바이메탈 변형↑→F쪽 표시</td></tr>
+      <tr><td colspan="2"><span class="wrong-tag">계기식 아님</span> 연료면 표시기식 — 투명창으로 직접 보는 방식 (기출 03번)</td></tr>
+      <tr><td><span class="kw">공통</span></td><td>밸런싱 코일식</td><td>2개 코일(L1·L2)→자력→가동철편 당김→지침 이동</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title">타코미터 — 가솔린 vs 디젤</div>
+    <table>
+      <tr><th>기관</th><th>회전수 검출 방법</th></tr>
+      <tr><td>가솔린</td><td>점화코일 ⊖단자 전압 검출 → 전류 변환 → 가동 선륜형 미터</td></tr>
+      <tr><td>디젤(독립형)</td><td>분사 펌프 캠 부근 픽업 → 펄스(교류전압) 발생 → 전자회로 변환</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== P3 등화장치 ===== -->
+<div id="p3" class="panel">
+  <div class="card">
+    <div class="card-title"><span class="badge b-red">최다 출제</span> 전조등 종류 비교</div>
+    <table>
+      <tr><th>종류</th><th>구조</th><th>장점</th><th>단점</th></tr>
+      <tr><td><span class="red">실드 빔형</span></td><td>렌즈+반사경+필라멘트 <span class="kw">일체</span></td><td>수명 길고 광도 안정</td><td>1개 이상 시 전체 교환, 가격 비쌈</td></tr>
+      <tr><td>세미 실드 빔형</td><td>렌즈+반사경 일체 / 전구 분리</td><td>전구만 교환 가능</td><td>먼지·습기 유입 → 광도 변화</td></tr>
+      <tr><td>할로겐</td><td>할로겐 화합물+불활성 가스 봉입</td><td>재생순환반응(halogen cycle)으로 수명 연장. 용량 60W/55W</td><td>—</td></tr>
+      <tr><td>HID</td><td>제논 가스, 2개 전극, <span class="red">필라멘트 없음</span></td><td>고휘도 방전</td><td>고전압 20,000V 필요</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="badge b-red">2회 기출</span> 조도 계산 공식</div>
+    <table>
+      <tr><th>공식</th><th>기출 예제</th></tr>
+      <tr><td><span class="kw">조도[Lux] = 광도[cd] ÷ 거리²[m²]</span></td><td>25,000 ÷ 100² = <span class="red">2.5 Lux</span></td></tr>
+    </table>
+    <div class="note">반사경 반사율: 알루미늄 90% / 은 92%(내구성 약) / 크롬 65%(내구성 좋음)</div>
+  </div>
+  <div class="card">
+    <div class="card-title">방향지시등 / 미등 / 제동등 핵심 수치</div>
+    <table>
+      <tr><th>등화</th><th>핵심 수치·특징</th></tr>
+      <tr><td><span class="kw">방향지시등</span></td><td>점멸 <span class="red">1분에 60~120회</span>. 현재 트랜지스터식(전자식) 사용</td></tr>
+      <tr><td><span class="kw">미등 회로</span></td><td>차폭등+번호판등+계기판 조명등 → <span class="red">병렬 연결</span></td></tr>
+      <tr><td><span class="kw">제동등</span></td><td>밝기 = 미등의 <span class="red">3배 이상</span>. 전구 단선 시 경고 기능 포함</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="badge b-orange">빈출</span> 헤드램프 불량 원인 — 관계없는 것 구별</div>
+    <table>
+      <tr><th>관련 있음 (불량 원인)</th><th>관련 없음 (오답 보기)</th></tr>
+      <tr><td>와이어링 불량, 접지 불량, 헤드램프 전용 퓨즈 소손</td><td><span class="wrong-tag">미등 퓨즈 소손</span> <span class="wrong-tag">비상경고등 스위치 소손</span> <span class="wrong-tag">방향지시등 퓨즈 끊어짐</span></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== P4 배선·회로 ===== -->
+<div id="p4" class="panel">
+  <div class="card">
+    <div class="card-title"><span class="badge b-red">최다 함정</span> 배선 색상 약어 (현대자동차)</div>
+    <table>
+      <tr><th>약어</th><th>색상</th><th>약어</th><th>색상</th></tr>
+      <tr><td class="kw">B</td><td>검정(Black)</td><td class="kw">R</td><td>빨강(Red)</td></tr>
+      <tr><td class="kw">G</td><td>초록(Green)</td><td class="kw">Y</td><td>노랑(Yellow)</td></tr>
+      <tr><td class="red">Gr</td><td class="red">회색(Gray) ← 함정! 보라(×)</td><td class="kw">W</td><td>흰색(White)</td></tr>
+      <tr><td class="kw">L</td><td>파랑(bLue)</td><td class="kw">O</td><td>오렌지(Orange)</td></tr>
+      <tr><td class="kw">Br</td><td>갈색(Brown)</td><td class="kw">Pp</td><td>자주색(Purple)</td></tr>
+      <tr><td class="kw">Lg</td><td>연두(Light Green)</td><td class="kw">Ll</td><td>하늘색(Light Blue)</td></tr>
+    </table>
+    <div class="note">배선 표기 예: 1.25 Y/B = 노란 바탕 + 검정 줄무늬, 단면적 1.25mm²</div>
+  </div>
+  <div class="card">
+    <div class="card-title">배선 방식 비교</div>
+    <table>
+      <tr><th>방식</th><th>구조</th><th>사용 장소</th></tr>
+      <tr><td><span class="kw">단선식</span></td><td>(+) 한 선만, (−)는 차체 접지</td><td>소전류 회로 (경고등 등)</td></tr>
+      <tr><td><span class="kw">복선식</span></td><td>(+)(−) 모두 전선 사용</td><td>대전류 회로 (<span class="red">전조등</span> 등), 접촉불량 방지</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="badge b-blue">출제</span> 회로 고장 분석 요령</div>
+    <table>
+      <tr><th>측정 결과</th><th>판단</th></tr>
+      <tr><td>A-B간 전압 = <span class="kw">12V</span></td><td>A-B 구간 정상 → <span class="red">스위치쪽(B 이후) 단선</span> 의심</td></tr>
+      <tr><td>테스트 램프 밝게 점등</td><td>해당 구간 정상</td></tr>
+      <tr><td>ECM 등 반도체 모듈 점검</td><td>테스트 램프 절대 사용 금지 → <span class="red">10MΩ 이상 디지털 볼트미터</span></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="badge b-blue">출제</span> IG1 / IG2 구분 이유</div>
+    <table>
+      <tr><th>단자</th><th>작동 조건</th><th>구분 목적</th></tr>
+      <tr><td>IG1</td><td>ON·ST 모두 작동</td><td rowspan="2">ST(시동) 시 IG2 차단 → <span class="red">불필요 전원 끊어 시동모터 작동 원활</span></td></tr>
+      <tr><td>IG2</td><td>ON에서만 작동 (ST 시 차단)</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== P5 안전·편의 ===== -->
+<div id="p5" class="panel">
+  <div class="card">
+    <div class="card-title"><span class="badge b-orange">빈출</span> 경고등 — 가솔린 vs 디젤 구분</div>
+    <table>
+      <tr><th>차종</th><th>경고등 종류</th></tr>
+      <tr><td>가솔린</td><td>엔진오일 경고등, 충전 경고등, 연료 잔량경고등, ABS 경고등, 타이어 저압 경고등</td></tr>
+      <tr><td class="red">디젤 추가</td><td class="red">예열 표시등, 연료 수분감지 경고등 ← 가솔린에는 없음!</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title">에탁스(ETACS) 주요 제어 수치</div>
+    <table>
+      <tr><th>기능</th><th>수치</th></tr>
+      <tr><td>뒷유리 열선 타이머</td><td><span class="red">15분</span> 작동</td></tr>
+      <tr><td>파워윈도우 타이머</td><td>IG OFF 후 <span class="red">30초</span> 유지</td></tr>
+      <tr><td>감광식 룸램프</td><td>도어 닫힘 후 <span class="red">5~6초</span> 소등 (75% 감광 후 서서히)</td></tr>
+      <tr><td>안전벨트 경고등</td><td>주기 0.6초, 차임벨 0.9초, 듀티 50%</td></tr>
+      <tr><td>와셔 연동 와이퍼</td><td>와셔 OFF 후 <span class="red">2.5~3.8초</span> 후 와이퍼 정지</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title">후진 경보장치(BWS) 3단계 경보</div>
+    <table>
+      <tr><th>단계</th><th>거리 기준</th><th>부저 간격</th></tr>
+      <tr><td>1차 경보</td><td>120cm 이하</td><td>340ms 간격</td></tr>
+      <tr><td>2차 경보</td><td>80cm 이하</td><td>170ms 간격</td></tr>
+      <tr><td>3차 경보</td><td>40cm 이하</td><td><span class="red">연속</span></td></tr>
+    </table>
+    <div class="note">구성: 컨트롤 유닛 + 초음파 센서 4개 + 경보기(부저) | 거리 D = T×V/2</div>
+  </div>
+  <div class="card">
+    <div class="card-title">에어백 작동 시간 순서</div>
+    <table>
+      <tr><th>시간</th><th>내용</th></tr>
+      <tr><td>충돌 후 0.15초</td><td>가스발생기 작동 시작</td></tr>
+      <tr><td>충돌 후 0.2초</td><td>에어백 커버 찢어짐 → 팽창 시작</td></tr>
+      <tr><td>충돌 후 0.35~0.4초</td><td><span class="red">에어백 완전 팽창</span></td></tr>
+      <tr><td>충돌 후 0.4~0.8초</td><td>운전자 에어백에 충돌 + 가스 배출 (완충)</td></tr>
+      <tr><td>충돌 후 1~1.2초</td><td>가스 완전 방출, 정상 시야 확보</td></tr>
+    </table>
+    <div class="note">팽창 가스 = 질소(N₂) | 에어백 용량 약 50~60ℓ | SRS = 안전벨트 보조장치</div>
+  </div>
+</div>
+
+<!-- ===== P6 실전퀴즈 ===== -->
+<div id="p6" class="panel">
+  <div class="score-box">
+    점수: <span class="score-num" id="sc">0</span> / <span id="tot">10</span>
+    <span style="color:#888; font-size:12px;">— 보기 클릭으로 답안 제출</span>
+    <button class="btn-reveal-all" onclick="revealAll()">🔍 전체 정답 보기</button>
+    <button class="btn-reset" onclick="resetQuiz()">↺ 다시 풀기</button>
+  </div>
+  <div id="qbox"></div>
+</div>
+
+<script>
+  function show(id, btn) {
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('on'); });
+    document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('on'); });
+    document.getElementById(id).classList.add('on');
+    btn.classList.add('on');
+  }
+
+  var QS = [
+    { q:"계기판의 엔진 회전계가 작동하지 않을 때 점검해야 할 센서는?",
+      o:["VSS (차량속도 센서)","CPS (크랭크각 센서)","MAP (흡기압 센서)","CTS (냉각수온 센서)"],
+      a:1, e:"타코미터(회전계)는 CPS(크랭크각 센서)와 연결됩니다. VSS=속도계, CTS=수온계." },
+    { q:"배선 기호 'Gr'이 나타내는 색상은?",
+      o:["보라색(Purple)","갈색(Brown)","회색(Gray)","초록색(Green)"],
+      a:2, e:"Gr = Gray(회색). 보라색=Pp, 갈색=Br. 'Gr=보라'는 단골 함정 보기입니다." },
+    { q:"전조등 광도 25,000[cd], 전방 100[m] 지점에서의 조도는?",
+      o:["250 Lux","50 Lux","12.5 Lux","2.5 Lux"],
+      a:3, e:"조도 = 광도 ÷ 거리² = 25,000 ÷ 10,000 = 2.5 Lux. 시험에 2회 출제된 공식입니다." },
+    { q:"렌즈·반사경·필라멘트가 모두 일체형인 전조등은?",
+      o:["실드 빔형","세미 실드 빔형","HID 램프","할로겐형"],
+      a:0, e:"실드 빔형(Sealed Beam): 세 요소가 일체. 세미 실드 빔형은 전구만 따로 교환 가능." },
+    { q:"퓨즈의 역할로 옳은 것은?",
+      o:["정격전류가 흐르면 회로 차단","과대 전류가 흐르면 회로 차단","용량이 클수록 정격전류가 낮아짐","용량이 작아도 조정해서 사용 가능"],
+      a:1, e:"퓨즈는 과대전류 시 회로를 차단하여 부품·배선을 보호합니다." },
+    { q:"윈드실드 와이퍼 3가지 구성요소가 아닌 것은?",
+      o:["와이퍼 전동기","블레이드","링크 기구","보호 상자"],
+      a:3, e:"3요소: 와이퍼 전동기, 링크 기구, 와이퍼 블레이드. '보호 상자'는 없는 항목입니다." },
+    { q:"가솔린 차량 계기판에 없고 디젤 차량에만 있는 경고등은?",
+      o:["엔진오일 경고등","충전 경고등","연료 수분감지 경고등","연료 잔량 경고등"],
+      a:2, e:"연료 수분감지 경고등은 디젤 전용입니다. 가솔린에는 없습니다." },
+    { q:"IG1과 IG2를 구분하는 주된 이유는?",
+      o:["점화SW와 무관하게 배터리 연결 유지","START 시에도 와이퍼·전조등에 전원 공급","ST일 때만 점화코일에 전원 공급","START 시 불필요 전원 차단으로 시동 원활"],
+      a:3, e:"ST(시동) 시 IG2를 차단해 불필요 전원을 끊고 시동모터에 전력을 집중시킵니다." },
+    { q:"후진 경보장치(BWS)에서 부저가 연속으로 울리는 경우는?",
+      o:["장애물 거리 120cm 이하","장애물 거리 80cm 이하","장애물 거리 40cm 이하","장애물 거리 20cm 이하"],
+      a:2, e:"1차(120cm→340ms), 2차(80cm→170ms), 3차(40cm→연속). 가까울수록 빨라집니다." },
+    { q:"에어백 가스 발생기에서 사용하는 팽창 가스는?",
+      o:["산소(O₂)","이산화탄소(CO₂)","질소(N₂)","아르곤(Ar)"],
+      a:2, e:"에어백은 질소(N₂)를 사용합니다. 급속 팽창이 가능하고 온도 변화가 거의 없어 안전합니다." }
+  ];
+
+  var answered = {};
+  var hinted = {};
+  var score = 0;
+
+  var LABELS = ['㉮','㉯','㉰','㉱'];
+
+  /* ── 퀴즈 렌더 ── */
+  function renderQuiz() {
+    var html = '';
+    QS.forEach(function(q, qi) {
+      html += '<div class="q-card">';
+      html += '<div class="q-num">문제 ' + (qi+1) + ' / ' + QS.length + '</div>';
+      html += '<div class="q-text">' + q.q + '</div>';
+      q.o.forEach(function(opt, oi) {
+        html += '<div class="q-opt" id="o'+qi+'_'+oi+'" onclick="pick('+qi+','+oi+')">'
+              + '<span>'+LABELS[oi]+'</span> '+opt+'</div>';
+      });
+      /* 정답 보기 버튼 (문제별) */
+      html += '<div class="q-footer">'
+            + '<button class="btn-hint" id="hint'+qi+'" onclick="revealOne('+qi+')">💡 정답 보기</button>'
+            + '</div>';
+      html += '<div class="q-exp" id="exp'+qi+'">' + q.e + '</div>';
+      html += '</div>';
+    });
+    document.getElementById('qbox').innerHTML = html;
+    document.getElementById('tot').textContent = QS.length;
+  }
+
+  /* ── 보기 선택 ── */
+  function pick(qi, oi) {
+    if (answered[qi] !== undefined) return;
+    answered[qi] = oi;
+    var q = QS[qi];
+    lockQuestion(qi, oi);
+    if (oi === q.a) { score++; document.getElementById('sc').textContent = score; }
+    document.getElementById('exp'+qi).classList.add('show');
+    /* 이미 힌트 버튼을 눌렀으면 숨김 */
+    markHintUsed(qi);
+  }
+
+  /* ── 보기 잠금 & 색 표시 ── */
+  function lockQuestion(qi, selectedOi) {
+    var q = QS[qi];
+    for (var i = 0; i < q.o.length; i++) {
+      var el = document.getElementById('o'+qi+'_'+i);
+      el.classList.add('disabled');
+      el.onclick = null;
+      if (i === q.a) el.classList.add('correct');
+      else if (selectedOi !== undefined && i === selectedOi) el.classList.add('wrong');
+    }
+  }
+
+  /* ── 문제별 정답 보기 버튼 ── */
+  function revealOne(qi) {
+    if (answered[qi] !== undefined) return; /* 이미 답한 문제 */
+    hinted[qi] = true;
+    answered[qi] = -1; /* 힌트로 공개 — 점수 없음 */
+    lockQuestion(qi, undefined); /* 정답만 초록으로 표시 */
+    document.getElementById('exp'+qi).classList.add('show');
+    markHintUsed(qi);
+  }
+
+  function markHintUsed(qi) {
+    var btn = document.getElementById('hint'+qi);
+    if (btn) { btn.classList.add('used'); btn.disabled = true; btn.textContent = '✓ 정답 확인됨'; }
+  }
+
+  /* ── 전체 정답 보기 ── */
+  function revealAll() {
+    QS.forEach(function(q, qi) {
+      if (answered[qi] !== undefined) return;
+      revealOne(qi);
+    });
+  }
+
+  /* ── 다시 풀기 ── */
+  function resetQuiz() {
+    answered = {};
+    hinted = {};
+    score = 0;
+    document.getElementById('sc').textContent = '0';
+    renderQuiz();
+  }
+
+  renderQuiz();
+</script>
+
+</body>
+</html>
