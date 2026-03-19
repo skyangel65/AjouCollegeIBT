@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>계기장치 완벽 정리 — 자동차정비기능사</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root {
+  --bg:       #080a0f;
+  --bg2:      #0d1018;
+  --bg3:      #131820;
+  --bg4:      #192030;
+  --border:   #1e2636;
+  --border2:  #2a3550;
+  --text:     #dce5f5;
+  --text2:    #8394b8;
+  --text3:    #49587a;
+
+  --violet:   #818cf8;
+  --violet-d: rgba(129,140,248,.14);
+  --blue:     #38bdf8;
+  --blue-d:   rgba(56,189,248,.13);
+  --green:    #4ade80;
+  --green-d:  rgba(74,222,128,.12);
+  --red:      #f87171;
+  --red-d:    rgba(248,113,113,.13);
+  --amber:    #fbbf24;
+  --amber-d:  rgba(251,191,36,.13);
+  --pink:     #f472b6;
+  --pink-d:   rgba(244,114,182,.13);
+  --teal:     #2dd4bf;
+  --teal-d:   rgba(45,212,191,.13);
+
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Noto Sans KR', sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.65}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(160deg,#080e1c 0%,#0c1428 60%,#080e1c 100%);
+  border-bottom:1px solid var(--border);
+  padding:2.2rem 1.5rem 1.8rem;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-90px;right:-60px;width:380px;height:380px;
+  background:radial-gradient(circle,rgba(129,140,248,.08) 0%,transparent 68%);
+  border-radius:50%;pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;bottom:-60px;left:-40px;width:260px;height:260px;
+  background:radial-gradient(circle,rgba(56,189,248,.07) 0%,transparent 70%);
+  border-radius:50%;pointer-events:none;
+}
+.hero-tag{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--violet);margin-bottom:10px;}
+.hero-tag::before{content:'◈';font-size:9px;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+.hero h1{font-size:23px;font-weight:900;color:#fff;margin-bottom:5px;letter-spacing:-.3px}
+.hero p{font-size:13px;color:var(--text2)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;border:1px solid;letter-spacing:.3px}
+.cv{color:var(--violet);border-color:var(--violet);background:var(--violet-d)}
+.cb{color:var(--blue);border-color:var(--blue);background:var(--blue-d)}
+.cg{color:var(--green);border-color:var(--green);background:var(--green-d)}
+.ca{color:var(--amber);border-color:var(--amber);background:var(--amber-d)}
+.cr{color:var(--red);border-color:var(--red);background:var(--red-d)}
+.ct{color:var(--teal);border-color:var(--teal);background:var(--teal-d)}
+
+/* ── TABS ── */
+.tabs{position:sticky;top:0;z-index:100;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;overflow-x:auto;gap:0}
+.tabs::-webkit-scrollbar{height:0}
+.tab{padding:13px 16px;font-size:13px;font-weight:500;color:var(--text3);background:none;border:none;border-bottom:2.5px solid transparent;cursor:pointer;white-space:nowrap;transition:all .2s}
+.tab:hover{color:var(--text2)}
+.tab.on{color:var(--violet);border-bottom-color:var(--violet)}
+
+/* ── SECTIONS ── */
+.sec{display:none;padding:1.5rem;max-width:980px}
+.sec.on{display:block}
+
+/* ── CARDS ── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.card-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.card-ttl{font-size:15px;font-weight:700;color:#fff}
+
+/* ── BADGES ── */
+.bdg{font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px}
+.bv{background:var(--violet-d);color:var(--violet)}
+.bb{background:var(--blue-d);color:var(--blue)}
+.bg{background:var(--green-d);color:var(--green)}
+.br{background:var(--red-d);color:var(--red)}
+.ba{background:var(--amber-d);color:var(--amber)}
+.bt{background:var(--teal-d);color:var(--teal)}
+.bp{background:var(--pink-d);color:var(--pink)}
+
+/* ── GRID ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr}}
+@media(max-width:820px){.g3{grid-template-columns:1fr 1fr}.g4{grid-template-columns:1fr 1fr}}
+
+/* ── MINI CARD ── */
+.mc{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px}
+.mc-lbl{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
+.mc-val{font-size:20px;font-weight:900;font-family:var(--mono);line-height:1.3}
+.mc-sub{font-size:12px;color:var(--text2);margin-top:5px;line-height:1.55}
+
+/* ── FORMULA ── */
+.fml{background:var(--bg3);border-left:3px solid var(--violet);border-radius:0 8px 8px 0;padding:11px 15px;margin:8px 0;font-family:var(--mono);font-size:13px;color:var(--violet)}
+.fml small{display:block;font-family:var(--sans);font-size:12px;color:var(--text2);margin-top:5px}
+
+/* ── LIST ── */
+.ul{list-style:none;padding:0}
+.ul li{padding:4px 0;font-size:13px;color:var(--text2);display:flex;align-items:flex-start;gap:8px}
+.ul li::before{content:'›';color:var(--violet);font-weight:700;flex-shrink:0;margin-top:1px}
+.ul li b{color:var(--text)}
+.ul li .hl{color:var(--red);font-weight:700}
+
+/* ── ALERT BOXES ── */
+.abox{border-radius:8px;padding:10px 14px;font-size:13px;margin:8px 0;border:1px solid}
+.a-v{background:var(--violet-d);border-color:rgba(129,140,248,.3);color:var(--violet)}
+.a-b{background:var(--blue-d);border-color:rgba(56,189,248,.3);color:var(--blue)}
+.a-g{background:var(--green-d);border-color:rgba(74,222,128,.3);color:var(--green)}
+.a-r{background:var(--red-d);border-color:rgba(248,113,113,.3);color:var(--red)}
+.a-a{background:var(--amber-d);border-color:rgba(251,191,36,.3);color:var(--amber)}
+.a-t{background:var(--teal-d);border-color:rgba(45,212,191,.3);color:var(--teal)}
+
+/* ── TABLE ── */
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+th{text-align:left;padding:8px 12px;background:var(--bg3);color:var(--text2);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+td b{color:var(--red)}
+td .hv{color:var(--violet);font-weight:700}
+td .hb{color:var(--blue);font-weight:700}
+td .ha{color:var(--amber);font-weight:700}
+td .ht{color:var(--teal);font-weight:700}
+
+/* ── STITLE ── */
+.stl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin:22px 0 10px;display:flex;align-items:center;gap:8px}
+.stl::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── FREQ BAR ── */
+.freq-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.freq-name{font-size:13px;color:var(--text);min-width:200px;font-weight:500}
+.freq-bg{flex:1;height:7px;background:var(--bg3);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.freq-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--violet),var(--blue))}
+.freq-star{font-size:12px;color:var(--amber);min-width:75px;text-align:right}
+
+/* ── SENSOR CARD ── */
+.sensor-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;transition:all .25s}
+.sensor-card:hover{border-color:var(--violet);transform:translateY(-2px)}
+.sensor-gage{font-size:13px;color:var(--text2);margin-bottom:6px}
+.sensor-arrow{font-size:20px;color:var(--violet);margin:4px 0}
+.sensor-name{font-size:16px;font-weight:900;font-family:var(--mono);color:var(--violet)}
+.sensor-full{font-size:11px;color:var(--text3);margin-top:4px}
+
+/* ── TIMELINE ── */
+.timeline{padding:8px 0}
+.tl-item{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
+.tl-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:2px}
+.tl-content{flex:1;padding-top:6px}
+.tl-time{font-size:12px;font-family:var(--mono);color:var(--amber);font-weight:700}
+.tl-desc{font-size:13px;color:var(--text2)}
+
+/* ── WIRING COLOR ── */
+.color-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
+.color-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center}
+.color-dot{width:24px;height:24px;border-radius:50%;margin:0 auto 6px;border:2px solid rgba(255,255,255,.15)}
+.color-code{font-size:14px;font-weight:900;font-family:var(--mono)}
+.color-name{font-size:11px;color:var(--text2);margin-top:3px}
+.color-star{font-size:10px;color:var(--amber)}
+@media(max-width:640px){.color-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ── TRAP TABLE ── */
+.trap-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.trap-item{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);font-size:13px}
+.trap-item:last-child{border-bottom:none}
+.trap-num{min-width:24px;height:24px;border-radius:50%;background:var(--red-d);border:1px solid rgba(248,113,113,.3);color:var(--red);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.trap-q{color:var(--text2);flex:1}
+.trap-a{color:var(--amber);font-weight:700;min-width:150px;text-align:right;font-size:12px}
+
+/* ── QUIZ ── */
+.qc{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color .2s}
+.qc:hover{border-color:var(--border2)}
+.qc.open{border-color:var(--violet)}
+.qc-q{font-size:13px;color:var(--text);line-height:1.75}
+.qtag{font-size:11px;color:var(--text3);float:right;margin-left:8px}
+.qc-ans{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.qc.open .qc-ans{display:block}
+.ans-lbl{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--green);margin-bottom:6px}
+.ans-txt{font-size:13px;color:var(--text2);line-height:1.7}
+.ans-key{color:var(--amber);font-weight:700}
+
+/* ── MOCK ── */
+.pb-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:20px}
+.pb-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pb-lbl{font-size:13px;color:var(--text2)}
+.pb-sc{font-size:22px;font-weight:900;font-family:var(--mono);color:var(--amber)}
+.pb-bg{height:6px;background:var(--bg);border-radius:3px;overflow:hidden}
+.pb-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--violet),var(--blue));transition:width .5s}
+
+.mq{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.mq-num{font-size:11px;font-weight:700;color:var(--violet);letter-spacing:1px;margin-bottom:8px}
+.mq-text{font-size:14px;font-weight:600;color:#fff;margin-bottom:14px;line-height:1.7}
+.opts{list-style:none;padding:0}
+.opts li{margin-bottom:8px}
+.obtn{width:100%;text-align:left;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.obtn:hover:not(:disabled){background:var(--bg4);border-color:var(--border2);color:var(--text)}
+.obtn.ok{background:var(--green-d);border-color:var(--green);color:var(--green)}
+.obtn.no{background:var(--red-d);border-color:var(--red);color:var(--red)}
+.obtn:disabled{cursor:default}
+.exp{display:none;margin-top:12px;padding:12px;background:var(--bg3);border-radius:8px;font-size:13px;color:var(--text2);line-height:1.7;border-left:3px solid var(--violet)}
+.exp.show{display:block}
+.exp-lbl{font-size:11px;font-weight:700;color:var(--violet);margin-bottom:6px;letter-spacing:1px}
+
+/* ── RESULT ── */
+.res-box{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border);border-radius:16px;padding:28px;text-align:center;margin-top:20px;display:none}
+.res-box.show{display:block}
+.res-sc{font-size:56px;font-weight:900;font-family:var(--mono);margin-bottom:6px}
+.res-lbl{font-size:14px;color:var(--text2)}
+.res-msg{font-size:16px;font-weight:700;margin-top:14px;color:var(--text)}
+.retry-btn{margin-top:18px;padding:11px 30px;border-radius:8px;background:var(--violet-d);border:1px solid var(--violet);color:var(--violet);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.retry-btn:hover{background:var(--violet);color:#fff}
+
+/* ── MEMORY ── */
+.mem-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .3s;min-height:130px;display:flex;flex-direction:column;justify-content:center}
+.mem-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.35);border-color:var(--violet)}
+.mem-kw{font-size:20px;font-weight:900;font-family:var(--mono);color:var(--violet);margin-bottom:7px;line-height:1.3}
+.mem-hint{font-size:12px;color:var(--text3)}
+.mem-back{display:none}
+.mem-card.flip .mem-front{display:none}
+.mem-card.flip .mem-back{display:block}
+.mem-ans{font-size:13px;color:var(--text);line-height:1.7}
+
+/* ── CALC ── */
+.calc-box{background:var(--bg3);border-radius:10px;padding:16px;margin-top:10px}
+.cr-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.cr-row label{font-size:12px;color:var(--text2);min-width:110px}
+.ci{width:100px;padding:7px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;font-family:var(--mono)}
+.ci:focus{outline:none;border-color:var(--violet)}
+.cbtn{padding:7px 18px;border-radius:6px;background:var(--violet-d);border:1px solid var(--violet);color:var(--violet);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.cbtn:hover{background:var(--violet);color:#fff}
+.cres{font-size:18px;font-weight:700;font-family:var(--mono);color:var(--green);margin-top:10px;line-height:1.6}
+.cunit{font-size:12px;color:var(--text3)}
+
+hr.div{border:none;border-top:1px solid var(--border);margin:20px 0}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-tag">자동차정비기능사 전기전자</div>
+  <h1>🔬 계기장치 완벽 정리</h1>
+  <p>계기류 · 등화장치 · 배선 · 안전편의장치 · 기출 분석 · 모의고사 20문항</p>
+  <div class="chips">
+    <span class="chip cv">속도계·수온계·유압계</span>
+    <span class="chip cb">전조등·조도 계산</span>
+    <span class="chip cg">배선 색상 암기</span>
+    <span class="chip ca">와이퍼·에어백</span>
+    <span class="chip cr">함정 TOP 10</span>
+    <span class="chip ct">센서 연결 완전 암기</span>
+  </div>
+</div>
+
+<!-- ── TABS ── -->
+<div class="tabs">
+  <button class="tab on"  onclick="showTab('theory',this)">📚 핵심 이론</button>
+  <button class="tab"     onclick="showTab('light', this)">💡 등화장치</button>
+  <button class="tab"     onclick="showTab('wire',  this)">🔌 배선·회로</button>
+  <button class="tab"     onclick="showTab('safety',this)">🛡️ 안전·편의</button>
+  <button class="tab"     onclick="showTab('calc',  this)">🔢 계산 공식</button>
+  <button class="tab"     onclick="showTab('trap',  this)">⚠️ 함정 분석</button>
+  <button class="tab"     onclick="showTab('past',  this)">📄 기출 분석</button>
+  <button class="tab"     onclick="showTab('mock',  this)">✏️ 모의고사</button>
+  <button class="tab"     onclick="showTab('mem',   this)">🧠 암기 카드</button>
+</div>
+
+<!-- ══════════════════════════════
+     TAB 1 : 핵심 이론 (계기류)
+══════════════════════════════ -->
+<div id="s-theory" class="sec on">
+
+  <!-- 출제 빈도 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">📊 계기장치 단원 출제 빈도</div></div>
+    <div class="freq-row"><span class="freq-name">배선 색상 약어 (Gr 등)</span><div class="freq-bg"><div class="freq-fill" style="width:97%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-name">계기 고장 → 관련 센서</span><div class="freq-bg"><div class="freq-fill" style="width:95%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-name">전조등 종류 비교</span><div class="freq-bg"><div class="freq-fill" style="width:92%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-name">조도 계산 (공식)</span><div class="freq-bg"><div class="freq-fill" style="width:88%"></div></div><span class="freq-star">★★★★☆</span></div>
+    <div class="freq-row"><span class="freq-name">오일 경고등 작동 원리</span><div class="freq-bg"><div class="freq-fill" style="width:85%"></div></div><span class="freq-star">★★★★☆</span></div>
+    <div class="freq-row"><span class="freq-name">퓨즈 역할 / 와이퍼 3요소</span><div class="freq-bg"><div class="freq-fill" style="width:80%"></div></div><span class="freq-star">★★★★☆</span></div>
+    <div class="freq-row"><span class="freq-name">맴돌이 전류 계기 (속도계)</span><div class="freq-bg"><div class="freq-fill" style="width:75%"></div></div><span class="freq-star">★★★☆☆</span></div>
+    <div class="freq-row"><span class="freq-name">에어백 작동 시간</span><div class="freq-bg"><div class="freq-fill" style="width:65%"></div></div><span class="freq-star">★★★☆☆</span></div>
+  </div>
+
+  <!-- 센서 연결 (최다 출제) -->
+  <p class="stl">① 계기 고장 → 점검 센서 (최다 출제!)</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">계기 미작동 시 점검 센서</div><span class="bdg br">★★★★★ 반드시 암기</span></div>
+    <div class="g3">
+      <div class="sensor-card">
+        <div class="sensor-gage">🚗 속도계 미작동</div>
+        <div class="sensor-arrow">↓</div>
+        <div class="sensor-name">VSS</div>
+        <div class="sensor-full">Vehicle Speed Sensor<br>차량 속도 센서</div>
+      </div>
+      <div class="sensor-card">
+        <div class="sensor-gage">🌡️ 수온계 미작동</div>
+        <div class="sensor-arrow">↓</div>
+        <div class="sensor-name">CTS</div>
+        <div class="sensor-full">Coolant Temperature Sensor<br>냉각수 온도 센서</div>
+      </div>
+      <div class="sensor-card">
+        <div class="sensor-gage">⚙️ 회전계 미작동</div>
+        <div class="sensor-arrow">↓</div>
+        <div class="sensor-name">CPS</div>
+        <div class="sensor-full">Crankshaft Position Sensor<br>크랭크축 위치 센서</div>
+      </div>
+    </div>
+    <div class="abox a-r" style="margin-top:12px">
+      ⚠️ <b>오답 함정:</b> 속도계→CPS(✗) / 회전계→VSS(✗) / 수온계→MAP·AFS·CPS(✗)
+    </div>
+  </div>
+
+  <!-- 계기 작동 원리 -->
+  <p class="stl">② 계기별 작동 원리</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">계기 방식별 원리 완전 정리</div><span class="bdg bv">원리 암기</span></div>
+    <table>
+      <tr><th>계기</th><th>방식</th><th>작동 원리</th><th>중요도</th></tr>
+      <tr>
+        <td rowspan="2"><b>속도계</b></td>
+        <td class="hv">자석식</td>
+        <td>자석 회전 → <b>맴돌이 전류</b> 발생 → 영구자석 상호작용 → 스프링과 평형 → 지침 이동</td>
+        <td class="ha">★★★</td>
+      </tr>
+      <tr>
+        <td>디지털식</td>
+        <td>VSS → 전기신호 → ECU 계산 → 디지털 표시</td>
+        <td>★</td>
+      </tr>
+      <tr>
+        <td><b>수온계</b></td>
+        <td>바이메탈식</td>
+        <td>서미스터(NTC): 온도↑ → 저항↓ → 전류↑ → 바이메탈 변형↑ → <b>H(고온)쪽</b> 지시</td>
+        <td class="ha">★★</td>
+      </tr>
+      <tr>
+        <td><b>유압계<br>(오일)</b></td>
+        <td>인디케이터식</td>
+        <td>유압 낮음 → 다이어프램 수축 → 접점 닫힘 → 경고등 <b>점등</b></td>
+        <td class="ha">★★★</td>
+      </tr>
+      <tr>
+        <td rowspan="2"><b>연료계</b></td>
+        <td>바이메탈식</td>
+        <td>연료 가득(F) → 플로트 올라감 → 저항↓ → 전류↑ → 바이메탈 변형↑ → <b>F쪽</b> 지시</td>
+        <td class="ha">★★</td>
+      </tr>
+      <tr>
+        <td class="hv">연료면 표시기식</td>
+        <td><b>계기식이 아님!</b> 투명한 창으로 연료를 직접 눈으로 보는 방식 → 기출 오답 선택지</td>
+        <td class="ha">★★★</td>
+      </tr>
+      <tr>
+        <td><b>공통</b></td>
+        <td>밸런싱 코일식</td>
+        <td>2개 코일(L1·L2)의 전류 차이 → 자력 차이 → 가동 철편 당김 → 지침 위치 결정</td>
+        <td>★★</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 타코미터 -->
+  <p class="stl">③ 타코미터 (회전계) — 가솔린 vs 디젤</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">가솔린 엔진</div><span class="bdg bb">점화코일 신호</span></div>
+      <ul class="ul">
+        <li>점화코일 <b>(-)단자</b> 전압 검출</li>
+        <li>전압 펄스 → 전류 변환</li>
+        <li>가동 선륜형 미터로 표시</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">디젤 엔진 (독립형)</div><span class="bdg bt">캠 픽업 신호</span></div>
+      <ul class="ul">
+        <li>분사 펌프 <b>캠 부근 픽업</b></li>
+        <li>회전 시 교류전압(펄스) 발생</li>
+        <li>전자회로에서 rpm으로 변환</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════
+     TAB 2 : 등화장치
+══════════════════════════════ -->
+<div id="s-light" class="sec">
+
+  <!-- 전조등 -->
+  <p class="stl">① 전조등(헤드라이트) 종류 비교</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">전조등 종류 완전 비교</div><span class="bdg br">★★★★★ 최빈출</span></div>
+    <table>
+      <tr><th>종류</th><th>구조</th><th>특징</th><th>비고</th></tr>
+      <tr>
+        <td><b class="hv">실드 빔형</b></td>
+        <td>렌즈 + 반사경 + 필라멘트 <b>일체형</b></td>
+        <td>수명 길고 광도 안정, 내구성 우수</td>
+        <td>1개 이상 → <b>전체 교환</b></td>
+      </tr>
+      <tr>
+        <td>세미 실드 빔형</td>
+        <td>렌즈+반사경 일체 / 전구 분리 가능</td>
+        <td>전구만 교환 가능 → 유지 비용↓</td>
+        <td>먼지·습기 유입 → 광도 변화</td>
+      </tr>
+      <tr>
+        <td><b>할로겐</b></td>
+        <td>텅스텐 필라멘트 + 할로겐 가스</td>
+        <td>재생순환반응(halogen cycle)으로 수명 연장, 60W/55W</td>
+        <td>가장 일반적</td>
+      </tr>
+      <tr>
+        <td><b class="hv">HID 램프</b></td>
+        <td>제논(Xenon) 가스 + 2개 전극, <b>필라멘트 없음</b></td>
+        <td>고휘도, 소비전력↓, 수명↑</td>
+        <td>시동 전압 <b>20,000V</b></td>
+      </tr>
+    </table>
+    <div class="abox a-r" style="margin-top:10px">
+      ⚠️ <b>함정:</b> "실드 빔형은 전구만 교환 가능하다?" → <b>NO!</b> 렌즈·반사경·필라멘트 일체형 → 전체 교환<br>
+      "HID 램프는 필라멘트로 발광한다?" → <b>NO!</b> 방전(아크) 방식 → 필라멘트 없음
+    </div>
+  </div>
+
+  <!-- 반사경 & 조도 -->
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">반사경 재질 비교</div><span class="bdg ba">수치 암기</span></div>
+      <table>
+        <tr><th>재질</th><th>반사율</th><th>내구성</th></tr>
+        <tr><td><b>알루미늄</b></td><td><b class="hv">90%</b></td><td>보통 (현재 주류)</td></tr>
+        <tr><td>은(Silver)</td><td>92%</td><td>약함 (부식)</td></tr>
+        <tr><td>크롬</td><td>65%</td><td>강함</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">조도 계산 공식</div><span class="bdg br">★★★ 계산 출제</span></div>
+      <div class="fml">
+        조도[Lux] = 광도[cd] ÷ 거리²[m²]
+        <small>예) 25,000cd, 100m → 25,000 ÷ 100² = 25,000 ÷ 10,000 = <b>2.5 Lux</b></small>
+      </div>
+      <div class="abox a-a">💡 이 계산 문제 실제 기출에서 <b>2회</b> 출제됨!</div>
+    </div>
+  </div>
+
+  <!-- 방향지시등·미등·제동등 -->
+  <p class="stl">② 방향지시등 / 미등 / 제동등</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">등화장치 핵심 수치</div><span class="bdg bv">수치 암기</span></div>
+    <div class="g3">
+      <div class="mc">
+        <div class="mc-lbl">방향지시등 점멸</div>
+        <div class="mc-val" style="color:var(--amber)">60~120</div>
+        <div class="mc-sub">회/분. 현재 트랜지스터식 사용</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">제동등 밝기</div>
+        <div class="mc-val" style="color:var(--red)">3배↑</div>
+        <div class="mc-sub">미등의 3배 이상 밝아야 함</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">미등 회로 결선</div>
+        <div class="mc-val" style="color:var(--blue)">병렬</div>
+        <div class="mc-sub">차폭등+번호판등+계기판 조명</div>
+      </div>
+    </div>
+    <div class="abox a-v" style="margin-top:10px">
+      💡 <b>미등 회로 구성:</b> 차폭등(앞·뒤) + 번호판등 + 계기판 조명등 → 모두 병렬 연결<br>
+      &nbsp;&nbsp;&nbsp; 방향지시등이 너무 빠르거나 느리면 → 전구 단선 또는 릴레이 불량 의심
+    </div>
+  </div>
+
+  <!-- 수분감지 경고등 -->
+  <p class="stl">③ 경고등 종류 구분</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">가솔린 전용 경고등</div><span class="bdg br">가솔린</span></div>
+      <ul class="ul">
+        <li><b>엔진 오일 경고등</b> — 유압 낮을 때 점등</li>
+        <li><b>충전 경고등</b> — 발전기 이상</li>
+        <li><b>연료 잔량 경고등</b></li>
+        <li><b>냉각수 온도 경고등</b></li>
+        <li>엔진 체크 경고등</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">디젤 전용 경고등</div><span class="bdg ba">디젤만 해당</span></div>
+      <ul class="ul">
+        <li><b class="hl">연료 수분감지 경고등</b> — 디젤 전용!</li>
+        <li><b>예열 플러그 경고등</b></li>
+        <li><b>DPF 경고등</b> (매연 필터)</li>
+        <li>요소수(AdBlue) 경고등</li>
+      </ul>
+      <div class="abox a-r" style="margin-top:8px">⚠️ <b>함정:</b> "가솔린 차량에도 수분감지 경고등이 있다?" → <b>NO!</b> 디젤 전용</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════
+     TAB 3 : 배선·회로
+══════════════════════════════ -->
+<div id="s-wire" class="sec">
+
+  <!-- 배선 색상 -->
+  <p class="stl">① 배선 색상 약어 — 최다 출제!</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">배선 색상 약어 완전 암기</div><span class="bdg br">★★★★★ 필수</span></div>
+    <div class="color-grid">
+      <div class="color-item">
+        <div class="color-dot" style="background:#222"></div>
+        <div class="color-code" style="color:#aaa">B</div>
+        <div class="color-name">검정 (Black)</div>
+      </div>
+      <div class="color-item">
+        <div class="color-dot" style="background:#e53"></div>
+        <div class="color-code" style="color:var(--red)">R</div>
+        <div class="color-name">빨강 (Red)</div>
+      </div>
+      <div class="color-item">
+        <div class="color-dot" style="background:#ffd700"></div>
+        <div class="color-code" style="color:var(--amber)">Y <span class="color-star">★★★</span></div>
+        <div class="color-name">노랑 (Yellow)</div>
+      </div>
+      <div class="color-item">
+        <div class="color-dot" style="background:#2d9"></div>
+        <div class="color-code" style="color:var(--green)">G</div>
+        <div class="color-name">초록 (Green)</div>
+      </div>
+      <div class="color-item">
+        <div class="color-dot" style="background:#fff"></div>
+        <div class="color-code" style="color:#ccc">W</div>
+        <div class="color-name">흰색 (White)</div>
+      </div>
+      <div class="color-item">
+        <div class="color-dot" style="background:#38bdf8"></div>
+        <div class="color-code" style="color:var(--blue)">L</div>
+        <div class="color-name">파랑 (Light blue)</div>
+      </div>
+      <div class="color-item" style="border-color:var(--red)">
+        <div class="color-dot" style="background:#888"></div>
+        <div class="color-code" style="color:var(--amber)">Gr <span class="color-star">★★★</span></div>
+        <div class="color-name">회색 (Gray)</div>
+        <div style="font-size:10px;color:var(--red);margin-top:4px">보라색(×) 함정!</div>
+      </div>
+      <div class="color-item">
+        <div class="color-dot" style="background:#f97316"></div>
+        <div class="color-code" style="color:#f97316">O</div>
+        <div class="color-name">오렌지 (Orange)</div>
+      </div>
+      <div class="color-item">
+        <div class="color-dot" style="background:#92400e"></div>
+        <div class="color-code" style="color:#d97706">Br</div>
+        <div class="color-name">갈색 (Brown)</div>
+      </div>
+    </div>
+    <div class="abox a-r" style="margin-top:12px">
+      ⚠️ <b>최대 함정: Gr = 보라(×) → 회색(○)</b><br>
+      📌 표기 예: <b>1.25 Y/B</b> = 단면적 1.25mm², 노란 바탕에 검정 줄무늬
+    </div>
+  </div>
+
+  <!-- 배선 방식 -->
+  <p class="stl">② 배선 방식 — 단선식 vs 복선식</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">단선식</div><span class="bdg bb">소전류 회로</span></div>
+      <ul class="ul">
+        <li>(+)전원선만 사용</li>
+        <li>(-)는 <b>차체를 접지</b>로 이용</li>
+        <li>소전류 회로 (계기등, 신호등 등)</li>
+        <li>배선 수 감소 → 경량화</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">복선식</div><span class="bdg br">대전류 회로</span></div>
+      <ul class="ul">
+        <li>(+)(-)전원선 <b>모두 사용</b></li>
+        <li><b>전조등</b> 등 대전류 회로에 적용</li>
+        <li>접촉 불량 방지</li>
+        <li>전압 강하 최소화</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 퓨즈 & 릴레이 -->
+  <p class="stl">③ 퓨즈 & 릴레이</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">퓨즈 역할</div><span class="bdg bv">★★★ 자주 출제</span></div>
+      <div class="abox a-v">
+        📌 <b>퓨즈 역할:</b> 과대 전류가 흐를 때 회로를 차단하여 전기 부품과 배선 보호
+      </div>
+      <ul class="ul" style="margin-top:8px">
+        <li>정격전류 초과 시 용단(녹아 끊김)</li>
+        <li>퓨즈 교환 시 <b>동일 용량</b> 사용</li>
+        <li>더 큰 용량 사용 → 화재 위험!</li>
+        <li>종류: 유리관형, 플레이트형(블레이드형)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">IG1 / IG2 구분 이유</div><span class="bdg ba">★★ 출제</span></div>
+      <div class="abox a-a">
+        💡 IG2를 추가로 구분하는 이유:<br>
+        <b>ST(시동) 시 불필요한 전원을 차단</b>하여<br>시동 모터에 전력을 집중 → 시동 원활
+      </div>
+      <ul class="ul" style="margin-top:8px">
+        <li>IG1: 점화 스위치 ON 시 공급</li>
+        <li>IG2: 일부 장치에만 공급 (ST 시 차단)</li>
+        <li>ST 시 라디오, 와이퍼 등 차단</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════
+     TAB 4 : 안전·편의장치
+══════════════════════════════ -->
+<div id="s-safety" class="sec">
+
+  <!-- 와이퍼 -->
+  <p class="stl">① 와이퍼 장치</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">와이퍼 3요소</div><span class="bdg br">★★★ 자주 출제 — 아닌 것 유형</span></div>
+    <div class="g3">
+      <div class="mc">
+        <div class="mc-lbl">요소 ①</div>
+        <div class="mc-val" style="color:var(--violet);font-size:16px">와이퍼 전동기</div>
+        <div class="mc-sub">페라이트 자석식 (브러시 3개)<br>복권식 전동기 사용</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">요소 ②</div>
+        <div class="mc-val" style="color:var(--violet);font-size:16px">링크 기구</div>
+        <div class="mc-sub">전동기의 회전운동을<br>와이퍼 왕복운동으로 변환</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">요소 ③</div>
+        <div class="mc-val" style="color:var(--violet);font-size:16px">와이퍼 블레이드</div>
+        <div class="mc-sub">유리면에 직접 접촉하여<br>물기·이물질 제거</div>
+      </div>
+    </div>
+    <div class="abox a-r" style="margin-top:12px">
+      ⚠️ <b>함정:</b> "보호 상자"는 와이퍼 3요소가 아님! 이 문제 실제 기출에서 반복 출제됨.
+    </div>
+    <div class="abox a-b" style="margin-top:6px">
+      💡 와이퍼 전동기 특징: <b>페라이트 자석식</b> (브러시 3개, 저·고속 변환) / 스위치 OFF → <b>자동 정위치 정지</b>
+    </div>
+  </div>
+
+  <!-- 후진 경보 장치 -->
+  <p class="stl">② 후진 경보 장치 (BWS)</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">BWS 경보 단계별 거리</div><span class="bdg ba">수치 암기</span></div>
+    <div class="g3">
+      <div class="mc">
+        <div class="mc-lbl">1차 경보</div>
+        <div class="mc-val" style="color:var(--green)">120cm↓</div>
+        <div class="mc-sub">간격: 340ms<br>삐— 삐— 삐—</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">2차 경보</div>
+        <div class="mc-val" style="color:var(--amber)">80cm↓</div>
+        <div class="mc-sub">간격: 170ms<br>삐삐삐 (빠름)</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">3차 경보</div>
+        <div class="mc-val" style="color:var(--red)">40cm↓</div>
+        <div class="mc-sub">간격: <b>연속음</b><br>삐이이이이이</div>
+      </div>
+    </div>
+    <div class="fml" style="margin-top:10px">
+      거리 D = T × V / 2
+      <small>T=초음파 왕복 시간, V=음속(340m/s) / 2로 나누는 이유: 왕복이므로 편도 거리</small>
+    </div>
+    <div class="abox a-v" style="margin-top:8px">💡 구성: 컨트롤 유닛 + 초음파 센서 4개 + 경보기(부저)</div>
+  </div>
+
+  <!-- 에어백 -->
+  <p class="stl">③ 에어백 (SRS)</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">에어백 작동 타임라인</div><span class="bdg br">시간 순서 암기</span></div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--blue-d);border:1px solid var(--blue);color:var(--blue)">1</div>
+        <div class="tl-content">
+          <div class="tl-time">충돌 후 0.15초</div>
+          <div class="tl-desc">가스 발생기(인플레이터) <b>작동 시작</b></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--amber-d);border:1px solid var(--amber);color:var(--amber)">2</div>
+        <div class="tl-content">
+          <div class="tl-time">충돌 후 0.2초</div>
+          <div class="tl-desc">에어백 커버 찢어짐 → <b>팽창 시작</b></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--red-d);border:1px solid var(--red);color:var(--red)">3</div>
+        <div class="tl-content">
+          <div class="tl-time">충돌 후 0.35~0.4초</div>
+          <div class="tl-desc"><b>에어백 완전 팽창</b> 완료</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--violet-d);border:1px solid var(--violet);color:var(--violet)">4</div>
+        <div class="tl-content">
+          <div class="tl-time">충돌 후 0.4~0.8초</div>
+          <div class="tl-desc">운전자 에어백에 충돌 + <b>가스 배출</b> (완충)</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--green-d);border:1px solid var(--green);color:var(--green)">5</div>
+        <div class="tl-content">
+          <div class="tl-time">충돌 후 1~1.2초</div>
+          <div class="tl-desc">가스 완전 방출, <b>정상 시야 확보</b></div>
+        </div>
+      </div>
+    </div>
+    <div class="abox a-b" style="margin-top:8px">
+      💡 팽창 가스: <b>질소(N₂)</b> | 에어백 용량: 약 50~60ℓ | SRS = 안전벨트 보조장치(Supplemental Restraint System)
+    </div>
+  </div>
+
+  <!-- ETACS -->
+  <p class="stl">④ ETACS (전자 타이머 & 자동 제어 시스템)</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">ETACS 제어 기능</div><span class="bdg bt">타이머 제어</span></div>
+    <div class="g3">
+      <div class="mc">
+        <div class="mc-lbl">뒷유리 열선</div>
+        <div class="mc-val" style="color:var(--teal)">15분</div>
+        <div class="mc-sub">자동 작동 후 15분 경과 시 자동 OFF</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">파워 윈도우</div>
+        <div class="mc-val" style="color:var(--blue)">30초</div>
+        <div class="mc-sub">IG OFF 후 30초간 파워 윈도우 작동 유지</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">룸 램프 소등</div>
+        <div class="mc-val" style="color:var(--amber)">5~6초</div>
+        <div class="mc-sub">문 닫힘 후 5~6초 지연 소등</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TPMS -->
+  <p class="stl">⑤ TPMS (타이어 공기압 경보장치)</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">TPMS 경고 기준</div><span class="bdg bv">수치 암기</span></div>
+      <div class="g2" style="gap:8px">
+        <div class="mc">
+          <div class="mc-lbl">경고등 점등</div>
+          <div class="mc-val" style="color:var(--red)">26~27</div>
+          <div class="mc-sub">psi 이하 시 경고등 점등</div>
+        </div>
+        <div class="mc">
+          <div class="mc-lbl">경고등 소등</div>
+          <div class="mc-val" style="color:var(--green)">30~31</div>
+          <div class="mc-sub">psi 이상 시 경고등 소등</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">TPMS 센서 사양</div><span class="bdg bb">스펙 암기</span></div>
+      <ul class="ul">
+        <li>센서 무게: 약 <b>40g</b></li>
+        <li>배터리 수명: 약 <b>10년</b></li>
+        <li>각 타이어 휠 안쪽에 장착</li>
+        <li>무선으로 ECU에 신호 전송</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════
+     TAB 5 : 계산 공식
+══════════════════════════════ -->
+<div id="s-calc" class="sec">
+
+  <!-- 조도 계산기 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">🧮 조도 계산기</div><span class="bdg br">★★★ 계산 출제</span></div>
+    <div class="fml">
+      조도 [Lux] = 광도 [cd] ÷ 거리² [m²]
+      <small>E = I / d²  (E:조도, I:광도[cd], d:거리[m])</small>
+    </div>
+    <div class="calc-box">
+      <div class="cr-row"><label>광도 (cd)</label><input class="ci" type="number" id="lux-i" value="25000"> <span class="cunit">cd (칸델라)</span></div>
+      <div class="cr-row"><label>거리 (m)</label><input class="ci" type="number" id="lux-d" value="100"> <span class="cunit">m</span></div>
+      <button class="cbtn" onclick="calcLux()">계산하기</button>
+      <div class="cres" id="lux-res">—</div>
+    </div>
+    <div class="abox a-a" style="margin-top:10px">
+      💡 기출 예제: 25,000cd, 100m → <b>2.5 Lux</b><br>
+      &nbsp;&nbsp;&nbsp; 40,000cd, 200m → 40,000 ÷ 40,000 = <b>1.0 Lux</b>
+    </div>
+  </div>
+
+  <!-- BWS 거리 계산기 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">🧮 BWS 초음파 거리 계산기</div><span class="bdg ba">계산 문제</span></div>
+    <div class="fml">
+      거리 D [m] = T [s] × V [m/s] ÷ 2
+      <small>T=왕복 시간, V=음속(340m/s), ÷2=편도 거리</small>
+    </div>
+    <div class="calc-box">
+      <div class="cr-row"><label>왕복 시간 T</label><input class="ci" type="number" id="bws-t" value="0.005" step="0.001"> <span class="cunit">초 (s)</span></div>
+      <div class="cr-row"><label>음속 V</label><input class="ci" type="number" id="bws-v" value="340"> <span class="cunit">m/s</span></div>
+      <button class="cbtn" onclick="calcBWS()">계산하기</button>
+      <div class="cres" id="bws-res">—</div>
+    </div>
+  </div>
+
+  <!-- 핵심 수치 정리 -->
+  <p class="stl">핵심 수치 총정리</p>
+  <div class="g4">
+    <div class="mc"><div class="mc-lbl">방향지시등 점멸</div><div class="mc-val" style="color:var(--amber)">60~120</div><div class="mc-sub">회/분</div></div>
+    <div class="mc"><div class="mc-lbl">제동등 밝기</div><div class="mc-val" style="color:var(--red)">3배↑</div><div class="mc-sub">미등 대비</div></div>
+    <div class="mc"><div class="mc-lbl">알루미늄 반사율</div><div class="mc-val" style="color:var(--blue)">90%</div><div class="mc-sub">전조등 반사경</div></div>
+    <div class="mc"><div class="mc-lbl">HID 시동전압</div><div class="mc-val" style="color:var(--violet)">20,000V</div><div class="mc-sub">제논 방전</div></div>
+    <div class="mc"><div class="mc-lbl">에어백 완전팽창</div><div class="mc-val" style="color:var(--red)">0.35~<br>0.4초</div><div class="mc-sub">충돌 후</div></div>
+    <div class="mc"><div class="mc-lbl">BWS 연속음</div><div class="mc-val" style="color:var(--red)">40cm↓</div><div class="mc-sub">3차 경보</div></div>
+    <div class="mc"><div class="mc-lbl">ETACS 열선</div><div class="mc-val" style="color:var(--teal)">15분</div><div class="mc-sub">자동 차단</div></div>
+    <div class="mc"><div class="mc-lbl">TPMS 경고 점등</div><div class="mc-val" style="color:var(--amber)">26~27</div><div class="mc-sub">psi 이하</div></div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════
+     TAB 6 : 함정 분석
+══════════════════════════════ -->
+<div id="s-trap" class="sec">
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">⚠️ 계기장치 자주 틀리는 함정 TOP 12</div></div>
+    <p style="font-size:13px;color:var(--text2)">기출에서 반복 출제되는 오답 선택지 — 확실히 암기하세요!</p>
+  </div>
+
+  <div class="trap-wrap">
+    <div class="trap-item"><span class="trap-num">1</span><span class="trap-q">배선 기호 'Gr'은 보라색이다?</span><span class="trap-a">❌ 회색 (Gray)</span></div>
+    <div class="trap-item"><span class="trap-num">2</span><span class="trap-q">속도계 미작동 시 점검 센서는 CPS이다?</span><span class="trap-a">❌ VSS (차량속도 센서)</span></div>
+    <div class="trap-item"><span class="trap-num">3</span><span class="trap-q">회전계 미작동 시 점검 센서는 VSS이다?</span><span class="trap-a">❌ CPS (크랭크 위치 센서)</span></div>
+    <div class="trap-item"><span class="trap-num">4</span><span class="trap-q">실드 빔형은 전구만 교환 가능하다?</span><span class="trap-a">❌ 전체 교환 (일체형)</span></div>
+    <div class="trap-item"><span class="trap-num">5</span><span class="trap-q">HID 램프는 필라멘트로 발광한다?</span><span class="trap-a">❌ 필라멘트 없음 (방전식)</span></div>
+    <div class="trap-item"><span class="trap-num">6</span><span class="trap-q">연료면 표시기식은 계기식 연료계이다?</span><span class="trap-a">❌ 계기식이 아님 (직시형)</span></div>
+    <div class="trap-item"><span class="trap-num">7</span><span class="trap-q">와이퍼 3요소에 '보호 상자'가 포함된다?</span><span class="trap-a">❌ 전동기·링크·블레이드</span></div>
+    <div class="trap-item"><span class="trap-num">8</span><span class="trap-q">가솔린 차에도 연료 수분감지 경고등이 있다?</span><span class="trap-a">❌ 디젤 전용</span></div>
+    <div class="trap-item"><span class="trap-num">9</span><span class="trap-q">맴돌이 전류를 이용하는 계기는 수온계이다?</span><span class="trap-a">❌ 자석식 속도계</span></div>
+    <div class="trap-item"><span class="trap-num">10</span><span class="trap-q">퓨즈는 정격전류가 흐를 때 회로를 차단한다?</span><span class="trap-a">❌ 과대전류 시 차단</span></div>
+    <div class="trap-item"><span class="trap-num">11</span><span class="trap-q">BWS에서 40cm 이하가 되면 간격을 두고 경보한다?</span><span class="trap-a">❌ 연속음 경보</span></div>
+    <div class="trap-item"><span class="trap-num">12</span><span class="trap-q">에어백 팽창 가스는 이산화탄소이다?</span><span class="trap-a">❌ 질소(N₂)</span></div>
+  </div>
+
+  <!-- 비교 정리 -->
+  <p class="stl">헷갈리는 비교 쌍 완전 정리</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">계기 vs 센서 대응 관계</div><span class="bdg br">★★★ 핵심</span></div>
+      <table>
+        <tr><th>계기</th><th>관련 센서</th><th>약어 의미</th></tr>
+        <tr><td><b>속도계</b></td><td><b class="hv">VSS</b></td><td>Vehicle Speed Sensor</td></tr>
+        <tr><td><b>수온계</b></td><td><b class="hv">CTS</b></td><td>Coolant Temp Sensor</td></tr>
+        <tr><td><b>회전계</b></td><td><b class="hv">CPS</b></td><td>Crankshaft Position Sensor</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">전조등 구조별 교환 방식</div><span class="bdg ba">★★★ 핵심</span></div>
+      <table>
+        <tr><th>종류</th><th>교환 단위</th><th>핵심 특징</th></tr>
+        <tr><td><b>실드 빔형</b></td><td><b class="hv">전체 교환</b></td><td>렌즈+반사경+필라멘트 일체</td></tr>
+        <tr><td>세미 실드 빔형</td><td><b>전구만 교환</b></td><td>먼지 유입 가능</td></tr>
+        <tr><td>HID</td><td>방전관 교환</td><td>필라멘트 없음, 20,000V</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════
+     TAB 7 : 기출 분석
+══════════════════════════════ -->
+<div id="s-past" class="sec">
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">📋 실제 기출문제 — 클릭하여 해설 확인</div></div>
+    <p style="font-size:13px;color:var(--text2)">자동차정비기능사 필기 기출 분석 · 클릭하면 정답과 해설이 펼쳐집니다</p>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출 최빈출</span>
+    <div class="qc-q">계기판의 엔진 회전계(타코미터)가 작동하지 않을 때 점검해야 할 센서는?<br>
+    ㉮ VSS (차량속도 센서) &nbsp; ㉯ CPS (크랭크각 센서) &nbsp; ㉰ CTS (냉각수온 센서) &nbsp; ㉱ MAP (흡기압 센서)</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉯ CPS (크랭크각 센서)</span><br>회전계(타코미터) → CPS(크랭크 위치 센서). 속도계 → VSS, 수온계 → CTS. 이 조합은 시험에서 매우 자주 출제되는 함정 문제입니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출 최빈출</span>
+    <div class="qc-q">배선 기호 'Gr'이 나타내는 색상은?<br>
+    ㉮ 보라색(Purple) &nbsp; ㉯ 갈색(Brown) &nbsp; ㉰ 회색(Gray) &nbsp; ㉱ 초록색(Green)</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉰ 회색(Gray)</span><br>Gr = Gray(회색). 보라색=Pp, 갈색=Br, 초록=G. 'Gr=보라색'으로 혼동하게 만드는 단골 함정 문제입니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출 2회 출제</span>
+    <div class="qc-q">전조등 광도가 25,000[cd]이고 전방 100[m] 지점에서의 조도는?<br>
+    ㉮ 250 Lux &nbsp; ㉯ 50 Lux &nbsp; ㉰ 12.5 Lux &nbsp; ㉱ 2.5 Lux</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉱ 2.5 Lux</span><br>조도 = 광도 ÷ 거리² = 25,000 ÷ 100² = 25,000 ÷ 10,000 = 2.5 Lux. 이 계산은 실제 기출에서 2회나 출제되었습니다!</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">렌즈·반사경·필라멘트가 모두 일체형으로 구성된 전조등은?<br>
+    ㉮ 실드 빔형 &nbsp; ㉯ 세미 실드 빔형 &nbsp; ㉰ HID 램프 &nbsp; ㉱ 할로겐형</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉮ 실드 빔형</span><br>실드 빔형: 렌즈+반사경+필라멘트 일체형. 수명 길고 광도 안정적이지만 하나라도 이상이 생기면 전체 교환. 세미 실드 빔형은 전구만 분리 교환 가능.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">퓨즈의 역할로 옳은 것은?<br>
+    ㉮ 정격전류가 흐르면 회로를 차단한다 &nbsp; ㉯ 과대 전류가 흐르면 회로를 차단한다<br>
+    ㉰ 용량이 클수록 정격전류가 낮아진다 &nbsp; ㉱ 용량이 작아도 조정해서 사용 가능하다</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉯ 과대 전류가 흐르면 회로를 차단한다</span><br>퓨즈는 회로에 과대 전류가 흐를 때 열에 의해 용단되어 회로를 차단합니다. 전기 부품과 배선을 보호하는 역할.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">윈드실드 와이퍼의 3가지 구성요소가 아닌 것은?<br>
+    ㉮ 와이퍼 전동기 &nbsp; ㉯ 블레이드 &nbsp; ㉰ 링크 기구 &nbsp; ㉱ 보호 상자</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉱ 보호 상자</span><br>와이퍼 3요소: ①와이퍼 전동기, ②링크 기구(전동기 회전→왕복운동 변환), ③와이퍼 블레이드. '보호 상자'는 와이퍼 구성요소가 아닙니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">가솔린 차량에는 없고 디젤 차량에만 있는 경고등은?<br>
+    ㉮ 엔진오일 경고등 &nbsp; ㉯ 충전 경고등 &nbsp; ㉰ 연료 수분감지 경고등 &nbsp; ㉱ 냉각수 온도 경고등</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉰ 연료 수분감지 경고등</span><br>디젤 연료는 수분에 민감하여 연료 필터에 수분이 과다 시 경고등이 점등됩니다. 가솔린 엔진에는 이 장치가 없습니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">자석식 속도계에서 지침이 움직이는 원리는?<br>
+    ㉮ 바이메탈 변형 &nbsp; ㉯ 맴돌이 전류 발생 &nbsp; ㉰ 서미스터 저항 변화 &nbsp; ㉱ 코일 자기 유도</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉯ 맴돌이 전류 발생</span><br>자석식 속도계: 자석 회전 → 알루미늄 원판에 맴돌이 전류 발생 → 영구자석과 상호작용 → 스프링 장력과 평형을 이루며 지침 이동.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">IG1과 IG2를 구분하는 주된 이유는?<br>
+    ㉮ 점화SW와 무관하게 배터리 연결 유지 &nbsp; ㉯ ST 시에도 와이퍼·전조등에 전원 공급<br>
+    ㉰ ST일 때만 점화코일에 전원 공급 &nbsp; ㉱ START 시 불필요 전원 차단으로 시동 원활</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉱ START 시 불필요 전원 차단으로 시동 원활</span><br>시동(ST) 시 IG2를 차단하여 와이퍼, 라디오 등 불필요한 전기 부하를 끊고 시동 모터에 최대 전력을 집중시켜 시동을 쉽게 합니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">후진 경보 장치(BWS)에서 부저가 연속으로 울리는 장애물 거리 기준은?<br>
+    ㉮ 120cm 이하 &nbsp; ㉯ 80cm 이하 &nbsp; ㉰ 40cm 이하 &nbsp; ㉱ 20cm 이하</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉰ 40cm 이하</span><br>BWS 경보 단계: 1차(120cm↓, 340ms 간격) → 2차(80cm↓, 170ms 간격) → 3차(40cm↓, <b>연속음</b>). 거리가 가까울수록 경보 빈도 증가.</div></div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════
+     TAB 8 : 모의고사
+══════════════════════════════ -->
+<div id="s-mock" class="sec">
+
+  <div class="pb-wrap">
+    <div class="pb-top"><div class="pb-lbl">모의고사 진행 현황</div><div class="pb-sc" id="sc-txt">0 / 20</div></div>
+    <div class="pb-bg"><div class="pb-fill" id="sc-bar" style="width:0%"></div></div>
+  </div>
+
+  <div id="mock-wrap"></div>
+
+  <div class="res-box" id="res-box">
+    <div class="res-sc" id="res-sc">—</div>
+    <div class="res-lbl">20문제 중 정답</div>
+    <div class="res-msg" id="res-msg"></div>
+    <button class="retry-btn" onclick="retry()">🔄 다시 풀기</button>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════
+     TAB 9 : 암기 카드
+══════════════════════════════ -->
+<div id="s-mem" class="sec">
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">🧠 계기장치 플립 암기 카드</div></div>
+    <p style="font-size:13px;color:var(--text2)">카드를 클릭하면 정답 확인 / 다시 클릭하면 돌아갑니다</p>
+  </div>
+  <div class="g2" id="mem-wrap"></div>
+</div>
+
+<script>
+// ── 탭 전환 ──
+function showTab(id, btn) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  document.getElementById('s-' + id).classList.add('on');
+  btn.classList.add('on');
+}
+function tq(el) { el.classList.toggle('open'); }
+
+// ── 계산기 ──
+function calcLux() {
+  const i = parseFloat(document.getElementById('lux-i').value);
+  const d = parseFloat(document.getElementById('lux-d').value);
+  if (!i || !d) return;
+  const lux = (i / (d * d)).toFixed(4);
+  document.getElementById('lux-res').textContent = `조도 = ${i} ÷ ${d}² = ${i} ÷ ${d*d} = ${lux} Lux`;
+}
+function calcBWS() {
+  const t = parseFloat(document.getElementById('bws-t').value);
+  const v = parseFloat(document.getElementById('bws-v').value);
+  if (!t || !v) return;
+  const d = (t * v / 2).toFixed(3);
+  document.getElementById('bws-res').textContent = `거리 D = ${t} × ${v} ÷ 2 = ${d} m = ${(d*100).toFixed(1)} cm`;
+}
+
+// ── 모의고사 데이터 ──
+const mockQ = [
+  { q:"계기판의 수온계가 작동하지 않을 때 점검해야 할 센서는?",opts:["VSS","CPS","CTS","MAF"],ans:2,exp:"수온계 미작동 → CTS(Coolant Temperature Sensor, 냉각수 온도 센서) 점검. 속도계=VSS, 회전계=CPS." },
+  { q:"계기판의 속도계가 작동하지 않을 때 점검해야 할 센서는?",opts:["CPS","VSS","CTS","TPS"],ans:1,exp:"속도계 미작동 → VSS(Vehicle Speed Sensor, 차량속도 센서) 점검. 가장 많이 출제되는 함정 문제입니다." },
+  { q:"계기판의 엔진 회전계(타코미터)가 작동하지 않을 때 점검 센서는?",opts:["VSS","CTS","CPS","MAP"],ans:2,exp:"타코미터(회전계) 미작동 → CPS(Crankshaft Position Sensor, 크랭크 위치 센서) 점검." },
+  { q:"배선 기호 'Gr'이 나타내는 색상은?",opts:["보라색","갈색","회색","초록색"],ans:2,exp:"Gr = Gray(회색). 보라색=Pp(Purple), 갈색=Br(Brown). 'Gr=보라'는 최다 출제 함정!" },
+  { q:"전조등 광도 25,000[cd], 거리 100[m]에서의 조도는?",opts:["250 Lux","25 Lux","12.5 Lux","2.5 Lux"],ans:3,exp:"조도 = 광도 ÷ 거리² = 25,000 ÷ 100² = 25,000 ÷ 10,000 = 2.5 Lux. 기출 2회 출제 공식!" },
+  { q:"렌즈·반사경·필라멘트가 모두 일체형인 전조등은?",opts:["세미 실드 빔형","할로겐형","실드 빔형","HID 램프"],ans:2,exp:"실드 빔형: 렌즈+반사경+필라멘트 일체. 하나라도 불량이면 전체 교환. 세미 실드 빔형은 전구만 교환 가능." },
+  { q:"HID 램프의 특징으로 옳은 것은?",opts:["텅스텐 필라멘트 사용","제논 가스, 필라멘트 없음","할로겐 사이클로 수명 연장","알루미늄 반사경 사용"],ans:1,exp:"HID(High Intensity Discharge): 제논(Xenon) 가스, 2개 전극 사이 방전, 필라멘트 없음, 시동전압 20,000V. 고휘도·저소비전력·장수명." },
+  { q:"자석식 속도계에서 지침이 움직이는 원리는?",opts:["바이메탈 변형","서미스터 저항 변화","맴돌이 전류 발생","코일 자기 유도"],ans:2,exp:"자석식 속도계: 자석 회전 → 알루미늄 원판에 맴돌이 전류 발생 → 영구자석과 상호작용 → 스프링 장력과 평형 → 지침 이동." },
+  { q:"엔진 오일 유압이 낮을 때 유압계의 경고등은 어떻게 되는가?",opts:["소등된다","점멸한다","점등된다","변화 없다"],ans:2,exp:"유압계(인디케이터식): 유압 낮음 → 다이어프램 수축 → 접점 닫힘 → 경고등 점등. 유압이 정상이면 경고등은 소등 상태." },
+  { q:"계기식 연료계가 아닌 것은?",opts:["바이메탈식","밸런싱 코일식","가동 코일형","연료면 표시기식"],ans:3,exp:"연료면 표시기식은 투명창으로 연료를 직접 눈으로 보는 방식이므로 계기식이 아닙니다. 계기식: 바이메탈식, 밸런싱 코일식, 가동 코일형 등." },
+  { q:"퓨즈의 역할로 옳은 것은?",opts:["정격전류 흐를 때 차단","과대 전류 흐를 때 차단","전압 과다 시 차단","저전류 시 차단"],ans:1,exp:"퓨즈: 과대 전류가 흐를 때 회로를 차단하여 부품·배선 보호. 정격전류에서는 정상 작동." },
+  { q:"윈드실드 와이퍼의 3가지 구성요소가 아닌 것은?",opts:["와이퍼 전동기","블레이드","링크 기구","보호 상자"],ans:3,exp:"와이퍼 3요소: ①와이퍼 전동기, ②링크 기구(회전→왕복운동), ③와이퍼 블레이드. '보호 상자'는 없는 항목." },
+  { q:"방향지시등의 점멸 횟수 기준은?",opts:["30~60회/분","60~120회/분","120~180회/분","180~240회/분"],ans:1,exp:"방향지시등 점멸 기준: 1분에 60~120회. 이 범위를 벗어나면(너무 빠르거나 느리면) 전구 단선 또는 릴레이 불량 의심." },
+  { q:"제동등의 밝기 기준은?",opts:["미등의 1배 이상","미등의 2배 이상","미등의 3배 이상","미등의 5배 이상"],ans:2,exp:"제동등은 미등의 3배 이상 밝아야 합니다. 뒤차 운전자가 제동 상황을 즉시 인식할 수 있도록 충분한 밝기가 필요합니다." },
+  { q:"가솔린 차량에는 없고 디젤 차량에만 있는 경고등은?",opts:["엔진오일 경고등","충전 경고등","연료 수분감지 경고등","냉각수 온도 경고등"],ans:2,exp:"연료 수분감지 경고등은 디젤 전용입니다. 디젤 연료는 수분에 의해 연료 계통이 손상될 수 있어 수분 필터에 수분이 차면 경고합니다." },
+  { q:"BWS(후진 경보 장치)에서 부저가 연속음을 내는 경우는?",opts:["장애물 120cm 이하","장애물 80cm 이하","장애물 40cm 이하","장애물 10cm 이하"],ans:2,exp:"1차(120cm→340ms 간격) → 2차(80cm→170ms 간격) → 3차(40cm 이하→연속음). 가까울수록 더 빈번하고 결국 연속음." },
+  { q:"에어백이 완전 팽창하는 시간은 충돌 후 몇 초인가?",opts:["0.05~0.1초","0.15~0.2초","0.35~0.4초","0.8~1.0초"],ans:2,exp:"에어백: 0.15초(가스발생기 작동) → 0.2초(팽창시작) → 0.35~0.4초(완전팽창) → 0.4~0.8초(운전자 충돌+가스배출). 완전팽창은 0.35~0.4초." },
+  { q:"에어백 팽창에 사용되는 가스는?",opts:["산소(O₂)","이산화탄소(CO₂)","질소(N₂)","아르곤(Ar)"],ans:2,exp:"에어백 팽창 가스는 질소(N₂)입니다. 급속 팽창이 가능하고 온도·압력 변화가 안정적이며 인체에 무해합니다." },
+  { q:"ETACS에서 뒷유리 열선이 자동으로 꺼지는 시간은?",opts:["5분","10분","15분","30분"],ans:2,exp:"ETACS(전자 타이머 자동 제어): 뒷유리 열선 15분 작동 후 자동 OFF. 파워윈도우는 IG OFF 후 30초 유지, 룸램프는 5~6초 지연 소등." },
+  { q:"전조등 반사경으로 알루미늄을 주로 사용하는 이유는?",opts:["가격이 가장 저렴해서","반사율이 90%로 높고 가공성이 좋아서","반사율이 100%이기 때문에","내구성이 가장 강해서"],ans:1,exp:"알루미늄 반사경: 반사율 90%, 가공성 좋음, 내구성 양호 → 가장 널리 사용. 은(92%)은 반사율이 높지만 부식에 약하고, 크롬(65%)은 내구성이 강하지만 반사율이 낮음." }
+];
+
+let userAns = [], correct = 0;
+
+function buildMock() {
+  userAns = new Array(mockQ.length).fill(null);
+  correct = 0;
+  updatePB();
+  document.getElementById('res-box').classList.remove('show');
+  const wrap = document.getElementById('mock-wrap');
+  wrap.innerHTML = '';
+  mockQ.forEach((q, qi) => {
+    const d = document.createElement('div');
+    d.className = 'mq';
+    d.innerHTML = `
+      <div class="mq-num">문제 ${qi+1} / ${mockQ.length}</div>
+      <div class="mq-text">${q.q}</div>
+      <ul class="opts">
+        ${q.opts.map((o,oi)=>`<li><button class="obtn" onclick="pick(${qi},${oi},this)">${['①','②','③','④'][oi]} ${o}</button></li>`).join('')}
+      </ul>
+      <div class="exp" id="exp${qi}"><div class="exp-lbl">✅ 해설</div>${q.exp}</div>`;
+    wrap.appendChild(d);
+  });
+}
+
+function pick(qi, oi, btn) {
+  if (userAns[qi] !== null) return;
+  userAns[qi] = oi;
+  const btns = btn.closest('.opts').querySelectorAll('.obtn');
+  btns.forEach(b => b.disabled = true);
+  if (oi === mockQ[qi].ans) { btn.classList.add('ok'); correct++; }
+  else { btn.classList.add('no'); btns[mockQ[qi].ans].classList.add('ok'); }
+  document.getElementById('exp'+qi).classList.add('show');
+  updatePB();
+  if (userAns.filter(a=>a!==null).length === mockQ.length) showResult();
+}
+
+function updatePB() {
+  const done = userAns.filter(a=>a!==null).length;
+  document.getElementById('sc-txt').textContent = `${correct} / ${mockQ.length}`;
+  document.getElementById('sc-bar').style.width = (done / mockQ.length * 100) + '%';
+}
+
+function showResult() {
+  const pct = Math.round(correct / mockQ.length * 100);
+  document.getElementById('res-sc').textContent = `${correct}점`;
+  document.getElementById('res-sc').style.color = pct >= 60 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('res-msg').textContent =
+    pct >= 90 ? '🏆 완벽! 계기장치 마스터!' :
+    pct >= 70 ? '👍 합격 안정권! 오답만 보완하세요.' :
+    pct >= 60 ? '⚠️ 아슬아슬 합격권. 함정 분석 탭 집중 복습!' :
+    '❌ 불합격 위험! 센서 연결과 배선 색상부터 다시 공부하세요.';
+  document.getElementById('res-box').classList.add('show');
+  document.getElementById('res-box').scrollIntoView({ behavior:'smooth' });
+}
+
+function retry() {
+  buildMock();
+  document.getElementById('s-mock').scrollIntoView({ behavior:'smooth' });
+}
+
+// ── 암기 카드 ──
+const memData = [
+  { kw:"VSS", hint:"속도계 미작동 시 점검", ans:"Vehicle Speed Sensor. 속도계가 작동 안 할 때 점검하는 센서" },
+  { kw:"CTS", hint:"수온계 미작동 시 점검", ans:"Coolant Temperature Sensor. 수온계가 작동 안 할 때 점검하는 센서" },
+  { kw:"CPS", hint:"회전계 미작동 시 점검", ans:"Crankshaft Position Sensor. 타코미터(회전계)가 작동 안 할 때 점검하는 센서" },
+  { kw:"Gr = 회색", hint:"배선 색상 최다 출제 함정", ans:"Gr = Gray(회색). 보라색이 아님! 보라색은 Pp. 시험 최다 출제 함정" },
+  { kw:"2.5 Lux", hint:"25,000cd, 100m 조도 계산", ans:"25,000 ÷ 100² = 2.5 Lux. 공식: 조도 = 광도 ÷ 거리²" },
+  { kw:"실드빔형", hint:"전조등 일체형", ans:"렌즈+반사경+필라멘트 일체형. 이상 시 전체 교환. 수명 길고 광도 안정" },
+  { kw:"HID 필라멘트 없음", hint:"HID 램프 특징", ans:"제논 가스, 방전식 발광. 필라멘트 없음. 시동전압 20,000V" },
+  { kw:"와이퍼 3요소", hint:"보호상자 아님!", ans:"①와이퍼 전동기 ②링크 기구 ③와이퍼 블레이드. 보호 상자는 포함 안 됨!" },
+  { kw:"60~120회/분", hint:"방향지시등 점멸 기준", ans:"방향지시등은 1분에 60~120회 점멸. 벗어나면 전구 단선 또는 릴레이 불량 의심" },
+  { kw:"3배↑", hint:"제동등 vs 미등", ans:"제동등은 미등의 3배 이상 밝아야 함. 뒤차 운전자의 인식을 위해" },
+  { kw:"맴돌이 전류", hint:"자석식 속도계 원리", ans:"자석 회전 → 맴돌이 전류 발생 → 스프링과 평형 → 지침 이동" },
+  { kw:"연속음 = 40cm", hint:"BWS 3차 경보", ans:"1차(120cm/340ms) → 2차(80cm/170ms) → 3차(40cm/연속음)" },
+  { kw:"N₂ 질소", hint:"에어백 팽창 가스", ans:"에어백은 질소(N₂)를 사용. CO₂(이산화탄소)가 아님!" },
+  { kw:"0.35~0.4초", hint:"에어백 완전 팽창", ans:"충돌 후 0.15초(가스발생) → 0.2초(팽창시작) → 0.35~0.4초(완전팽창)" },
+];
+
+function buildMem() {
+  const wrap = document.getElementById('mem-wrap');
+  memData.forEach(m => {
+    const d = document.createElement('div');
+    d.className = 'mem-card';
+    d.innerHTML = `
+      <div class="mem-front">
+        <div class="mem-kw">${m.kw}</div>
+        <div class="mem-hint">${m.hint}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:8px">탭하여 답 확인</div>
+      </div>
+      <div class="mem-back">
+        <div class="mem-ans">${m.ans}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:8px">다시 탭하여 돌아가기</div>
+      </div>`;
+    d.onclick = () => d.classList.toggle('flip');
+    wrap.appendChild(d);
+  });
+}
+
+buildMock();
+buildMem();
+</script>
+</body>
+</html>

@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>점화장치 완벽 정리 — 자동차정비기능사</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
+:root{
+  --bg:#070a0e;--bg2:#0c1018;--bg3:#12181f;--bg4:#18202a;
+  --border:#1d2535;--border2:#28354a;
+  --text:#ddeaf8;--text2:#7d93b5;--text3:#465570;
+  --rose:#f43f5e;--rose-d:rgba(244,63,94,.14);
+  --amber:#f59e0b;--amber-d:rgba(245,158,11,.13);
+  --blue:#3b82f6;--blue-d:rgba(59,130,246,.13);
+  --green:#22c55e;--green-d:rgba(34,197,94,.12);
+  --sky:#38bdf8;--sky-d:rgba(56,189,248,.13);
+  --purple:#a855f7;--purple-d:rgba(168,85,247,.13);
+  --teal:#14b8a6;--teal-d:rgba(20,184,166,.13);
+  --orange:#f97316;--orange-d:rgba(249,115,22,.13);
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Noto Sans KR',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.65}
+
+/* HERO */
+.hero{background:linear-gradient(158deg,#06090f 0%,#0b1422 55%,#06090f 100%);border-bottom:1px solid var(--border);padding:2.2rem 1.5rem 1.8rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-90px;right:-70px;width:380px;height:380px;background:radial-gradient(circle,rgba(244,63,94,.09) 0%,transparent 68%);border-radius:50%;pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-60px;left:-40px;width:260px;height:260px;background:radial-gradient(circle,rgba(245,158,11,.07) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.hero-lbl{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--rose);margin-bottom:10px}
+.hero-lbl::before{content:'⚡';font-size:11px;animation:spark .8s alternate infinite}
+@keyframes spark{to{opacity:.3;transform:scale(.8)}}
+.hero h1{font-size:24px;font-weight:900;color:#fff;margin-bottom:5px;letter-spacing:-.4px}
+.hero p{font-size:13px;color:var(--text2)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;border:1px solid;letter-spacing:.3px}
+.cr{color:var(--rose);border-color:var(--rose);background:var(--rose-d)}
+.ca{color:var(--amber);border-color:var(--amber);background:var(--amber-d)}
+.cb{color:var(--blue);border-color:var(--blue);background:var(--blue-d)}
+.cg{color:var(--green);border-color:var(--green);background:var(--green-d)}
+.cs{color:var(--sky);border-color:var(--sky);background:var(--sky-d)}
+.cv{color:var(--purple);border-color:var(--purple);background:var(--purple-d)}
+.ct{color:var(--teal);border-color:var(--teal);background:var(--teal-d)}
+
+/* TABS */
+.tabs{position:sticky;top:0;z-index:100;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;overflow-x:auto;gap:0}
+.tabs::-webkit-scrollbar{height:0}
+.tab{padding:13px 15px;font-size:13px;font-weight:500;color:var(--text3);background:none;border:none;border-bottom:2.5px solid transparent;cursor:pointer;white-space:nowrap;transition:all .2s}
+.tab:hover{color:var(--text2)}
+.tab.on{color:var(--rose);border-bottom-color:var(--rose)}
+
+/* SECTIONS */
+.sec{display:none;padding:1.5rem;max-width:980px}
+.sec.on{display:block}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.card-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.card-ttl{font-size:15px;font-weight:700;color:#fff}
+
+/* BADGES */
+.bdg{font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px}
+.br{background:var(--rose-d);color:var(--rose)}
+.ba{background:var(--amber-d);color:var(--amber)}
+.bb{background:var(--blue-d);color:var(--blue)}
+.bg{background:var(--green-d);color:var(--green)}
+.bs{background:var(--sky-d);color:var(--sky)}
+.bv{background:var(--purple-d);color:var(--purple)}
+.bt{background:var(--teal-d);color:var(--teal)}
+.bo{background:var(--orange-d);color:var(--orange)}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr}}
+@media(max-width:820px){.g3{grid-template-columns:1fr 1fr}.g4{grid-template-columns:1fr 1fr}}
+
+/* MINI CARDS */
+.mc{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px}
+.mc-lbl{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
+.mc-val{font-size:20px;font-weight:900;font-family:var(--mono);line-height:1.3}
+.mc-sub{font-size:12px;color:var(--text2);margin-top:5px;line-height:1.55}
+
+/* FORMULA */
+.fml{background:var(--bg3);border-left:3px solid var(--rose);border-radius:0 8px 8px 0;padding:12px 16px;margin:8px 0;font-family:var(--mono);font-size:13px;color:var(--rose)}
+.fml small{display:block;font-family:var(--sans);font-size:12px;color:var(--text2);margin-top:5px}
+
+/* LISTS */
+.ul{list-style:none;padding:0}
+.ul li{padding:4px 0;font-size:13px;color:var(--text2);display:flex;align-items:flex-start;gap:8px}
+.ul li::before{content:'›';color:var(--rose);font-weight:700;flex-shrink:0;margin-top:1px}
+.ul li b{color:var(--text)}
+
+/* ALERT BOXES */
+.abox{border-radius:8px;padding:10px 14px;font-size:13px;margin:8px 0;border:1px solid}
+.a-r{background:var(--rose-d);border-color:rgba(244,63,94,.3);color:var(--rose)}
+.a-a{background:var(--amber-d);border-color:rgba(245,158,11,.3);color:var(--amber)}
+.a-b{background:var(--blue-d);border-color:rgba(59,130,246,.3);color:var(--blue)}
+.a-g{background:var(--green-d);border-color:rgba(34,197,94,.3);color:var(--green)}
+.a-s{background:var(--sky-d);border-color:rgba(56,189,248,.3);color:var(--sky)}
+.a-v{background:var(--purple-d);border-color:rgba(168,85,247,.3);color:var(--purple)}
+.a-t{background:var(--teal-d);border-color:rgba(20,184,166,.3);color:var(--teal)}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+th{text-align:left;padding:8px 12px;background:var(--bg3);color:var(--text2);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+td b{color:var(--rose)}
+td .ha{color:var(--amber);font-weight:700}
+td .hb{color:var(--blue);font-weight:700}
+td .hs{color:var(--sky);font-weight:700}
+td .hg{color:var(--green);font-weight:700}
+td .hv{color:var(--purple);font-weight:700}
+
+/* SECTION TITLE */
+.stl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin:22px 0 10px;display:flex;align-items:center;gap:8px}
+.stl::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* FREQ BAR */
+.freq-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.freq-name{font-size:13px;color:var(--text);min-width:210px;font-weight:500}
+.freq-bg{flex:1;height:7px;background:var(--bg3);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.freq-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--rose),var(--amber))}
+.freq-star{font-size:12px;color:var(--amber);min-width:75px;text-align:right}
+
+/* FLOW */
+.flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 0}
+.fbox{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;text-align:center}
+.fbox.hi{border-color:var(--rose);color:var(--rose);background:var(--rose-d)}
+.fbox.hi2{border-color:var(--amber);color:var(--amber);background:var(--amber-d)}
+.fbox.hi3{border-color:var(--blue);color:var(--blue);background:var(--blue-d)}
+.farrow{color:var(--text3);font-size:18px;font-weight:700}
+
+/* COMPARE STRIP */
+.cstrip{display:flex;gap:0;border-radius:10px;overflow:hidden;border:1px solid var(--border);margin:8px 0}
+.cs{flex:1;padding:13px 16px}
+.cs-a{background:rgba(244,63,94,.06);border-right:1px solid var(--border)}
+.cs-b{background:rgba(245,158,11,.06)}
+.cs-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.cs-a .cs-lbl{color:var(--rose)}
+.cs-b .cs-lbl{color:var(--amber)}
+
+/* PLUG VISUAL */
+.plug-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;transition:all .25s;cursor:default}
+.plug-card:hover{border-color:var(--rose);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.plug-icon{font-size:36px;margin-bottom:10px;display:block}
+.plug-name{font-size:14px;font-weight:900;color:#fff;margin-bottom:5px}
+.plug-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:12px;margin-bottom:8px}
+.plug-desc{font-size:12px;color:var(--text2);line-height:1.65}
+.plug-key{color:var(--rose);font-weight:700}
+
+/* CALC */
+.calc-box{background:var(--bg3);border-radius:10px;padding:16px;margin-top:10px}
+.cr-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.cr-row label{font-size:12px;color:var(--text2);min-width:110px}
+.ci{width:100px;padding:7px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;font-family:var(--mono)}
+.ci:focus{outline:none;border-color:var(--rose)}
+.cbtn{padding:7px 18px;border-radius:6px;background:var(--rose-d);border:1px solid var(--rose);color:var(--rose);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.cbtn:hover{background:var(--rose);color:#fff}
+.cres{font-size:18px;font-weight:700;font-family:var(--mono);color:var(--green);margin-top:10px;line-height:1.7}
+.cunit{font-size:12px;color:var(--text3)}
+
+/* TRAP */
+.trap-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.trap-item{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);font-size:13px}
+.trap-item:last-child{border-bottom:none}
+.trap-num{min-width:24px;height:24px;border-radius:50%;background:var(--rose-d);border:1px solid rgba(244,63,94,.3);color:var(--rose);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.trap-q{color:var(--text2);flex:1}
+.trap-a{color:var(--amber);font-weight:700;min-width:160px;text-align:right;font-size:12px}
+
+/* QUIZ */
+.qc{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color .2s}
+.qc:hover{border-color:var(--border2)}
+.qc.open{border-color:var(--rose)}
+.qc-q{font-size:13px;color:var(--text);line-height:1.75}
+.qtag{font-size:11px;color:var(--text3);float:right;margin-left:8px}
+.qc-ans{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.qc.open .qc-ans{display:block}
+.ans-lbl{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--green);margin-bottom:6px}
+.ans-txt{font-size:13px;color:var(--text2);line-height:1.7}
+.ans-key{color:var(--amber);font-weight:700}
+
+/* MOCK */
+.pb-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:20px}
+.pb-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pb-lbl{font-size:13px;color:var(--text2)}
+.pb-sc{font-size:22px;font-weight:900;font-family:var(--mono);color:var(--amber)}
+.pb-bg{height:6px;background:var(--bg);border-radius:3px;overflow:hidden}
+.pb-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--rose),var(--amber));transition:width .5s}
+.mq{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.mq-num{font-size:11px;font-weight:700;color:var(--rose);letter-spacing:1px;margin-bottom:8px}
+.mq-text{font-size:14px;font-weight:600;color:#fff;margin-bottom:14px;line-height:1.7}
+.opts{list-style:none;padding:0}
+.opts li{margin-bottom:8px}
+.obtn{width:100%;text-align:left;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.obtn:hover:not(:disabled){background:var(--bg4);border-color:var(--border2);color:var(--text)}
+.obtn.ok{background:var(--green-d);border-color:var(--green);color:var(--green)}
+.obtn.no{background:var(--rose-d);border-color:var(--rose);color:var(--rose)}
+.obtn:disabled{cursor:default}
+.exp{display:none;margin-top:12px;padding:12px;background:var(--bg3);border-radius:8px;font-size:13px;color:var(--text2);line-height:1.7;border-left:3px solid var(--rose)}
+.exp.show{display:block}
+.exp-lbl{font-size:11px;font-weight:700;color:var(--rose);margin-bottom:6px;letter-spacing:1px}
+
+/* RESULT */
+.res-box{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border);border-radius:16px;padding:28px;text-align:center;margin-top:20px;display:none}
+.res-box.show{display:block}
+.res-sc{font-size:56px;font-weight:900;font-family:var(--mono);margin-bottom:6px}
+.res-lbl{font-size:14px;color:var(--text2)}
+.res-msg{font-size:16px;font-weight:700;margin-top:14px;color:var(--text)}
+.retry-btn{margin-top:18px;padding:11px 30px;border-radius:8px;background:var(--rose-d);border:1px solid var(--rose);color:var(--rose);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.retry-btn:hover{background:var(--rose);color:#fff}
+
+/* MEMORY */
+.mem-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .3s;min-height:130px;display:flex;flex-direction:column;justify-content:center}
+.mem-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.35);border-color:var(--rose)}
+.mem-kw{font-size:18px;font-weight:900;font-family:var(--mono);color:var(--rose);margin-bottom:7px;line-height:1.3}
+.mem-hint{font-size:12px;color:var(--text3)}
+.mem-back{display:none}
+.mem-card.flip .mem-front{display:none}
+.mem-card.flip .mem-back{display:block}
+.mem-ans{font-size:13px;color:var(--text);line-height:1.7}
+
+/* HEAT RANGE VISUAL */
+.heat-bar{position:relative;height:48px;border-radius:8px;overflow:hidden;margin:10px 0;background:linear-gradient(90deg,#1e3a5f 0%,#1a6e3a 25%,#6e6e10 50%,#8b2e2e 75%,#4a0a0a 100%)}
+.heat-bar-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-top:4px;padding:0 2px}
+.heat-pointer{position:absolute;top:0;width:3px;height:100%;background:#fff;opacity:.8}
+.heat-label{position:absolute;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:#fff;white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+
+hr.div{border:none;border-top:1px solid var(--border);margin:20px 0}
+
+/* ── 학교 헤더 ── */
+.school-header-bar{background:#fff;border-bottom:3px solid #185FA5;padding:10px 1.5rem;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,0.15);}
+.school-logo-img{height:48px;width:auto;object-fit:contain;}
+.school-divider-line{width:1.5px;height:38px;background:#d0cfc8;flex-shrink:0;}
+.school-info-box{display:flex;flex-direction:column;gap:2px;flex:1;}
+.school-innovation-text{font-size:15px;font-weight:700;color:#185FA5;letter-spacing:-0.3px;}
+.school-sub-text{font-size:11px;color:#8a8a82;}
+.back-to-main{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#E6F1FB;color:#0C447C;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;border:1px solid #b8d4f0;transition:all .15s;}
+.back-to-main:hover{background:#185FA5;color:#fff;border-color:#185FA5;}
+@media(max-width:600px){.school-logo-img{height:36px;}.school-innovation-text{font-size:13px;}.back-to-main{font-size:12px;padding:6px 10px;}}
+</style>
+</head>
+<body>
+
+<!-- 학교 로고 헤더 -->
+<div class="school-header-bar">
+  <img src="아주자동차대학UI.jpg" alt="아주자동차대학교" class="school-logo-img">
+  <div class="school-divider-line"></div>
+  <div class="school-info-box">
+    <span class="school-innovation-text">혁신지원사업단</span>
+    <span class="school-sub-text">자동차정비 전공 교육자료</span>
+  </div>
+  <a href="index.html" class="back-to-main">🏠 메인으로</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-lbl">자동차정비기능사 전기전자</div>
+  <h1>⚡ 점화장치 완벽 정리</h1>
+  <p>점화 원리 · 점화플러그 · DLI · 파워TR · 기출 분석 · 모의고사 20문항</p>
+  <div class="chips">
+    <span class="chip cr">출제빈도 ★★★★★</span>
+    <span class="chip ca">자기청정온도 500~800℃</span>
+    <span class="chip cb">DLI 장점 완전 정복</span>
+    <span class="chip cg">파워TR 베이스 제어</span>
+    <span class="chip cs">열가 냉형·열형</span>
+    <span class="chip cv">크랭크각도 계산</span>
+    <span class="chip ct">함정 TOP 12</span>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab on"  onclick="st('theory',this)">📚 핵심 이론</button>
+  <button class="tab"     onclick="st('plug',  this)">🔌 점화플러그</button>
+  <button class="tab"     onclick="st('dli',   this)">💡 DLI & 점화코일</button>
+  <button class="tab"     onclick="st('calc',  this)">🔢 계산 공식</button>
+  <button class="tab"     onclick="st('trap',  this)">⚠️ 함정 분석</button>
+  <button class="tab"     onclick="st('past',  this)">📄 기출 분석</button>
+  <button class="tab"     onclick="st('mock',  this)">✏️ 모의고사</button>
+  <button class="tab"     onclick="st('mem',   this)">🧠 암기 카드</button>
+</div>
+
+<!-- ════════════════════════════
+     TAB 1: 핵심 이론
+════════════════════════════ -->
+<div id="s-theory" class="sec on">
+
+  <!-- 출제 빈도 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">📊 점화장치 단원 출제 빈도</div></div>
+    <div class="freq-row"><span class="freq-name">점화플러그 자기청정온도 (500~800℃)</span><div class="freq-bg"><div class="freq-fill" style="width:97%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-name">열가 — 냉형 vs 열형</span><div class="freq-bg"><div class="freq-fill" style="width:95%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-name">DLI 특징 및 장점</span><div class="freq-bg"><div class="freq-fill" style="width:90%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-name">파워TR — ECU가 베이스 제어</span><div class="freq-bg"><div class="freq-fill" style="width:88%"></div></div><span class="freq-star">★★★★☆</span></div>
+    <div class="freq-row"><span class="freq-name">점화 순서 (크랭크각→ECU→파워TR→코일)</span><div class="freq-bg"><div class="freq-fill" style="width:85%"></div></div><span class="freq-star">★★★★☆</span></div>
+    <div class="freq-row"><span class="freq-name">점화코일 유도전압 (25,000~35,000V)</span><div class="freq-bg"><div class="freq-fill" style="width:80%"></div></div><span class="freq-star">★★★☆☆</span></div>
+    <div class="freq-row"><span class="freq-name">착화성 향상 방법 3가지</span><div class="freq-bg"><div class="freq-fill" style="width:75%"></div></div><span class="freq-star">★★★☆☆</span></div>
+    <div class="freq-row"><span class="freq-name">크랭크축 회전각도 계산 (6×R×T)</span><div class="freq-bg"><div class="freq-fill" style="width:70%"></div></div><span class="freq-star">★★★☆☆</span></div>
+  </div>
+
+  <!-- 전자제어 점화 순서 -->
+  <p class="stl">① 전자제어 점화 작동 순서 — 반드시 암기</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">점화 신호 흐름</div><span class="bdg br">★★★★★ 최빈출</span></div>
+    <div class="flow">
+      <div class="fbox hi">크랭크각 센서<br><small style="font-size:10px;color:var(--text3)">(CAS/CPS)</small></div>
+      <div class="farrow">→</div>
+      <div class="fbox hi2">ECU<br><small style="font-size:10px;color:var(--text3)">(점화시기 계산)</small></div>
+      <div class="farrow">→</div>
+      <div class="fbox hi">파워TR<br><small style="font-size:10px;color:var(--text3)">(베이스 단자)</small></div>
+      <div class="farrow">→</div>
+      <div class="fbox hi3">점화코일<br><small style="font-size:10px;color:var(--text3)">(1차 단속)</small></div>
+      <div class="farrow">→</div>
+      <div class="fbox">점화플러그<br><small style="font-size:10px;color:var(--text3)">(스파크)</small></div>
+    </div>
+    <div class="abox a-r">
+      ⚠️ <b>함정:</b> ECU가 파워TR의 <b>베이스</b> 단자를 제어 (컬렉터 아님!)<br>
+      1차 전류 흐름: <b>컬렉터 → 이미터</b> (배터리 → 코일 → 컬렉터 → 이미터 → 접지)
+    </div>
+  </div>
+
+  <!-- 점화장치 종류 -->
+  <p class="stl">② 점화장치 종류 비교</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">점화장치 3종류</div><span class="bdg ba">종류 비교</span></div>
+    <table>
+      <tr><th>방식</th><th>단속 방법</th><th>배전기</th><th>현재 사용</th><th>특징</th></tr>
+      <tr>
+        <td><b>접점식</b></td>
+        <td>기계식 접점(포인트)</td>
+        <td>있음</td>
+        <td><b>미사용</b></td>
+        <td>접점 마모, 바운싱 현상</td>
+      </tr>
+      <tr>
+        <td><b>트랜지스터식</b></td>
+        <td>파워TR 전자 단속</td>
+        <td>있음</td>
+        <td>부분 사용</td>
+        <td>접점 없음, 안정적 고전압</td>
+      </tr>
+      <tr>
+        <td><b class="ha">DLI</b></td>
+        <td>ECU→각 실린더 직접 제어</td>
+        <td><b>없음</b></td>
+        <td><b class="hg">현재 주류</b></td>
+        <td>배전기 없음, 고신뢰성</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 파워TR 상세 -->
+  <p class="stl">③ 파워 트랜지스터 (Power TR)</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">파워TR 역할과 단자</div><span class="bdg br">★★★★ 필수 암기</span></div>
+      <table>
+        <tr><th>단자</th><th>연결</th><th>역할</th></tr>
+        <tr><td><b class="ha">베이스 (B)</b></td><td>ECU</td><td><b>ECU가 ON/OFF 제어</b></td></tr>
+        <tr><td><b>컬렉터 (C)</b></td><td>점화코일 (−) 단자</td><td>1차 전류 입력</td></tr>
+        <tr><td><b>이미터 (E)</b></td><td>접지 (차체)</td><td>전류 출력 → 접지</td></tr>
+      </table>
+      <div class="abox a-a" style="margin-top:8px">
+        💡 ECU → 베이스 ON → 컬렉터→이미터 도통 → 1차 전류 흐름 → 코일 자화<br>
+        ECU → 베이스 OFF → 1차 전류 급차단 → <b>고전압 유도</b> → 플러그 점화
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">파워TR 고장 시 증상</div><span class="bdg ba">고장 진단</span></div>
+      <ul class="ul">
+        <li>엔진 <b>시동 불가</b> (점화 안 됨)</li>
+        <li><b>크랭킹은 정상</b> (시동모터 작동 가능)</li>
+        <li>파워TR 단락 시 → 1차 코일 <b>과열</b></li>
+        <li>파워TR 단선 시 → 점화 <b>불가</b></li>
+      </ul>
+      <div class="abox a-r" style="margin-top:8px">
+        ⚠️ <b>함정:</b> 파워TR 고장 → 크랭킹(시동모터)은 가능!<br>
+        시동 불가 = 점화 문제이지 시동전동기 문제가 아님
+      </div>
+    </div>
+  </div>
+
+  <!-- 점화코일 -->
+  <p class="stl">④ 점화코일 — 유도 원리</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">유도 작용 2가지</div><span class="bdg bb">원리 이해</span></div>
+      <ul class="ul">
+        <li><b>자기유도:</b> 1차 코일 전류 변화 → 역기전력 발생</li>
+        <li><b>상호유도:</b> 1차 자속 변화 → 2차에 <b>고전압 유도</b></li>
+      </ul>
+      <div class="fml">
+        E₂ = (N₂ / N₁) × E₁
+        <small>E₂: 2차 유도전압, N₂/N₁: 권수비, E₁: 1차 전압<br>
+        2차 코일이 1차보다 수백 배 → 25,000~35,000V 발생</small>
+      </div>
+      <div class="abox a-b">절연저항 측정: <b>메가옴(MΩ) 시험기</b> 사용</div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">코일 저항값 기준</div><span class="bdg ba">점검 기준</span></div>
+      <div class="g2" style="gap:8px">
+        <div class="mc">
+          <div class="mc-lbl">1차 코일 저항</div>
+          <div class="mc-val" style="color:var(--rose)">0.5~3Ω</div>
+          <div class="mc-sub">차종마다 다름<br>0Ω = 단락 / ∞ = 단선</div>
+        </div>
+        <div class="mc">
+          <div class="mc-lbl">2차 코일 저항</div>
+          <div class="mc-val" style="color:var(--amber)">수 kΩ↑</div>
+          <div class="mc-sub">수천 옴 이상<br>권수비로 고전압 생성</div>
+        </div>
+      </div>
+      <div class="abox a-s" style="margin-top:8px">💡 배전기는 크랭크축 회전속도의 <b>1/2</b>로 회전</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════
+     TAB 2: 점화플러그
+════════════════════════════ -->
+<div id="s-plug" class="sec">
+
+  <!-- 자기청정온도 -->
+  <p class="stl">① 점화플러그 자기청정온도 (Self-Cleaning Temperature)</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">자기청정온도 범위</div><span class="bdg br">★★★★★ 반드시 암기</span></div>
+    <div class="mc" style="text-align:center;margin-bottom:12px">
+      <div class="mc-lbl">자기청정 유지 온도</div>
+      <div class="mc-val" style="color:var(--rose);font-size:28px">500 ~ 800 ℃</div>
+      <div class="mc-sub">이 범위를 유지해야 정상 작동</div>
+    </div>
+    <!-- 온도 범위 시각화 -->
+    <div style="background:var(--bg3);border-radius:10px;padding:14px;margin-bottom:10px">
+      <div style="font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">플러그 온도와 현상</div>
+      <div class="heat-bar">
+        <div class="heat-pointer" style="left:22%"></div>
+        <div class="heat-label" style="left:4%">낮음</div>
+        <div class="heat-label" style="left:30%">정상 (500~800℃)</div>
+        <div class="heat-label" style="left:70%">높음</div>
+      </div>
+      <div class="heat-bar-labels">
+        <span>300℃↓</span><span>500℃</span><span style="color:var(--green);font-weight:700">정상구간</span><span>800℃</span><span>900℃↑</span>
+      </div>
+    </div>
+    <div class="g2" style="gap:8px;margin-top:10px">
+      <div class="abox a-b" style="margin:0">
+        ❄️ <b>온도 낮을 때 (500℃ 미만)</b><br>
+        → 카본(탄소) 퇴적 — <b>오손(Fouling)</b><br>
+        → 실화(Misfire) 발생<br>
+        → 엔진 출력 저하
+      </div>
+      <div class="abox a-r" style="margin:0">
+        🔥 <b>온도 높을 때 (800℃ 초과)</b><br>
+        → <b>조기점화(Pre-ignition)</b><br>
+        → 엔진 노킹 유발<br>
+        → 전극 소손 위험
+      </div>
+    </div>
+  </div>
+
+  <!-- 열가 (Heat Range) -->
+  <p class="stl">② 열가 (Heat Range) — 냉형 vs 열형</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">냉형(Cold type) vs 열형(Hot type)</div><span class="bdg br">★★★★★ 최빈출</span></div>
+    <div class="abox a-a" style="margin-bottom:10px">
+      💡 <b>열가(Heat Range) 숫자가 크면 = 냉형!</b> (방열 빠름, 온도 낮게 유지)
+    </div>
+    <div class="cstrip">
+      <div class="cs cs-a">
+        <div class="cs-lbl">냉형 (Cold Type) — 열가 숫자 大</div>
+        <ul class="ul">
+          <li>절연체(애자) 길이 <b>짧음</b></li>
+          <li>열 방출 <b>빠름</b> (방열↑)</li>
+          <li>플러그 온도 <b>낮게</b> 유지</li>
+          <li><b>고압축·고속·고출력</b> 엔진에 사용</li>
+          <li>스포츠카, 터보 엔진</li>
+        </ul>
+      </div>
+      <div class="cs cs-b">
+        <div class="cs-lbl">열형 (Hot Type) — 열가 숫자 小</div>
+        <ul class="ul">
+          <li>절연체(애자) 길이 <b>김</b></li>
+          <li>열 방출 <b>느림</b> (방열↓)</li>
+          <li>플러그 온도 <b>높게</b> 유지</li>
+          <li><b>저압축·저속·일반</b> 엔진에 사용</li>
+          <li>소형차, 저출력 엔진</li>
+        </ul>
+      </div>
+    </div>
+    <table style="margin-top:12px">
+      <tr><th>구분</th><th>냉형 (Cold)</th><th>열형 (Hot)</th></tr>
+      <tr><td>절연체 길이</td><td><b>짧음</b></td><td><b>김</b></td></tr>
+      <tr><td>방열 속도</td><td><b class="hg">빠름</b></td><td>느림</td></tr>
+      <tr><td>열가 번호</td><td><b class="ha">높은 번호</b></td><td>낮은 번호</td></tr>
+      <tr><td>사용 엔진</td><td><b>고압축·고속·고출력</b></td><td>저압축·저속</td></tr>
+      <tr><td>온도 유지</td><td>낮게</td><td>높게</td></tr>
+      <tr><td>이상 현상</td><td>오손(카본 퇴적) 위험</td><td>조기점화 위험</td></tr>
+    </table>
+  </div>
+
+  <!-- 플러그 간극 및 착화성 -->
+  <p class="stl">③ 점화플러그 간극 & 착화성</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">전극 간극 (Gap)</div><span class="bdg ba">수치 암기</span></div>
+      <div class="mc" style="text-align:center;margin-bottom:10px">
+        <div class="mc-lbl">표준 간극</div>
+        <div class="mc-val" style="color:var(--amber)">1.1 ~ 1.3mm</div>
+        <div class="mc-sub">차종에 따라 다름 (0.6~1.5mm)</div>
+      </div>
+      <table>
+        <tr><th>간극 상태</th><th>증상</th></tr>
+        <tr><td><b>넓음 (규정 초과)</b></td><td>고전압 필요 증가 → <b>실화</b> 발생 위험</td></tr>
+        <tr><td><b>좁음 (규정 미만)</b></td><td>불꽃 약함 → 조기점화, 오손 위험</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">착화성 향상 방법 3가지</div><span class="bdg ba">★★★ 출제</span></div>
+      <div class="g3" style="gap:8px;margin-bottom:10px">
+        <div class="mc" style="text-align:center">
+          <div class="mc-lbl">방법 ①</div>
+          <div style="font-size:16px;font-weight:900;color:var(--rose)">간극 넓게</div>
+          <div class="mc-sub">불꽃 방전 거리↑</div>
+        </div>
+        <div class="mc" style="text-align:center">
+          <div class="mc-lbl">방법 ②</div>
+          <div style="font-size:16px;font-weight:900;color:var(--rose)">중심전극<br>가늘게</div>
+          <div class="mc-sub">전계 집중↑</div>
+        </div>
+        <div class="mc" style="text-align:center">
+          <div class="mc-lbl">방법 ③</div>
+          <div style="font-size:16px;font-weight:900;color:var(--rose)">접지전극<br>U자 홈</div>
+          <div class="mc-sub">소염작용↓</div>
+        </div>
+      </div>
+      <div class="abox a-r">⚠️ <b>소염작용이 크면</b> 착화성 <b>저하</b> → U자 홈으로 소염 면적 감소</div>
+    </div>
+  </div>
+
+  <!-- 플러그 구비조건 -->
+  <p class="stl">④ 점화플러그 구비조건</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">점화플러그가 갖춰야 할 조건</div><span class="bdg bb">암기</span></div>
+    <div class="g2">
+      <ul class="ul">
+        <li><b>착화성</b>이 좋을 것</li>
+        <li><b>내열성</b>이 우수할 것</li>
+        <li><b>기밀성</b>이 좋을 것 (가스 누설 방지)</li>
+        <li><b>내오손성</b>이 클 것</li>
+      </ul>
+      <ul class="ul">
+        <li><b>내부식성</b>이 우수할 것</li>
+        <li><b>내진동성</b>이 강할 것</li>
+        <li>자기청정온도 <b>500~800℃</b> 유지</li>
+        <li>사용 엔진에 맞는 <b>열가</b> 선택</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════
+     TAB 3: DLI & 점화코일
+════════════════════════════ -->
+<div id="s-dli" class="sec">
+
+  <p class="stl">DLI (Distributor Less Ignition) — 무배전기 점화</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">DLI 방식의 특징과 장점</div><span class="bdg br">★★★★★ 최빈출</span></div>
+    <div class="g2">
+      <div>
+        <div class="abox a-g" style="margin-bottom:8px">
+          ✅ <b>DLI 장점 (시험 출제 핵심)</b><br>
+          ① 배전기에 의한 <b>누전 없음</b><br>
+          ② 로터·캡 간 <b>고압 에너지 손실 없음</b><br>
+          ③ <b>전파 잡음</b>(EMI) 없음<br>
+          ④ 점화진각 폭 <b>제한 없음</b><br>
+          ⑤ 내구성↑, 신뢰성↑<br>
+          ⑥ 점화 에너지를 <b>크게</b> 할 수 있음
+        </div>
+        <div class="abox a-r">
+          ⚠️ <b>단점:</b> 단속 TR(파워TR) 수가 <b>많아짐</b><br>
+          실린더 수만큼 점화코일 필요 → 비용↑
+        </div>
+      </div>
+      <div>
+        <table>
+          <tr><th>비교 항목</th><th>배전기식</th><th>DLI</th></tr>
+          <tr><td>배전기</td><td>있음</td><td><b class="hg">없음</b></td></tr>
+          <tr><td>누전 위험</td><td>있음</td><td><b class="hg">없음</b></td></tr>
+          <tr><td>에너지 손실</td><td>있음</td><td><b class="hg">없음</b></td></tr>
+          <tr><td>전파잡음</td><td>있음</td><td><b class="hg">없음</b></td></tr>
+          <tr><td>진각 제한</td><td>있음</td><td><b class="hg">없음</b></td></tr>
+          <tr><td>TR 수</td><td>적음</td><td><b class="ha">많음</b></td></tr>
+          <tr><td>제어</td><td>기계식</td><td><b>ECU 전자식</b></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- DLI 종류 -->
+  <p class="stl">DLI 방식 2종류</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">동시 점화 방식</div><span class="bdg bs">Waste Spark</span></div>
+      <ul class="ul">
+        <li>1개 코일이 <b>2개 실린더</b> 담당</li>
+        <li>압축 TDC와 배기 TDC 동시 점화</li>
+        <li>배기 행정의 점화는 <b>낭비 불꽃</b></li>
+        <li>코일 수 = 실린더 수 / 2</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">독립 점화 방식</div><span class="bdg bg">COP 방식</span></div>
+      <ul class="ul">
+        <li>각 실린더에 <b>전용 코일</b></li>
+        <li>플러그 직상부에 코일 직결</li>
+        <li>에너지 손실 <b>최소화</b></li>
+        <li>코일 수 = 실린더 수 (최신 주류)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 점화시기 진각 -->
+  <p class="stl">점화시기 진각·지각</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">점화시기 제어 원리</div><span class="bdg ba">★★★ 출제</span></div>
+    <table>
+      <tr><th>상황</th><th>제어</th><th>이유</th></tr>
+      <tr><td>고속·고부하</td><td><b class="hg">진각 (Advance)</b></td><td>연소시간 확보 → 출력↑</td></tr>
+      <tr><td>저속·저부하</td><td>지각 (Retard)</td><td>노킹 방지</td></tr>
+      <tr><td><b>노킹 감지 시</b></td><td><b class="ha">지각 (Retard)</b></td><td>노킹 억제 → 이후 단계적 진각 복원</td></tr>
+      <tr><td>냉각수 온도 낮음</td><td>진각</td><td>냉간 시동성 향상</td></tr>
+      <tr><td>LPG 엔진</td><td>진각</td><td>가솔린보다 연소속도 빠름</td></tr>
+    </table>
+    <div class="abox a-r" style="margin-top:8px">
+      ⚠️ <b>함정:</b> 노킹 감지 시 → <b>지각</b>(늦춤)! 진각이 아님!
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════
+     TAB 4: 계산 공식
+════════════════════════════ -->
+<div id="s-calc" class="sec">
+
+  <!-- 크랭크 회전각도 계산기 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">🧮 크랭크축 회전각도 계산기</div><span class="bdg br">★★★ 계산 출제</span></div>
+    <div class="fml">
+      회전각도 [°] = 6 × R [rpm] × T [초]
+      <small>R = 엔진 rpm | T = 연소지연 시간 [초]<br>유도: 1분 = 60초, 1회전 = 360° → 360/60 = 6°/rpm·s</small>
+    </div>
+    <div class="calc-box">
+      <div class="cr-row"><label>엔진 rpm (R)</label><input class="ci" type="number" id="rpm-val" value="2500"><span class="cunit">rpm</span></div>
+      <div class="cr-row"><label>분모 값 (1/N초)</label><input class="ci" type="number" id="n-val" value="600"><span class="cunit">(T = 1/N 초)</span></div>
+      <button class="cbtn" onclick="calcAngle()">계산하기</button>
+      <div class="cres" id="angle-res">—</div>
+    </div>
+    <div class="abox a-a" style="margin-top:10px">
+      💡 <b>기출 예제:</b> 2,500rpm, 1/600초 → 6 × 2,500 × (1/600) = 6 × 4.167 = <b>25°</b><br>
+      💡 <b>예제 2:</b> 3,000rpm, 1/720초 → 6 × 3,000 × (1/720) = 18,000/720 = <b>25°</b>
+    </div>
+  </div>
+
+  <!-- 유도전압 계산기 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">🧮 점화코일 2차 유도전압 계산기</div><span class="bdg bb">계산 문제</span></div>
+    <div class="fml">
+      E₂ = (N₂ / N₁) × E₁
+      <small>E₂: 2차 유도전압[V] | N₂/N₁: 2차/1차 권수비 | E₁: 1차 전압[V]</small>
+    </div>
+    <div class="calc-box">
+      <div class="cr-row"><label>1차 코일 권수 N₁</label><input class="ci" type="number" id="n1-val" value="200"><span class="cunit">회</span></div>
+      <div class="cr-row"><label>2차 코일 권수 N₂</label><input class="ci" type="number" id="n2-val" value="20000"><span class="cunit">회</span></div>
+      <div class="cr-row"><label>1차 전압 E₁</label><input class="ci" type="number" id="e1-val" value="300"><span class="cunit">V</span></div>
+      <button class="cbtn" onclick="calcCoil()">계산하기</button>
+      <div class="cres" id="coil-res">—</div>
+    </div>
+  </div>
+
+  <!-- 핵심 수치 -->
+  <p class="stl">핵심 수치 총정리</p>
+  <div class="g4">
+    <div class="mc"><div class="mc-lbl">자기청정온도</div><div class="mc-val" style="color:var(--rose)">500~<br>800℃</div><div class="mc-sub">이 범위 유지 필수</div></div>
+    <div class="mc"><div class="mc-lbl">플러그 간극</div><div class="mc-val" style="color:var(--amber)">1.1~<br>1.3mm</div><div class="mc-sub">표준 전극 간극</div></div>
+    <div class="mc"><div class="mc-lbl">2차 유도전압</div><div class="mc-val" style="color:var(--blue)">25,000~<br>35,000V</div><div class="mc-sub">점화코일 출력</div></div>
+    <div class="mc"><div class="mc-lbl">배전기 회전속도</div><div class="mc-val" style="color:var(--purple)">1/2</div><div class="mc-sub">크랭크축 대비</div></div>
+    <div class="mc"><div class="mc-lbl">1차 코일 저항</div><div class="mc-val" style="color:var(--green)">0.5~3Ω</div><div class="mc-sub">정상 범위</div></div>
+    <div class="mc"><div class="mc-lbl">회전각도 계산</div><div class="mc-val" style="color:var(--rose)">6×R×T</div><div class="mc-sub">°(도) 단위</div></div>
+    <div class="mc"><div class="mc-lbl">열가 큰 번호</div><div class="mc-val" style="color:var(--sky)">냉형</div><div class="mc-sub">고속·고출력 엔진용</div></div>
+    <div class="mc"><div class="mc-lbl">ECU 제어 단자</div><div class="mc-val" style="color:var(--amber)">베이스</div><div class="mc-sub">파워TR 베이스 단자</div></div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════
+     TAB 5: 함정 분석
+════════════════════════════ -->
+<div id="s-trap" class="sec">
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">⚠️ 점화장치 자주 틀리는 함정 TOP 12</div></div>
+    <p style="font-size:13px;color:var(--text2)">기출에서 반복 출제되는 오답 선택지 — 확실히 암기하세요!</p>
+  </div>
+
+  <div class="trap-wrap">
+    <div class="trap-item"><span class="trap-num">1</span><span class="trap-q">ECU는 파워TR의 컬렉터를 제어한다?</span><span class="trap-a">❌ 베이스 단자 제어</span></div>
+    <div class="trap-item"><span class="trap-num">2</span><span class="trap-q">파워TR 고장 시 크랭킹도 불가하다?</span><span class="trap-a">❌ 크랭킹은 가능</span></div>
+    <div class="trap-item"><span class="trap-num">3</span><span class="trap-q">열가 숫자가 클수록 열형 플러그이다?</span><span class="trap-a">❌ 숫자 클수록 냉형</span></div>
+    <div class="trap-item"><span class="trap-num">4</span><span class="trap-q">고속·고출력 엔진에는 열형 플러그를 사용한다?</span><span class="trap-a">❌ 냉형 플러그 사용</span></div>
+    <div class="trap-item"><span class="trap-num">5</span><span class="trap-q">플러그 온도가 높으면 카본이 퇴적된다?</span><span class="trap-a">❌ 낮을 때 카본 퇴적</span></div>
+    <div class="trap-item"><span class="trap-num">6</span><span class="trap-q">플러그 온도가 낮으면 조기점화가 발생한다?</span><span class="trap-a">❌ 높을 때 조기점화</span></div>
+    <div class="trap-item"><span class="trap-num">7</span><span class="trap-q">DLI 방식은 점화진각 폭에 제한이 크다?</span><span class="trap-a">❌ 제한 없음</span></div>
+    <div class="trap-item"><span class="trap-num">8</span><span class="trap-q">노킹 발생 시 ECU는 점화시기를 진각시킨다?</span><span class="trap-a">❌ 지각(늦춤)시킨다</span></div>
+    <div class="trap-item"><span class="trap-num">9</span><span class="trap-q">DLI 방식은 TR(트랜지스터) 수가 적어진다?</span><span class="trap-a">❌ 많아진다</span></div>
+    <div class="trap-item"><span class="trap-num">10</span><span class="trap-q">냉형 플러그는 절연체 길이가 길다?</span><span class="trap-a">❌ 짧다 (방열 빠름)</span></div>
+    <div class="trap-item"><span class="trap-num">11</span><span class="trap-q">착화성 향상을 위해 간극을 좁게 한다?</span><span class="trap-a">❌ 넓게 해야 함</span></div>
+    <div class="trap-item"><span class="trap-num">12</span><span class="trap-q">배전기는 크랭크축과 같은 속도로 회전한다?</span><span class="trap-a">❌ 1/2 속도로 회전</span></div>
+  </div>
+
+  <!-- 비교 정리 -->
+  <p class="stl">헷갈리는 비교 쌍 완전 정리</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">온도 이상 현상 비교</div><span class="bdg br">핵심 비교</span></div>
+      <table>
+        <tr><th>상황</th><th>현상</th><th>대처</th></tr>
+        <tr><td>온도 <b>낮음</b> (&lt;500℃)</td><td><b>카본 퇴적</b> (오손)</td><td>열형으로 교체</td></tr>
+        <tr><td>온도 <b>높음</b> (&gt;800℃)</td><td><b>조기점화</b></td><td>냉형으로 교체</td></tr>
+        <tr><td>간극 <b>넓음</b></td><td>실화 발생</td><td>간극 조정</td></tr>
+        <tr><td>간극 <b>좁음</b></td><td>불꽃 약함, 오손</td><td>간극 조정</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">냉형 vs 열형 암기 정리</div><span class="bdg ba">최빈출</span></div>
+      <table>
+        <tr><th>구분</th><th>냉형 (Cold)</th><th>열형 (Hot)</th></tr>
+        <tr><td>열가 번호</td><td><b class="ha">크다</b></td><td>작다</td></tr>
+        <tr><td>절연체 길이</td><td><b>짧다</b></td><td>길다</td></tr>
+        <tr><td>방열</td><td><b class="hg">빠르다</b></td><td>느리다</td></tr>
+        <tr><td>적용</td><td><b>고속·고출력</b></td><td>저속·저출력</td></tr>
+        <tr><td>이상</td><td>오손(저온)</td><td>조기점화(고온)</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════
+     TAB 6: 기출 분석
+════════════════════════════ -->
+<div id="s-past" class="sec">
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">📋 실제 기출문제 — 클릭하여 해설 확인</div></div>
+    <p style="font-size:13px;color:var(--text2)">자동차정비기능사 필기 기출 분석 · 클릭하면 정답과 해설이 펼쳐집니다</p>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출 최빈출</span>
+    <div class="qc-q">전자제어 점화장치에서 ECU가 직접 제어하는 파워TR의 단자는?<br>
+    ㉮ 베이스 단자 &nbsp; ㉯ 컬렉터 단자 &nbsp; ㉰ 이미터 단자 &nbsp; ㉱ 접지 단자</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉮ 베이스 단자</span><br>
+    ECU는 파워TR의 <b>베이스</b> 단자를 ON/OFF 제어하여 점화코일 1차 전류를 단속합니다. 1차 전류는 컬렉터→이미터로 흐릅니다. 컬렉터는 점화코일 (−)단자와 연결됩니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출 최빈출</span>
+    <div class="qc-q">점화플러그의 자기청정온도로 옳은 것은?<br>
+    ㉮ 300~500℃ &nbsp; ㉯ 500~800℃ &nbsp; ㉰ 800~1000℃ &nbsp; ㉱ 1000~1200℃</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉯ 500~800℃</span><br>
+    500℃ 미만 → 카본 퇴적(오손), 실화 발생. 800℃ 초과 → 조기점화 발생. 반드시 500~800℃ 범위를 유지해야 정상 작동합니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출 최빈출</span>
+    <div class="qc-q">열가(Heat Range)에 대한 설명으로 옳은 것은?<br>
+    ㉮ 열가가 높을수록 열형(Hot type) 플러그이다<br>
+    ㉯ 열가가 높을수록 냉형(Cold type) 플러그이다<br>
+    ㉰ 냉형 플러그는 절연체가 길다<br>
+    ㉱ 고속엔진에는 열형 플러그를 사용한다</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉯ 열가가 높을수록 냉형(Cold type) 플러그이다</span><br>
+    열가 숫자 크면 = 냉형. 냉형은 절연체가 <b>짧아</b> 방열이 빠르고, 고속·고출력 엔진에 사용합니다. 열형은 절연체가 길어 방열이 느립니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">DLI(Distributor Less Ignition) 방식의 특징으로 틀린 것은?<br>
+    ㉮ 배전기에 의한 누전이 없다<br>
+    ㉯ 점화진각 폭에 제한이 없다<br>
+    ㉰ 점화에너지를 크게 할 수 있다<br>
+    ㉱ 점화진각 폭의 제한이 크다</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉱ 점화진각 폭의 제한이 크다</span><br>
+    DLI는 배전기가 없어 <b>점화진각 폭에 제한이 없습니다.</b> 나머지 세 선택지는 모두 DLI의 실제 장점입니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">전자제어 점화장치에서 점화시기를 제어하는 순서로 옳은 것은?<br>
+    ㉮ 각종 센서 → ECU → 파워TR → 점화코일<br>
+    ㉯ 각종 센서 → ECU → 점화코일 → 파워TR<br>
+    ㉰ ECU → 크랭크각 센서 → 파워TR → 점화코일<br>
+    ㉱ 파워TR → ECU → 크랭크각 센서 → 점화코일</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉮ 각종 센서 → ECU → 파워TR → 점화코일</span><br>
+    점화 신호 흐름: 크랭크각 센서(+각종 센서) → ECU(점화시기 계산) → 파워TR(1차전류 단속) → 점화코일(고전압 유도) → 플러그(점화)</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">2,500rpm에서 연소지연 시간이 1/600초일 때 크랭크축의 회전각도는?<br>
+    ㉮ 15° &nbsp; ㉯ 20° &nbsp; ㉰ 25° &nbsp; ㉱ 30°</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉰ 25°</span><br>
+    회전각도 = 6 × R × T = 6 × 2,500 × (1/600) = 15,000/600 = <b>25°</b><br>
+    공식: 회전각도[°] = 6 × rpm × 시간[초]</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">점화플러그의 착화성을 향상시키는 방법이 아닌 것은?<br>
+    ㉮ 간극을 넓게 한다<br>
+    ㉯ 중심전극을 가늘게 한다<br>
+    ㉰ 접지전극에 U자 홈을 설치한다<br>
+    ㉱ 소염작용을 크게 한다</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉱ 소염작용을 크게 한다</span><br>
+    착화성 향상 방법: ①간극 넓게, ②중심전극 가늘게, ③접지전극 U자 홈. 소염작용이 <b>크면</b> 오히려 착화성이 <b>저하</b>됩니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">점화코일의 절연저항 측정에 사용하는 측정기는?<br>
+    ㉮ 멀티미터 &nbsp; ㉯ 메가옴 시험기 &nbsp; ㉰ 오실로스코프 &nbsp; ㉱ 그로울러 시험기</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉯ 메가옴 시험기</span><br>
+    점화코일의 절연저항 측정은 <b>메가옴(MΩ) 시험기</b>를 사용합니다. 멀티미터로는 코일 저항(단락·단선) 점검, 그로울러는 전기자 단락 시험에 사용합니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">자동차 점화 회로에서 노킹 발생 시 ECU가 취하는 조치로 옳은 것은?<br>
+    ㉮ 점화시기를 진각(Advance)시킨다<br>
+    ㉯ 점화시기를 지각(Retard)시킨다<br>
+    ㉰ 연료 분사량을 늘린다<br>
+    ㉱ 공기량을 줄인다</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉯ 점화시기를 지각(Retard)시킨다</span><br>
+    노킹 감지 시 ECU는 점화시기를 <b>지각</b>(늦춤)하여 노킹을 억제합니다. 이후 노킹이 사라지면 다시 단계적으로 진각을 복원합니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">점화플러그의 구비조건으로 틀린 것은?<br>
+    ㉮ 착화성이 좋을 것<br>
+    ㉯ 내열성이 우수할 것<br>
+    ㉰ 기밀성이 좋을 것<br>
+    ㉱ 소염작용이 클 것</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉱ 소염작용이 클 것</span><br>
+    소염작용이 크면 착화성이 저하됩니다. 플러그 구비조건: 착화성 우수, 내열성 우수, 기밀성 우수, 내오손성 우수, 내부식성, 내진동성, 자기청정온도 유지.</div></div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════
+     TAB 7: 모의고사
+════════════════════════════ -->
+<div id="s-mock" class="sec">
+  <div class="pb-wrap">
+    <div class="pb-top"><div class="pb-lbl">모의고사 진행 현황</div><div class="pb-sc" id="sc-txt">0 / 20</div></div>
+    <div class="pb-bg"><div class="pb-fill" id="sc-bar" style="width:0%"></div></div>
+  </div>
+  <div id="mock-wrap"></div>
+  <div class="res-box" id="res-box">
+    <div class="res-sc" id="res-sc">—</div>
+    <div class="res-lbl">20문제 중 정답</div>
+    <div class="res-msg" id="res-msg"></div>
+    <button class="retry-btn" onclick="retry()">🔄 다시 풀기</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+     TAB 8: 암기 카드
+════════════════════════════ -->
+<div id="s-mem" class="sec">
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">🧠 점화장치 플립 암기 카드</div></div>
+    <p style="font-size:13px;color:var(--text2)">카드를 클릭하면 정답 / 다시 클릭하면 돌아갑니다</p>
+  </div>
+  <div class="g2" id="mem-wrap"></div>
+</div>
+
+<script>
+// 탭 전환
+function st(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('s-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+function tq(el){el.classList.toggle('open')}
+
+// 계산기
+function calcAngle(){
+  const r=+document.getElementById('rpm-val').value;
+  const n=+document.getElementById('n-val').value;
+  if(!r||!n)return;
+  const ang=(6*r*(1/n)).toFixed(2);
+  document.getElementById('angle-res').textContent=`회전각도 = 6 × ${r} × (1/${n}) = ${(6*r/n).toFixed(2)}°`;
+}
+function calcCoil(){
+  const n1=+document.getElementById('n1-val').value;
+  const n2=+document.getElementById('n2-val').value;
+  const e1=+document.getElementById('e1-val').value;
+  if(!n1||!n2||!e1)return;
+  const e2=(n2/n1*e1).toFixed(0);
+  document.getElementById('coil-res').textContent=`E₂ = (${n2}/${n1}) × ${e1} = ${e2} V = ${(e2/1000).toFixed(1)} kV`;
+}
+
+// 모의고사 데이터
+const mockQ=[
+  {q:"전자제어 점화장치에서 ECU가 직접 제어하는 파워TR의 단자는?",
+   opts:["컬렉터 단자","이미터 단자","베이스 단자","접지 단자"],ans:2,
+   exp:"ECU는 파워TR의 베이스 단자를 ON/OFF 제어합니다. 베이스 ON → 컬렉터→이미터 도통 → 1차 전류 흐름. 베이스 OFF → 전류 차단 → 고전압 유도."},
+  {q:"점화플러그의 자기청정온도 범위로 옳은 것은?",
+   opts:["200~400℃","300~500℃","500~800℃","900~1200℃"],ans:2,
+   exp:"자기청정온도: 500~800℃. 500℃ 미만 → 카본 퇴적(오손). 800℃ 초과 → 조기점화. 이 범위를 유지해야 플러그가 정상 작동합니다."},
+  {q:"점화플러그 온도가 자기청정온도보다 낮을 때 나타나는 현상은?",
+   opts:["조기점화","노킹","카본 퇴적(오손)","전극 소손"],ans:2,
+   exp:"온도가 낮으면(500℃ 미만) 미연소 탄소가 전극에 카본으로 퇴적되어 오손(Fouling)이 발생합니다. 실화 원인이 됩니다."},
+  {q:"점화플러그 온도가 자기청정온도보다 높을 때 나타나는 현상은?",
+   opts:["카본 퇴적","실화","조기점화(Pre-ignition)","전해액 손상"],ans:2,
+   exp:"온도가 높으면(800℃ 초과) 정상 점화 전에 플러그 열로 혼합기가 먼저 점화되는 조기점화가 발생합니다. 엔진 노킹과 피스톤 손상 위험."},
+  {q:"열가(Heat Range)에 대한 설명으로 옳은 것은?",
+   opts:["열가 숫자 클수록 열형","열가 숫자 클수록 냉형","냉형은 절연체가 길다","열형은 고속 엔진에 사용"],ans:1,
+   exp:"열가 숫자 클수록 = 냉형(Cold type). 냉형: 절연체 짧음 → 방열 빠름 → 온도 낮게 유지 → 고속·고출력 엔진. 열형: 절연체 김 → 방열 느림 → 저속 엔진."},
+  {q:"고압축·고속·고출력 엔진에 사용하는 점화플러그는?",
+   opts:["열형(Hot type)","냉형(Cold type)","표준형","접지전극 없는 형"],ans:1,
+   exp:"고압축·고속·고출력 엔진은 연소실 온도가 높으므로 방열이 빠른 냉형(Cold type) 플러그를 사용합니다. 열형을 쓰면 조기점화 발생."},
+  {q:"냉형 플러그(Cold type)의 구조적 특징은?",
+   opts:["절연체 길이가 길다","절연체 길이가 짧다","전극 간극이 넓다","중심전극이 굵다"],ans:1,
+   exp:"냉형 플러그: 절연체(애자) 길이가 짧아 열이 빠르게 방출됩니다. 열형은 절연체 길이가 길어 열을 오래 유지합니다. '짧음 = 냉형' 암기!"},
+  {q:"DLI(Distributor Less Ignition) 방식의 특징으로 틀린 것은?",
+   opts:["배전기 누전이 없다","점화진각 폭에 제한이 없다","TR(트랜지스터) 수가 적어진다","점화에너지를 크게 할 수 있다"],ans:2,
+   exp:"DLI에서는 각 실린더에 코일이 필요하므로 TR 수가 많아집니다. 나머지 장점: 누전 없음, 진각 제한 없음, 에너지 손실 없음, 전파잡음 없음."},
+  {q:"전자제어 점화장치에서 점화시기를 결정하는 순서로 옳은 것은?",
+   opts:["ECU→센서→파워TR→점화코일","센서→ECU→점화코일→파워TR","센서→ECU→파워TR→점화코일","파워TR→ECU→센서→점화코일"],ans:2,
+   exp:"순서: 각종 센서(크랭크각 등) → ECU(점화시기 계산) → 파워TR(1차전류 단속) → 점화코일(고전압) → 플러그(점화)."},
+  {q:"2,500rpm, 연소지연 1/600초일 때 크랭크축 회전각도는?",
+   opts:["15°","20°","25°","30°"],ans:2,
+   exp:"회전각도 = 6 × R × T = 6 × 2,500 × (1/600) = 15,000 ÷ 600 = 25°. 공식: 6×rpm×초."},
+  {q:"점화플러그의 착화성을 향상시키는 방법으로 옳은 것은?",
+   opts:["간극을 좁게 한다","소염작용을 크게 한다","접지전극에 U자 홈을 설치한다","중심전극을 굵게 한다"],ans:2,
+   exp:"착화성 향상 3가지: ①간극 넓게, ②중심전극 가늘게, ③접지전극 U자 홈. 소염작용이 크면 착화성 저하. 중심전극은 가늘게 해야 전계 집중 효과."},
+  {q:"점화코일의 2차 유도전압 공식으로 옳은 것은?",
+   opts:["E₂ = (N₁/N₂) × E₁","E₂ = (N₂/N₁) × E₁","E₂ = N₁ × N₂ × E₁","E₂ = (N₂ - N₁) × E₁"],ans:1,
+   exp:"E₂ = (N₂/N₁) × E₁. N₂가 N₁보다 수백~수천 배 많으므로 25,000~35,000V의 고전압이 발생합니다."},
+  {q:"점화코일의 1차 코일 저항 정상 범위는?",
+   opts:["0.01Ω 이하","0.5~3Ω","10~50Ω","100Ω 이상"],ans:1,
+   exp:"1차 코일 정상 저항: 0.5~3Ω. 0Ω(단락) 또는 ∞Ω(단선)이면 코일 불량. 2차 코일은 수천 Ω 이상."},
+  {q:"점화코일의 절연저항 측정에 사용하는 장비는?",
+   opts:["멀티미터","그로울러 시험기","메가옴(MΩ) 시험기","오실로스코프"],ans:2,
+   exp:"절연저항 측정: 메가옴(MΩ) 시험기. 멀티미터: 코일 저항. 그로울러: 전기자 단락. 오실로스코프: 파형 분석."},
+  {q:"파워TR 고장 시 나타나는 현상으로 옳은 것은?",
+   opts:["크랭킹도 불가하다","크랭킹은 되지만 시동 불가","배터리가 방전된다","공회전이 불안정해진다"],ans:1,
+   exp:"파워TR 고장 → 점화불가 → 시동불가. 하지만 크랭킹(시동전동기 작동)은 별도 회로이므로 정상 작동합니다. '크랭킹은 되지만 점화안됨' = 파워TR 불량 의심."},
+  {q:"배전기(Distributor)의 회전속도는 크랭크축 회전속도의 몇 배인가?",
+   opts:["같다 (1배)","1/2배","2배","1/4배"],ans:1,
+   exp:"4행정 엔진에서 배전기는 크랭크축의 1/2 속도로 회전합니다. 캠축도 1/2 속도. 크랭크 2회전에 배전기 1회전."},
+  {q:"노킹 발생 시 ECU의 점화시기 제어로 옳은 것은?",
+   opts:["진각(Advance)시킨다","지각(Retard)시킨다","유지한다","정지시킨다"],ans:1,
+   exp:"노킹 감지 → ECU가 점화시기 지각(늦춤) → 노킹 억제. 이후 노킹 소멸 시 단계적으로 진각 복원. 노킹=지각, 고속=진각 암기!"},
+  {q:"점화플러그 전극 간극이 규정값보다 넓을 때 나타나는 현상은?",
+   opts:["조기점화","실화(Misfire) 발생 증가","전극 오손","코일 단락"],ans:1,
+   exp:"간극이 넓으면 방전 거리가 길어져 고전압이 더 필요합니다. 필요 전압 > 코일 출력 시 방전 실패 → 실화(Misfire) 발생."},
+  {q:"DLI 방식에서 독립 점화(COP)의 특징으로 옳은 것은?",
+   opts:["1개 코일로 2개 실린더 점화","각 실린더에 전용 코일 장착","배전기로 고전압 분배","코일 수 = 실린더 수의 절반"],ans:1,
+   exp:"COP(Coil On Plug) = 독립 점화: 각 실린더에 전용 코일이 플러그 직상부에 직결. 에너지 손실 최소화. 코일 수 = 실린더 수."},
+  {q:"점화플러그 구비조건으로 틀린 것은?",
+   opts:["착화성이 좋을 것","내열성이 우수할 것","소염작용이 클 것","기밀성이 좋을 것"],ans:2,
+   exp:"점화플러그 구비조건: 착화성, 내열성, 기밀성, 내오손성, 내부식성, 내진동성. 소염작용이 크면 착화성이 저하되므로 구비조건이 아닙니다."}
+];
+
+let userAns=[],correct=0;
+function buildMock(){
+  userAns=new Array(mockQ.length).fill(null);correct=0;
+  updatePB();document.getElementById('res-box').classList.remove('show');
+  const wrap=document.getElementById('mock-wrap');wrap.innerHTML='';
+  mockQ.forEach((q,qi)=>{
+    const d=document.createElement('div');d.className='mq';
+    d.innerHTML=`<div class="mq-num">문제 ${qi+1} / ${mockQ.length}</div>
+      <div class="mq-text">${q.q}</div>
+      <ul class="opts">${q.opts.map((o,oi)=>`<li><button class="obtn" onclick="pick(${qi},${oi},this)">${['①','②','③','④'][oi]} ${o}</button></li>`).join('')}</ul>
+      <div class="exp" id="exp${qi}"><div class="exp-lbl">✅ 해설</div>${q.exp}</div>`;
+    wrap.appendChild(d);
+  });
+}
+function pick(qi,oi,btn){
+  if(userAns[qi]!==null)return;userAns[qi]=oi;
+  const btns=btn.closest('.opts').querySelectorAll('.obtn');
+  btns.forEach(b=>b.disabled=true);
+  if(oi===mockQ[qi].ans){btn.classList.add('ok');correct++;}
+  else{btn.classList.add('no');btns[mockQ[qi].ans].classList.add('ok');}
+  document.getElementById('exp'+qi).classList.add('show');
+  updatePB();
+  if(userAns.filter(a=>a!==null).length===mockQ.length)showResult();
+}
+function updatePB(){
+  const done=userAns.filter(a=>a!==null).length;
+  document.getElementById('sc-txt').textContent=`${correct} / ${mockQ.length}`;
+  document.getElementById('sc-bar').style.width=(done/mockQ.length*100)+'%';
+}
+function showResult(){
+  const pct=Math.round(correct/mockQ.length*100);
+  document.getElementById('res-sc').textContent=`${correct}점`;
+  document.getElementById('res-sc').style.color=pct>=60?'var(--green)':'var(--rose)';
+  document.getElementById('res-msg').textContent=
+    pct>=90?'🏆 완벽! 점화장치 마스터!':
+    pct>=70?'👍 합격 안정권! 오답만 보완하세요.':
+    pct>=60?'⚠️ 아슬아슬 합격권. 자기청정온도·열가 집중 복습!':
+    '❌ 불합격 위험! 핵심 이론 탭부터 다시 공부하세요.';
+  document.getElementById('res-box').classList.add('show');
+  document.getElementById('res-box').scrollIntoView({behavior:'smooth'});
+}
+function retry(){buildMock();document.getElementById('s-mock').scrollIntoView({behavior:'smooth'});}
+
+// 암기 카드 데이터
+const memData=[
+  {kw:"500~800℃",hint:"자기청정온도",ans:"점화플러그가 정상 작동하는 온도 범위. 500℃ 미만 → 오손, 800℃ 초과 → 조기점화"},
+  {kw:"베이스",hint:"ECU가 제어하는 파워TR 단자",ans:"ECU는 파워TR의 베이스 단자 제어. 컬렉터→이미터로 1차 전류 흐름"},
+  {kw:"냉형=번호大",hint:"열가와 플러그 종류",ans:"열가 숫자 클수록 = 냉형(방열 빠름, 절연체 짧음, 고속엔진). 작을수록 열형"},
+  {kw:"고속→냉형",hint:"엔진 출력과 플러그 선택",ans:"고압축·고속·고출력 엔진 → 냉형 플러그. 저속·일반 엔진 → 열형 플러그"},
+  {kw:"DLI\n진각 제한 없음",hint:"DLI 핵심 장점",ans:"배전기 없음 → 누전·에너지손실·전파잡음 없음 → 진각폭 제한 없음 → 내구성↑"},
+  {kw:"25°",hint:"2500rpm, 1/600초 계산",ans:"6 × 2,500 × (1/600) = 25°. 공식: 회전각도 = 6 × rpm × 시간[초]"},
+  {kw:"25,000~35,000V",hint:"점화코일 2차 유도전압",ans:"E₂ = (N₂/N₁) × E₁. 2차 코일이 1차보다 수백배 많아 고전압 생성"},
+  {kw:"노킹→지각",hint:"노킹 시 ECU 제어",ans:"노킹 감지 → ECU가 점화시기 지각(늦춤). 이후 노킹 소멸 시 단계적 진각 복원"},
+  {kw:"착화성 3가지",hint:"향상 방법",ans:"①간극 넓게 ②중심전극 가늘게 ③접지전극 U자 홈. 소염작용↑ → 착화성↓"},
+  {kw:"오손\nvs\n조기점화",hint:"온도별 현상",ans:"온도 낮음(500℃↓) → 카본 오손. 온도 높음(800℃↑) → 조기점화"},
+  {kw:"배전기\n회전속도",hint:"크랭크축 대비",ans:"배전기 = 크랭크축의 1/2 속도. 4행정 2회전에 1회 점화 → 1/2 감속"},
+  {kw:"메가옴\n시험기",hint:"점화코일 절연저항 측정",ans:"절연저항 측정 = 메가옴(MΩ) 시험기. 멀티미터 = 코일저항. 그로울러 = 전기자 단락"},
+  {kw:"크랭킹\n가능",hint:"파워TR 고장 시",ans:"파워TR 고장 → 점화 불가, 시동 불가. 그러나 크랭킹(시동모터)은 별도 회로로 가능"},
+  {kw:"1/2배",hint:"배전기 회전 속도",ans:"배전기는 크랭크축의 1/2 속도로 회전. 캠축도 동일 1/2 속도"},
+];
+function buildMem(){
+  const wrap=document.getElementById('mem-wrap');
+  memData.forEach(m=>{
+    const d=document.createElement('div');d.className='mem-card';
+    d.innerHTML=`<div class="mem-front"><div class="mem-kw">${m.kw}</div><div class="mem-hint">${m.hint}</div><div style="font-size:11px;color:var(--text3);margin-top:8px">탭하여 답 확인</div></div>
+      <div class="mem-back"><div class="mem-ans">${m.ans}</div><div style="font-size:11px;color:var(--text3);margin-top:8px">다시 탭하여 돌아가기</div></div>`;
+    d.onclick=()=>d.classList.toggle('flip');
+    wrap.appendChild(d);
+  });
+}
+buildMock();buildMem();
+</script>
+</body>
+</html>

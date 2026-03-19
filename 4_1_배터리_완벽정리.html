@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배터리(축전지) 완벽 정리 — 자동차정비기능사</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg: #0a0c10;
+  --bg2: #111318;
+  --bg3: #1a1d24;
+  --border: #2a2e38;
+  --border2: #363b48;
+  --text: #e8eaf0;
+  --text2: #9aa0b4;
+  --text3: #5c6278;
+  --red: #ff4560;
+  --red-dim: rgba(255,69,96,0.12);
+  --orange: #ff8c42;
+  --orange-dim: rgba(255,140,66,0.12);
+  --blue: #4d9fff;
+  --blue-dim: rgba(77,159,255,0.12);
+  --green: #3ddc84;
+  --green-dim: rgba(61,220,132,0.12);
+  --yellow: #ffd166;
+  --yellow-dim: rgba(255,209,102,0.12);
+  --purple: #b57bee;
+  --purple-dim: rgba(181,123,238,0.12);
+  --mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── 헤더 ── */
+.hero {
+  background: linear-gradient(135deg, #0d1117 0%, #111827 50%, #0d1117 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 2rem 1.5rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(255,69,96,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--red); margin-bottom: 10px;
+}
+.hero-tag::before { content: '●'; font-size: 8px; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.hero h1 { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.hero p { font-size: 13px; color: var(--text2); }
+.hero-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.hero-badge {
+  font-size: 11px; padding: 3px 10px;
+  border-radius: 20px; font-weight: 600;
+  border: 1px solid;
+}
+.hb-r { color: var(--red); border-color: var(--red); background: var(--red-dim); }
+.hb-b { color: var(--blue); border-color: var(--blue); background: var(--blue-dim); }
+.hb-g { color: var(--green); border-color: var(--green); background: var(--green-dim); }
+
+/* ── 탭 ── */
+.tabs-wrap {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem;
+  display: flex; gap: 0; overflow-x: auto;
+}
+.tabs-wrap::-webkit-scrollbar { height: 0; }
+.tab-btn {
+  padding: 14px 16px;
+  font-size: 13px; font-weight: 500;
+  color: var(--text3); background: none; border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer; white-space: nowrap;
+  transition: all .2s;
+}
+.tab-btn:hover { color: var(--text2); }
+.tab-btn.active { color: var(--red); border-bottom-color: var(--red); }
+
+/* ── 섹션 ── */
+.section { display: none; padding: 1.5rem; max-width: 900px; }
+.section.active { display: block; }
+
+/* ── 공통 카드 ── */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+}
+.card-head {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #fff; }
+.badge {
+  font-size: 11px; font-weight: 700;
+  padding: 2px 9px; border-radius: 20px;
+}
+.b-r { background: var(--red-dim); color: var(--red); }
+.b-b { background: var(--blue-dim); color: var(--blue); }
+.b-g { background: var(--green-dim); color: var(--green); }
+.b-y { background: var(--yellow-dim); color: var(--yellow); }
+.b-p { background: var(--purple-dim); color: var(--purple); }
+.b-o { background: var(--orange-dim); color: var(--orange); }
+
+/* ── 공식 박스 ── */
+.formula {
+  background: var(--bg3);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 14px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--blue);
+  margin: 8px 0;
+}
+.formula span { color: var(--text); font-size: 12px; display: block; margin-top: 4px; }
+
+/* ── 그리드 ── */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+@media(max-width:600px) { .grid2,.grid3 { grid-template-columns: 1fr; } }
+
+/* ── 미니카드 ── */
+.mini-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.mini-card .mc-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+  color: var(--text3); margin-bottom: 6px; text-transform: uppercase;
+}
+.mini-card .mc-val {
+  font-size: 22px; font-weight: 900;
+  font-family: var(--mono);
+}
+.mini-card .mc-desc { font-size: 12px; color: var(--text2); margin-top: 4px; }
+
+/* ── 경고 박스 ── */
+.warn-box {
+  background: var(--yellow-dim);
+  border: 1px solid rgba(255,209,102,0.25);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px; color: var(--yellow);
+  margin: 8px 0;
+}
+.info-box {
+  background: var(--blue-dim);
+  border: 1px solid rgba(77,159,255,0.25);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px; color: var(--blue);
+  margin: 8px 0;
+}
+.danger-box {
+  background: var(--red-dim);
+  border: 1px solid rgba(255,69,96,0.25);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px; color: var(--red);
+  margin: 8px 0;
+}
+
+/* ── 표 ── */
+table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px; margin-top: 10px;
+}
+th {
+  text-align: left; padding: 8px 12px;
+  background: var(--bg3); color: var(--text2);
+  font-weight: 700; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border);
+}
+td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+tr:last-child td { border-bottom: none; }
+td strong { color: var(--red); }
+tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* ── 섹션 제목 ── */
+.sec-title {
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text3); margin: 20px 0 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.sec-title::after {
+  content: ''; flex: 1;
+  height: 1px; background: var(--border);
+}
+
+/* ── 리스트 ── */
+.dot-list { list-style: none; padding: 0; }
+.dot-list li {
+  padding: 4px 0;
+  font-size: 13px; color: var(--text2);
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.dot-list li::before {
+  content: '›'; color: var(--red);
+  font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+.dot-list li strong { color: var(--text); }
+
+/* ── 기출 카드 ── */
+.quiz-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+.quiz-card:hover { border-color: var(--border2); }
+.quiz-card.open { border-color: var(--blue); }
+.quiz-q {
+  font-size: 13px; color: var(--text);
+  line-height: 1.6;
+}
+.quiz-year {
+  font-size: 11px; color: var(--text3);
+  float: right; margin-left: 8px;
+}
+.quiz-ans {
+  display: none;
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+}
+.quiz-card.open .quiz-ans { display: block; }
+.ans-label {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; color: var(--green);
+  margin-bottom: 6px;
+}
+.ans-text { color: var(--text2); line-height: 1.7; }
+.ans-key { color: var(--orange); font-weight: 700; }
+
+/* ── 모의고사 ── */
+.mock-q {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+}
+.mock-q-num {
+  font-size: 11px; font-weight: 700;
+  color: var(--red); letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.mock-q-text {
+  font-size: 14px; font-weight: 500;
+  color: #fff; margin-bottom: 14px;
+  line-height: 1.7;
+}
+.options { list-style: none; }
+.options li {
+  margin-bottom: 8px;
+}
+.opt-btn {
+  width: 100%; text-align: left;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px;
+  font-size: 13px; color: var(--text2);
+  cursor: pointer; transition: all .2s;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.opt-btn:hover:not(:disabled) { background: var(--bg); border-color: var(--border2); color: var(--text); }
+.opt-btn.correct { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+.opt-btn.wrong { background: var(--red-dim); border-color: var(--red); color: var(--red); }
+.opt-btn:disabled { cursor: default; }
+.mock-explain {
+  display: none; margin-top: 12px; padding: 12px;
+  background: var(--bg3); border-radius: 8px;
+  font-size: 13px; color: var(--text2); line-height: 1.7;
+  border-left: 3px solid var(--green);
+}
+.mock-explain.show { display: block; }
+.explain-title {
+  font-size: 11px; font-weight: 700;
+  color: var(--green); margin-bottom: 6px; letter-spacing: 1px;
+}
+
+/* ── 진행 바 ── */
+.progress-wrap {
+  background: var(--bg3); border-radius: 12px;
+  padding: 16px 18px; margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+.progress-top {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-bottom: 8px;
+}
+.progress-label { font-size: 13px; color: var(--text2); }
+.progress-score { font-size: 20px; font-weight: 900; font-family: var(--mono); color: var(--yellow); }
+.progress-bar-bg {
+  height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%; background: linear-gradient(90deg, var(--blue), var(--green));
+  border-radius: 3px; transition: width .5s ease;
+}
+
+/* ── 비중 게이지 ── */
+.gauge-wrap { padding: 10px 0; }
+.gauge-row {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 8px;
+}
+.gauge-label { font-size: 12px; color: var(--text2); min-width: 110px; }
+.gauge-bar-bg {
+  flex: 1; height: 8px;
+  background: var(--bg3); border-radius: 4px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.gauge-fill {
+  height: 100%; border-radius: 4px;
+  transition: width 1s ease;
+}
+.gauge-val { font-size: 12px; font-family: var(--mono); min-width: 40px; text-align: right; }
+
+/* ── 비중 보정 계산기 ── */
+.calc-box { background: var(--bg3); border-radius: 8px; padding: 14px; margin-top: 8px; }
+.calc-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.calc-row label { font-size: 12px; color: var(--text2); min-width: 90px; }
+.calc-input {
+  width: 90px; padding: 6px 10px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--text); font-size: 13px;
+  font-family: var(--mono);
+}
+.calc-input:focus { outline: none; border-color: var(--blue); }
+.calc-btn {
+  padding: 7px 16px; border-radius: 6px;
+  background: var(--blue-dim); border: 1px solid var(--blue);
+  color: var(--blue); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all .2s;
+}
+.calc-btn:hover { background: var(--blue); color: #fff; }
+.calc-result {
+  font-size: 18px; font-weight: 700;
+  font-family: var(--mono); color: var(--green);
+  margin-top: 8px;
+}
+.unit { font-size: 12px; color: var(--text3); }
+
+/* ── 출제 빈도 바 ── */
+.freq-item { margin-bottom: 10px; }
+.freq-head { display: flex; justify-content: space-between; margin-bottom: 4px; }
+.freq-name { font-size: 13px; color: var(--text); font-weight: 500; }
+.freq-star { font-size: 12px; color: var(--yellow); }
+.freq-bg { height: 6px; background: var(--bg3); border-radius: 3px; overflow: hidden; }
+.freq-fill-bar { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--red), var(--orange)); }
+
+/* ── 암기 카드 ── */
+.memory-card {
+  background: linear-gradient(135deg, var(--bg2), var(--bg3));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .3s;
+}
+.memory-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+.memory-front { }
+.memory-keyword {
+  font-size: 24px; font-weight: 900;
+  font-family: var(--mono); color: var(--red);
+  margin-bottom: 6px;
+}
+.memory-hint { font-size: 12px; color: var(--text3); }
+.memory-back { display: none; }
+.memory-card.flip .memory-front { display: none; }
+.memory-card.flip .memory-back { display: block; }
+.memory-answer { font-size: 14px; color: var(--text); line-height: 1.7; }
+
+/* ── 총점 ── */
+.result-box {
+  background: linear-gradient(135deg, var(--bg2), var(--bg3));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  margin-top: 20px;
+  display: none;
+}
+.result-box.show { display: block; }
+.result-score { font-size: 48px; font-weight: 900; font-family: var(--mono); }
+.result-label { font-size: 14px; color: var(--text2); margin-top: 4px; }
+.result-msg { font-size: 16px; font-weight: 700; margin-top: 12px; }
+.retry-btn {
+  margin-top: 16px;
+  padding: 10px 28px; border-radius: 8px;
+  background: var(--red-dim); border: 1px solid var(--red);
+  color: var(--red); font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: all .2s;
+}
+.retry-btn:hover { background: var(--red); color: #fff; }
+
+/* ── 화학 반응 ── */
+.chem-box {
+  background: var(--bg3);
+  border-radius: 10px;
+  padding: 14px;
+  font-family: var(--mono);
+  font-size: 13px;
+  margin: 8px 0;
+}
+.chem-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+.chem-dir { color: var(--text3); font-size: 12px; }
+.chem-eq { color: var(--text); flex: 1; }
+.chem-note { font-size: 11px; color: var(--text3); font-family: 'Noto Sans KR', sans-serif; }
+
+/* ── 구분선 ── */
+hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+/* ── 비교 하이라이트 ── */
+.hl-r { color: var(--red); font-weight: 700; }
+.hl-b { color: var(--blue); font-weight: 700; }
+.hl-g { color: var(--green); font-weight: 700; }
+.hl-y { color: var(--yellow); font-weight: 700; }
+.hl-o { color: var(--orange); font-weight: 700; }
+
+/* ── 학교 헤더 ── */
+.school-header-bar{background:#fff;border-bottom:3px solid #185FA5;padding:10px 1.5rem;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,0.15);}
+.school-logo-img{height:48px;width:auto;object-fit:contain;}
+.school-divider-line{width:1.5px;height:38px;background:#d0cfc8;flex-shrink:0;}
+.school-info-box{display:flex;flex-direction:column;gap:2px;flex:1;}
+.school-innovation-text{font-size:15px;font-weight:700;color:#185FA5;letter-spacing:-0.3px;}
+.school-sub-text{font-size:11px;color:#8a8a82;}
+.back-to-main{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#E6F1FB;color:#0C447C;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;border:1px solid #b8d4f0;transition:all .15s;}
+.back-to-main:hover{background:#185FA5;color:#fff;border-color:#185FA5;}
+@media(max-width:600px){.school-logo-img{height:36px;}.school-innovation-text{font-size:13px;}.back-to-main{font-size:12px;padding:6px 10px;}}
+</style>
+</head>
+<body>
+
+<!-- 학교 로고 헤더 -->
+<div class="school-header-bar">
+  <img src="아주자동차대학UI.jpg" alt="아주자동차대학교" class="school-logo-img">
+  <div class="school-divider-line"></div>
+  <div class="school-info-box">
+    <span class="school-innovation-text">혁신지원사업단</span>
+    <span class="school-sub-text">자동차정비 전공 교육자료</span>
+  </div>
+  <a href="index.html" class="back-to-main">🏠 메인으로</a>
+</div>
+
+<!-- ── 헤더 ── -->
+<div class="hero">
+  <div class="hero-tag">자동차정비기능사 전기전자</div>
+  <h1>🔋 배터리(축전지) 완벽 정리</h1>
+  <p>핵심 이론 · 기출 분석 · 모의고사 20문항</p>
+  <div class="hero-badges">
+    <span class="hero-badge hb-r">출제빈도 1위</span>
+    <span class="hero-badge hb-b">계산문제 포함</span>
+    <span class="hero-badge hb-g">기출 완벽 분석</span>
+  </div>
+</div>
+
+<!-- ── 탭 ── -->
+<div class="tabs-wrap">
+  <button class="tab-btn active" onclick="showTab('theory')">📚 핵심 이론</button>
+  <button class="tab-btn" onclick="showTab('chem')">⚗️ 화학반응</button>
+  <button class="tab-btn" onclick="showTab('calc')">🔢 계산 공식</button>
+  <button class="tab-btn" onclick="showTab('past')">📄 기출 분석</button>
+  <button class="tab-btn" onclick="showTab('mock')">✏️ 모의고사</button>
+  <button class="tab-btn" onclick="showTab('memory')">🧠 암기 카드</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     TAB 1 : 핵심 이론
+═══════════════════════════════════════════════════════ -->
+<div id="s-theory" class="section active">
+
+  <!-- 출제 빈도 -->
+  <div class="card">
+    <div class="card-head"><div class="card-title">📊 배터리 단원 출제 빈도</div></div>
+    <div class="freq-item">
+      <div class="freq-head"><span class="freq-name">셀 전압 & 구성</span><span class="freq-star">★★★★★</span></div>
+      <div class="freq-bg"><div class="freq-fill-bar" style="width:95%"></div></div>
+    </div>
+    <div class="freq-item">
+      <div class="freq-head"><span class="freq-name">극판 구성 (음극판 = 양극판+1)</span><span class="freq-star">★★★★★</span></div>
+      <div class="freq-bg"><div class="freq-fill-bar" style="width:92%"></div></div>
+    </div>
+    <div class="freq-item">
+      <div class="freq-head"><span class="freq-name">전해액 비중 & 충전상태</span><span class="freq-star">★★★★★</span></div>
+      <div class="freq-bg"><div class="freq-fill-bar" style="width:90%"></div></div>
+    </div>
+    <div class="freq-item">
+      <div class="freq-head"><span class="freq-name">온도-비중 보정</span><span class="freq-star">★★★★☆</span></div>
+      <div class="freq-bg"><div class="freq-fill-bar" style="width:80%"></div></div>
+    </div>
+    <div class="freq-item">
+      <div class="freq-head"><span class="freq-name">용량(AH) & 방전종지전압</span><span class="freq-star">★★★★☆</span></div>
+      <div class="freq-bg"><div class="freq-fill-bar" style="width:78%"></div></div>
+    </div>
+    <div class="freq-item">
+      <div class="freq-head"><span class="freq-name">황산화(설페이션) 원인</span><span class="freq-star">★★★☆☆</span></div>
+      <div class="freq-bg"><div class="freq-fill-bar" style="width:65%"></div></div>
+    </div>
+    <div class="freq-item">
+      <div class="freq-head"><span class="freq-name">충전 전류 & 방법</span><span class="freq-star">★★★☆☆</span></div>
+      <div class="freq-bg"><div class="freq-fill-bar" style="width:60%"></div></div>
+    </div>
+  </div>
+
+  <!-- 셀 & 전압 -->
+  <p class="sec-title">① 셀(Cell) & 전압 구성</p>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head"><div class="card-title">납산 배터리 셀 전압</div><span class="badge b-r">최빈 출제</span></div>
+      <div class="mini-card" style="margin-bottom:8px">
+        <div class="mc-label">셀 1개 전압</div>
+        <div class="mc-val" style="color:var(--red)">2.1 V</div>
+        <div class="mc-desc">기전력(개회로 전압) 기준</div>
+      </div>
+      <ul class="dot-list">
+        <li><strong>6셀 직렬</strong> → 공칭전압 <strong>12V</strong></li>
+        <li>셀 수 증가 → <strong>전압</strong> 증가</li>
+        <li>극판 수 증가 → <strong>용량(AH)</strong> 증가</li>
+        <li>셀당 전압 범위: <strong>2.1~2.3V</strong></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="card-title">알칼리 배터리 비교</div><span class="badge b-b">종류 비교</span></div>
+      <table>
+        <tr><th>구분</th><th>납산</th><th>알칼리</th></tr>
+        <tr><td>셀 전압</td><td><strong>2.1V</strong></td><td><strong>1.2V</strong></td></tr>
+        <tr><td>셀 수</td><td>6개</td><td>10개</td></tr>
+        <tr><td>내구성</td><td>기준</td><td><strong>2배</strong></td></tr>
+        <tr><td>가격</td><td>저렴</td><td>비싸다</td></tr>
+        <tr><td>전해액</td><td>희황산</td><td>수산화칼륨</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 극판 구성 -->
+  <p class="sec-title">② 극판 구성 — 함정 주의!</p>
+  <div class="card">
+    <div class="card-head"><div class="card-title">극판 수 관계</div><span class="badge b-r">반드시 암기</span></div>
+    <div class="danger-box">
+      ⚠️ <strong>음극판 수 = 양극판 수 + 1장</strong> (음극판이 항상 1개 더 많다!)
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="mini-card">
+        <div class="mc-label">음극판 (Negative)</div>
+        <div class="mc-val" style="color:var(--text2)">회색 (灰色)</div>
+        <div class="mc-desc">바깥쪽 배치, 충격에 강함</div>
+      </div>
+      <div class="mini-card">
+        <div class="mc-label">양극판 (Positive)</div>
+        <div class="mc-val" style="color:var(--orange)">암갈색</div>
+        <div class="mc-desc">이산화납(PbO₂)</div>
+      </div>
+    </div>
+    <div class="info-box" style="margin-top:10px">
+      💡 음극판이 1개 더 많은 이유: ① 바깥에 배치하여 충격 흡수, ② 양극판의 양쪽을 음극판이 균일하게 감싸 활성 물질 균형 유지
+    </div>
+  </div>
+
+  <!-- 전해액 비중 -->
+  <p class="sec-title">③ 전해액 비중 & 충전 상태</p>
+  <div class="card">
+    <div class="card-head"><div class="card-title">비중과 충전 상태 (온대 기준)</div><span class="badge b-r">계산 필수</span></div>
+    <div class="gauge-wrap" id="gauge-area">
+      <div class="gauge-row">
+        <div class="gauge-label">1.260 (완전충전)</div>
+        <div class="gauge-bar-bg"><div class="gauge-fill" style="width:100%;background:var(--green)"></div></div>
+        <div class="gauge-val" style="color:var(--green)">100%</div>
+      </div>
+      <div class="gauge-row">
+        <div class="gauge-label">1.210 (75% 충전)</div>
+        <div class="gauge-bar-bg"><div class="gauge-fill" style="width:75%;background:var(--blue)"></div></div>
+        <div class="gauge-val" style="color:var(--blue)">75%</div>
+      </div>
+      <div class="gauge-row">
+        <div class="gauge-label">1.150 (50% 충전)</div>
+        <div class="gauge-bar-bg"><div class="gauge-fill" style="width:50%;background:var(--yellow)"></div></div>
+        <div class="gauge-val" style="color:var(--yellow)">50%</div>
+      </div>
+      <div class="gauge-row">
+        <div class="gauge-label">1.100 (25% 충전)</div>
+        <div class="gauge-bar-bg"><div class="gauge-fill" style="width:25%;background:var(--orange)"></div></div>
+        <div class="gauge-val" style="color:var(--orange)">25%</div>
+      </div>
+      <div class="gauge-row">
+        <div class="gauge-label">1.050 (완전방전)</div>
+        <div class="gauge-bar-bg"><div class="gauge-fill" style="width:5%;background:var(--red)"></div></div>
+        <div class="gauge-val" style="color:var(--red)">0%</div>
+      </div>
+    </div>
+    <table style="margin-top:12px">
+      <tr><th>지방</th><th>완전충전 비중</th><th>이유</th></tr>
+      <tr><td>온대 (한국)</td><td><strong>1.260</strong></td><td>표준</td></tr>
+      <tr><td>한대 (극지방)</td><td><strong>1.280</strong></td><td>낮은 온도 → 비중 보정</td></tr>
+      <tr><td>열대 (적도)</td><td><strong>1.240</strong></td><td>높은 온도 → 비중 보정</td></tr>
+    </table>
+  </div>
+
+  <!-- 온도-비중 관계 -->
+  <p class="sec-title">④ 온도 & 비중 관계</p>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head"><div class="card-title">온도와 비중의 관계</div><span class="badge b-y">계산 출제</span></div>
+      <ul class="dot-list">
+        <li>온도 <strong>상승</strong> → 비중 <strong>감소</strong> ↓</li>
+        <li>온도 <strong>하강</strong> → 비중 <strong>증가</strong> ↑</li>
+        <li>변화량: 1℃당 <strong>0.0007</strong></li>
+      </ul>
+      <div class="formula">
+        S₂₀ = Sₜ + 0.0007 × (t − 20)
+        <span>S₂₀: 20℃ 기준 비중 | Sₜ: t℃에서 측정 비중</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="card-title">자기 방전율</div><span class="badge b-b">암기</span></div>
+      <ul class="dot-list">
+        <li>1일 자기 방전: <strong>0.3~1.5%</strong></li>
+        <li>온도 <strong>상승</strong> → 자기방전율 <strong>증가</strong></li>
+        <li>온도 <strong>하강</strong> → 자기방전율 <strong>감소</strong></li>
+        <li>MF(무보수) 배터리: 자기방전 <strong>최소화</strong></li>
+      </ul>
+      <div class="warn-box" style="margin-top:8px">
+        📌 기출 함정: "온도가 높아지면 자기방전율은?" → <strong>높아진다(증가)</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- 방전 종지 전압 & 용량 -->
+  <p class="sec-title">⑤ 방전 종지 전압 & 용량</p>
+  <div class="grid3">
+    <div class="mini-card">
+      <div class="mc-label">셀당 방전종지전압</div>
+      <div class="mc-val" style="color:var(--red)">1.75V</div>
+      <div class="mc-desc">이 이하로 방전하면 수명 단축</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-label">12V 배터리 방전종지</div>
+      <div class="mc-val" style="color:var(--orange)">10.5V</div>
+      <div class="mc-desc">1.75V × 6셀</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-label">용량 공식</div>
+      <div class="mc-val" style="font-size:16px;color:var(--blue)">I × H</div>
+      <div class="mc-desc">방전전류[A] × 방전시간[h] = AH</div>
+    </div>
+  </div>
+
+  <!-- 충전 방법 -->
+  <p class="sec-title">⑥ 충전 방법</p>
+  <div class="card">
+    <div class="card-head"><div class="card-title">충전 종류 비교</div><span class="badge b-b">자주 출제</span></div>
+    <table>
+      <tr><th>충전 방법</th><th>전류</th><th>특징</th></tr>
+      <tr><td>초충전 (신품)</td><td><strong>용량의 1/10~1/20</strong></td><td>60~70시간, 신품 배터리에 최초 실시</td></tr>
+      <tr><td>정전류 충전</td><td><strong>용량의 1/10</strong></td><td>가장 이상적, 배터리에 무리 없음</td></tr>
+      <tr><td>급속 충전</td><td><strong>용량의 1/2</strong></td><td>45℃ 이하 유지, 단시간</td></tr>
+      <tr><td>보충전</td><td>용량의 1/10</td><td><strong>15일마다</strong> 실시</td></tr>
+      <tr><td>정전압 충전</td><td>변동</td><td>일정 전압 유지, 전류 자동 조절</td></tr>
+    </table>
+    <div class="warn-box" style="margin-top:10px">
+      ⚠️ 급속 충전 시 전해액 온도 <strong>45℃</strong> 초과 금지! 초과 시 극판 및 격리판 손상
+    </div>
+  </div>
+
+  <!-- 이상 현상 -->
+  <p class="sec-title">⑦ 배터리 이상 현상</p>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head"><div class="card-title">황산화(설페이션)</div><span class="badge b-o">원인 암기</span></div>
+      <ul class="dot-list">
+        <li>극판이 <strong>공기에 노출</strong>될 때</li>
+        <li><strong>과방전</strong> 또는 <strong>불충전 반복</strong></li>
+        <li>전해액 비중이 <strong>너무 높거나 낮을 때</strong></li>
+        <li><strong>이물질</strong> 유입</li>
+        <li>장시간 방전 상태 방치</li>
+        <li>전해액 온도가 <strong>너무 높을 때</strong></li>
+      </ul>
+      <div class="info-box">황산납(PbSO₄) 결정이 극판에 생성 → 용량 감소, 수명 단축</div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="card-title">과충전 시 현상</div><span class="badge b-r">현상 암기</span></div>
+      <ul class="dot-list">
+        <li>가스(H₂, O₂) 발생 <strong>증가</strong></li>
+        <li>전해액 <strong>부족</strong> (증발)</li>
+        <li>전해액 온도 <strong>상승</strong></li>
+        <li>전해액 비중 <strong>상승</strong></li>
+        <li>전해액이 <strong>갈색</strong>으로 변함</li>
+        <li><strong>양극 커넥터</strong> 부풀어 오름</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 배터리 관리 -->
+  <p class="sec-title">⑧ 배터리 관리 & 교환</p>
+  <div class="card">
+    <div class="card-head"><div class="card-title">배터리 교환 순서 (안전)</div><span class="badge b-g">실기 연계</span></div>
+    <div class="grid2">
+      <div>
+        <div class="warn-box">
+          🔧 <strong>탈거 순서:</strong> (−) 접지 케이블 <strong>먼저</strong> 탈거 → (+) 케이블
+        </div>
+        <div style="height:8px"></div>
+        <div class="info-box">
+          🔧 <strong>장착 순서:</strong> (+) 케이블 <strong>먼저</strong> 장착 → (−) 접지 케이블
+        </div>
+      </div>
+      <div>
+        <ul class="dot-list">
+          <li>전해액 누출 시 <strong>중탄산소다</strong>(알칼리)로 중화</li>
+          <li>단자 부식 방지: <strong>그리스</strong> 도포</li>
+          <li>증류수 보충: 극판 위 <strong>10~13mm</strong></li>
+          <li>전해액 제조: <strong>황산을 물에 천천히</strong> 부음 (역방향 금지)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     TAB 2 : 화학반응
+═══════════════════════════════════════════════════════ -->
+<div id="s-chem" class="section">
+  <div class="card">
+    <div class="card-head"><div class="card-title">납산 배터리 충·방전 화학반응</div><span class="badge b-p">이해 필수</span></div>
+    <div class="chem-box">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:12px;letter-spacing:1px">완전 화학반응식</div>
+      <div class="chem-row">
+        <span style="color:var(--text3);font-size:11px">양극</span>
+        <span class="chem-eq">PbO₂ + H₂SO₄</span>
+        <span style="color:var(--yellow)">⇌</span>
+        <span class="chem-eq">PbSO₄ + H₂O + O</span>
+      </div>
+      <div class="chem-row">
+        <span style="color:var(--text3);font-size:11px">음극</span>
+        <span class="chem-eq">Pb + H₂SO₄</span>
+        <span style="color:var(--yellow)">⇌</span>
+        <span class="chem-eq">PbSO₄ + H₂</span>
+      </div>
+    </div>
+    <div class="warn-box">
+      ⚡ 방향: <strong>← 방전</strong> (오른쪽에서 왼쪽) / <strong>충전 →</strong> (왼쪽에서 오른쪽)
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head"><div class="card-title">⬇ 방전 시</div><span class="badge b-o">방전</span></div>
+      <ul class="dot-list">
+        <li>양극판: <strong>이산화납(PbO₂)</strong> → <strong>황산납(PbSO₄)</strong></li>
+        <li>음극판: <strong>납(Pb)</strong> → <strong>황산납(PbSO₄)</strong></li>
+        <li>전해액: <strong>황산(H₂SO₄)</strong> → 물로 변화</li>
+        <li>비중 <strong>감소</strong> ↓ (물이 많아짐)</li>
+        <li>(−) 단자: 산화반응</li>
+        <li>(+) 단자: 환원반응</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="card-title">⬆ 충전 시</div><span class="badge b-b">충전</span></div>
+      <ul class="dot-list">
+        <li>황산납(PbSO₄) → 원래 상태로 복귀</li>
+        <li>전해액: 물 → <strong>황산으로</strong> 변화</li>
+        <li>비중 <strong>증가</strong> ↑ (황산 증가)</li>
+        <li>(+) 단자: <strong>산소 발생</strong></li>
+        <li>(−) 단자: <strong>수소 발생</strong></li>
+        <li>수소 가스 → <strong>폭발 위험</strong> (환기 필수)</li>
+      </ul>
+      <div class="danger-box">🔥 충전 중 수소가스 발생! 불꽃·화기 절대 금지</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-title">극판 구성 물질 요약</div><span class="badge b-g">암기</span></div>
+    <table>
+      <tr><th>극판</th><th>충전 상태</th><th>방전 후</th><th>색상</th></tr>
+      <tr><td>양극판 (+)</td><td><strong>이산화납 PbO₂</strong></td><td>황산납 PbSO₄</td><td><strong>암갈색</strong></td></tr>
+      <tr><td>음극판 (−)</td><td><strong>납 Pb</strong></td><td>황산납 PbSO₄</td><td><strong>회색</strong></td></tr>
+      <tr><td>전해액</td><td><strong>희황산 H₂SO₄</strong></td><td>물(비중↓)</td><td>무색</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-title">MF(무보수) 배터리 특징</div><span class="badge b-b">비교</span></div>
+    <div class="grid2">
+      <ul class="dot-list">
+        <li>증류수 <strong>보충 불필요</strong></li>
+        <li>자기방전율이 <strong>낮다</strong></li>
+        <li>밀폐형 구조</li>
+      </ul>
+      <ul class="dot-list">
+        <li>수소·산소 가스 <strong>재결합</strong></li>
+        <li>비중계 내장 모델 있음</li>
+        <li>일반 납산 대비 <strong>긴 수명</strong></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     TAB 3 : 계산 공식
+═══════════════════════════════════════════════════════ -->
+<div id="s-calc" class="section">
+
+  <!-- 비중 보정 계산기 -->
+  <div class="card">
+    <div class="card-head"><div class="card-title">🧮 비중 온도 보정 계산기</div><span class="badge b-r">계산 문제</span></div>
+    <div class="formula">
+      S₂₀ = Sₜ + 0.0007 × (t − 20)
+      <span>S₂₀: 20℃ 기준 환산 비중 | Sₜ: 실측 비중 | t: 실측 온도(℃)</span>
+    </div>
+    <div class="calc-box">
+      <div class="calc-row">
+        <label>측정 비중 (Sₜ)</label>
+        <input type="number" class="calc-input" id="sg-val" value="1.240" step="0.001">
+      </div>
+      <div class="calc-row">
+        <label>측정 온도 (t)</label>
+        <input type="number" class="calc-input" id="sg-temp" value="35"> <span class="unit">℃</span>
+      </div>
+      <button class="calc-btn" onclick="calcSG()">계산하기</button>
+      <div class="calc-result" id="sg-result">—</div>
+    </div>
+    <div class="warn-box" style="margin-top:10px">
+      💡 온도가 <strong>높으면</strong> 실측 비중이 낮게 나오므로 (+) 보정, <strong>낮으면</strong> (−) 보정
+    </div>
+  </div>
+
+  <!-- 용량 계산기 -->
+  <div class="card">
+    <div class="card-head"><div class="card-title">🧮 배터리 용량(AH) 계산기</div><span class="badge b-b">계산 문제</span></div>
+    <div class="formula">
+      용량 [AH] = 방전전류 [A] × 방전시간 [h]
+    </div>
+    <div class="calc-box">
+      <div class="calc-row">
+        <label>방전 전류 (A)</label>
+        <input type="number" class="calc-input" id="ah-i" value="5"> <span class="unit">A</span>
+      </div>
+      <div class="calc-row">
+        <label>방전 시간 (h)</label>
+        <input type="number" class="calc-input" id="ah-h" value="20"> <span class="unit">h</span>
+      </div>
+      <button class="calc-btn" onclick="calcAH()">계산하기</button>
+      <div class="calc-result" id="ah-result">—</div>
+    </div>
+  </div>
+
+  <!-- 충전 전류 계산기 -->
+  <div class="card">
+    <div class="card-head"><div class="card-title">🧮 충전 전류 계산기</div><span class="badge b-g">계산 문제</span></div>
+    <div class="calc-box">
+      <div class="calc-row">
+        <label>배터리 용량</label>
+        <input type="number" class="calc-input" id="chg-cap" value="100"> <span class="unit">AH</span>
+      </div>
+      <div class="calc-row">
+        <label>충전 방법</label>
+        <select id="chg-type" style="padding:6px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;">
+          <option value="10">정전류 (1/10)</option>
+          <option value="2">급속 (1/2)</option>
+          <option value="15">보충전 (1/10)</option>
+          <option value="20">초충전 (1/20)</option>
+        </select>
+      </div>
+      <button class="calc-btn" onclick="calcChg()">계산하기</button>
+      <div class="calc-result" id="chg-result">—</div>
+    </div>
+  </div>
+
+  <!-- 주요 수치 정리 -->
+  <p class="sec-title">핵심 수치 총정리</p>
+  <div class="grid3">
+    <div class="mini-card"><div class="mc-label">셀 전압 (납산)</div><div class="mc-val" style="color:var(--red)">2.1V</div></div>
+    <div class="mini-card"><div class="mc-label">셀 전압 (알칼리)</div><div class="mc-val" style="color:var(--blue)">1.2V</div></div>
+    <div class="mini-card"><div class="mc-label">완전충전 비중</div><div class="mc-val" style="color:var(--green)">1.260</div></div>
+    <div class="mini-card"><div class="mc-label">방전종지전압/셀</div><div class="mc-val" style="color:var(--orange)">1.75V</div></div>
+    <div class="mini-card"><div class="mc-label">12V 방전종지</div><div class="mc-val" style="color:var(--yellow)">10.5V</div></div>
+    <div class="mini-card"><div class="mc-label">비중 온도계수</div><div class="mc-val" style="color:var(--purple)">0.0007</div></div>
+    <div class="mini-card"><div class="mc-label">정전류 충전</div><div class="mc-val" style="color:var(--green)">1/10</div></div>
+    <div class="mini-card"><div class="mc-label">급속충전 전류</div><div class="mc-val" style="color:var(--red)">1/2</div></div>
+    <div class="mini-card"><div class="mc-label">급속충전 온도</div><div class="mc-val" style="color:var(--orange)">45℃↓</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     TAB 4 : 기출 분석
+═══════════════════════════════════════════════════════ -->
+<div id="s-past" class="section">
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-head"><div class="card-title">📋 기출 문제 클릭하면 해설이 나옵니다</div></div>
+    <p style="font-size:13px;color:var(--text2)">실제 기출 분석 — 클릭하여 정답 및 해설 확인</p>
+  </div>
+
+  <!-- 기출 1 -->
+  <div class="quiz-card" onclick="toggleQuiz(this)">
+    <span class="quiz-year">기출</span>
+    <div class="quiz-q">납산 축전지에서 음극판의 수가 양극판보다 많은 이유는?<br>
+    ㉮ 양극판이 더 빨리 닳기 때문에 &nbsp; ㉯ 바깥쪽에 배치하여 충격을 흡수하기 위해<br>
+    ㉰ 전압을 높이기 위해 &nbsp; ㉱ 전해액 용량을 늘리기 위해</div>
+    <div class="quiz-ans">
+      <div class="ans-label">정답 ✓</div>
+      <div class="ans-text"><span class="ans-key">㉯ 바깥쪽에 배치하여 충격을 흡수하기 위해</span><br>
+      음극판은 양극판보다 항상 1장 더 많으며, 가장 바깥에 배치됩니다. 이유: ① 물리적 충격 흡수, ② 양극판 양쪽을 균일하게 감싸 활성 물질의 균등한 사용</div>
+    </div>
+  </div>
+
+  <!-- 기출 2 -->
+  <div class="quiz-card" onclick="toggleQuiz(this)">
+    <span class="quiz-year">기출</span>
+    <div class="quiz-q">축전지 전해액의 비중이 1.240이고 온도가 35℃일 때 20℃로 환산한 비중은?<br>
+    ㉮ 1.229 &nbsp; ㉯ 1.233 &nbsp; ㉰ 1.249 &nbsp; ㉱ 1.261</div>
+    <div class="quiz-ans">
+      <div class="ans-label">정답 ✓</div>
+      <div class="ans-text"><span class="ans-key">㉱ 1.261 (근사값 1.250 정도)</span><br>
+      S₂₀ = 1.240 + 0.0007 × (35 − 20) = 1.240 + 0.0007 × 15 = 1.240 + 0.0105 = <strong>1.2505 ≈ 1.250</strong><br>
+      ⚡ 공식: S₂₀ = Sₜ + 0.0007(t−20)</div>
+    </div>
+  </div>
+
+  <!-- 기출 3 -->
+  <div class="quiz-card" onclick="toggleQuiz(this)">
+    <span class="quiz-year">기출</span>
+    <div class="quiz-q">축전지의 자기 방전율은 온도가 높아지면 어떻게 되는가?<br>
+    ㉮ 일정하다 &nbsp; ㉯ 높아진다 &nbsp; ㉰ 관계없다 &nbsp; ㉱ 낮아진다</div>
+    <div class="quiz-ans">
+      <div class="ans-label">정답 ✓</div>
+      <div class="ans-text"><span class="ans-key">㉯ 높아진다</span><br>
+      온도가 상승하면 배터리 내부의 화학반응이 활발해져 자기 방전율이 증가합니다. 반대로 온도가 낮아지면 자기방전율도 감소합니다.</div>
+    </div>
+  </div>
+
+  <!-- 기출 4 -->
+  <div class="quiz-card" onclick="toggleQuiz(this)">
+    <span class="quiz-year">기출</span>
+    <div class="quiz-q">납산 배터리의 전해액이 흘렀을 때 중화용액으로 가장 알맞은 것은?<br>
+    ㉮ 중탄산소다 &nbsp; ㉯ 황산 &nbsp; ㉰ 증류수 &nbsp; ㉱ 수돗물</div>
+    <div class="quiz-ans">
+      <div class="ans-label">정답 ✓</div>
+      <div class="ans-text"><span class="ans-key">㉮ 중탄산소다</span><br>
+      전해액은 <strong>희황산(산성)</strong>이므로 알칼리성인 <strong>중탄산소다(베이킹소다, NaHCO₃)</strong>로 중화시킵니다.</div>
+    </div>
+  </div>
+
+  <!-- 기출 5 -->
+  <div class="quiz-card" onclick="toggleQuiz(this)">
+    <span class="quiz-year">기출</span>
+    <div class="quiz-q">차량에 축전지를 교환할 때 안전하게 작업하려면?<br>
+    ㉮ 두 케이블을 동시에 연결한다 &nbsp; ㉯ 점화스위치를 넣고 연결한다<br>
+    ㉰ 케이블 연결 시 접지 케이블을 나중에 연결한다 &nbsp; ㉱ 케이블 탈착 시 (+)케이블을 먼저 떼어낸다</div>
+    <div class="quiz-ans">
+      <div class="ans-label">정답 ✓</div>
+      <div class="ans-text"><span class="ans-key">㉰ 케이블 연결 시 접지 케이블을 나중에 연결한다</span><br>
+      탈거: (−)접지 → (+) 순서 | 장착: (+) → (−)접지 순서<br>
+      이유: (−)를 먼저 연결하면 (+) 연결 시 차체에 단락(쇼트) 위험!</div>
+    </div>
+  </div>
+
+  <!-- 기출 6 -->
+  <div class="quiz-card" onclick="toggleQuiz(this)">
+    <span class="quiz-year">기출</span>
+    <div class="quiz-q">축전지 단자의 부식을 방지하기 위한 방법으로 옳은 것은?<br>
+    ㉮ 경유를 바른다 &nbsp; ㉯ 그리스를 바른다 &nbsp; ㉰ 엔진오일을 바른다 &nbsp; ㉱ 탄산나트륨을 바른다</div>
+    <div class="quiz-ans">
+      <div class="ans-label">정답 ✓</div>
+      <div class="ans-text"><span class="ans-key">㉯ 그리스를 바른다</span><br>
+      배터리 단자에 <strong>그리스(백색 그리스)</strong>를 도포하여 공기와의 접촉을 차단, 산화·부식 방지</div>
+    </div>
+  </div>
+
+  <!-- 기출 7 -->
+  <div class="quiz-card" onclick="toggleQuiz(this)">
+    <span class="quiz-year">기출</span>
+    <div class="quiz-q">납산 축전지의 완전 충전 시 전해액 비중(온대 기준)은?<br>
+    ㉮ 1.180~1.200 &nbsp; ㉯ 1.220~1.240 &nbsp; ㉰ 1.250~1.270 &nbsp; ㉱ 1.290~1.310</div>
+    <div class="quiz-ans">
+      <div class="ans-label">정답 ✓</div>
+      <div class="ans-text"><span class="ans-key">㉰ 1.250~1.270 (대표값 1.260)</span><br>
+      온대 지방 완전충전 비중: <strong>1.260</strong> | 한대: 1.280 | 열대: 1.240<br>
+      시험에는 보통 "1.260" 단독 수치로 출제됩니다.</div>
+    </div>
+  </div>
+
+  <!-- 기출 8 -->
+  <div class="quiz-card" onclick="toggleQuiz(this)">
+    <span class="quiz-year">기출</span>
+    <div class="quiz-q">납산 배터리 충전 시 양극 단자에서 발생하는 가스는?<br>
+    ㉮ 수소 &nbsp; ㉯ 산소 &nbsp; ㉰ 질소 &nbsp; ㉱ 이산화탄소</div>
+    <div class="quiz-ans">
+      <div class="ans-label">정답 ✓</div>
+      <div class="ans-text"><span class="ans-key">㉯ 산소</span><br>
+      충전 시: (+) 단자 → <strong>산소</strong> 발생 / (−) 단자 → <strong>수소</strong> 발생<br>
+      ⚡ 암기법: <strong>양(+) = 산소</strong>, <strong>음(−) = 수소</strong></div>
+    </div>
+  </div>
+
+  <!-- 기출 9 -->
+  <div class="quiz-card" onclick="toggleQuiz(this)">
+    <span class="quiz-year">기출</span>
+    <div class="quiz-q">축전지의 황산화(설페이션) 현상의 원인이 아닌 것은?<br>
+    ㉮ 과방전 상태로 방치 &nbsp; ㉯ 전해액 비중이 너무 높거나 낮음<br>
+    ㉰ 급속 충전의 전류가 너무 높음 &nbsp; ㉱ 극판이 공기에 노출됨</div>
+    <div class="quiz-ans">
+      <div class="ans-label">정답 ✓</div>
+      <div class="ans-text"><span class="ans-key">㉰ 급속 충전의 전류가 너무 높음</span><br>
+      급속충전 전류가 높으면 → 과충전 증상 (온도 상승, 가스 발생 등)이 생기지, 황산화가 직접 원인은 아닙니다.<br>
+      황산화 원인: ① 극판 공기 노출 ② 과방전·불충전 반복 ③ 비중 이상 ④ 이물질 유입 ⑤ 장시간 방전 방치</div>
+    </div>
+  </div>
+
+  <!-- 기출 10 -->
+  <div class="quiz-card" onclick="toggleQuiz(this)">
+    <span class="quiz-year">기출</span>
+    <div class="quiz-q">방전 종지 전압에 대한 설명으로 옳은 것은?<br>
+    ㉮ 셀당 1.25V &nbsp; ㉯ 셀당 1.50V &nbsp; ㉰ 셀당 1.75V &nbsp; ㉱ 셀당 2.10V</div>
+    <div class="quiz-ans">
+      <div class="ans-label">정답 ✓</div>
+      <div class="ans-text"><span class="ans-key">㉰ 셀당 1.75V</span><br>
+      방전 종지 전압 = <strong>1.75V/셀</strong> = 12V 배터리 기준 <strong>10.5V</strong><br>
+      이 전압 이하로 방전하면 황산화가 발생하여 배터리 수명이 급격히 단축됩니다.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     TAB 5 : 모의고사
+═══════════════════════════════════════════════════════ -->
+<div id="s-mock" class="section">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <div class="progress-label">진행 현황</div>
+      <div class="progress-score" id="mock-score">0 / 20</div>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="mock-bar" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- 문제 1~20 -->
+  <div id="mock-questions"></div>
+
+  <div class="result-box" id="result-box">
+    <div class="result-score" id="result-score" style="color:var(--green)">—</div>
+    <div class="result-label">20문제 중 정답</div>
+    <div class="result-msg" id="result-msg"></div>
+    <button class="retry-btn" onclick="retryMock()">🔄 다시 풀기</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     TAB 6 : 암기 카드
+═══════════════════════════════════════════════════════ -->
+<div id="s-memory" class="section">
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-head"><div class="card-title">🧠 플립 암기 카드</div></div>
+    <p style="font-size:13px;color:var(--text2)">카드를 클릭하면 답이 나옵니다!</p>
+  </div>
+  <div class="grid2" id="mem-cards"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     자바스크립트
+═══════════════════════════════════════════════════════ -->
+<script>
+// 탭 전환
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('s-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// 기출 퀴즈 토글
+function toggleQuiz(el) {
+  el.classList.toggle('open');
+}
+
+// 비중 보정 계산
+function calcSG() {
+  const sv = parseFloat(document.getElementById('sg-val').value);
+  const t = parseFloat(document.getElementById('sg-temp').value);
+  if (isNaN(sv) || isNaN(t)) return;
+  const s20 = sv + 0.0007 * (t - 20);
+  document.getElementById('sg-result').textContent = 'S₂₀ = ' + s20.toFixed(4);
+}
+
+// 용량 계산
+function calcAH() {
+  const i = parseFloat(document.getElementById('ah-i').value);
+  const h = parseFloat(document.getElementById('ah-h').value);
+  if (isNaN(i) || isNaN(h)) return;
+  document.getElementById('ah-result').textContent = `용량 = ${i * h} AH`;
+}
+
+// 충전 전류 계산
+function calcChg() {
+  const cap = parseFloat(document.getElementById('chg-cap').value);
+  const div = parseFloat(document.getElementById('chg-type').value);
+  if (isNaN(cap)) return;
+  const cur = cap / div;
+  document.getElementById('chg-result').textContent = `충전 전류 = ${cur.toFixed(1)} A`;
+}
+
+// ── 모의고사 데이터 ──
+const mockData = [
+  {
+    q: "납산 배터리 셀 1개의 기전력(공칭 전압)은?",
+    opts: ["1.2V", "1.75V", "2.1V", "6V"],
+    ans: 2,
+    exp: "납산 배터리 셀 1개의 공칭 전압은 2.1V입니다. 6셀을 직렬 연결하면 12.6V ≈ 12V가 됩니다. (알칼리 배터리는 1.2V/셀)"
+  },
+  {
+    q: "12V 납산 배터리는 셀이 몇 개 직렬 연결되어 있는가?",
+    opts: ["4개", "5개", "6개", "10개"],
+    ans: 2,
+    exp: "12V 배터리는 2.1V 셀 6개를 직렬 연결한 것입니다. 셀 수를 늘리면 전압이 높아지고, 극판 수를 늘리면 용량(AH)이 커집니다."
+  },
+  {
+    q: "납산 축전지에서 음극판과 양극판의 관계로 옳은 것은?",
+    opts: ["음극판 = 양극판", "양극판 = 음극판 + 1", "음극판 = 양극판 + 1", "셀마다 다르다"],
+    ans: 2,
+    exp: "음극판은 항상 양극판보다 1장 많습니다. 음극판이 양극판의 양쪽을 감싸도록 배치하여 충격 흡수 및 양극판의 균일한 활성화를 유지합니다."
+  },
+  {
+    q: "온대 지방 기준 납산 배터리 완전충전 시 전해액 비중은?",
+    opts: ["1.150", "1.200", "1.260", "1.300"],
+    ans: 2,
+    exp: "온대: 1.260, 한대: 1.280, 열대: 1.240 — 온도가 낮은 지방일수록 비중을 높게 설정합니다."
+  },
+  {
+    q: "전해액 비중이 1.100일 때 충전 상태는?",
+    opts: ["100%", "75%", "50%", "25%"],
+    ans: 3,
+    exp: "비중-충전상태 대응: 1.260=100%, 1.210=75%, 1.150=50%, 1.100=25%, 1.050=0%"
+  },
+  {
+    q: "전해액 온도가 1℃ 상승할 때 비중 변화량은?",
+    opts: ["0.0003", "0.0005", "0.0007", "0.0010"],
+    ans: 2,
+    exp: "1℃당 비중 변화량은 0.0007입니다. 보정식: S₂₀ = Sₜ + 0.0007 × (t − 20)"
+  },
+  {
+    q: "전해액 비중이 1.230이고 온도가 30℃일 때 20℃ 환산 비중은?",
+    opts: ["1.223", "1.230", "1.237", "1.244"],
+    ans: 2,
+    exp: "S₂₀ = 1.230 + 0.0007 × (30−20) = 1.230 + 0.007 = 1.237"
+  },
+  {
+    q: "납산 배터리의 방전 종지 전압(셀당)은?",
+    opts: ["1.50V", "1.75V", "2.00V", "2.10V"],
+    ans: 1,
+    exp: "방전 종지 전압은 셀당 1.75V, 12V 배터리는 10.5V입니다. 이 이하로 방전하면 황산화 발생."
+  },
+  {
+    q: "배터리 용량이 100AH일 때 정전류 충전 전류는?",
+    opts: ["2A", "5A", "10A", "50A"],
+    ans: 2,
+    exp: "정전류 충전 = 용량의 1/10 = 100 ÷ 10 = 10A가 이상적입니다. 가장 배터리에 부담이 적은 충전 방법입니다."
+  },
+  {
+    q: "배터리 용량이 60AH일 때 급속 충전 전류는?",
+    opts: ["6A", "12A", "30A", "60A"],
+    ans: 2,
+    exp: "급속 충전 = 용량의 1/2 = 60 ÷ 2 = 30A. 단, 전해액 온도 45℃ 이하를 유지해야 합니다."
+  },
+  {
+    q: "충전 시 납산 배터리 양극(+) 단자에서 발생하는 가스는?",
+    opts: ["수소", "산소", "질소", "이산화탄소"],
+    ans: 1,
+    exp: "충전 시 (+) 단자 → 산소 발생, (−) 단자 → 수소 발생. 수소는 폭발성이므로 환기 필수!"
+  },
+  {
+    q: "황산화(설페이션)의 원인이 아닌 것은?",
+    opts: ["극판이 공기에 노출", "과방전 상태로 방치", "증류수를 자주 보충", "장시간 방전 방치"],
+    ans: 2,
+    exp: "증류수를 자주 보충하는 것은 황산화 방지에 도움이 됩니다. 황산화 원인: 공기 노출, 과방전, 불충전 반복, 비중 이상, 이물질 유입"
+  },
+  {
+    q: "배터리 전해액(황산)이 흘렀을 때 중화에 사용하는 것은?",
+    opts: ["증류수", "중탄산소다", "경유", "수돗물"],
+    ans: 1,
+    exp: "전해액은 황산(산성)이므로 알칼리성인 중탄산소다(NaHCO₃)로 중화합니다."
+  },
+  {
+    q: "배터리 교환 시 케이블 탈거 순서로 올바른 것은?",
+    opts: ["(+) 먼저 → (−)", "(−) 먼저 → (+)", "동시에 탈거", "어느 쪽도 상관없음"],
+    ans: 1,
+    exp: "탈거: (−)접지 케이블 먼저 탈거 → (+) 케이블 / 장착: (+) 케이블 먼저 → (−)접지 케이블. (−)을 먼저 탈거하는 이유: 쇼트 방지"
+  },
+  {
+    q: "배터리 단자 부식 방지를 위해 바르는 것은?",
+    opts: ["엔진오일", "경유", "그리스", "냉각수"],
+    ans: 2,
+    exp: "배터리 단자에 그리스를 발라 공기 접촉을 차단하여 산화·부식을 방지합니다."
+  },
+  {
+    q: "납산 배터리 충전 시 발생하는 수소 가스에 대한 주의사항은?",
+    opts: ["충분히 모아서 활용한다", "불꽃과 화기를 멀리한다", "팬으로 공급한다", "밀폐된 공간에서 충전한다"],
+    ans: 1,
+    exp: "수소 가스는 폭발성이 있으므로 충전 중 불꽃, 화기를 절대 금지하고 환기가 잘 되는 곳에서 충전해야 합니다."
+  },
+  {
+    q: "자기 방전율에 대한 설명으로 올바른 것은?",
+    opts: ["온도가 높을수록 낮아진다", "온도가 낮을수록 높아진다", "온도가 높을수록 높아진다", "온도와 무관하다"],
+    ans: 2,
+    exp: "온도가 높아지면 내부 화학반응이 활발해져 자기방전율이 증가합니다. 1일 자기방전율: 0.3~1.5%"
+  },
+  {
+    q: "과충전 시 나타나는 현상이 아닌 것은?",
+    opts: ["전해액 온도 상승", "가스 발생 증가", "극판 황산화 증가", "전해액 비중 상승"],
+    ans: 2,
+    exp: "황산화(설페이션)는 과방전이나 불충전 반복 시 발생합니다. 과충전 시에는 가스 발생↑, 온도↑, 비중↑, 전해액 갈색화 등이 나타납니다."
+  },
+  {
+    q: "납산 배터리 양극판의 색상은?",
+    opts: ["회색", "흰색", "암갈색", "검은색"],
+    ans: 2,
+    exp: "양극판: 암갈색 (이산화납 PbO₂) / 음극판: 회색 (납 Pb)"
+  },
+  {
+    q: "방전 시 납산 배터리 양극판·음극판이 모두 변하는 물질은?",
+    opts: ["이산화납(PbO₂)", "납(Pb)", "황산납(PbSO₄)", "황산(H₂SO₄)"],
+    ans: 2,
+    exp: "방전 시 양극판(PbO₂)과 음극판(Pb) 모두 황산납(PbSO₄)으로 변합니다. 충전 시에는 원래 상태로 복귀합니다."
+  }
+];
+
+let answers = new Array(mockData.length).fill(null);
+let correctCount = 0;
+
+function buildMock() {
+  answers = new Array(mockData.length).fill(null);
+  correctCount = 0;
+  updateScore();
+  document.getElementById('result-box').classList.remove('show');
+  const container = document.getElementById('mock-questions');
+  container.innerHTML = '';
+  mockData.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'mock-q';
+    div.id = 'mq-' + qi;
+    div.innerHTML = `
+      <div class="mock-q-num">문제 ${qi + 1} / ${mockData.length}</div>
+      <div class="mock-q-text">${q.q}</div>
+      <ul class="options">
+        ${q.opts.map((o, oi) => `
+          <li><button class="opt-btn" onclick="selectOpt(${qi}, ${oi}, this)">${['①','②','③','④'][oi]} ${o}</button></li>
+        `).join('')}
+      </ul>
+      <div class="mock-explain" id="exp-${qi}">
+        <div class="explain-title">✅ 해설</div>
+        ${q.exp}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function selectOpt(qi, oi, btn) {
+  if (answers[qi] !== null) return; // 이미 답함
+  answers[qi] = oi;
+  const q = mockData[qi];
+  const btns = btn.closest('.options').querySelectorAll('.opt-btn');
+  btns.forEach(b => b.disabled = true);
+  if (oi === q.ans) {
+    btn.classList.add('correct');
+    correctCount++;
+  } else {
+    btn.classList.add('wrong');
+    btns[q.ans].classList.add('correct');
+  }
+  document.getElementById('exp-' + qi).classList.add('show');
+  updateScore();
+  if (answers.filter(a => a !== null).length === mockData.length) showResult();
+}
+
+function updateScore() {
+  const answered = answers.filter(a => a !== null).length;
+  document.getElementById('mock-score').textContent = `${correctCount} / ${mockData.length}`;
+  document.getElementById('mock-bar').style.width = (answered / mockData.length * 100) + '%';
+}
+
+function showResult() {
+  const box = document.getElementById('result-box');
+  const pct = Math.round(correctCount / mockData.length * 100);
+  document.getElementById('result-score').textContent = `${correctCount}점`;
+  document.getElementById('result-score').style.color = pct >= 60 ? 'var(--green)' : 'var(--red)';
+  let msg = pct >= 90 ? '🏆 완벽! 배터리 마스터!' :
+            pct >= 70 ? '👍 합격 안정권! 조금 더 보완하세요.' :
+            pct >= 60 ? '⚠️ 아슬아슬 합격권. 오답 복습 필요!' :
+            '❌ 불합격 위험. 핵심 이론 탭을 다시 공부하세요!';
+  document.getElementById('result-msg').textContent = msg;
+  box.classList.add('show');
+  box.scrollIntoView({ behavior: 'smooth' });
+}
+
+function retryMock() {
+  buildMock();
+  window.scrollTo({ top: document.getElementById('s-mock').offsetTop, behavior: 'smooth' });
+}
+
+// ── 암기 카드 데이터 ──
+const memCards = [
+  { keyword: "2.1V", hint: "납산 셀 전압", answer: "납산 배터리 셀 1개의 공칭 전압. 6셀 직렬 = 12V 배터리" },
+  { keyword: "1.260", hint: "온대 완전충전 비중", answer: "온대: 1.260 / 한대: 1.280 / 열대: 1.240" },
+  { keyword: "1.75V", hint: "방전 종지 전압/셀", answer: "셀당 방전 종지 전압. 12V 배터리는 10.5V (1.75×6)" },
+  { keyword: "음=양+1", hint: "극판 수 관계", answer: "음극판 수 = 양극판 수 + 1. 음극판이 항상 1개 더 많다" },
+  { keyword: "0.0007", hint: "비중 온도 계수", answer: "1℃당 비중 변화량. S₂₀ = Sₜ + 0.0007(t-20)" },
+  { keyword: "1/10", hint: "정전류 충전 전류", answer: "정전류 충전 = 용량의 1/10. 가장 이상적인 충전 방법" },
+  { keyword: "1/2", hint: "급속 충전 전류", answer: "급속 충전 = 용량의 1/2. 45℃ 이하 유지 필수" },
+  { keyword: "PbSO₄", hint: "방전 시 극판", answer: "방전 시 양극판(PbO₂)과 음극판(Pb)이 모두 황산납(PbSO₄)으로 변함" },
+  { keyword: "암갈색", hint: "양극판 색상", answer: "양극판 = 암갈색 (이산화납 PbO₂) / 음극판 = 회색 (납 Pb)" },
+  { keyword: "중탄산소다", hint: "전해액 중화제", answer: "황산(산성) 전해액 누출 시 알칼리성 중탄산소다로 중화" },
+  { keyword: "(-)먼저", hint: "배터리 탈거 순서", answer: "탈거: (-)접지 먼저 → (+) / 장착: (+) 먼저 → (-)접지" },
+  { keyword: "그리스", hint: "단자 부식 방지", answer: "배터리 단자에 그리스를 발라 산화·부식 방지" },
+];
+
+function buildMemCards() {
+  const container = document.getElementById('mem-cards');
+  memCards.forEach(card => {
+    const div = document.createElement('div');
+    div.className = 'memory-card';
+    div.innerHTML = `
+      <div class="memory-front">
+        <div class="memory-keyword">${card.keyword}</div>
+        <div class="memory-hint">${card.hint}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:8px">탭하여 답 확인 ↓</div>
+      </div>
+      <div class="memory-back">
+        <div class="memory-answer">${card.answer}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:8px">탭하여 돌아가기 ↑</div>
+      </div>
+    `;
+    div.onclick = () => div.classList.toggle('flip');
+    container.appendChild(div);
+  });
+}
+
+// 초기화
+buildMock();
+buildMemCards();
+</script>
+</body>
+</html>

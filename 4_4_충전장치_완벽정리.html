@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>충전장치 완벽 정리 — 자동차정비기능사</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root {
+  --bg:      #07090e;
+  --bg2:     #0d1117;
+  --bg3:     #141920;
+  --bg4:     #1a2030;
+  --border:  #1f2736;
+  --border2: #2a3448;
+  --text:    #dce4f0;
+  --text2:   #8494b0;
+  --text3:   #4a5470;
+
+  --teal:    #14b8a6;
+  --teal-d:  rgba(20,184,166,.14);
+  --blue:    #3b9eff;
+  --blue-d:  rgba(59,158,255,.14);
+  --green:   #22c55e;
+  --green-d: rgba(34,197,94,.13);
+  --red:     #f05c6a;
+  --red-d:   rgba(240,92,106,.13);
+  --amber:   #f59e0b;
+  --amber-d: rgba(245,158,11,.13);
+  --purple:  #a78bfa;
+  --purple-d:rgba(167,139,250,.13);
+  --cyan:    #06b6d4;
+  --cyan-d:  rgba(6,182,212,.13);
+
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Noto Sans KR', sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.65}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(155deg,#08111e 0%,#0d1a2a 55%,#08111e 100%);
+  border-bottom:1px solid var(--border);
+  padding:2.2rem 1.5rem 1.8rem;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-100px;right:-80px;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(20,184,166,.08) 0%,transparent 68%);
+  border-radius:50%;pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;bottom:-70px;left:-50px;
+  width:280px;height:280px;
+  background:radial-gradient(circle,rgba(59,158,255,.07) 0%,transparent 70%);
+  border-radius:50%;pointer-events:none;
+}
+.hero-label{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--teal);margin-bottom:10px;
+}
+.hero-label::before{content:'◆';font-size:8px;animation:blink 1.6s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.hero h1{font-size:24px;font-weight:900;color:#fff;margin-bottom:5px;letter-spacing:-.4px}
+.hero p{font-size:13px;color:var(--text2)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;border:1px solid;letter-spacing:.3px}
+.ct{color:var(--teal);border-color:var(--teal);background:var(--teal-d)}
+.cb{color:var(--blue);border-color:var(--blue);background:var(--blue-d)}
+.cg{color:var(--green);border-color:var(--green);background:var(--green-d)}
+.ca{color:var(--amber);border-color:var(--amber);background:var(--amber-d)}
+.cr{color:var(--red);border-color:var(--red);background:var(--red-d)}
+
+/* ── TABS ── */
+.tabs{
+  position:sticky;top:0;z-index:100;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:0 1.5rem;display:flex;overflow-x:auto;gap:0;
+}
+.tabs::-webkit-scrollbar{height:0}
+.tab{
+  padding:13px 16px;font-size:13px;font-weight:500;
+  color:var(--text3);background:none;border:none;
+  border-bottom:2.5px solid transparent;
+  cursor:pointer;white-space:nowrap;transition:all .2s;
+}
+.tab:hover{color:var(--text2)}
+.tab.on{color:var(--teal);border-bottom-color:var(--teal)}
+
+/* ── SECTIONS ── */
+.sec{display:none;padding:1.5rem;max-width:980px}
+.sec.on{display:block}
+
+/* ── CARDS ── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.card-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.card-ttl{font-size:15px;font-weight:700;color:#fff}
+
+/* ── BADGES ── */
+.bdg{font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px}
+.bt{background:var(--teal-d);color:var(--teal)}
+.bb{background:var(--blue-d);color:var(--blue)}
+.bg{background:var(--green-d);color:var(--green)}
+.br{background:var(--red-d);color:var(--red)}
+.ba{background:var(--amber-d);color:var(--amber)}
+.bp{background:var(--purple-d);color:var(--purple)}
+
+/* ── GRID ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr}}
+@media(max-width:820px){.g3{grid-template-columns:1fr 1fr}.g4{grid-template-columns:1fr 1fr}}
+
+/* ── MINI CARD ── */
+.mc{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px}
+.mc-lbl{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
+.mc-val{font-size:22px;font-weight:900;font-family:var(--mono);line-height:1.2}
+.mc-sub{font-size:12px;color:var(--text2);margin-top:5px;line-height:1.55}
+
+/* ── FORMULA ── */
+.fml{
+  background:var(--bg3);border-left:3px solid var(--teal);
+  border-radius:0 8px 8px 0;padding:11px 15px;margin:8px 0;
+  font-family:var(--mono);font-size:13px;color:var(--teal);
+}
+.fml small{display:block;font-family:var(--sans);font-size:12px;color:var(--text2);margin-top:5px}
+
+/* ── LIST ── */
+.ul{list-style:none;padding:0}
+.ul li{padding:4px 0;font-size:13px;color:var(--text2);display:flex;align-items:flex-start;gap:8px}
+.ul li::before{content:'›';color:var(--teal);font-weight:700;flex-shrink:0;margin-top:1px}
+.ul li b{color:var(--text)}
+.ul li .hl{color:var(--red);font-weight:700}
+
+/* ── ALERT BOXES ── */
+.abox{border-radius:8px;padding:10px 14px;font-size:13px;margin:8px 0;border:1px solid}
+.a-t{background:var(--teal-d);border-color:rgba(20,184,166,.3);color:var(--teal)}
+.a-b{background:var(--blue-d);border-color:rgba(59,158,255,.3);color:var(--blue)}
+.a-g{background:var(--green-d);border-color:rgba(34,197,94,.3);color:var(--green)}
+.a-r{background:var(--red-d);border-color:rgba(240,92,106,.3);color:var(--red)}
+.a-a{background:var(--amber-d);border-color:rgba(245,158,11,.3);color:var(--amber)}
+
+/* ── TABLE ── */
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+th{text-align:left;padding:8px 12px;background:var(--bg3);color:var(--text2);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+td b{color:var(--red)}
+td .ht{color:var(--teal);font-weight:700}
+td .hb{color:var(--blue);font-weight:700}
+
+/* ── SECTION TITLE ── */
+.stl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin:22px 0 10px;display:flex;align-items:center;gap:8px}
+.stl::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── FREQ BAR ── */
+.freq-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.freq-name{font-size:13px;color:var(--text);min-width:180px;font-weight:500}
+.freq-bg{flex:1;height:7px;background:var(--bg3);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.freq-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--teal),var(--blue))}
+.freq-star{font-size:12px;color:var(--amber);min-width:75px;text-align:right}
+
+/* ── FLOW ── */
+.flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 0}
+.fbox{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;color:var(--text);white-space:nowrap}
+.fbox.hi{border-color:var(--teal);color:var(--teal);background:var(--teal-d)}
+.fbox.hi2{border-color:var(--blue);color:var(--blue);background:var(--blue-d)}
+.farrow{color:var(--text3);font-size:18px;font-weight:700}
+
+/* ── COMPARE STRIP ── */
+.cstrip{display:flex;gap:0;border-radius:10px;overflow:hidden;border:1px solid var(--border);margin:8px 0}
+.cs{flex:1;padding:13px 16px}
+.cs-dc{background:rgba(240,92,106,.07);border-right:1px solid var(--border)}
+.cs-ac{background:rgba(20,184,166,.07)}
+.cs-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.cs-dc .cs-lbl{color:var(--red)}
+.cs-ac .cs-lbl{color:var(--teal)}
+
+/* ── DIODE VISUAL ── */
+.diode-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.d-lbl{font-size:12px;color:var(--text2);min-width:80px}
+.d-box{background:var(--bg4);border:1px solid var(--border2);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600}
+
+/* ── CALC ── */
+.calc-box{background:var(--bg3);border-radius:10px;padding:16px;margin-top:10px}
+.cr-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.cr-row label{font-size:12px;color:var(--text2);min-width:110px}
+.ci{width:90px;padding:7px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;font-family:var(--mono)}
+.ci:focus{outline:none;border-color:var(--teal)}
+.cbtn{padding:7px 18px;border-radius:6px;background:var(--teal-d);border:1px solid var(--teal);color:var(--teal);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.cbtn:hover{background:var(--teal);color:#fff}
+.cres{font-size:18px;font-weight:700;font-family:var(--mono);color:var(--green);margin-top:10px;line-height:1.6}
+.cunit{font-size:12px;color:var(--text3)}
+
+/* ── QUIZ (기출) ── */
+.qc{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color .2s}
+.qc:hover{border-color:var(--border2)}
+.qc.open{border-color:var(--teal)}
+.qc-q{font-size:13px;color:var(--text);line-height:1.75}
+.qtag{font-size:11px;color:var(--text3);float:right;margin-left:8px}
+.qc-ans{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.qc.open .qc-ans{display:block}
+.ans-lbl{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--green);margin-bottom:6px}
+.ans-txt{font-size:13px;color:var(--text2);line-height:1.7}
+.ans-key{color:var(--amber);font-weight:700}
+
+/* ── MOCK ── */
+.pb-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:20px}
+.pb-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pb-lbl{font-size:13px;color:var(--text2)}
+.pb-sc{font-size:22px;font-weight:900;font-family:var(--mono);color:var(--amber)}
+.pb-bg{height:6px;background:var(--bg);border-radius:3px;overflow:hidden}
+.pb-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--teal),var(--blue));transition:width .5s}
+
+.mq{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.mq-num{font-size:11px;font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:8px}
+.mq-text{font-size:14px;font-weight:600;color:#fff;margin-bottom:14px;line-height:1.7}
+.opts{list-style:none;padding:0}
+.opts li{margin-bottom:8px}
+.obtn{width:100%;text-align:left;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.obtn:hover:not(:disabled){background:var(--bg4);border-color:var(--border2);color:var(--text)}
+.obtn.ok{background:var(--green-d);border-color:var(--green);color:var(--green)}
+.obtn.no{background:var(--red-d);border-color:var(--red);color:var(--red)}
+.obtn:disabled{cursor:default}
+.exp{display:none;margin-top:12px;padding:12px;background:var(--bg3);border-radius:8px;font-size:13px;color:var(--text2);line-height:1.7;border-left:3px solid var(--teal)}
+.exp.show{display:block}
+.exp-lbl{font-size:11px;font-weight:700;color:var(--teal);margin-bottom:6px;letter-spacing:1px}
+
+/* ── RESULT ── */
+.res-box{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border);border-radius:16px;padding:28px;text-align:center;margin-top:20px;display:none}
+.res-box.show{display:block}
+.res-sc{font-size:56px;font-weight:900;font-family:var(--mono);margin-bottom:6px}
+.res-lbl{font-size:14px;color:var(--text2)}
+.res-msg{font-size:16px;font-weight:700;margin-top:14px;color:var(--text)}
+.retry-btn{margin-top:18px;padding:11px 30px;border-radius:8px;background:var(--teal-d);border:1px solid var(--teal);color:var(--teal);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.retry-btn:hover{background:var(--teal);color:#fff}
+
+/* ── MEMORY ── */
+.mem-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .3s;min-height:130px;display:flex;flex-direction:column;justify-content:center}
+.mem-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.35);border-color:var(--teal)}
+.mem-kw{font-size:20px;font-weight:900;font-family:var(--mono);color:var(--teal);margin-bottom:7px;line-height:1.3}
+.mem-hint{font-size:12px;color:var(--text3)}
+.mem-back{display:none}
+.mem-card.flip .mem-front{display:none}
+.mem-card.flip .mem-back{display:block}
+.mem-ans{font-size:13px;color:var(--text);line-height:1.7}
+
+/* ── TRAP BOX ── */
+.trap-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.trap-item{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);font-size:13px}
+.trap-item:last-child{border-bottom:none}
+.trap-num{min-width:24px;height:24px;border-radius:50%;background:var(--red-d);border:1px solid rgba(240,92,106,.3);color:var(--red);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.trap-q{color:var(--text2);flex:1}
+.trap-a{color:var(--amber);font-weight:700;min-width:140px;text-align:right;font-size:12px}
+
+hr.div{border:none;border-top:1px solid var(--border);margin:20px 0}
+
+/* ── 학교 헤더 ── */
+.school-header-bar{background:#fff;border-bottom:3px solid #185FA5;padding:10px 1.5rem;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,0.15);}
+.school-logo-img{height:48px;width:auto;object-fit:contain;}
+.school-divider-line{width:1.5px;height:38px;background:#d0cfc8;flex-shrink:0;}
+.school-info-box{display:flex;flex-direction:column;gap:2px;flex:1;}
+.school-innovation-text{font-size:15px;font-weight:700;color:#185FA5;letter-spacing:-0.3px;}
+.school-sub-text{font-size:11px;color:#8a8a82;}
+.back-to-main{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#E6F1FB;color:#0C447C;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;border:1px solid #b8d4f0;transition:all .15s;}
+.back-to-main:hover{background:#185FA5;color:#fff;border-color:#185FA5;}
+@media(max-width:600px){.school-logo-img{height:36px;}.school-innovation-text{font-size:13px;}.back-to-main{font-size:12px;padding:6px 10px;}}
+</style>
+</head>
+<body>
+
+<!-- 학교 로고 헤더 -->
+<div class="school-header-bar">
+  <img src="아주자동차대학UI.jpg" alt="아주자동차대학교" class="school-logo-img">
+  <div class="school-divider-line"></div>
+  <div class="school-info-box">
+    <span class="school-innovation-text">혁신지원사업단</span>
+    <span class="school-sub-text">자동차정비 전공 교육자료</span>
+  </div>
+  <a href="index.html" class="back-to-main">🏠 메인으로</a>
+</div>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-label">자동차정비기능사 전기전자</div>
+  <h1>⚡ 충전장치 완벽 정리</h1>
+  <p>핵심 이론 · DC/AC 발전기 비교 · 기출 분석 · 모의고사 20문항</p>
+  <div class="chips">
+    <span class="chip ct">출제빈도 ★★★★★</span>
+    <span class="chip cb">DC vs AC 비교</span>
+    <span class="chip cg">플레밍 법칙</span>
+    <span class="chip ca">Y결선 / 다이오드</span>
+    <span class="chip cr">함정 TOP 12</span>
+  </div>
+</div>
+
+<!-- ── TABS ── -->
+<div class="tabs">
+  <button class="tab on"  onclick="showTab('theory',this)">📚 핵심 이론</button>
+  <button class="tab"     onclick="showTab('dcac',  this)">🔄 DC vs AC</button>
+  <button class="tab"     onclick="showTab('calc',  this)">🔢 계산 공식</button>
+  <button class="tab"     onclick="showTab('trap',  this)">⚠️ 함정 분석</button>
+  <button class="tab"     onclick="showTab('past',  this)">📄 기출 분석</button>
+  <button class="tab"     onclick="showTab('mock',  this)">✏️ 모의고사</button>
+  <button class="tab"     onclick="showTab('mem',   this)">🧠 암기 카드</button>
+</div>
+
+<!-- ══════════════════════════
+     TAB 1 : 핵심 이론
+══════════════════════════ -->
+<div id="s-theory" class="sec on">
+
+  <!-- 출제 빈도 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">📊 충전장치 단원 출제 빈도</div></div>
+    <div class="freq-row"><span class="freq-name">DC vs AC 발전기 비교</span><div class="freq-bg"><div class="freq-fill" style="width:97%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-name">플레밍 법칙 (왼손/오른손)</span><div class="freq-bg"><div class="freq-fill" style="width:93%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-name">AC 발전기 장점 & 다이오드 역할</span><div class="freq-bg"><div class="freq-fill" style="width:90%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-name">Y결선 vs Δ결선</span><div class="freq-bg"><div class="freq-fill" style="width:82%"></div></div><span class="freq-star">★★★★☆</span></div>
+    <div class="freq-row"><span class="freq-name">전압 조정 원리 (로터 코일)</span><div class="freq-bg"><div class="freq-fill" style="width:75%"></div></div><span class="freq-star">★★★★☆</span></div>
+    <div class="freq-row"><span class="freq-name">충전 불량 원인 진단</span><div class="freq-bg"><div class="freq-fill" style="width:70%"></div></div><span class="freq-star">★★★☆☆</span></div>
+    <div class="freq-row"><span class="freq-name">충전 계통 작동 순서</span><div class="freq-bg"><div class="freq-fill" style="width:60%"></div></div><span class="freq-star">★★★☆☆</span></div>
+  </div>
+
+  <!-- 충전 계통 흐름 -->
+  <p class="stl">① 충전 계통 전체 흐름</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">충전 작동 순서</div><span class="bdg bb">계통도 암기</span></div>
+    <div class="flow">
+      <div class="fbox hi">엔진 구동</div><div class="farrow">→</div>
+      <div class="fbox">V벨트</div><div class="farrow">→</div>
+      <div class="fbox hi">로터(계자) 회전</div><div class="farrow">→</div>
+      <div class="fbox hi2">스테이터에 3상 교류 유도</div><div class="farrow">→</div>
+      <div class="fbox">다이오드 정류</div><div class="farrow">→</div>
+      <div class="fbox hi">직류 출력</div><div class="farrow">→</div>
+      <div class="fbox">배터리 충전</div>
+    </div>
+    <div class="abox a-t" style="margin-top:8px">💡 핵심: AC 발전기는 <b>스테이터</b>에서 전기가 유도되고, <b>로터</b>는 자기장(계자)을 만든다. (DC는 반대 — 전기자에서 유도)</div>
+  </div>
+
+  <!-- 플레밍 법칙 -->
+  <p class="stl">② 플레밍 법칙 — 최다 출제 함정!</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">🤚 왼손 법칙</div><span class="bdg br">전동기</span></div>
+      <div class="abox a-r">전동기 → 전류가 흐르는 도선에 <b>힘(운동)</b>이 발생하는 방향<br>엄지 = 힘(운동 방향) / 검지 = 자기장 / 중지 = 전류</div>
+      <ul class="ul" style="margin-top:8px">
+        <li>시동 전동기, 각종 모터에 적용</li>
+        <li>전기에너지 → 운동에너지 변환</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">🖐 오른손 법칙</div><span class="bdg bt">발전기</span></div>
+      <div class="abox a-t">발전기 → 도선이 움직일 때 <b>기전력(전류)</b>이 유도되는 방향<br>엄지 = 도선 운동방향 / 검지 = 자기장 / 중지 = 기전력</div>
+      <ul class="ul" style="margin-top:8px">
+        <li>교류발전기(알터네이터)에 적용</li>
+        <li>운동에너지 → 전기에너지 변환</li>
+      </ul>
+    </div>
+  </div>
+  <div class="abox a-a">
+    ⚠️ <b>함정 포인트:</b> "오른손 법칙에서 엄지 = 기전력 방향?" → <b>NO!</b> 엄지 = 도선 운동방향, <b>중지</b>가 기전력 방향입니다.
+  </div>
+
+  <!-- AC 발전기 구조 -->
+  <p class="stl">③ 교류(AC) 발전기 구조 및 특징</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">주요 구성 부품</div><span class="bdg bt">구조 암기</span></div>
+      <table>
+        <tr><th>부품명</th><th>역할</th><th>핵심</th></tr>
+        <tr><td><b>로터(Rotor)</b></td><td>자기장(계자) 생성</td><td>슬립링으로 여자 전류 공급</td></tr>
+        <tr><td><b>스테이터</b></td><td><span class="ht">3상 교류 유도</span></td><td>Y결선으로 고전압 생성</td></tr>
+        <tr><td><b>다이오드(6개)</b></td><td>교류→직류 정류 + 역류방지</td><td>(+)3개 + (-)3개</td></tr>
+        <tr><td><b>슬립링</b></td><td>로터에 여자 전류 공급</td><td>브러시와 접촉</td></tr>
+        <tr><td><b>IC 전압조정기</b></td><td>발전 전압 일정 유지</td><td>로터 전류 가감으로 조정</td></tr>
+        <tr><td><b>브러시</b></td><td>슬립링에 전류 공급</td><td>DC보다 수명 김</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">AC 발전기 핵심 장점</div><span class="bdg bt">★★★ 자주 출제</span></div>
+      <ul class="ul">
+        <li>다이오드가 역류방지 → <b>컷아웃 릴레이 불필요</b></li>
+        <li>다이오드가 전류 제한 → <b>전류 제한기 불필요</b></li>
+        <li>전압 조정기 <b>1개만</b> 필요 (DC는 3가지 조정기)</li>
+        <li><b>공회전·저속</b>에서도 충전 가능</li>
+        <li>정류자 없음 → <b>정류자 소손 고장 없음</b></li>
+        <li>브러시가 슬립링에 접촉 → <b>브러시 수명 길고</b> 불꽃 적음</li>
+        <li>소형·경량, 고출력</li>
+      </ul>
+      <div class="abox a-r" style="margin-top:8px">❌ 틀린 선택지: "AC 발전기에는 컷아웃 릴레이가 필요하다" → <b>불필요!</b></div>
+    </div>
+  </div>
+
+  <!-- 다이오드 역할 -->
+  <p class="stl">④ 다이오드 (정류기) 상세</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">실리콘 다이오드 2가지 역할</div><span class="bdg bt">★★★ 반복 출제</span></div>
+    <div class="g2">
+      <div>
+        <div class="abox a-g">✅ 역할 ①: 교류 → 직류 <b>정류</b><br>스테이터에서 발생한 3상 교류를 직류로 변환</div>
+        <div style="height:8px"></div>
+        <div class="abox a-t">✅ 역할 ②: 배터리 → 발전기로의 <b>역류 방지</b><br>발전 전압 < 배터리 전압 시 역전류 차단</div>
+      </div>
+      <div>
+        <div class="mc">
+          <div class="mc-lbl">다이오드 구성</div>
+          <div class="mc-val" style="color:var(--teal);font-size:18px">(+) 3개 + (−) 3개</div>
+          <div class="mc-sub">총 6개 다이오드<br>3상 전파 정류 방식</div>
+        </div>
+        <div class="abox a-a" style="margin-top:8px">💡 다이오드 단락 → 과충전<br>다이오드 단선 → 충전 불량(저출력)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Y결선 -->
+  <p class="stl">⑤ Y결선 vs Δ(델타)결선</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">Y결선 (스타결선)</div><span class="bdg bt">AC 발전기 사용</span></div>
+      <div class="fml">
+        선간전압 = √3 × 상전압 ≈ 1.732 × 상전압
+        <small>선간전류 = 상전류 (동일)</small>
+      </div>
+      <ul class="ul">
+        <li>자동차 AC 발전기에 <b>사용</b></li>
+        <li>상전압보다 <b>√3배 높은</b> 선간전압 → 저속 충전 유리</li>
+        <li>중성점에서 낮은 전압 인출 가능</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">Δ결선 (델타결선)</div><span class="bdg br">DC 발전기 적용</span></div>
+      <div class="fml">
+        선간전류 = √3 × 상전류 ≈ 1.732 × 상전류
+        <small>선간전압 = 상전압 (동일)</small>
+      </div>
+      <ul class="ul">
+        <li>DC 발전기에 적용</li>
+        <li>선간전류가 √3배 → <b>대전류 공급</b> 유리</li>
+        <li>전압이 낮아 자동차에는 부적합</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 전압 조정 원리 -->
+  <p class="stl">⑥ 전압 조정 원리</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">발전 전압 결정 요소</div><span class="bdg ba">원리 암기</span></div>
+      <div class="fml">
+        발전전압 ∝ 계자자속(φ) × 회전수(n)
+        <small>두 요소 중 회전수는 엔진에 따라 변하므로 조정 불가</small>
+      </div>
+      <div class="abox a-t">
+        💡 전압 조정 방법:<br>
+        <b>로터 코일(계자코일) 전류</b>를 가감하여 자속 변화<br>
+        → 발전 전압 일정하게 유지
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">IC 전압 조정기</div><span class="bdg bb">현재 주류</span></div>
+      <ul class="ul">
+        <li>반도체 소자로 구성 → <b>소형·경량</b></li>
+        <li>발전기 내부에 <b>내장</b> (외부 조정기 불필요)</li>
+        <li>내구성 우수, 정밀 전압 제어</li>
+        <li>로터 코일 전류 단속으로 전압 조정</li>
+      </ul>
+      <div class="abox a-b" style="margin-top:8px">DC 발전기의 조정기 3가지: 전압 조정기 + 전류 제한기 + 컷아웃 릴레이<br>→ AC는 <b>전압 조정기 1개만</b> 필요!</div>
+    </div>
+  </div>
+
+  <!-- 충전 불량 진단 -->
+  <p class="stl">⑦ 충전 불량 진단</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">발전기 자체 고장 원인</div><span class="bdg br">내부 원인</span></div>
+      <ul class="ul">
+        <li>다이오드 <b>단락 또는 단선</b></li>
+        <li>슬립링 <b>마모</b> 또는 오손</li>
+        <li>브러시 마모 (슬립링 접촉 불량)</li>
+        <li>로터(계자) 코일 <b>단선 또는 단락</b></li>
+        <li>스테이터 코일 <b>단선 또는 단락</b></li>
+        <li>베어링 마모 → 이상음 발생</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">충전 불량 원인 (발전기 외부)</div><span class="bdg ba">외부 원인</span></div>
+      <ul class="ul">
+        <li>V벨트 <b>헐거움</b> 또는 <b>슬립</b> (가장 흔한 원인)</li>
+        <li>조정 전압이 <b>너무 낮게</b> 설정됨</li>
+        <li>전기 부하 <b>과다</b> 사용</li>
+        <li>배터리 단자(터미널) <b>접촉 불량</b></li>
+        <li>충전 회로 <b>단선</b></li>
+      </ul>
+      <div class="abox a-a" style="margin-top:8px">💡 V벨트가 헐거우면 → 발전기 출력은 정상이지만 실제 전달은 불량 → 충전 불량</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════
+     TAB 2 : DC vs AC 비교
+══════════════════════════ -->
+<div id="s-dcac" class="sec">
+
+  <p class="stl">DC 발전기 vs AC 발전기 완전 비교</p>
+
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">핵심 비교표</div><span class="bdg br">★★★★★ 최빈출</span></div>
+    <table>
+      <tr><th>비교 항목</th><th class="cs-dc" style="color:var(--red)">DC 발전기</th><th style="color:var(--teal)">AC 발전기</th></tr>
+      <tr><td>유도 전기 발생 부위</td><td><b>전기자 (회전)</b></td><td><b class="ht">스테이터 (고정)</b></td></tr>
+      <tr><td>자기장(계자) 부위</td><td>계자코일 (고정)</td><td><span class="ht">로터</span> (회전)</td></tr>
+      <tr><td>브러시 접촉 부위</td><td><b>정류자</b></td><td><span class="ht">슬립링</span></td></tr>
+      <tr><td>역류 방지 장치</td><td><b>컷아웃 릴레이</b></td><td><span class="ht">다이오드</span></td></tr>
+      <tr><td>전류 제한 장치</td><td><b>전류 제한기</b></td><td><span class="ht">불필요</span> (자기 제한)</td></tr>
+      <tr><td>전압 조정 방법</td><td>전압 조정기</td><td><span class="ht">IC 전압 조정기</span></td></tr>
+      <tr><td>조정기 종류 수</td><td><b>3가지</b> (전압+전류+컷아웃)</td><td><span class="ht">1가지</span> (전압만)</td></tr>
+      <tr><td>결선 방식</td><td>Δ결선</td><td><span class="ht">Y결선</span></td></tr>
+      <tr><td>저속 충전</td><td>불가 (저속 시 충전 미흡)</td><td><span class="ht">가능</span></td></tr>
+      <tr><td>크기/무게</td><td>크고 무겁다</td><td><span class="ht">소형·경량</span></td></tr>
+      <tr><td>내구성</td><td>정류자 소손 우려</td><td><span class="ht">내구성 우수</span></td></tr>
+      <tr><td>브러시 수명</td><td>짧다 (정류자 마찰)</td><td><span class="ht">길다</span> (슬립링 마찰)</td></tr>
+    </table>
+  </div>
+
+  <!-- 구조 흐름 비교 -->
+  <div class="g2" style="margin-top:12px">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">DC 발전기 전류 경로</div><span class="bdg br">직류 발전기</span></div>
+      <div class="flow" style="flex-direction:column;align-items:flex-start">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <div class="fbox" style="border-color:var(--red);color:var(--red)">계자코일 (고정)</div>
+          <div class="farrow">→</div>
+          <div class="fbox">자기장 형성</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px">
+          <div class="fbox" style="border-color:var(--red);color:var(--red)">전기자 (회전)</div>
+          <div class="farrow">→</div>
+          <div class="fbox">교류 유도</div>
+          <div class="farrow">→</div>
+          <div class="fbox" style="border-color:var(--red);color:var(--red)">정류자 정류</div>
+          <div class="farrow">→</div>
+          <div class="fbox">직류 출력</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">AC 발전기 전류 경로</div><span class="bdg bt">교류 발전기</span></div>
+      <div class="flow" style="flex-direction:column;align-items:flex-start">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <div class="fbox hi">로터 (회전)</div>
+          <div class="farrow">→</div>
+          <div class="fbox">자기장 회전</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px">
+          <div class="fbox hi">스테이터 (고정)</div>
+          <div class="farrow">→</div>
+          <div class="fbox">3상 교류 유도</div>
+          <div class="farrow">→</div>
+          <div class="fbox hi">다이오드 정류</div>
+          <div class="farrow">→</div>
+          <div class="fbox">직류 출력</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 암기 포인트 강조 -->
+  <div class="card" style="margin-top:12px">
+    <div class="card-hd"><div class="card-ttl">🎯 시험 핵심 암기 3가지</div><span class="bdg br">반드시 암기</span></div>
+    <div class="g3">
+      <div class="mc">
+        <div class="mc-lbl">유도 전기 발생</div>
+        <div class="mc-val" style="color:var(--teal);font-size:16px">AC → 스테이터</div>
+        <div class="mc-sub">DC는 전기자에서 발생<br>(함정 선택지 주의!)</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">역류 방지</div>
+        <div class="mc-val" style="color:var(--teal);font-size:16px">AC → 다이오드</div>
+        <div class="mc-sub">DC는 컷아웃 릴레이<br>컷아웃 릴레이 불필요!</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">조정기 수</div>
+        <div class="mc-val" style="color:var(--teal);font-size:16px">AC → 1개</div>
+        <div class="mc-sub">DC는 3개 필요<br>AC는 전압 조정기 1개만</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════
+     TAB 3 : 계산 공식
+══════════════════════════ -->
+<div id="s-calc" class="sec">
+
+  <!-- Y결선 전압 계산기 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">🧮 Y결선 선간전압 계산기</div><span class="bdg bt">계산 문제</span></div>
+    <div class="fml">
+      선간전압 = √3 × 상전압 = 1.732 × 상전압
+      <small>Y결선에서 선간전압은 상전압의 √3 ≈ 1.732배</small>
+    </div>
+    <div class="calc-box">
+      <div class="cr-row"><label>상전압 (V)</label><input class="ci" type="number" id="y-vp" value="8"> <span class="cunit">V</span></div>
+      <button class="cbtn" onclick="calcY()">계산하기</button>
+      <div class="cres" id="y-res">—</div>
+    </div>
+  </div>
+
+  <!-- Δ결선 전류 계산기 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">🧮 Δ결선 선간전류 계산기</div><span class="bdg br">계산 문제</span></div>
+    <div class="fml">
+      선간전류 = √3 × 상전류 = 1.732 × 상전류
+      <small>Δ결선에서 선간전류는 상전류의 √3 ≈ 1.732배</small>
+    </div>
+    <div class="calc-box">
+      <div class="cr-row"><label>상전류 (A)</label><input class="ci" type="number" id="d-ip" value="10"> <span class="cunit">A</span></div>
+      <button class="cbtn" onclick="calcD()">계산하기</button>
+      <div class="cres" id="d-res">—</div>
+    </div>
+  </div>
+
+  <!-- 발전 전압 계산기 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">🧮 발전기 출력 계산기 (P = V × I)</div><span class="bdg bb">계산 문제</span></div>
+    <div class="fml">
+      출력 전력 [W] = 발전 전압 [V] × 출력 전류 [A]
+    </div>
+    <div class="calc-box">
+      <div class="cr-row"><label>발전 전압 (V)</label><input class="ci" type="number" id="p-v" value="14"> <span class="cunit">V</span></div>
+      <div class="cr-row"><label>출력 전류 (A)</label><input class="ci" type="number" id="p-i" value="60"> <span class="cunit">A</span></div>
+      <button class="cbtn" onclick="calcP()">계산하기</button>
+      <div class="cres" id="p-res">—</div>
+    </div>
+  </div>
+
+  <!-- 핵심 수치 총정리 -->
+  <p class="stl">핵심 수치 총정리</p>
+  <div class="g4">
+    <div class="mc"><div class="mc-lbl">Y결선 전압비</div><div class="mc-val" style="color:var(--teal)">√3배</div><div class="mc-sub">선간 = √3 × 상전압</div></div>
+    <div class="mc"><div class="mc-lbl">Δ결선 전류비</div><div class="mc-val" style="color:var(--red)">√3배</div><div class="mc-sub">선간 = √3 × 상전류</div></div>
+    <div class="mc"><div class="mc-lbl">AC 다이오드 수</div><div class="mc-val" style="color:var(--blue)">6개</div><div class="mc-sub">(+)3개 + (−)3개</div></div>
+    <div class="mc"><div class="mc-lbl">DC 조정기 수</div><div class="mc-val" style="color:var(--amber)">3개</div><div class="mc-sub">전압+전류+컷아웃</div></div>
+    <div class="mc"><div class="mc-lbl">AC 조정기 수</div><div class="mc-val" style="color:var(--teal)">1개</div><div class="mc-sub">전압 조정기만</div></div>
+    <div class="mc"><div class="mc-lbl">자동차 충전전압</div><div class="mc-val" style="color:var(--green)">13.5~<br>14.8V</div><div class="mc-sub">정상 발전 범위</div></div>
+    <div class="mc"><div class="mc-lbl">로터 여자전류</div><div class="mc-val" style="color:var(--purple)">2~4A</div><div class="mc-sub">슬립링 통해 공급</div></div>
+    <div class="mc"><div class="mc-lbl">발전기 결선</div><div class="mc-val" style="color:var(--teal)">Y결선</div><div class="mc-sub">자동차 표준</div></div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════
+     TAB 4 : 함정 분석
+══════════════════════════ -->
+<div id="s-trap" class="sec">
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">⚠️ 충전장치 자주 틀리는 함정 TOP 12</div></div>
+    <p style="font-size:13px;color:var(--text2)">기출에서 반복 출제되는 오답 선택지 모음 — 확실히 암기하세요!</p>
+  </div>
+
+  <div class="trap-wrap">
+    <div class="trap-item"><span class="trap-num">1</span><span class="trap-q">AC 발전기에도 컷아웃 릴레이가 필요하다?</span><span class="trap-a">❌ 불필요 (다이오드)</span></div>
+    <div class="trap-item"><span class="trap-num">2</span><span class="trap-q">AC 발전기에서 전기가 유도되는 곳은 로터이다?</span><span class="trap-a">❌ 스테이터</span></div>
+    <div class="trap-item"><span class="trap-num">3</span><span class="trap-q">플레밍 오른손 법칙은 전동기에 적용된다?</span><span class="trap-a">❌ 발전기에 적용</span></div>
+    <div class="trap-item"><span class="trap-num">4</span><span class="trap-q">오른손 법칙에서 엄지는 기전력 방향이다?</span><span class="trap-a">❌ 도선 운동방향</span></div>
+    <div class="trap-item"><span class="trap-num">5</span><span class="trap-q">AC 발전기는 고속에서만 충전이 가능하다?</span><span class="trap-a">❌ 저속(공회전)도 가능</span></div>
+    <div class="trap-item"><span class="trap-num">6</span><span class="trap-q">AC 발전기는 전류 제한기가 필요하다?</span><span class="trap-a">❌ 불필요 (자기 제한)</span></div>
+    <div class="trap-item"><span class="trap-num">7</span><span class="trap-q">Y결선에서 선간전류 = √3 × 상전류이다?</span><span class="trap-a">❌ Δ결선의 특성</span></div>
+    <div class="trap-item"><span class="trap-num">8</span><span class="trap-q">DC 발전기는 조정기가 1개이다?</span><span class="trap-a">❌ 3개 필요</span></div>
+    <div class="trap-item"><span class="trap-num">9</span><span class="trap-q">AC 발전기 브러시는 정류자에 접촉한다?</span><span class="trap-a">❌ 슬립링에 접촉</span></div>
+    <div class="trap-item"><span class="trap-num">10</span><span class="trap-q">발전 전압은 회전수를 조절하여 조정한다?</span><span class="trap-a">❌ 로터 코일 전류</span></div>
+    <div class="trap-item"><span class="trap-num">11</span><span class="trap-q">다이오드 단락 시 충전 불량이 발생한다?</span><span class="trap-a">❌ 과충전 발생</span></div>
+    <div class="trap-item"><span class="trap-num">12</span><span class="trap-q">V벨트 슬립은 발전기 자체 고장이다?</span><span class="trap-a">❌ 충전 불량 (외부원인)</span></div>
+  </div>
+
+  <!-- 비교 암기 카드 -->
+  <p class="stl">헷갈리는 비교 쌍 완전 정리</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">왼손 vs 오른손 법칙</div><span class="bdg br">함정 1위</span></div>
+      <table>
+        <tr><th>법칙</th><th>적용</th><th>엄지</th><th>중지</th></tr>
+        <tr><td><b style="color:var(--red)">왼손</b></td><td>전동기</td><td>힘(운동)</td><td>전류</td></tr>
+        <tr><td><b style="color:var(--teal)">오른손</b></td><td>발전기</td><td><b>도선 운동방향</b></td><td>기전력</td></tr>
+      </table>
+      <div class="abox a-a" style="margin-top:8px">📌 암기법: <b>오른손(발전기)</b> → 엄지=움직임, 중지=전기</div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">Y결선 vs Δ결선</div><span class="bdg ba">함정 2위</span></div>
+      <table>
+        <tr><th>구분</th><th>Y결선</th><th>Δ결선</th></tr>
+        <tr><td>전압</td><td><b class="ht">선간 = √3×상전압</b></td><td>선간 = 상전압</td></tr>
+        <tr><td>전류</td><td>선간 = 상전류</td><td><b>선간 = √3×상전류</b></td></tr>
+        <tr><td>자동차</td><td><b class="ht">사용 ✓</b></td><td>미사용</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════
+     TAB 5 : 기출 분석
+══════════════════════════ -->
+<div id="s-past" class="sec">
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">📋 실제 기출문제 — 클릭하여 해설 확인</div></div>
+    <p style="font-size:13px;color:var(--text2)">자동차정비기능사 필기 기출 분석 · 카드를 클릭하면 정답과 해설이 펼쳐집니다</p>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">자동차용으로 주로 사용되는 발전기는?<br>
+    ㉮ 단상 교류 &nbsp; ㉯ Y상 교류 &nbsp; ㉰ 3상 교류 &nbsp; ㉱ 3상 직류</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉰ 3상 교류</span><br>
+      자동차용 발전기(알터네이터)는 3상 교류 발전기를 사용합니다. 스테이터에 120° 간격으로 배치된 3개의 코일에서 3상 교류가 발생하고 다이오드로 직류 변환합니다.</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">교류 발전기에서 전기가 유도되는 부분은?<br>
+    ㉮ 로터 &nbsp; ㉯ 스테이터 &nbsp; ㉰ 슬립링 &nbsp; ㉱ 계자코일</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉯ 스테이터</span><br>
+      AC 발전기: 로터(계자)가 회전하며 자기장 형성 → 고정된 스테이터 코일에 3상 교류 유도.<br>
+      DC 발전기: 전기자(회전)에서 유도 — 반대 개념!</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">교류 발전기에서 다이오드의 역할로 옳은 것은?<br>
+    ㉮ 전압을 일정하게 유지한다 &nbsp; ㉯ 교류를 직류로 정류하고 역류를 방지한다<br>
+    ㉰ 발전기 회전수를 조절한다 &nbsp; ㉱ 전류를 제한한다</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉯ 교류를 직류로 정류하고 역류를 방지한다</span><br>
+      다이오드 2가지 역할: ① 교류→직류 정류, ② 배터리→발전기 역류 방지<br>
+      → 컷아웃 릴레이와 전류 제한기가 불필요해짐</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">교류 발전기(AC)가 직류 발전기(DC)보다 우수한 점이 아닌 것은?<br>
+    ㉮ 저속에서도 충전이 가능하다 &nbsp; ㉯ 소형·경량이다<br>
+    ㉰ 전압·전류·컷아웃 3가지 조정기가 필요하다 &nbsp; ㉱ 정류자 소손 고장이 없다</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉰ 전압·전류·컷아웃 3가지 조정기가 필요하다</span><br>
+      이것은 DC 발전기의 특징입니다. AC 발전기는 전압 조정기 1개만 필요하여 더 간단합니다. 다이오드가 역류방지와 전류 제한 역할을 대신합니다.</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">자동차 교류 발전기에서 사용하는 결선 방식은?<br>
+    ㉮ Δ결선 &nbsp; ㉯ Y결선 &nbsp; ㉰ 단상 결선 &nbsp; ㉱ 혼합 결선</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉯ Y결선</span><br>
+      Y결선: 선간전압 = √3 × 상전압 → 저속에서도 높은 전압 생성 가능. 자동차 AC 발전기에 사용. DC 발전기는 Δ결선 사용.</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">플레밍의 오른손 법칙에서 엄지손가락이 나타내는 것은?<br>
+    ㉮ 전류 방향 &nbsp; ㉯ 기전력 방향 &nbsp; ㉰ 자기장 방향 &nbsp; ㉱ 도선의 운동 방향</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉱ 도선의 운동 방향</span><br>
+      오른손 법칙(발전기): 엄지=도선 운동방향, 검지=자기장 방향, 중지=기전력(전류) 방향<br>
+      왼손 법칙(전동기): 엄지=힘(운동방향), 검지=자기장, 중지=전류</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">교류 발전기에서 전압을 조정하는 방법으로 옳은 것은?<br>
+    ㉮ 엔진 회전수를 조절한다 &nbsp; ㉯ 스테이터 코일 수를 조절한다<br>
+    ㉰ 로터(계자) 코일에 흐르는 전류를 조절한다 &nbsp; ㉱ 다이오드 수를 조절한다</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉰ 로터(계자) 코일에 흐르는 전류를 조절한다</span><br>
+      발전전압 ∝ 계자자속 × 회전수. 회전수는 엔진에 따라 변하므로 조정 불가 → 로터 코일 전류(자속)를 IC 조정기로 제어하여 전압 일정 유지.</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">충전 불량의 원인으로 발전기 자체 고장이 아닌 것은?<br>
+    ㉮ 슬립링 오손 &nbsp; ㉯ 브러시 마모 &nbsp; ㉰ 다이오드 단선 &nbsp; ㉱ V벨트 슬립</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉱ V벨트 슬립</span><br>
+      V벨트 슬립은 발전기 자체 고장이 아닌 외부 요인입니다. 발전기 자체는 정상이지만 동력 전달이 안 되어 충전 불량 발생. 내부 고장: 슬립링, 브러시, 다이오드, 로터/스테이터 코일 이상 등.</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">직류 발전기와 교류 발전기를 비교한 내용으로 틀린 것은?<br>
+    ㉮ AC 발전기는 정류자 대신 슬립링을 사용한다<br>
+    ㉯ AC 발전기는 컷아웃 릴레이 대신 다이오드를 사용한다<br>
+    ㉰ AC 발전기는 전기자에서 전기가 유도된다<br>
+    ㉱ AC 발전기는 저속에서도 충전이 가능하다</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉰ AC 발전기는 전기자에서 전기가 유도된다</span><br>
+      AC 발전기는 <b>스테이터</b>에서 전기가 유도됩니다. 전기자에서 유도되는 것은 DC 발전기의 특징입니다.</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">교류 발전기에서 브러시가 접촉하는 부품은?<br>
+    ㉮ 정류자 &nbsp; ㉯ 슬립링 &nbsp; ㉰ 스테이터 &nbsp; ㉱ 로터 팬</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉯ 슬립링</span><br>
+      AC 발전기: 브러시 → 슬립링 접촉 → 로터(계자코일)에 여자 전류 공급<br>
+      DC 발전기: 브러시 → 정류자 접촉 → 교류를 직류로 정류<br>
+      슬립링은 정류자보다 마찰이 적어 브러시 수명이 길다!</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════
+     TAB 6 : 모의고사
+══════════════════════════ -->
+<div id="s-mock" class="sec">
+
+  <div class="pb-wrap">
+    <div class="pb-top">
+      <div class="pb-lbl">모의고사 진행 현황</div>
+      <div class="pb-sc" id="sc-txt">0 / 20</div>
+    </div>
+    <div class="pb-bg"><div class="pb-fill" id="sc-bar" style="width:0%"></div></div>
+  </div>
+
+  <div id="mock-wrap"></div>
+
+  <div class="res-box" id="res-box">
+    <div class="res-sc" id="res-sc">—</div>
+    <div class="res-lbl">20문제 중 정답</div>
+    <div class="res-msg" id="res-msg"></div>
+    <button class="retry-btn" onclick="retry()">🔄 다시 풀기</button>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════
+     TAB 7 : 암기 카드
+══════════════════════════ -->
+<div id="s-mem" class="sec">
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">🧠 충전장치 플립 암기 카드</div></div>
+    <p style="font-size:13px;color:var(--text2)">카드를 클릭하면 정답 확인 / 다시 클릭하면 돌아갑니다</p>
+  </div>
+  <div class="g2" id="mem-wrap"></div>
+</div>
+
+<!-- ══════════════════════════
+     SCRIPT
+══════════════════════════ -->
+<script>
+// ── 탭 전환 ──
+function showTab(id, btn) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  document.getElementById('s-' + id).classList.add('on');
+  btn.classList.add('on');
+}
+
+// ── 기출 퀴즈 토글 ──
+function tq(el) { el.classList.toggle('open'); }
+
+// ── 계산기 ──
+function calcY() {
+  const vp = parseFloat(document.getElementById('y-vp').value);
+  if (isNaN(vp)) return;
+  const vl = (Math.sqrt(3) * vp).toFixed(2);
+  document.getElementById('y-res').textContent = `선간전압 = √3 × ${vp} = ${vl} V`;
+}
+function calcD() {
+  const ip = parseFloat(document.getElementById('d-ip').value);
+  if (isNaN(ip)) return;
+  const il = (Math.sqrt(3) * ip).toFixed(2);
+  document.getElementById('d-res').textContent = `선간전류 = √3 × ${ip} = ${il} A`;
+}
+function calcP() {
+  const v = parseFloat(document.getElementById('p-v').value);
+  const i = parseFloat(document.getElementById('p-i').value);
+  if (isNaN(v) || isNaN(i)) return;
+  document.getElementById('p-res').textContent = `출력 전력 = ${v} × ${i} = ${(v*i).toFixed(0)} W = ${(v*i/1000).toFixed(2)} kW`;
+}
+
+// ── 모의고사 데이터 ──
+const mockQ = [
+  {
+    q:"자동차용으로 주로 사용되는 발전기는?",
+    opts:["단상 교류 발전기","직류 발전기","3상 교류 발전기","단상 직류 발전기"],
+    ans:2,
+    exp:"자동차용 발전기는 3상 교류(AC) 발전기를 사용합니다. 스테이터에 120° 간격으로 배치된 3개의 코일에서 3상 교류가 발생하고, 6개의 다이오드로 직류 변환합니다."
+  },
+  {
+    q:"교류 발전기에서 전기(기전력)가 유도되는 부분은?",
+    opts:["로터(Rotor)","슬립링","스테이터(Stator)","브러시"],
+    ans:2,
+    exp:"AC 발전기는 고정된 스테이터에서 전기가 유도됩니다. 로터는 자기장(계자)을 만드는 역할을 합니다. DC 발전기는 반대로 회전하는 전기자에서 유도됩니다."
+  },
+  {
+    q:"교류 발전기에서 브러시가 접촉하는 부품은?",
+    opts:["정류자","스테이터","슬립링","계자코일"],
+    ans:2,
+    exp:"AC 발전기: 브러시 → 슬립링 접촉 → 로터에 여자 전류 공급. DC 발전기: 브러시 → 정류자 접촉 (교류 정류용). 슬립링은 정류자보다 마찰이 적어 브러시 수명이 길어집니다."
+  },
+  {
+    q:"교류 발전기에서 다이오드의 역할을 모두 포함한 것은?",
+    opts:["전압 조정","교류→직류 정류만","역류 방지만","교류→직류 정류 + 역류 방지"],
+    ans:3,
+    exp:"다이오드 2가지 역할: ① 스테이터에서 발생한 교류를 직류로 정류, ② 배터리→발전기 역류 방지. 이 덕분에 컷아웃 릴레이와 전류 제한기가 불필요합니다."
+  },
+  {
+    q:"교류 발전기에서 불필요한 장치는?",
+    opts:["IC 전압 조정기","다이오드","컷아웃 릴레이","슬립링"],
+    ans:2,
+    exp:"AC 발전기는 다이오드가 역류방지 역할을 대신하므로 컷아웃 릴레이가 불필요합니다. 또한 다이오드의 자기 제한 특성으로 전류 제한기도 불필요합니다."
+  },
+  {
+    q:"직류 발전기(DC)에 비해 교류 발전기(AC)의 장점이 아닌 것은?",
+    opts:["저속·공회전에서 충전 가능","소형·경량","정류자 소손 고장 없음","슬립링보다 정류자가 더 내구성이 좋다"],
+    ans:3,
+    exp:"정류자는 브러시와의 마찰로 소손이 발생합니다. AC 발전기는 슬립링을 사용하여 마찰이 적고 브러시 수명이 더 깁니다. 정류자 소손 고장이 없는 것이 AC의 장점입니다."
+  },
+  {
+    q:"자동차 교류 발전기 스테이터의 결선 방식은?",
+    opts:["Δ(델타) 결선","단상 결선","Y(스타) 결선","혼합 결선"],
+    ans:2,
+    exp:"자동차 AC 발전기는 Y결선을 사용합니다. Y결선: 선간전압 = √3 × 상전압으로 저속에서도 높은 전압을 얻을 수 있어 저속 충전에 유리합니다."
+  },
+  {
+    q:"Y결선에서 선간전압과 상전압의 관계는?",
+    opts:["선간전압 = 상전압","선간전압 = 2 × 상전압","선간전압 = √3 × 상전압","선간전압 = √2 × 상전압"],
+    ans:2,
+    exp:"Y결선: 선간전압 = √3 × 상전압 ≈ 1.732 × 상전압. 예) 상전압 8V → 선간전압 = 1.732 × 8 = 13.86V. Δ결선은 반대로 선간전류 = √3 × 상전류."
+  },
+  {
+    q:"Δ(델타)결선에서 선간전류와 상전류의 관계는?",
+    opts:["선간전류 = 상전류","선간전류 = √2 × 상전류","선간전류 = √3 × 상전류","선간전류 = 2 × 상전류"],
+    ans:2,
+    exp:"Δ결선: 선간전류 = √3 × 상전류. 선간전압 = 상전압 (동일). Y결선과 반대 특성을 가집니다. 자동차는 고전압이 필요하므로 Y결선 사용."
+  },
+  {
+    q:"플레밍 오른손 법칙에서 엄지가 나타내는 것은?",
+    opts:["전류 방향","기전력 방향","자기장 방향","도선의 운동 방향"],
+    ans:3,
+    exp:"오른손 법칙(발전기): 엄지=도선 운동방향, 검지=자기장 방향, 중지=기전력(전류) 방향. 왼손 법칙(전동기): 엄지=힘(운동), 검지=자기장, 중지=전류."
+  },
+  {
+    q:"플레밍 왼손 법칙이 적용되는 장치는?",
+    opts:["교류 발전기","직류 발전기","시동 전동기","점화코일"],
+    ans:2,
+    exp:"플레밍 왼손 법칙은 전동기(모터)에 적용됩니다. 전류가 흐르는 도선이 자기장 속에서 힘을 받는 방향을 나타냅니다. 발전기에는 오른손 법칙이 적용됩니다."
+  },
+  {
+    q:"교류 발전기의 전압 조정 방법으로 옳은 것은?",
+    opts:["엔진 회전수 조절","스테이터 코일 수 조절","로터 코일 전류 가감","다이오드 수 조절"],
+    ans:2,
+    exp:"발전전압 ∝ 계자자속 × 회전수. 회전수는 엔진에 따라 변하므로 조정 불가. IC 전압조정기가 로터 코일 전류를 단속하여 계자자속을 변화시켜 전압을 일정하게 유지합니다."
+  },
+  {
+    q:"충전 불량의 원인 중 발전기 자체 내부 고장이 아닌 것은?",
+    opts:["다이오드 단선","슬립링 오손","V벨트 헐거움","스테이터 코일 단선"],
+    ans:2,
+    exp:"V벨트 헐거움은 발전기 외부 요인입니다. 발전기 자체는 정상이지만 동력 전달 불량으로 충전 부족 발생. 내부 고장: 다이오드, 슬립링, 코일 이상, 브러시 마모 등."
+  },
+  {
+    q:"교류 발전기의 다이오드가 단락(Short)되었을 때 나타나는 현상은?",
+    opts:["충전 불량","과충전","발전기 정지","배터리 방전"],
+    ans:1,
+    exp:"다이오드 단락: 역류가 발생하여 과충전 → 배터리 과열, 전해액 손상. 다이오드 단선: 해당 상의 출력 감소 → 충전 불량(저출력). 두 고장의 증상 구분이 중요합니다."
+  },
+  {
+    q:"직류(DC) 발전기에 필요한 조정기 종류가 아닌 것은?",
+    opts:["전압 조정기","전류 제한기","컷아웃 릴레이","IC 전압 조정기"],
+    ans:3,
+    exp:"DC 발전기 조정기 3가지: ①전압 조정기, ②전류 제한기, ③컷아웃 릴레이. IC 전압 조정기는 AC 발전기에서 사용하는 반도체식 조정기로 DC 발전기에는 사용하지 않습니다."
+  },
+  {
+    q:"교류 발전기에서 로터(Rotor)의 역할은?",
+    opts:["교류 전기 유도","자기장(계자) 생성","교류를 직류로 변환","전압 조정"],
+    ans:1,
+    exp:"로터는 계자코일에 의해 자기장을 형성하고 회전합니다. 로터의 자기장이 고정된 스테이터 코일을 통과하면서 스테이터에 3상 교류가 유도됩니다."
+  },
+  {
+    q:"충전 경고등이 점등될 때 가장 먼저 점검해야 할 사항은?",
+    opts:["배터리 교체","발전기 교체","V벨트 장력 및 상태","점화플러그 교체"],
+    ans:2,
+    exp:"충전 경고등 점등 시 가장 먼저 V벨트 장력과 상태를 점검합니다. V벨트 슬립이 충전 불량의 가장 흔한 원인이며, 비교적 간단히 조정 가능합니다."
+  },
+  {
+    q:"교류 발전기 다이오드는 총 몇 개인가?",
+    opts:["3개","4개","6개","8개"],
+    ans:2,
+    exp:"3상 전파 정류를 위해 (+) 다이오드 3개 + (-) 다이오드 3개 = 총 6개. 각 상의 양의 반주기는 (+)다이오드로, 음의 반주기는 (-)다이오드로 정류합니다."
+  },
+  {
+    q:"Y결선에서 상전압이 8V일 때 선간전압은? (√3 ≈ 1.73 적용)",
+    opts:["8V","11.3V","13.86V","16V"],
+    ans:2,
+    exp:"선간전압 = √3 × 상전압 = 1.73 × 8 = 13.84V ≈ 13.86V. √3 ≈ 1.732를 정확히 적용하면 1.732 × 8 = 13.86V. 이 공식은 자주 계산 문제로 출제됩니다."
+  },
+  {
+    q:"교류 발전기와 직류 발전기의 비교 설명으로 옳은 것은?",
+    opts:[
+      "DC 발전기는 슬립링에서 브러시와 접촉한다",
+      "AC 발전기는 전기자에서 전기가 유도된다",
+      "AC 발전기는 스테이터에서 전기가 유도되고 다이오드로 정류한다",
+      "DC 발전기는 다이오드로 역류를 방지한다"
+    ],
+    ans:2,
+    exp:"AC 발전기: 스테이터에서 3상 교류 유도 → 다이오드로 직류 정류. DC 발전기: 전기자에서 교류 유도 → 정류자로 정류. 브러시는 AC는 슬립링, DC는 정류자에 접촉."
+  }
+];
+
+let userAns = [], correct = 0;
+
+function buildMock() {
+  userAns = new Array(mockQ.length).fill(null);
+  correct = 0;
+  updatePB();
+  document.getElementById('res-box').classList.remove('show');
+  const wrap = document.getElementById('mock-wrap');
+  wrap.innerHTML = '';
+  mockQ.forEach((q, qi) => {
+    const d = document.createElement('div');
+    d.className = 'mq';
+    d.innerHTML = `
+      <div class="mq-num">문제 ${qi+1} / ${mockQ.length}</div>
+      <div class="mq-text">${q.q}</div>
+      <ul class="opts">
+        ${q.opts.map((o,oi)=>`<li><button class="obtn" onclick="pick(${qi},${oi},this)">${['①','②','③','④'][oi]} ${o}</button></li>`).join('')}
+      </ul>
+      <div class="exp" id="exp${qi}"><div class="exp-lbl">✅ 해설</div>${q.exp}</div>`;
+    wrap.appendChild(d);
+  });
+}
+
+function pick(qi, oi, btn) {
+  if (userAns[qi] !== null) return;
+  userAns[qi] = oi;
+  const btns = btn.closest('.opts').querySelectorAll('.obtn');
+  btns.forEach(b => b.disabled = true);
+  if (oi === mockQ[qi].ans) { btn.classList.add('ok'); correct++; }
+  else { btn.classList.add('no'); btns[mockQ[qi].ans].classList.add('ok'); }
+  document.getElementById('exp'+qi).classList.add('show');
+  updatePB();
+  if (userAns.filter(a=>a!==null).length === mockQ.length) showResult();
+}
+
+function updatePB() {
+  const done = userAns.filter(a=>a!==null).length;
+  document.getElementById('sc-txt').textContent = `${correct} / ${mockQ.length}`;
+  document.getElementById('sc-bar').style.width = (done / mockQ.length * 100) + '%';
+}
+
+function showResult() {
+  const pct = Math.round(correct / mockQ.length * 100);
+  const box = document.getElementById('res-box');
+  document.getElementById('res-sc').textContent = `${correct}점`;
+  document.getElementById('res-sc').style.color = pct >= 60 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('res-msg').textContent =
+    pct >= 90 ? '🏆 완벽! 충전장치 마스터!' :
+    pct >= 70 ? '👍 합격 안정권! 오답만 보완하세요.' :
+    pct >= 60 ? '⚠️ 아슬아슬 합격권. 집중 복습 필요!' :
+    '❌ 불합격 위험! DC vs AC 비교 탭부터 다시 공부하세요.';
+  box.classList.add('show');
+  box.scrollIntoView({ behavior:'smooth' });
+}
+
+function retry() {
+  buildMock();
+  document.getElementById('s-mock').scrollIntoView({ behavior:'smooth' });
+}
+
+// ── 암기 카드 ──
+const memData = [
+  { kw:"스테이터", hint:"AC 발전기 유도 전기 발생", ans:"AC 발전기에서 전기가 유도되는 고정 부분. DC는 전기자(회전)에서 유도. (최빈출 함정!)" },
+  { kw:"슬립링", hint:"AC 발전기 브러시 접촉", ans:"AC는 슬립링에 브러시 접촉 (로터에 여자전류 공급). DC는 정류자에 접촉." },
+  { kw:"다이오드", hint:"AC 발전기 역류방지 + 정류", ans:"역할 2가지: ①교류→직류 정류 ②역류 방지. (DC는 컷아웃 릴레이)" },
+  { kw:"컷아웃\n릴레이 불필요", hint:"AC 발전기 장점", ans:"AC 발전기는 다이오드가 역류 방지 → 컷아웃 릴레이와 전류 제한기 불필요" },
+  { kw:"오른손", hint:"발전기 법칙", ans:"플레밍 오른손 법칙 = 발전기. 엄지=도선 운동방향, 검지=자기장, 중지=기전력" },
+  { kw:"왼손", hint:"전동기 법칙", ans:"플레밍 왼손 법칙 = 전동기. 엄지=힘(운동), 검지=자기장, 중지=전류" },
+  { kw:"Y결선", hint:"AC 발전기 결선 방식", ans:"자동차 AC 발전기 사용. 선간전압 = √3 × 상전압 → 저속 고전압 유리" },
+  { kw:"√3배", hint:"Y결선 선간전압 배율", ans:"Y결선: 선간전압 = √3 × 상전압. Δ결선: 선간전류 = √3 × 상전류" },
+  { kw:"6개", hint:"다이오드 총 개수", ans:"(+)다이오드 3개 + (-)다이오드 3개 = 6개. 3상 전파 정류 방식" },
+  { kw:"1개", hint:"AC 발전기 조정기 수", ans:"AC는 전압 조정기 1개만 필요. DC는 전압+전류+컷아웃 = 3개" },
+  { kw:"로터 전류", hint:"전압 조정 방법", ans:"로터(계자) 코일 전류를 IC 조정기로 가감하여 발전 전압 조정. 회전수 조정은 불가." },
+  { kw:"V벨트 슬립", hint:"충전 불량 외부 원인", ans:"발전기 자체는 정상이지만 V벨트 슬립/헐거움으로 동력 전달 불량 → 충전 부족" },
+];
+
+function buildMem() {
+  const wrap = document.getElementById('mem-wrap');
+  memData.forEach(m => {
+    const d = document.createElement('div');
+    d.className = 'mem-card';
+    d.innerHTML = `
+      <div class="mem-front">
+        <div class="mem-kw">${m.kw}</div>
+        <div class="mem-hint">${m.hint}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:8px">탭하여 답 확인</div>
+      </div>
+      <div class="mem-back">
+        <div class="mem-ans">${m.ans}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:8px">다시 탭하여 돌아가기</div>
+      </div>`;
+    d.onclick = () => d.classList.toggle('flip');
+    wrap.appendChild(d);
+  });
+}
+
+buildMock();
+buildMem();
+</script>
+</body>
+</html>

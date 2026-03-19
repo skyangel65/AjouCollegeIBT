@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시동장치 완벽 정리 — 자동차정비기능사</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root {
+  --bg:      #080b0f;
+  --bg2:     #0f1318;
+  --bg3:     #161b22;
+  --bg4:     #1c2230;
+  --border:  #242a36;
+  --border2: #2e3748;
+  --text:    #dde3ef;
+  --text2:   #8a94ab;
+  --text3:   #4e5870;
+
+  --red:     #f04a5c;
+  --red-d:   rgba(240,74,92,.13);
+  --amber:   #f5a623;
+  --amber-d: rgba(245,166,35,.13);
+  --blue:    #4a9eff;
+  --blue-d:  rgba(74,158,255,.13);
+  --green:   #3ecf82;
+  --green-d: rgba(62,207,130,.13);
+  --purple:  #a78bfa;
+  --purple-d:rgba(167,139,250,.13);
+  --cyan:    #22d3ee;
+  --cyan-d:  rgba(34,211,238,.13);
+
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Noto Sans KR', sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.65}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(160deg,#0a0f18 0%,#0f1828 60%,#0a0f18 100%);
+  border-bottom:1px solid var(--border);
+  padding:2rem 1.5rem 1.75rem;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-80px;right:-80px;
+  width:360px;height:360px;
+  background:radial-gradient(circle,rgba(74,158,255,.07) 0%,transparent 70%);
+  border-radius:50%;
+}
+.hero::after{
+  content:'';position:absolute;bottom:-60px;left:-40px;
+  width:260px;height:260px;
+  background:radial-gradient(circle,rgba(240,74,92,.06) 0%,transparent 70%);
+  border-radius:50%;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--blue);margin-bottom:10px;
+}
+.hero-eyebrow::before{content:'●';font-size:7px;animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.hero h1{font-size:23px;font-weight:900;color:#fff;margin-bottom:5px;letter-spacing:-.3px}
+.hero p{font-size:13px;color:var(--text2)}
+.hero-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{
+  font-size:11px;font-weight:700;padding:3px 11px;border-radius:20px;
+  border:1px solid;letter-spacing:.3px;
+}
+.chip-r{color:var(--red);border-color:var(--red);background:var(--red-d)}
+.chip-b{color:var(--blue);border-color:var(--blue);background:var(--blue-d)}
+.chip-g{color:var(--green);border-color:var(--green);background:var(--green-d)}
+.chip-a{color:var(--amber);border-color:var(--amber);background:var(--amber-d)}
+
+/* ── TABS ── */
+.tabs{
+  position:sticky;top:0;z-index:100;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:0 1.5rem;display:flex;overflow-x:auto;gap:0;
+}
+.tabs::-webkit-scrollbar{height:0}
+.tab{
+  padding:13px 15px;font-size:13px;font-weight:500;
+  color:var(--text3);background:none;border:none;
+  border-bottom:2px solid transparent;
+  cursor:pointer;white-space:nowrap;transition:all .2s;
+}
+.tab:hover{color:var(--text2)}
+.tab.on{color:var(--blue);border-bottom-color:var(--blue)}
+
+/* ── SECTION ── */
+.sec{display:none;padding:1.5rem;max-width:960px}
+.sec.on{display:block}
+
+/* ── CARD ── */
+.card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:12px;padding:16px 18px;margin-bottom:12px;
+}
+.card-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.card-ttl{font-size:15px;font-weight:700;color:#fff}
+
+/* ── BADGE ── */
+.badge{
+  font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;
+}
+.br{background:var(--red-d);color:var(--red)}
+.bb{background:var(--blue-d);color:var(--blue)}
+.bg{background:var(--green-d);color:var(--green)}
+.ba{background:var(--amber-d);color:var(--amber)}
+.bp{background:var(--purple-d);color:var(--purple)}
+.bc{background:var(--cyan-d);color:var(--cyan)}
+
+/* ── GRID ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr}}
+@media(max-width:800px){.g3{grid-template-columns:1fr 1fr}.g4{grid-template-columns:1fr 1fr}}
+
+/* ── MINI CARD ── */
+.mc{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:10px;padding:14px;
+}
+.mc-lbl{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+.mc-val{font-size:22px;font-weight:900;font-family:var(--mono)}
+.mc-sub{font-size:12px;color:var(--text2);margin-top:5px;line-height:1.5}
+
+/* ── FORMULA ── */
+.formula{
+  background:var(--bg3);border-left:3px solid var(--blue);
+  border-radius:0 8px 8px 0;
+  padding:11px 15px;margin:8px 0;
+  font-family:var(--mono);font-size:13px;color:var(--blue);
+}
+.formula small{display:block;font-family:var(--sans);font-size:12px;color:var(--text2);margin-top:5px}
+
+/* ── LIST ── */
+.ul{list-style:none;padding:0}
+.ul li{
+  padding:4px 0;font-size:13px;color:var(--text2);
+  display:flex;align-items:flex-start;gap:8px;
+}
+.ul li::before{content:'›';color:var(--blue);font-weight:700;flex-shrink:0;margin-top:1px}
+.ul li b{color:var(--text)}
+
+/* ── ALERT BOXES ── */
+.abox{border-radius:8px;padding:10px 14px;font-size:13px;margin:8px 0;border:1px solid}
+.a-r{background:var(--red-d);border-color:rgba(240,74,92,.3);color:var(--red)}
+.a-b{background:var(--blue-d);border-color:rgba(74,158,255,.3);color:var(--blue)}
+.a-g{background:var(--green-d);border-color:rgba(62,207,130,.3);color:var(--green)}
+.a-a{background:var(--amber-d);border-color:rgba(245,166,35,.3);color:var(--amber)}
+
+/* ── TABLE ── */
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+th{text-align:left;padding:8px 12px;background:var(--bg3);color:var(--text2);
+   font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;
+   border-bottom:1px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+td b{color:var(--red)}
+
+/* ── SECTION TITLE ── */
+.stitle{
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text3);margin:20px 0 10px;
+  display:flex;align-items:center;gap:8px;
+}
+.stitle::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── FREQ BAR ── */
+.freq-wrap{margin-bottom:8px}
+.freq-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.freq-name{font-size:13px;color:var(--text);min-width:160px;font-weight:500}
+.freq-bg{flex:1;height:7px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.freq-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.freq-star{font-size:12px;color:var(--amber);min-width:70px;text-align:right}
+
+/* ── FLOW DIAGRAM ── */
+.flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 0}
+.fbox{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:8px;padding:8px 14px;
+  font-size:13px;font-weight:600;color:var(--text);
+  text-align:center;white-space:nowrap;
+}
+.fbox.hi{border-color:var(--blue);color:var(--blue);background:var(--blue-d)}
+.farrow{color:var(--text3);font-size:18px;font-weight:700}
+
+/* ── COMPARISON STRIP ── */
+.cstrip{
+  display:flex;gap:0;border-radius:10px;overflow:hidden;
+  border:1px solid var(--border);margin:8px 0;
+}
+.cs-half{flex:1;padding:12px 14px}
+.cs-left{background:var(--red-d);border-right:1px solid var(--border)}
+.cs-right{background:var(--blue-d)}
+.cs-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.cs-left .cs-lbl{color:var(--red)}
+.cs-right .cs-lbl{color:var(--blue)}
+
+/* ── GEAR RATIO CALCULATOR ── */
+.calc-box{background:var(--bg3);border-radius:10px;padding:16px;margin-top:10px}
+.cr{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.cr label{font-size:12px;color:var(--text2);min-width:100px}
+.ci{
+  width:90px;padding:7px 10px;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:6px;color:var(--text);font-size:13px;
+  font-family:var(--mono);
+}
+.ci:focus{outline:none;border-color:var(--blue)}
+.cbtn{
+  padding:7px 18px;border-radius:6px;
+  background:var(--blue-d);border:1px solid var(--blue);
+  color:var(--blue);font-size:13px;font-weight:700;
+  cursor:pointer;transition:all .2s;font-family:var(--sans);
+}
+.cbtn:hover{background:var(--blue);color:#fff}
+.cres{font-size:19px;font-weight:700;font-family:var(--mono);color:var(--green);margin-top:10px}
+.cunit{font-size:12px;color:var(--text3)}
+
+/* ── QUIZ CARDS (기출) ── */
+.qc{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:10px;padding:14px 16px;margin-bottom:10px;
+  cursor:pointer;transition:border-color .2s;
+}
+.qc:hover{border-color:var(--border2)}
+.qc.open{border-color:var(--blue)}
+.qc-q{font-size:13px;color:var(--text);line-height:1.7}
+.qtag{font-size:11px;color:var(--text3);float:right;margin-left:8px}
+.qc-ans{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.qc.open .qc-ans{display:block}
+.ans-lbl{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--green);margin-bottom:6px}
+.ans-txt{font-size:13px;color:var(--text2);line-height:1.7}
+.ans-key{color:var(--amber);font-weight:700}
+
+/* ── MOCK QUIZ ── */
+.pb-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:20px}
+.pb-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pb-lbl{font-size:13px;color:var(--text2)}
+.pb-sc{font-size:22px;font-weight:900;font-family:var(--mono);color:var(--amber)}
+.pb-bg{height:6px;background:var(--bg);border-radius:3px;overflow:hidden}
+.pb-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .5s}
+
+.mq{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.mq-num{font-size:11px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:8px}
+.mq-text{font-size:14px;font-weight:600;color:#fff;margin-bottom:14px;line-height:1.7}
+.opts{list-style:none;padding:0}
+.opts li{margin-bottom:8px}
+.obtn{
+  width:100%;text-align:left;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;padding:10px 14px;
+  font-size:13px;color:var(--text2);
+  cursor:pointer;transition:all .2s;font-family:var(--sans);
+}
+.obtn:hover:not(:disabled){background:var(--bg4);border-color:var(--border2);color:var(--text)}
+.obtn.ok{background:var(--green-d);border-color:var(--green);color:var(--green)}
+.obtn.no{background:var(--red-d);border-color:var(--red);color:var(--red)}
+.obtn:disabled{cursor:default}
+.exp{
+  display:none;margin-top:12px;padding:12px;
+  background:var(--bg3);border-radius:8px;
+  font-size:13px;color:var(--text2);line-height:1.7;
+  border-left:3px solid var(--green);
+}
+.exp.show{display:block}
+.exp-lbl{font-size:11px;font-weight:700;color:var(--green);margin-bottom:6px;letter-spacing:1px}
+
+/* ── RESULT BOX ── */
+.res-box{
+  background:linear-gradient(135deg,var(--bg2),var(--bg3));
+  border:1px solid var(--border);border-radius:16px;
+  padding:28px;text-align:center;margin-top:20px;display:none;
+}
+.res-box.show{display:block}
+.res-sc{font-size:56px;font-weight:900;font-family:var(--mono);margin-bottom:6px}
+.res-lbl{font-size:14px;color:var(--text2)}
+.res-msg{font-size:16px;font-weight:700;margin-top:14px;color:var(--text)}
+.retry-btn{
+  margin-top:18px;padding:11px 30px;border-radius:8px;
+  background:var(--blue-d);border:1px solid var(--blue);
+  color:var(--blue);font-size:14px;font-weight:700;
+  cursor:pointer;transition:all .2s;font-family:var(--sans);
+}
+.retry-btn:hover{background:var(--blue);color:#fff}
+
+/* ── MEMORY CARD ── */
+.mem-card{
+  background:linear-gradient(135deg,var(--bg2),var(--bg3));
+  border:1px solid var(--border);border-radius:12px;
+  padding:18px;text-align:center;cursor:pointer;
+  transition:all .3s;min-height:120px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.mem-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.35);border-color:var(--border2)}
+.mem-kw{font-size:22px;font-weight:900;font-family:var(--mono);color:var(--red);margin-bottom:6px}
+.mem-hint{font-size:12px;color:var(--text3)}
+.mem-back{display:none}
+.mem-card.flip .mem-front{display:none}
+.mem-card.flip .mem-back{display:block}
+.mem-ans{font-size:13px;color:var(--text);line-height:1.7}
+
+/* ── HIGHLIGHT ── */
+.hr{color:var(--red);font-weight:700}
+.hb{color:var(--blue);font-weight:700}
+.hg{color:var(--green);font-weight:700}
+.ha{color:var(--amber);font-weight:700}
+
+hr.div{border:none;border-top:1px solid var(--border);margin:20px 0}
+
+/* ── DIAGRAM ── */
+.motor-diagram{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:10px;padding:14px;margin:10px 0;
+}
+.diagram-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.d-box{
+  background:var(--bg4);border:1px solid var(--border2);
+  border-radius:6px;padding:6px 12px;
+  font-size:12px;font-weight:600;text-align:center;
+}
+.d-line{color:var(--text3);font-size:14px}
+
+/* ── 학교 헤더 ── */
+.school-header-bar{background:#fff;border-bottom:3px solid #185FA5;padding:10px 1.5rem;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,0.15);}
+.school-logo-img{height:48px;width:auto;object-fit:contain;}
+.school-divider-line{width:1.5px;height:38px;background:#d0cfc8;flex-shrink:0;}
+.school-info-box{display:flex;flex-direction:column;gap:2px;flex:1;}
+.school-innovation-text{font-size:15px;font-weight:700;color:#185FA5;letter-spacing:-0.3px;}
+.school-sub-text{font-size:11px;color:#8a8a82;}
+.back-to-main{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#E6F1FB;color:#0C447C;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;border:1px solid #b8d4f0;transition:all .15s;}
+.back-to-main:hover{background:#185FA5;color:#fff;border-color:#185FA5;}
+@media(max-width:600px){.school-logo-img{height:36px;}.school-innovation-text{font-size:13px;}.back-to-main{font-size:12px;padding:6px 10px;}}
+</style>
+</head>
+<body>
+
+<!-- 학교 로고 헤더 -->
+<div class="school-header-bar">
+  <img src="아주자동차대학UI.jpg" alt="아주자동차대학교" class="school-logo-img">
+  <div class="school-divider-line"></div>
+  <div class="school-info-box">
+    <span class="school-innovation-text">혁신지원사업단</span>
+    <span class="school-sub-text">자동차정비 전공 교육자료</span>
+  </div>
+  <a href="index.html" class="back-to-main">🏠 메인으로</a>
+</div>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-eyebrow">자동차정비기능사 전기전자</div>
+  <h1>⚡ 시동장치 완벽 정리</h1>
+  <p>핵심 이론 · 구조 원리 · 기출 분석 · 모의고사 20문항</p>
+  <div class="hero-chips">
+    <span class="chip chip-r">출제빈도 ★★★★★</span>
+    <span class="chip chip-b">회전력 계산 포함</span>
+    <span class="chip chip-g">기출 완벽 분석</span>
+    <span class="chip chip-a">직권전동기 핵심</span>
+  </div>
+</div>
+
+<!-- ── TABS ── -->
+<div class="tabs">
+  <button class="tab on"  onclick="showTab('theory',this)">📚 핵심 이론</button>
+  <button class="tab"     onclick="showTab('struct',this)">🔩 구조 & 원리</button>
+  <button class="tab"     onclick="showTab('calc',  this)">🔢 계산 공식</button>
+  <button class="tab"     onclick="showTab('past',  this)">📄 기출 분석</button>
+  <button class="tab"     onclick="showTab('mock',  this)">✏️ 모의고사</button>
+  <button class="tab"     onclick="showTab('mem',   this)">🧠 암기 카드</button>
+</div>
+
+<!-- ══════════════════════════════════
+     TAB 1 : 핵심 이론
+══════════════════════════════════ -->
+<div id="s-theory" class="sec on">
+
+  <!-- 출제 빈도 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">📊 시동장치 단원 출제 빈도</div></div>
+    <div class="freq-wrap">
+      <div class="freq-row"><span class="freq-name">직류직권 전동기 특성</span><div class="freq-bg"><div class="freq-fill" style="width:96%"></div></div><span class="freq-star">★★★★★</span></div>
+      <div class="freq-row"><span class="freq-name">회전력 계산 (기어비)</span><div class="freq-bg"><div class="freq-fill" style="width:90%"></div></div><span class="freq-star">★★★★★</span></div>
+      <div class="freq-row"><span class="freq-name">오버런닝 클러치</span><div class="freq-bg"><div class="freq-fill" style="width:85%"></div></div><span class="freq-star">★★★★☆</span></div>
+      <div class="freq-row"><span class="freq-name">전동기 시험 (무부하/부하)</span><div class="freq-bg"><div class="freq-fill" style="width:78%"></div></div><span class="freq-star">★★★★☆</span></div>
+      <div class="freq-row"><span class="freq-name">브러시 & 정류자 언더컷</span><div class="freq-bg"><div class="freq-fill" style="width:70%"></div></div><span class="freq-star">★★★☆☆</span></div>
+      <div class="freq-row"><span class="freq-name">시동 계통 구성 부품</span><div class="freq-bg"><div class="freq-fill" style="width:62%"></div></div><span class="freq-star">★★★☆☆</span></div>
+      <div class="freq-row"><span class="freq-name">전동기 종류 비교</span><div class="freq-bg"><div class="freq-fill" style="width:55%"></div></div><span class="freq-star">★★★☆☆</span></div>
+    </div>
+  </div>
+
+  <!-- 시동 계통 흐름 -->
+  <p class="stitle">① 시동 계통 전체 흐름</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">시동 작동 순서</div><span class="badge bb">계통도 암기</span></div>
+    <div class="flow">
+      <div class="fbox">배터리</div><div class="farrow">→</div>
+      <div class="fbox">점화스위치(ST)</div><div class="farrow">→</div>
+      <div class="fbox hi">마그네틱 스위치</div><div class="farrow">→</div>
+      <div class="fbox">기동전동기</div><div class="farrow">→</div>
+      <div class="fbox hi">피니언 기어</div><div class="farrow">→</div>
+      <div class="fbox">링기어</div><div class="farrow">→</div>
+      <div class="fbox">크랭크축 회전</div>
+    </div>
+    <div class="abox a-b" style="margin-top:6px">💡 마그네틱 스위치(솔레노이드) = 풀인 코일 + 홀드인 코일로 구성. 피니언 돌출 후 주접점 연결</div>
+  </div>
+
+  <!-- 직류직권 전동기 -->
+  <p class="stitle">② 직류직권 전동기 (시동 전동기)</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">결선 방식</div><span class="badge br">★★★ 핵심</span></div>
+      <div class="motor-diagram">
+        <div class="diagram-row">
+          <div class="d-box" style="color:var(--red)">배터리 (+)</div>
+          <div class="d-line">→</div>
+          <div class="d-box">계자코일</div>
+          <div class="d-line">→</div>
+          <div class="d-box">전기자코일</div>
+          <div class="d-line">→</div>
+          <div class="d-box" style="color:var(--text3)">(-)</div>
+        </div>
+      </div>
+      <ul class="ul">
+        <li>계자코일과 전기자코일이 <b>직렬</b> 연결</li>
+        <li>부하 ↑ → 전류 ↑ → <b>회전력 증가</b></li>
+        <li>부하 ↓ → 회전수 ↑ (무부하 고속회전 위험)</li>
+        <li>기동 초기 <b>큰 회전력</b> 필요 → 최적</li>
+      </ul>
+      <div class="abox a-r">⚠️ 직권 전동기는 무부하 시 과속 위험 → 반드시 부하를 건 상태에서 사용</div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">전동기 3종류 비교</div><span class="badge bb">비교 암기</span></div>
+      <table>
+        <tr><th>종류</th><th>결선</th><th>특성</th><th>용도</th></tr>
+        <tr><td><b>직권</b></td><td>직렬</td><td>기동 토크↑</td><td><b>시동 전동기</b></td></tr>
+        <tr><td>분권</td><td>병렬</td><td>정속 회전</td><td>팬·히터 모터</td></tr>
+        <tr><td>복권</td><td>직+병렬</td><td>중간 특성</td><td>와이퍼 모터</td></tr>
+      </table>
+      <div class="abox a-a" style="margin-top:10px">📌 전자력 공식: <b>F = B × ℓ × I</b><br>B=자속밀도, ℓ=도선길이, I=전류</div>
+    </div>
+  </div>
+
+  <!-- 오버런닝 클러치 -->
+  <p class="stitle">③ 오버런닝 클러치 (역전 방지 장치)</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">오버런닝 클러치</div><span class="badge br">함정 자주 출제</span></div>
+    <div class="g2">
+      <div>
+        <div class="abox a-g">✅ <b>피니언 섭동식</b>에는 오버런닝 클러치 <b>필수</b></div>
+        <div style="height:8px"></div>
+        <div class="abox a-r">❌ <b>벤딕스식</b>에는 오버런닝 클러치 <b>불필요</b></div>
+        <div style="height:10px"></div>
+        <ul class="ul">
+          <li><b>목적:</b> 기관 시동 후 링기어 → 피니언으로의 역동력 전달 방지</li>
+          <li>시동 후 엔진 rpm > 피니언 rpm → 클러치 해제</li>
+        </ul>
+      </div>
+      <div>
+        <table>
+          <tr><th>종류</th><th>특징</th></tr>
+          <tr><td><b>롤러식</b></td><td>가장 일반적, 내구성 우수</td></tr>
+          <tr><td>다판식</td><td>대용량, 대형차</td></tr>
+          <tr><td>스프래그식</td><td>소형 경량</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 마그네틱 스위치 -->
+  <p class="stitle">④ 마그네틱 스위치 (솔레노이드)</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">풀인 코일 vs 홀드인 코일</div><span class="badge ba">구분 암기</span></div>
+      <table>
+        <tr><th>코일</th><th>역할</th><th>특징</th></tr>
+        <tr><td><b>풀인(흡인)</b></td><td>플런저 당김</td><td>굵은 선, 저저항</td></tr>
+        <tr><td><b>홀드인(유지)</b></td><td>플런저 유지</td><td>가는 선, 고저항</td></tr>
+      </table>
+      <div class="abox a-b" style="margin-top:10px">💡 주접점이 닫히면 풀인 코일 전류 차단 → 홀드인 코일만으로 유지</div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">마그네틱 스위치 작동 순서</div><span class="badge bb">순서 암기</span></div>
+      <ul class="ul">
+        <li>① 점화키 ST → 마그네틱 코일에 전류</li>
+        <li>② 풀인 코일 → 플런저 흡인</li>
+        <li>③ 피니언 기어 링기어에 <b>맞물림</b></li>
+        <li>④ 주접점 닫힘 → 대전류 기동전동기에 공급</li>
+        <li>⑤ 기동전동기 고속 회전 → 크랭킹</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 브러시 & 정류자 -->
+  <p class="stitle">⑤ 브러시 & 정류자</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">브러시 교환 기준</div><span class="badge br">수치 암기</span></div>
+      <div class="g2" style="gap:8px;margin-bottom:10px">
+        <div class="mc">
+          <div class="mc-lbl">브러시 교환</div>
+          <div class="mc-val" style="color:var(--red)">1/3</div>
+          <div class="mc-sub">신품 길이의 1/3 마모 시 교환</div>
+        </div>
+        <div class="mc">
+          <div class="mc-lbl">정류자 언더컷</div>
+          <div class="mc-val" style="color:var(--amber)">0.5~0.8</div>
+          <div class="mc-sub">운모를 0.5~0.8mm 낮게 절삭</div>
+        </div>
+      </div>
+      <div class="abox a-r">⚠️ 언더컷이 적으면 → 정류자와 운모가 같은 높이 → 브러시 접촉 불량</div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">전기자 & 계자코일 시험</div><span class="badge bb">검사 항목</span></div>
+      <table>
+        <tr><th>시험 항목</th><th>방법</th><th>정상</th></tr>
+        <tr><td>단락 시험</td><td>그로울러 시험기</td><td>떨림 없음</td></tr>
+        <tr><td>단선 시험</td><td>멀티미터</td><td>도통(저항 낮음)</td></tr>
+        <tr><td>접지 시험</td><td>접지 도통</td><td>비도통</td></tr>
+      </table>
+      <div class="abox a-a" style="margin-top:8px">💡 계자철심 수 = 브러시 수 (비례 관계)</div>
+    </div>
+  </div>
+
+  <!-- 전동기 시험 -->
+  <p class="stitle">⑥ 기동전동기 시험 기준</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">무부하 시험</div><span class="badge br">★★★ 판정 기준</span></div>
+      <div class="g2" style="gap:8px;margin-bottom:8px">
+        <div class="mc">
+          <div class="mc-lbl">전압 기준</div>
+          <div class="mc-val" style="color:var(--green)">90%↑</div>
+          <div class="mc-sub">배터리 전압의 90% 이상<br>(12V → 10.8V 이상)</div>
+        </div>
+        <div class="mc">
+          <div class="mc-lbl">전류 기준</div>
+          <div class="mc-val" style="color:var(--blue)">90%↓</div>
+          <div class="mc-sub">정격출력의 90% 이하</div>
+        </div>
+      </div>
+      <ul class="ul">
+        <li>회전계로 <b>무부하 회전수</b> 측정</li>
+        <li>이상 시: 내부 단락, 브러시 불량 의심</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">부하 시험 (크랭킹 시험)</div><span class="badge br">★★★ 판정 기준</span></div>
+      <div class="g2" style="gap:8px;margin-bottom:8px">
+        <div class="mc">
+          <div class="mc-lbl">측정 시간</div>
+          <div class="mc-val" style="color:var(--amber)">5초</div>
+          <div class="mc-sub">5초 이내에 측정 완료</div>
+        </div>
+        <div class="mc">
+          <div class="mc-lbl">최소 전압</div>
+          <div class="mc-val" style="color:var(--green)">9.6V</div>
+          <div class="mc-sub">12V × 80% = 9.6V 이상 유지</div>
+        </div>
+      </div>
+      <div class="abox a-b">💡 전류 기준: 배터리 용량의 3배 이하<br>예) 60AH → 180A 이하</div>
+    </div>
+  </div>
+
+  <!-- 회전 불량 원인 -->
+  <p class="stitle">⑦ 기동전동기 이상 현상</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">회전력 부족 (느린 회전) 원인</div><span class="badge ba">고장 진단</span></div>
+      <ul class="ul">
+        <li>축전지 <b>전압 강하</b> 또는 비중 저하</li>
+        <li>배터리 → 전동기 <b>케이블 접촉 불량</b></li>
+        <li><b>정류자 · 브러시</b> 접촉 불량</li>
+        <li>전기자 코일 <b>단락 또는 단선</b></li>
+        <li>계자코일 <b>단락</b></li>
+        <li>베어링 고착, 전기자 코일 접지</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">피니언 맞물림 불량 원인</div><span class="badge ba">고장 진단</span></div>
+      <ul class="ul">
+        <li>마그네틱 스위치 <b>코일 불량</b></li>
+        <li>피니언 기어 <b>마모</b></li>
+        <li>링기어 <b>마모 또는 파손</b></li>
+        <li>오버런닝 클러치 <b>슬립</b></li>
+        <li>시동 모터 장착 불량 (정렬 이탈)</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════
+     TAB 2 : 구조 & 원리
+══════════════════════════════════ -->
+<div id="s-struct" class="sec">
+
+  <!-- 시동 전동기 구성 부품 -->
+  <p class="stitle">기동전동기 구성 부품 완전 정리</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">주요 부품 및 역할</div><span class="badge bb">부품 암기</span></div>
+    <table>
+      <tr><th>부품명</th><th>역할</th><th>핵심 사항</th></tr>
+      <tr><td><b>전기자(아마추어)</b></td><td>전자력으로 회전 발생</td><td>전기자 코일 + 정류자로 구성</td></tr>
+      <tr><td><b>계자코일</b></td><td>자기장(자속) 형성</td><td>직권 연결, 전기자와 직렬</td></tr>
+      <tr><td><b>정류자</b></td><td>교류→직류 정류</td><td>언더컷 0.5~0.8mm 필수</td></tr>
+      <tr><td><b>브러시</b></td><td>정류자에 전류 공급</td><td>1/3 마모 시 교환</td></tr>
+      <tr><td><b>피니언 기어</b></td><td>링기어와 맞물려 회전 전달</td><td>잇수비 → 회전력 증배</td></tr>
+      <tr><td><b>오버런닝 클러치</b></td><td>역동력 전달 차단</td><td>섭동식 필수, 벤딕스식 불필요</td></tr>
+      <tr><td><b>마그네틱 스위치</b></td><td>피니언 돌출 + 주접점 연결</td><td>풀인·홀드인 2코일</td></tr>
+    </table>
+  </div>
+
+  <!-- 시동 방식 비교 -->
+  <p class="stitle">시동 방식 비교 (피니언 섭동식 vs 벤딕스식)</p>
+  <div class="cstrip">
+    <div class="cs-half cs-left">
+      <div class="cs-lbl">피니언 섭동식 (Sliding Gear)</div>
+      <ul class="ul" style="margin-top:6px">
+        <li>마그네틱 스위치로 피니언 이동</li>
+        <li>오버런닝 클러치 <b>필수</b></li>
+        <li>현재 <b>대부분 사용</b></li>
+        <li>시동 신뢰성 높음</li>
+        <li>저소음, 안정적</li>
+      </ul>
+    </div>
+    <div class="cs-half cs-right">
+      <div class="cs-lbl">벤딕스식 (Bendix)</div>
+      <ul class="ul" style="margin-top:6px">
+        <li>관성력으로 피니언 이동</li>
+        <li>오버런닝 클러치 <b>불필요</b></li>
+        <li>구조 단순, 저렴</li>
+        <li>소음 큼, 현재 거의 미사용</li>
+        <li>맞물림 충격 있음</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 기어비 구조 -->
+  <p class="stitle">기어비와 회전력 증배 원리</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">피니언 → 링기어 회전력 전달</div><span class="badge br">계산 필수</span></div>
+    <div class="g2">
+      <div>
+        <div class="formula">
+          전동기 회전력 = F × (링기어 잇수 / 피니언 잇수)
+          <small>기어비 = 링기어 잇수 ÷ 피니언 잇수 = 10~15:1</small>
+        </div>
+        <div class="formula">
+          피니언 필요 회전력 = 크랭크 저항 × (피니언 / 링기어)
+          <small>F_피니언 = F_크랭크 × (Z_피니언 / Z_링기어)</small>
+        </div>
+      </div>
+      <div>
+        <div class="abox a-b">
+          💡 예제: 크랭크 저항 7kgf·m, 링기어 115T, 피니언 9T<br><br>
+          피니언 필요 회전력 = 7 × (9/115) = <b>0.548 kgf·m</b><br><br>
+          → 기어비 115/9 ≈ 12.8:1로 회전력 12.8배 증배
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 플레밍 법칙 -->
+  <p class="stitle">플레밍 법칙 (전동기 원리)</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">왼손 법칙 (전동기)</div><span class="badge br">함정 주의</span></div>
+      <div class="abox a-r">🤚 왼손 법칙 = <b>전동기</b> (힘의 방향)<br>엄지 = 힘(운동 방향)<br>검지 = 자기장 방향<br>중지 = 전류 방향</div>
+      <ul class="ul" style="margin-top:8px">
+        <li>전류가 흐르는 도선이 자기장 안에서 <b>힘을 받는 방향</b></li>
+        <li>시동 전동기 회전 방향 결정</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">오른손 법칙 (발전기)</div><span class="badge bb">비교 암기</span></div>
+      <div class="abox a-b">🖐 오른손 법칙 = <b>발전기</b> (기전력 방향)<br>엄지 = 도선 운동 방향<br>검지 = 자기장 방향<br>중지 = 기전력(전류) 방향</div>
+      <ul class="ul" style="margin-top:8px">
+        <li>도선이 자기장 안에서 움직일 때 <b>유도 기전력 방향</b></li>
+        <li>교류발전기(알터네이터) 원리</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════
+     TAB 3 : 계산 공식
+══════════════════════════════════ -->
+<div id="s-calc" class="sec">
+
+  <!-- 회전력 계산기 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">🧮 필요 회전력 계산기</div><span class="badge br">계산 문제</span></div>
+    <div class="formula">
+      F_피니언 = F_크랭크 × (Z_피니언 / Z_링기어)
+      <small>F=회전력[kgf·m], Z=잇수</small>
+    </div>
+    <div class="calc-box">
+      <div class="cr"><label>크랭크 회전저항</label><input class="ci" type="number" id="fc" value="7"> <span class="cunit">kgf·m</span></div>
+      <div class="cr"><label>피니언 잇수</label><input class="ci" type="number" id="zp" value="9"> <span class="cunit">T</span></div>
+      <div class="cr"><label>링기어 잇수</label><input class="ci" type="number" id="zr" value="115"> <span class="cunit">T</span></div>
+      <button class="cbtn" onclick="calcTorque()">계산하기</button>
+      <div class="cres" id="torque-res">—</div>
+    </div>
+  </div>
+
+  <!-- 기어비 계산기 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">🧮 기어비 & 회전수 계산기</div><span class="badge bb">계산 문제</span></div>
+    <div class="formula">
+      기어비 = Z_링기어 / Z_피니언
+      <small>크랭크 회전수 = 전동기 회전수 / 기어비</small>
+    </div>
+    <div class="calc-box">
+      <div class="cr"><label>링기어 잇수</label><input class="ci" type="number" id="gr-r" value="115"> <span class="cunit">T</span></div>
+      <div class="cr"><label>피니언 잇수</label><input class="ci" type="number" id="gr-p" value="9"> <span class="cunit">T</span></div>
+      <div class="cr"><label>전동기 회전수</label><input class="ci" type="number" id="gr-n" value="3000"> <span class="cunit">rpm</span></div>
+      <button class="cbtn" onclick="calcGear()">계산하기</button>
+      <div class="cres" id="gear-res">—</div>
+    </div>
+  </div>
+
+  <!-- 전자력 계산기 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">🧮 전자력 (F = BℓI) 계산기</div><span class="badge bg">계산 문제</span></div>
+    <div class="formula">
+      F = B × ℓ × I
+      <small>B=자속밀도[T], ℓ=도선 유효길이[m], I=전류[A]</small>
+    </div>
+    <div class="calc-box">
+      <div class="cr"><label>자속밀도 B</label><input class="ci" type="number" id="bli-b" value="0.5" step="0.1"> <span class="cunit">T</span></div>
+      <div class="cr"><label>도선 길이 ℓ</label><input class="ci" type="number" id="bli-l" value="0.3" step="0.01"> <span class="cunit">m</span></div>
+      <div class="cr"><label>전류 I</label><input class="ci" type="number" id="bli-i" value="200"> <span class="cunit">A</span></div>
+      <button class="cbtn" onclick="calcBLI()">계산하기</button>
+      <div class="cres" id="bli-res">—</div>
+    </div>
+  </div>
+
+  <!-- 핵심 수치 정리 -->
+  <p class="stitle">핵심 수치 총정리</p>
+  <div class="g4">
+    <div class="mc"><div class="mc-lbl">기어비</div><div class="mc-val" style="color:var(--red)">10~15</div><div class="mc-sub">:1 비율</div></div>
+    <div class="mc"><div class="mc-lbl">부하시험 최소전압</div><div class="mc-val" style="color:var(--green)">9.6V</div><div class="mc-sub">12V×80%</div></div>
+    <div class="mc"><div class="mc-lbl">무부하시험 전압</div><div class="mc-val" style="color:var(--blue)">90%↑</div><div class="mc-sub">배터리 전압의</div></div>
+    <div class="mc"><div class="mc-lbl">부하시험 측정시간</div><div class="mc-val" style="color:var(--amber)">5초</div><div class="mc-sub">이내</div></div>
+    <div class="mc"><div class="mc-lbl">브러시 교환 기준</div><div class="mc-val" style="color:var(--red)">1/3</div><div class="mc-sub">신품 길이 마모 시</div></div>
+    <div class="mc"><div class="mc-lbl">정류자 언더컷</div><div class="mc-val" style="color:var(--amber)">0.5~<br>0.8mm</div><div class="mc-sub">운모 절삭 깊이</div></div>
+    <div class="mc"><div class="mc-lbl">부하시험 전류 기준</div><div class="mc-val" style="color:var(--purple)">3배↓</div><div class="mc-sub">배터리 용량의</div></div>
+    <div class="mc"><div class="mc-lbl">전동기 결선방식</div><div class="mc-val" style="color:var(--cyan)">직권</div><div class="mc-sub">직렬 연결</div></div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════
+     TAB 4 : 기출 분석
+══════════════════════════════════ -->
+<div id="s-past" class="sec">
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">📋 실제 기출문제 — 클릭하여 해설 확인</div></div>
+    <p style="font-size:13px;color:var(--text2)">자동차정비기능사 필기 기출 분석 · 카드를 클릭하면 정답과 해설이 펼쳐집니다</p>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">시동 전동기용으로 사용되는 전동기의 종류는?<br>
+    ㉮ 분권 전동기 &nbsp; ㉯ 직권 전동기 &nbsp; ㉰ 복권 전동기 &nbsp; ㉱ 단상 유도 전동기</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉯ 직권 전동기</span><br>
+      시동 전동기는 기동 시 큰 회전력이 필요하므로 직권 전동기(계자코일+전기자코일 직렬 연결)를 사용합니다. 직권 전동기는 부하가 클수록 전류가 커지고 회전력이 증가합니다.</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">기관의 회전 저항이 7kgf·m이고 링기어 잇수 115, 피니언 잇수 9일 때 전동기에 필요한 회전력은?<br>
+    ㉮ 약 0.35 kgf·m &nbsp; ㉯ 약 0.55 kgf·m &nbsp; ㉰ 약 0.75 kgf·m &nbsp; ㉱ 약 0.95 kgf·m</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉯ 약 0.55 kgf·m</span><br>
+      F = 7 × (9/115) = 7 × 0.0783 = <b>0.548 ≈ 0.55 kgf·m</b><br>
+      공식: F_피니언 = F_크랭크 × (Z_피니언 / Z_링기어)</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">피니언 섭동식 기동전동기에 반드시 필요한 것은?<br>
+    ㉮ 벤딕스 스프링 &nbsp; ㉯ 오버런닝 클러치 &nbsp; ㉰ 원심 조속기 &nbsp; ㉱ 캠 클러치</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉯ 오버런닝 클러치</span><br>
+      피니언 섭동식에는 오버런닝 클러치가 필수입니다. 시동 후 기관 rpm이 피니언 rpm보다 높아지면 역동력이 전달되어 전동기가 손상되는데, 이를 방지합니다. 벤딕스식은 불필요합니다.</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">기동전동기의 무부하 시험 기준으로 옳은 것은?<br>
+    ㉮ 전압이 배터리 전압의 70% 이상 &nbsp; ㉯ 전압이 배터리 전압의 90% 이상<br>
+    ㉰ 전류가 정격출력의 110% 이상 &nbsp; ㉱ 측정시간은 30초 이내</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉯ 전압이 배터리 전압의 90% 이상</span><br>
+      무부하 시험: 전압 → 배터리 전압의 90% 이상 (12V × 0.9 = 10.8V 이상)<br>
+      전류 → 정격출력의 90% 이하<br>
+      부하(크랭킹) 시험: 5초 이내, 전압 80% 이상(9.6V), 전류 용량의 3배 이하</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">기동전동기의 브러시를 교환해야 할 시기는?<br>
+    ㉮ 신품 길이의 1/2 마모 시 &nbsp; ㉯ 신품 길이의 1/3 마모 시<br>
+    ㉰ 신품 길이의 1/4 마모 시 &nbsp; ㉱ 신품 길이의 2/3 마모 시</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉯ 신품 길이의 1/3 마모 시</span><br>
+      브러시는 신품 길이의 1/3이 마모되면 교환해야 합니다. 더 마모되면 브러시 스프링 압력이 부족해져 접촉 불량이 발생합니다.</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">기동전동기 정류자의 운모(마이카) 언더컷 깊이로 옳은 것은?<br>
+    ㉮ 0.1~0.3mm &nbsp; ㉯ 0.3~0.5mm &nbsp; ㉰ 0.5~0.8mm &nbsp; ㉱ 1.0~1.5mm</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉰ 0.5~0.8mm</span><br>
+      정류자 언더컷(운모 절삭)은 0.5~0.8mm 깊이로 합니다. 언더컷이 너무 적으면 운모와 정류자 편이 같은 높이가 되어 브러시 접촉 불량이 발생합니다.</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">직류직권 전동기에서 부하가 증가하면 나타나는 현상은?<br>
+    ㉮ 회전수 증가, 회전력 감소 &nbsp; ㉯ 회전수 감소, 회전력 증가<br>
+    ㉰ 회전수·회전력 모두 증가 &nbsp; ㉱ 회전수·회전력 모두 감소</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉯ 회전수 감소, 회전력 증가</span><br>
+      직권 전동기: 부하↑ → 전류↑ → 회전력↑, 회전수↓<br>
+      반대로 부하↓ → 전류↓ → 회전력↓, 회전수↑<br>
+      이것이 시동 초기 큰 회전력을 낼 수 있는 이유입니다.</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">마그네틱 스위치의 풀인 코일과 홀드인 코일에 대한 설명으로 옳은 것은?<br>
+    ㉮ 풀인 코일은 가는 선으로 감겨 있다 &nbsp; ㉯ 홀드인 코일은 플런저를 당기는 역할<br>
+    ㉰ 주접점이 닫히면 풀인 코일에 전류가 차단된다 &nbsp; ㉱ 두 코일의 저항이 동일하다</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉰ 주접점이 닫히면 풀인 코일에 전류가 차단된다</span><br>
+      풀인(흡인) 코일: 굵은 선, 저저항 → 플런저 당기는 역할<br>
+      홀드인(유지) 코일: 가는 선, 고저항 → 플런저 유지 역할<br>
+      주접점이 닫히면 양단 전위차가 0이 되어 풀인 코일 전류 차단, 홀드인 코일만 작동</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">기동전동기의 회전이 느린 원인으로 틀린 것은?<br>
+    ㉮ 축전지 방전 &nbsp; ㉯ 브러시와 정류자 접촉 불량<br>
+    ㉰ 오버런닝 클러치 정상 &nbsp; ㉱ 전기자 코일 단락</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉰ 오버런닝 클러치 정상</span><br>
+      오버런닝 클러치가 정상이면 회전이 느린 것과 직접 관련이 없습니다.<br>
+      회전 불량 원인: 배터리 방전, 케이블 접촉 불량, 브러시 불량, 전기자/계자코일 단락, 베어링 고착 등</div>
+    </div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">기동전동기의 부하(크랭킹) 시험에서 측정 시간 기준은?<br>
+    ㉮ 3초 이내 &nbsp; ㉯ 5초 이내 &nbsp; ㉰ 10초 이내 &nbsp; ㉱ 15초 이내</div>
+    <div class="qc-ans">
+      <div class="ans-lbl">정답 ✓</div>
+      <div class="ans-txt"><span class="ans-key">㉯ 5초 이내</span><br>
+      부하(크랭킹) 시험은 5초 이내에 측정 완료해야 합니다. 장시간 크랭킹 시 배터리 과방전 및 전동기 과열 위험이 있습니다.<br>
+      판정 기준: 전압 9.6V 이상, 전류 배터리 용량 × 3배 이하</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════
+     TAB 5 : 모의고사
+══════════════════════════════════ -->
+<div id="s-mock" class="sec">
+
+  <div class="pb-wrap">
+    <div class="pb-top">
+      <div class="pb-lbl">모의고사 진행 현황</div>
+      <div class="pb-sc" id="sc-txt">0 / 20</div>
+    </div>
+    <div class="pb-bg"><div class="pb-fill" id="sc-bar" style="width:0%"></div></div>
+  </div>
+
+  <div id="mock-wrap"></div>
+
+  <div class="res-box" id="res-box">
+    <div class="res-sc" id="res-sc">—</div>
+    <div class="res-lbl">20문제 중 정답</div>
+    <div class="res-msg" id="res-msg"></div>
+    <button class="retry-btn" onclick="retry()">🔄 다시 풀기</button>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════
+     TAB 6 : 암기 카드
+══════════════════════════════════ -->
+<div id="s-mem" class="sec">
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">🧠 시동장치 플립 암기 카드</div></div>
+    <p style="font-size:13px;color:var(--text2)">카드를 클릭하면 정답 확인 / 다시 클릭하면 돌아갑니다</p>
+  </div>
+  <div class="g2" id="mem-wrap"></div>
+</div>
+
+<!-- ══════════════════════════════════
+     SCRIPT
+══════════════════════════════════ -->
+<script>
+// ── 탭 전환 ──
+function showTab(id, btn) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  document.getElementById('s-' + id).classList.add('on');
+  btn.classList.add('on');
+}
+
+// ── 기출 퀴즈 토글 ──
+function tq(el) { el.classList.toggle('open'); }
+
+// ── 계산기 ──
+function calcTorque() {
+  const fc = +document.getElementById('fc').value;
+  const zp = +document.getElementById('zp').value;
+  const zr = +document.getElementById('zr').value;
+  if (!fc || !zp || !zr) return;
+  const res = fc * (zp / zr);
+  document.getElementById('torque-res').textContent = `필요 회전력 = ${res.toFixed(4)} kgf·m`;
+}
+function calcGear() {
+  const r = +document.getElementById('gr-r').value;
+  const p = +document.getElementById('gr-p').value;
+  const n = +document.getElementById('gr-n').value;
+  if (!r || !p || !n) return;
+  const ratio = r / p;
+  const crankRpm = n / ratio;
+  document.getElementById('gear-res').textContent =
+    `기어비 = ${ratio.toFixed(2)}:1 | 크랭크 회전수 = ${crankRpm.toFixed(0)} rpm`;
+}
+function calcBLI() {
+  const b = +document.getElementById('bli-b').value;
+  const l = +document.getElementById('bli-l').value;
+  const i = +document.getElementById('bli-i').value;
+  if (!b || !l || !i) return;
+  document.getElementById('bli-res').textContent = `F = ${(b * l * i).toFixed(2)} N`;
+}
+
+// ── 모의고사 데이터 ──
+const mockQ = [
+  {
+    q: "시동 전동기에 사용되는 전동기의 종류는?",
+    opts: ["분권 전동기", "직권 전동기", "복권 전동기", "단상 유도 전동기"],
+    ans: 1,
+    exp: "시동 전동기는 직권 전동기를 사용합니다. 계자코일과 전기자코일이 직렬 연결되어 부하가 클수록 전류가 증가하고 회전력이 증가합니다. 기동 초기의 큰 회전력에 적합합니다."
+  },
+  {
+    q: "직류직권 전동기의 부하가 감소하면?",
+    opts: ["회전수 감소, 회전력 증가", "회전수 증가, 회전력 감소", "회전수·회전력 모두 증가", "회전수·회전력 모두 감소"],
+    ans: 1,
+    exp: "직권 전동기: 부하↓ → 전류↓ → 회전력↓, 회전수↑. 반대로 부하↑ → 전류↑ → 회전력↑, 회전수↓. 무부하 상태에서는 과속 위험!"
+  },
+  {
+    q: "기관 회전 저항 7kgf·m, 링기어 115T, 피니언 9T일 때 필요 회전력은?",
+    opts: ["약 0.35 kgf·m", "약 0.55 kgf·m", "약 0.75 kgf·m", "약 0.95 kgf·m"],
+    ans: 1,
+    exp: "F = 7 × (9/115) = 7 × 0.0783 = 0.548 ≈ 0.55 kgf·m. 공식: F_피니언 = F_크랭크 × (Z_피니언 / Z_링기어)"
+  },
+  {
+    q: "시동 전동기의 기어비로 가장 적절한 범위는?",
+    opts: ["3~5:1", "5~8:1", "10~15:1", "20~25:1"],
+    ans: 2,
+    exp: "시동 전동기의 기어비(링기어/피니언)는 10~15:1 범위입니다. 이 비율로 전동기 회전력을 10~15배 증대시켜 크랭크축을 회전시킵니다."
+  },
+  {
+    q: "피니언 섭동식 시동 전동기에 반드시 필요한 장치는?",
+    opts: ["벤딕스 스프링", "원심 조속기", "오버런닝 클러치", "전자 클러치"],
+    ans: 2,
+    exp: "피니언 섭동식에는 오버런닝 클러치가 필수입니다. 시동 후 기관 rpm이 피니언 rpm보다 높아지면 역동력이 전달되어 전동기가 손상되는 것을 방지합니다."
+  },
+  {
+    q: "벤딕스식 시동 전동기의 특징으로 옳은 것은?",
+    opts: ["오버런닝 클러치 필수", "마그네틱 스위치 사용", "관성력으로 피니언 이동", "현재 대부분 차량에 사용"],
+    ans: 2,
+    exp: "벤딕스식: 관성력으로 피니언이 이동하여 링기어에 맞물립니다. 오버런닝 클러치가 불필요하고 구조가 단순하지만 소음이 크고 현재는 거의 사용하지 않습니다."
+  },
+  {
+    q: "기동전동기 무부하 시험의 전압 기준은?",
+    opts: ["배터리 전압의 70% 이상", "배터리 전압의 80% 이상", "배터리 전압의 90% 이상", "배터리 전압의 100%"],
+    ans: 2,
+    exp: "무부하 시험: 전압 → 배터리 전압의 90% 이상 (12V 배터리 기준 10.8V 이상). 전류 → 정격출력의 90% 이하. 이 기준을 만족하지 못하면 전동기 불량입니다."
+  },
+  {
+    q: "기동전동기 부하(크랭킹) 시험에서 측정 시간 기준은?",
+    opts: ["3초 이내", "5초 이내", "10초 이내", "15초 이내"],
+    ans: 1,
+    exp: "부하(크랭킹) 시험은 5초 이내에 측정해야 합니다. 판정 기준: 전압 9.6V 이상, 전류 배터리 용량의 3배 이하. 예) 60AH 배터리 → 180A 이하"
+  },
+  {
+    q: "12V 배터리를 사용하는 차량의 크랭킹 시험 최소 전압은?",
+    opts: ["8.4V", "9.6V", "10.5V", "11.0V"],
+    ans: 1,
+    exp: "12V × 80% = 9.6V. 크랭킹 시험 중 전압이 9.6V 이하로 떨어지면 배터리 불량이거나 시동 계통에 이상이 있는 것입니다."
+  },
+  {
+    q: "기동전동기 브러시를 교환해야 할 마모 기준은?",
+    opts: ["신품 길이의 1/4 마모", "신품 길이의 1/3 마모", "신품 길이의 1/2 마모", "신품 길이의 2/3 마모"],
+    ans: 1,
+    exp: "브러시는 신품 길이의 1/3이 마모되면 교환합니다. 이 이상 마모되면 브러시 스프링 장력 부족으로 정류자와의 접촉 불량이 발생합니다."
+  },
+  {
+    q: "정류자 언더컷(운모 절삭)의 적정 깊이는?",
+    opts: ["0.1~0.3mm", "0.3~0.5mm", "0.5~0.8mm", "1.0~1.5mm"],
+    ans: 2,
+    exp: "정류자 언더컷은 운모를 0.5~0.8mm 깊이로 절삭합니다. 언더컷이 부족하면 운모와 정류자 편이 같은 높이가 되어 브러시 접촉 불량 발생."
+  },
+  {
+    q: "마그네틱 스위치에서 풀인(흡인) 코일의 특징은?",
+    opts: ["가는 선, 고저항", "굵은 선, 저저항", "굵은 선, 고저항", "가는 선, 저저항"],
+    ans: 1,
+    exp: "풀인 코일: 굵은 선 → 저저항 → 큰 전류 → 강한 흡인력으로 플런저를 당김. 홀드인 코일: 가는 선 → 고저항 → 작은 전류 → 플런저 유지."
+  },
+  {
+    q: "기동전동기 회전이 느린 원인이 아닌 것은?",
+    opts: ["배터리 방전", "브러시와 정류자 접촉 불량", "전기자 코일 단락", "오버런닝 클러치 정상 작동"],
+    ans: 3,
+    exp: "오버런닝 클러치가 정상이면 회전 불량과 직접 관련이 없습니다. 회전 불량 원인: 배터리 방전, 케이블 불량, 브러시 불량, 코일 단락/단선, 베어링 고착 등."
+  },
+  {
+    q: "시동 전동기 계자철심 수와 브러시 수의 관계는?",
+    opts: ["계자철심 = 브러시 × 2", "계자철심 = 브러시", "계자철심 = 브러시 - 1", "관계없다"],
+    ans: 1,
+    exp: "계자철심 수 = 브러시 수. 4극 전동기는 4개의 계자철심과 4개의 브러시를 가집니다. 이는 전기자 코일에 균일하게 전류를 공급하기 위한 구조입니다."
+  },
+  {
+    q: "전동기의 전자력 공식 F = B × ℓ × I 에서 ℓ은 무엇인가?",
+    opts: ["자속밀도", "도선의 유효 길이", "전류의 세기", "힘의 크기"],
+    ans: 1,
+    exp: "F = B × ℓ × I 에서 B=자속밀도[T], ℓ=자기장 내 도선의 유효 길이[m], I=전류[A]입니다. 이 값이 클수록 전자력(회전력)이 커집니다."
+  },
+  {
+    q: "시동 전동기 작동 시 플레밍 어느 손 법칙이 적용되는가?",
+    opts: ["오른손 법칙", "왼손 법칙", "앙페르 오른나사 법칙", "렌츠 법칙"],
+    ans: 1,
+    exp: "전동기는 플레밍의 왼손 법칙(힘의 방향). 발전기는 오른손 법칙(기전력 방향). 왼손: 엄지=힘, 검지=자기장, 중지=전류 방향"
+  },
+  {
+    q: "오버런닝 클러치의 종류가 아닌 것은?",
+    opts: ["롤러식", "다판식", "스프래그식", "벤딕스식"],
+    ans: 3,
+    exp: "오버런닝 클러치의 종류: 롤러식(가장 일반적), 다판식(대형차), 스프래그식(소형 경량). 벤딕스식은 오버런닝 클러치 방식이 아닌 피니언 맞물림 방식입니다."
+  },
+  {
+    q: "기동전동기의 전기자(아마추어) 단락 시험에 사용되는 장비는?",
+    opts: ["멀티미터", "그로울러 시험기", "훅 미터", "절연저항계"],
+    ans: 1,
+    exp: "전기자 단락 시험은 그로울러(Growler) 시험기를 사용합니다. 단락이 있으면 철판이 떨립니다. 단선 시험은 멀티미터, 접지 시험은 절연저항계를 사용합니다."
+  },
+  {
+    q: "시동 전동기에서 피니언과 링기어가 맞물리지 않는 원인이 아닌 것은?",
+    opts: ["마그네틱 스위치 불량", "피니언 기어 마모", "오버런닝 클러치 슬립", "브러시 1/3 마모"],
+    ans: 3,
+    exp: "브러시 1/3 마모는 맞물림 불량과 직접 관련 없고, 이때는 교환이 필요합니다. 맞물림 불량 원인: 마그네틱 스위치 불량, 피니언 마모, 링기어 파손, 클러치 슬립 등"
+  },
+  {
+    q: "시동 전동기 부하 시험 시 배터리 용량 80AH인 경우 전류 기준은?",
+    opts: ["80A 이하", "120A 이하", "160A 이하", "240A 이하"],
+    ans: 3,
+    exp: "부하 시험 전류 기준 = 배터리 용량의 3배 이하. 80AH × 3 = 240A 이하. 이 기준은 부하 시험 중 전류가 이 값을 초과하면 시동 계통에 과부하가 있음을 의미합니다."
+  }
+];
+
+let userAns = [], correct = 0;
+
+function buildMock() {
+  userAns = new Array(mockQ.length).fill(null);
+  correct = 0;
+  updatePB();
+  document.getElementById('res-box').classList.remove('show');
+  const wrap = document.getElementById('mock-wrap');
+  wrap.innerHTML = '';
+  mockQ.forEach((q, qi) => {
+    const d = document.createElement('div');
+    d.className = 'mq';
+    d.id = 'mq' + qi;
+    d.innerHTML = `
+      <div class="mq-num">문제 ${qi + 1} / ${mockQ.length}</div>
+      <div class="mq-text">${q.q}</div>
+      <ul class="opts">
+        ${q.opts.map((o, oi) => `
+          <li><button class="obtn" onclick="pick(${qi},${oi},this)">
+            ${['①','②','③','④'][oi]} ${o}
+          </button></li>
+        `).join('')}
+      </ul>
+      <div class="exp" id="exp${qi}">
+        <div class="exp-lbl">✅ 해설</div>
+        ${q.exp}
+      </div>`;
+    wrap.appendChild(d);
+  });
+}
+
+function pick(qi, oi, btn) {
+  if (userAns[qi] !== null) return;
+  userAns[qi] = oi;
+  const btns = btn.closest('.opts').querySelectorAll('.obtn');
+  btns.forEach(b => b.disabled = true);
+  if (oi === mockQ[qi].ans) { btn.classList.add('ok'); correct++; }
+  else { btn.classList.add('no'); btns[mockQ[qi].ans].classList.add('ok'); }
+  document.getElementById('exp' + qi).classList.add('show');
+  updatePB();
+  if (userAns.filter(a => a !== null).length === mockQ.length) showResult();
+}
+
+function updatePB() {
+  const done = userAns.filter(a => a !== null).length;
+  document.getElementById('sc-txt').textContent = `${correct} / ${mockQ.length}`;
+  document.getElementById('sc-bar').style.width = (done / mockQ.length * 100) + '%';
+}
+
+function showResult() {
+  const pct = Math.round(correct / mockQ.length * 100);
+  const box = document.getElementById('res-box');
+  document.getElementById('res-sc').textContent = `${correct}점`;
+  document.getElementById('res-sc').style.color = pct >= 60 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('res-msg').textContent =
+    pct >= 90 ? '🏆 완벽! 시동장치 마스터!' :
+    pct >= 70 ? '👍 합격 안정권! 오답만 보완하세요.' :
+    pct >= 60 ? '⚠️ 아슬아슬 합격권. 집중 복습 필요!' :
+    '❌ 불합격 위험! 핵심 이론 탭부터 다시 공부하세요.';
+  box.classList.add('show');
+  box.scrollIntoView({ behavior: 'smooth' });
+}
+
+function retry() {
+  buildMock();
+  document.getElementById('s-mock').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── 암기 카드 데이터 ──
+const memData = [
+  { kw: "직권", hint: "시동 전동기 결선 방식", ans: "계자코일 + 전기자코일 직렬 연결. 부하↑ → 전류↑ → 회전력↑, 회전수↓" },
+  { kw: "10~15:1", hint: "시동장치 기어비", ans: "링기어/피니언 잇수 비율. 이 비율로 회전력을 10~15배 증배시킴" },
+  { kw: "오버런닝\n클러치", hint: "역전달 방지 장치", ans: "피니언 섭동식 필수. 벤딕스식 불필요. 시동 후 엔진→피니언 역동력 차단" },
+  { kw: "1/3", hint: "브러시 교환 기준", ans: "신품 길이의 1/3 마모 시 교환. 더 마모되면 접촉 불량 발생" },
+  { kw: "0.5~0.8mm", hint: "정류자 언더컷 깊이", ans: "운모를 0.5~0.8mm 낮게 절삭. 부족하면 브러시 접촉 불량" },
+  { kw: "9.6V", hint: "크랭킹 시험 최소 전압", ans: "12V × 80% = 9.6V. 이 이하이면 배터리/시동계통 불량" },
+  { kw: "90%↑", hint: "무부하 시험 전압 기준", ans: "배터리 전압의 90% 이상 (12V → 10.8V 이상)" },
+  { kw: "5초", hint: "부하 시험 측정 시간", ans: "크랭킹 시험은 5초 이내 측정. 전류 기준: 용량×3배 이하" },
+  { kw: "풀인/홀드인", hint: "마그네틱 스위치 코일", ans: "풀인(굵은선/저저항) → 플런저 흡인. 홀드인(가는선/고저항) → 유지" },
+  { kw: "왼손 법칙", hint: "전동기 원리", ans: "플레밍 왼손 법칙 = 전동기(힘의 방향). 오른손 = 발전기(기전력)" },
+  { kw: "F=BℓI", hint: "전자력 공식", ans: "B=자속밀도, ℓ=도선 유효길이, I=전류. 값이 클수록 회전력 증가" },
+  { kw: "계자=브러시", hint: "극수 관계", ans: "계자철심 수 = 브러시 수. 4극 전동기 → 계자철심 4개, 브러시 4개" },
+];
+
+function buildMem() {
+  const wrap = document.getElementById('mem-wrap');
+  memData.forEach(m => {
+    const d = document.createElement('div');
+    d.className = 'mem-card';
+    d.innerHTML = `
+      <div class="mem-front">
+        <div class="mem-kw">${m.kw}</div>
+        <div class="mem-hint">${m.hint}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:8px">탭하여 답 확인</div>
+      </div>
+      <div class="mem-back">
+        <div class="mem-ans">${m.ans}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:8px">다시 탭하여 돌아가기</div>
+      </div>`;
+    d.onclick = () => d.classList.toggle('flip');
+    wrap.appendChild(d);
+  });
+}
+
+buildMock();
+buildMem();
+</script>
+</body>
+</html>

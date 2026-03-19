@@ -3,57 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>전기기초 핵심내용 | 자동차정비기능사</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
-body { margin: 0; padding: 0; font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background: #f5f4f0; }
-:root {
-  --color-background-primary: #ffffff;
-  --color-background-secondary: #f0eeea;
-  --color-background-tertiary: #e8e6e0;
-  --color-background-info: #E6F1FB;
-  --color-background-success: #E1F5EE;
-  --color-background-warning: #FAEEDA;
-  --color-background-danger: #FCEBEB;
-  --color-text-primary: #1a1a18;
-  --color-text-secondary: #5a5a55;
-  --color-text-tertiary: #9a9a92;
-  --color-text-info: #0C447C;
-  --color-text-success: #085041;
-  --color-text-warning: #633806;
-  --color-text-danger: #791F1F;
-  --color-border-primary: rgba(0,0,0,0.15);
-  --color-border-secondary: rgba(0,0,0,0.12);
-  --color-border-tertiary: rgba(0,0,0,0.08);
-  --color-border-info: #185FA5;
-  --border-radius-sm: 4px;
-  --border-radius-md: 8px;
-  --border-radius-lg: 12px;
-  --font-mono: 'Courier New', monospace;
-}
-.school-header-bar{background:#fff;border-bottom:3px solid #185FA5;padding:10px 1.5rem;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:999;box-shadow:0 2px 6px rgba(0,0,0,0.07);}
-.school-logo-img{height:48px;width:auto;object-fit:contain;}
-.school-divider-line{width:1.5px;height:38px;background:#d0cfc8;flex-shrink:0;}
-.school-info-box{display:flex;flex-direction:column;gap:2px;flex:1;}
-.school-innovation-text{font-size:15px;font-weight:700;color:#185FA5;letter-spacing:-0.3px;}
-.school-sub-text{font-size:11px;color:#8a8a82;}
-.back-to-main{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#E6F1FB;color:#0C447C;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;border:1px solid #b8d4f0;transition:all .15s;}
-.back-to-main:hover{background:#185FA5;color:#fff;border-color:#185FA5;}
-.page-content { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem; }
-@media(max-width:600px){.school-logo-img{height:36px;}.school-innovation-text{font-size:13px;}.back-to-main{font-size:12px;padding:6px 10px;}}
-</style>
+<title>전기기초 핵심내용 | 자동차정비 전공 교육자료</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="school-header-bar">
-  <img src="아주자동차대학UI.jpg" alt="아주자동차대학교" class="school-logo-img">
-  <div class="school-divider-line"></div>
-  <div class="school-info-box">
-    <span class="school-innovation-text">혁신지원사업단</span>
-    <span class="school-sub-text">자동차정비 전공 교육자료</span>
+
+<!-- 학교 로고 헤더 -->
+<div style="background:#ffffff;border-bottom:3px solid #185FA5;padding:10px 1.5rem;display:flex;align-items:center;gap:14px;font-family:'Noto Sans KR',sans-serif;">
+  <img src="아주자동차대학UI.jpg" alt="아주자동차대학교" style="height:52px;width:auto;object-fit:contain;">
+  <div style="width:1.5px;height:40px;background:#d0cfc8;flex-shrink:0;"></div>
+  <div style="display:flex;flex-direction:column;gap:3px;flex:1;">
+    <span style="font-size:16px;font-weight:700;color:#185FA5;letter-spacing:-0.3px;">혁신지원사업단</span>
+    <span style="font-size:11px;color:#8a8a82;">자동차정비 전공 교육자료</span>
   </div>
-  <a href="index.html" class="back-to-main">&#127968; 메인으로</a>
+  <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;background:#185FA5;color:#fff;border-radius:8px;text-decoration:none;font-size:13px;font-weight:500;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;transition:background .15s;" onmouseover="this.style.background='#0C447C'" onmouseout="this.style.background='#185FA5'">
+    &#8592; 메인으로
+  </a>
 </div>
-<div class="page-content">
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -63,11 +30,12 @@ body { margin: 0; padding: 0; font-family: 'Noto Sans KR', 'Apple SD Gothic Neo'
 .tab.active{background:var(--color-background-info);color:var(--color-text-info);border-color:transparent}
 .section{display:none}.section.active{display:block}
 .card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:12px}
-.card-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .badge{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:400}
 .badge-red{background:var(--color-background-danger);color:var(--color-text-danger)}
 .badge-blue{background:var(--color-background-info);color:var(--color-text-info)}
 .badge-green{background:var(--color-background-success);color:var(--color-text-success)}
+.badge-amber{background:var(--color-background-warning);color:var(--color-text-warning)}
 .formula-box{background:var(--color-background-secondary);border-left:3px solid var(--color-text-info);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:10px 14px;margin:8px 0;font-family:var(--font-mono);font-size:14px;color:var(--color-text-primary)}
 .tip{background:var(--color-background-warning);border-radius:var(--border-radius-md);padding:8px 12px;font-size:13px;color:var(--color-text-warning);margin-top:8px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -77,7 +45,7 @@ body { margin: 0; padding: 0; font-family: 'Noto Sans KR', 'Apple SD Gothic Neo'
 .mini-card .val{font-size:15px;font-weight:500;color:var(--color-text-primary)}
 table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
 th{text-align:left;padding:7px 10px;background:var(--color-background-secondary);color:var(--color-text-secondary);font-weight:500;border-bottom:0.5px solid var(--color-border-tertiary)}
-td{padding:7px 10px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary)}
+td{padding:7px 10px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);vertical-align:top}
 tr:last-child td{border-bottom:none}
 .q-box{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px;margin-bottom:10px;cursor:pointer}
 .q-box:hover{background:var(--color-background-secondary)}
@@ -91,6 +59,7 @@ tr:last-child td{border-bottom:none}
 .dot-blue{background:var(--color-text-info)}
 .dot-green{background:var(--color-text-success)}
 .dot-amber{background:#BA7517}
+.dot-purple{background:#7c3aed}
 .item-text{font-size:13px;color:var(--color-text-primary);line-height:1.6}
 .calc-area{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px;margin-top:8px}
 .calc-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
@@ -99,28 +68,50 @@ tr:last-child td{border-bottom:none}
 .calc-result{font-size:20px;font-weight:500;color:var(--color-text-info);margin-top:6px}
 button.calc-btn{padding:6px 14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;color:var(--color-text-primary);font-size:13px;cursor:pointer}
 button.calc-btn:hover{background:var(--color-background-secondary)}
+.cb{display:inline-block;font-size:11px;padding:2px 7px;border-radius:4px;font-weight:600;margin-right:4px}
+.cb-can{background:#dbeafe;color:#1d4ed8}
+.cb-lin{background:#dcfce7;color:#166534}
+.cb-most{background:#f3e8ff;color:#6b21a8}
+.cb-flex{background:#fff7ed;color:#c2410c}
+.cb-obd{background:#fef2f2;color:#dc2626}
 </style>
+
 <div class="wrap">
 <div class="tabs">
-  <button class="tab active" onclick="showTab('ohm')">⚡ 옴의 법칙</button>
-  <button class="tab" onclick="showTab('resist')">🔗 저항 연결</button>
-  <button class="tab" onclick="showTab('semi')">💡 반도체 소자</button>
-  <button class="tab" onclick="showTab('symbols')">🔣 전기기호</button>
-  <button class="tab" onclick="showTab('quiz')">📝 기출 요약</button>
+  <button class="tab active" onclick="showTab('ohm')">&#9889; 옴의 법칙</button>
+  <button class="tab" onclick="showTab('resist')">&#128279; 저항 연결</button>
+  <button class="tab" onclick="showTab('semi')">&#128161; 반도체 소자</button>
+  <button class="tab" onclick="showTab('symbols')">&#128483; 전기기호</button>
+  <button class="tab" onclick="showTab('comm')">&#128225; 통신장치</button>
+  <button class="tab" onclick="showTab('quiz')">&#128221; 기출 요약</button>
 </div>
 
 <!-- 옴의 법칙 -->
 <div id="s-ohm" class="section active">
   <div class="card">
     <div class="card-title">오옴의 법칙 <span class="badge badge-red">★★★ 최다 출제</span></div>
-    <div class="formula-box">I = E / R &nbsp;&nbsp; R = E / I &nbsp;&nbsp; E = I × R</div>
+    <div class="formula-box">I = E / R &nbsp;&nbsp; R = E / I &nbsp;&nbsp; E = I x R</div>
     <div style="font-size:13px;color:var(--color-text-secondary);margin-top:6px">I = 전류[A] &nbsp;|&nbsp; E = 전압[V] &nbsp;|&nbsp; R = 저항[Ω]</div>
   </div>
   <div class="card">
     <div class="card-title">전력 공식 <span class="badge badge-blue">자주 출제</span></div>
-    <div class="formula-box">P = E×I = I²×R = E²/R &nbsp;&nbsp;&nbsp; [W, 와트]</div>
-    <div style="font-size:13px;color:var(--color-text-secondary);margin-top:6px">전력량: W = P×t [Wh 또는 J]</div>
-    <div class="tip">💡 기출 패턴: 전구 W수 + 전압 주고 → 전류 구하기 &nbsp; I = P/E</div>
+    <div class="formula-box">P = ExI = I²xR = E²/R &nbsp;&nbsp;&nbsp; [W, 와트]</div>
+    <div style="font-size:13px;color:var(--color-text-secondary);margin-top:6px">전력량: W = Pxt [Wh 또는 J]</div>
+    <div class="tip">&#128161; 기출 패턴: 전구 W수 + 전압 주고 → 전류 구하기 &nbsp; I = P/E</div>
+  </div>
+  <div class="card">
+    <div class="card-title">키르히호프의 법칙 <span class="badge badge-blue">출제됨</span></div>
+    <div class="grid2" style="margin-top:4px">
+      <div class="mini-card">
+        <div class="label">제1법칙 (전류의 법칙)</div>
+        <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-top:4px;line-height:1.5">임의의 한 점으로 유입된 전류 총합 = 유출한 전류 총합</div>
+      </div>
+      <div class="mini-card">
+        <div class="label">제2법칙 (전압의 법칙)</div>
+        <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-top:4px;line-height:1.5">임의의 폐회로에서 전압강하 합 = 기전력의 합</div>
+      </div>
+    </div>
+    <div class="tip">&#128161; 기출: "임의의 한 점으로 유입된 전류의 총합은 유출한 전류의 총합과 같다" = 키르히호프 제1법칙</div>
   </div>
   <div class="card">
     <div class="card-title">계산기 (직접 풀어보기)</div>
@@ -166,7 +157,7 @@ button.calc-btn:hover{background:var(--color-background-secondary)}
     <div class="row" style="margin-top:8px"><div class="dot dot-green"></div><div class="item-text">합성저항 = 가장 작은 저항보다 더 작음</div></div>
     <div class="row"><div class="dot dot-green"></div><div class="item-text">각 저항에 <b>같은 전압</b>이 걸림</div></div>
     <div class="row"><div class="dot dot-green"></div><div class="item-text">자동차 부품 대부분 병렬 → 모두 12V 인가</div></div>
-    <div class="tip">💡 R₁=1Ω, R₂=3Ω, R₃=5Ω 병렬: 1/R = 1/1+1/3+1/5 = 15+5+3/15 = 23/15 → R = 15/23Ω</div>
+    <div class="tip">&#128161; 2Ω·3Ω·6Ω 병렬: 1/R = 1/2+1/3+1/6 = 3+2+1/6 = 1 → R = 1Ω</div>
   </div>
   <div class="card">
     <div class="card-title">전압강하 줄이는 법</div>
@@ -190,14 +181,14 @@ button.calc-btn:hover{background:var(--color-background-secondary)}
       <tr><td><b>발광 다이오드 (LED)</b></td><td>순방향 전류 → 빛 발생 (가시~적외선)</td><td>파일럿 램프, 크랭크각 센서</td></tr>
       <tr><td><b>포토 다이오드</b></td><td>빛 받으면 역방향 전류 흐름</td><td>차고 센서, TDC 센서, 라이트 센서</td></tr>
     </table>
-    <div class="tip">💡 핵심 구분: LED = 전류→빛, 포토 = 빛→전류 (반대!)</div>
+    <div class="tip">&#128161; 핵심 구분: LED = 전류→빛, 포토 = 빛→전류 (반대!)</div>
   </div>
   <div class="card">
-    <div class="card-title">트랜지스터 (TR) <span class="badge badge-red">★★★</span></div>
-    <div class="row" style="margin-top:4px"><div class="dot dot-amber"></div><div class="item-text">단자: <b>이미터(E)</b>, <b>베이스(B)</b>, <b>컬렉터(C)</b></div></div>
-    <div class="row"><div class="dot dot-amber"></div><div class="item-text"><b>스위칭 작용</b> = 릴레이와 같은 ON/OFF 기능 ← 시험 단골!</div></div>
-    <div class="row"><div class="dot dot-amber"></div><div class="item-text"><b>증폭 작용</b> = 베이스 전류로 컬렉터 전류 크게 제어</div></div>
+    <div class="card-title">트랜지스터 <span class="badge badge-red">★★★</span></div>
+    <div class="row" style="margin-top:4px"><div class="dot dot-amber"></div><div class="item-text">3가지 작용: <b>스위칭</b>(릴레이 역할), <b>증폭</b>, <b>발진</b></div></div>
+    <div class="row"><div class="dot dot-amber"></div><div class="item-text">단자: <b>베이스(B) · 이미터(E) · 컬렉터(C)</b></div></div>
     <div class="row"><div class="dot dot-amber"></div><div class="item-text">자동차에는 <b>NPN형</b> 사용 (전류: 컬렉터→이미터)</div></div>
+    <div class="tip">&#128161; 파워 TR: 베이스 신호는 ECU, 컬렉터는 점화 1차코일(-) 연결, 이미터는 접지</div>
   </div>
   <div class="card">
     <div class="card-title">서미스터 & 사이리스터 <span class="badge badge-blue">자주 출제</span></div>
@@ -212,7 +203,7 @@ button.calc-btn:hover{background:var(--color-background-secondary)}
         <div class="label" style="margin-bottom:6px"><b>사이리스터(SCR)</b></div>
         <div class="row"><div class="dot dot-green"></div><div class="item-text" style="font-size:12px">PNPN 4층 구조</div></div>
         <div class="row"><div class="dot dot-green"></div><div class="item-text" style="font-size:12px">단자: <b>애노드(A), 캐소드(K), 게이트(G)</b></div></div>
-        <div class="row"><div class="dot dot-green"></div><div class="item-text" style="font-size:12px">스위칭 작용만 함</div></div>
+        <div class="row"><div class="dot dot-green"></div><div class="item-text" style="font-size:12px">도통 후 게이트 제거해도 계속 도통</div></div>
         <div style="font-size:12px;color:var(--color-text-secondary);margin-top:6px">용도: 점화장치, 와이퍼회로</div>
       </div>
     </div>
@@ -225,13 +216,13 @@ button.calc-btn:hover{background:var(--color-background-secondary)}
     <div class="card-title">논리회로 기호 <span class="badge badge-blue">자주 출제</span></div>
     <table>
       <tr><th>회로명</th><th>출력 조건</th><th>비유</th></tr>
-      <tr><td><b>AND (논리곱)</b></td><td>A <b>AND</b> B 모두 1 → 출력 1</td><td>직렬 스위치</td></tr>
-      <tr><td><b>OR (논리합)</b></td><td>A <b>OR</b> B 하나라도 1 → 출력 1</td><td>병렬 스위치</td></tr>
+      <tr><td><b>AND (논리곱)</b></td><td>A AND B 모두 1 → 출력 1</td><td>직렬 스위치</td></tr>
+      <tr><td><b>OR (논리합)</b></td><td>A OR B 하나라도 1 → 출력 1</td><td>병렬 스위치</td></tr>
       <tr><td><b>NOT (부정)</b></td><td>입력 반대 출력 (1→0, 0→1)</td><td>—</td></tr>
       <tr><td><b>NAND</b></td><td>AND 반대 (둘다 1일 때만 출력 0)</td><td>—</td></tr>
       <tr><td><b>NOR</b></td><td>OR 반대 (둘다 0일 때만 출력 1)</td><td>—</td></tr>
     </table>
-    <div class="tip">💡 NOR = 기호에 ○(반전) 달린 OR 모양</div>
+    <div class="tip">&#128161; NOR = 기호에 O(반전) 달린 OR 모양 / AND : 입력 모두 1 → 출력 1 (기출 최빈)</div>
   </div>
   <div class="card">
     <div class="card-title">저항 색띠 읽기</div>
@@ -246,7 +237,7 @@ button.calc-btn:hover{background:var(--color-background-secondary)}
       <tr><td colspan="2">금색</td><td colspan="2">±5% 오차</td></tr>
       <tr><td colspan="2">은색</td><td colspan="2">±10% 오차</td></tr>
     </table>
-    <div class="tip">💡 예: 노랑-보라-주황-금 = 47 × 10³ = 47kΩ ±5%</div>
+    <div class="tip">&#128161; 예: 노랑-보라-주황-금 = 47 x 10³ = 47kΩ ±5%</div>
   </div>
   <div class="card">
     <div class="card-title">전류의 3가지 작용 <span class="badge badge-blue">출제됨</span></div>
@@ -258,56 +249,178 @@ button.calc-btn:hover{background:var(--color-background-secondary)}
   </div>
 </div>
 
+<!-- 통신장치 (신규 추가) -->
+<div id="s-comm" class="section">
+  <div class="card">
+    <div class="card-title">자동차 통신 네트워크 개요 <span class="badge badge-red">★★★ 신유형</span></div>
+    <div class="row" style="margin-top:4px"><div class="dot dot-blue"></div><div class="item-text">현대 자동차는 수십 개의 ECU가 <b>버스(BUS) 통신</b>으로 데이터를 공유</div></div>
+    <div class="row"><div class="dot dot-blue"></div><div class="item-text"><b>멀티플렉서(MUX) 통신</b>: 하나의 통신선으로 다수 신호 전송 → 배선 감소·경량화</div></div>
+    <div class="row"><div class="dot dot-blue"></div><div class="item-text">ECU끼리 데이터 공유로 센서 중복 불필요 → 부품 수 절감</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">CAN 통신 <span class="badge badge-red">★★★ 핵심</span></div>
+    <div style="margin-bottom:8px"><span class="cb cb-can">CAN</span> Controller Area Network</div>
+    <table>
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>통신 속도</td><td>저속 CAN: 125 kbps / 고속 CAN: <b>최대 1 Mbps</b></td></tr>
+      <tr><td>통신 방식</td><td>차동 신호(2선식): <b>CAN-H, CAN-L</b> 2가닥 사용</td></tr>
+      <tr><td>특징</td><td>멀티마스터, 우선순위 중재, 오류 검출 우수, 실시간 처리</td></tr>
+      <tr><td>종단저항</td><td>버스 양 끝단에 <b>120 Ω</b> 종단저항 장착 (반사파 방지)</td></tr>
+      <tr><td>적용 시스템</td><td>엔진 ECU ↔ 변속기 ECU ↔ ABS ECU ↔ BCM 등</td></tr>
+    </table>
+    <div class="tip">&#128161; CAN 통신 점검: CAN-H/L 간 전압 측정(정상 약 2.5V 기준), 종단저항 120Ω 확인</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">LIN 통신 <span class="badge badge-blue">자주 출제</span></div>
+    <div style="margin-bottom:8px"><span class="cb cb-lin">LIN</span> Local Interconnect Network</div>
+    <div class="row"><div class="dot dot-green"></div><div class="item-text">통신 속도: <b>최대 20 kbps</b> (저속, CAN보다 저렴)</div></div>
+    <div class="row"><div class="dot dot-green"></div><div class="item-text"><b>단선 통신(1선식)</b>: 배선 단순, 저비용</div></div>
+    <div class="row"><div class="dot dot-green"></div><div class="item-text"><b>마스터-슬레이브 구조</b> (1 마스터 : 최대 16 슬레이브)</div></div>
+    <div class="row"><div class="dot dot-green"></div><div class="item-text">용도: 시트제어, 미러제어, 에어컨 스위치 등 <b>저속 편의장치</b></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">MOST / FlexRay 통신 <span class="badge badge-amber">출제 예상</span></div>
+    <div class="grid2" style="margin-top:4px">
+      <div class="mini-card">
+        <div class="label" style="margin-bottom:6px"><span class="cb cb-most">MOST</span> Media Oriented Systems Transport</div>
+        <div class="row"><div class="dot dot-purple"></div><div class="item-text" style="font-size:12px">광섬유 링 네트워크, 고속(150 Mbps 이상)</div></div>
+        <div class="row"><div class="dot dot-purple"></div><div class="item-text" style="font-size:12px">용도: <b>멀티미디어, 내비게이션, 오디오</b></div></div>
+      </div>
+      <div class="mini-card">
+        <div class="label" style="margin-bottom:6px"><span class="cb cb-flex">FlexRay</span></div>
+        <div class="row"><div class="dot dot-amber"></div><div class="item-text" style="font-size:12px">최대 10 Mbps, 결정론적 타이밍 보장</div></div>
+        <div class="row"><div class="dot dot-amber"></div><div class="item-text" style="font-size:12px">용도: <b>샤시제어(서스펜션·조향·제동)</b>, ADAS</div></div>
+      </div>
+    </div>
+    <div class="tip">&#128161; 속도 순서 암기: LIN(저속) &lt; CAN(중속) &lt; FlexRay(고속) &lt; MOST(초고속)</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">OBD-II 자기진단 <span class="badge badge-red">★★★ 핵심</span></div>
+    <div style="margin-bottom:8px"><span class="cb cb-obd">OBD-II</span> On-Board Diagnostics 2세대</div>
+    <table>
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>DLC 커넥터</td><td>16핀 표준 진단 커넥터 (운전석 하단부)</td></tr>
+      <tr><td>고장 코드(DTC)</td><td>배터리 전원으로 <b>ECU에 기억</b> / 점화 OFF 후에도 유지</td></tr>
+      <tr><td>코드 삭제</td><td><b>배터리 (-)단자 분리</b> → 고장진단 결과 삭제됨</td></tr>
+      <tr><td>정비 주의사항</td><td>배터리 분리 전 반드시 고장코드 먼저 읽을 것</td></tr>
+      <tr><td>통신 프로토콜</td><td>K-LINE, ISO 15765 (CAN 기반) 등</td></tr>
+    </table>
+    <div class="tip">&#9888; 기출 핵심: 고장코드 정보는 ECU에 기억 / 배터리 (-) 분리하면 삭제!</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">TPMS · 텔레매틱스 · ITS <span class="badge badge-blue">출제됨</span></div>
+    <table>
+      <tr><th>장치</th><th>기능</th><th>핵심 포인트</th></tr>
+      <tr><td><b>TPMS</b></td><td>타이어 공기압 모니터링</td><td>센서는 공기 주입 밸브와 일체 / 배터리 수명 영구 아님(교환 필요)</td></tr>
+      <tr><td><b>텔레매틱스</b></td><td>무선통신+GPS 기반 차량 정보서비스</td><td>긴급구조, 도난추적, 교통정보 제공</td></tr>
+      <tr><td><b>ITS</b></td><td>지능형교통시스템</td><td>하이패스(ETC), 자동요금징수, 교통신호제어</td></tr>
+      <tr><td><b>V2X</b></td><td>차량-인프라/차량 통신</td><td>V2V(차-차), V2I(차-인프라), ADAS 핵심 기반</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">통신 방식 한눈에 비교</div>
+    <table>
+      <tr><th>구분</th><th>속도</th><th>선수</th><th>주요 용도</th></tr>
+      <tr><td><span class="cb cb-lin">LIN</span></td><td>~20 kbps</td><td>1선</td><td>편의장치 (시트, 미러)</td></tr>
+      <tr><td><span class="cb cb-can">CAN</span></td><td>~1 Mbps</td><td>2선(차동)</td><td>파워트레인, 샤시, BCM</td></tr>
+      <tr><td><span class="cb cb-flex">FlexRay</span></td><td>~10 Mbps</td><td>2선</td><td>ADAS, 안전 샤시제어</td></tr>
+      <tr><td><span class="cb cb-most">MOST</span></td><td>150+ Mbps</td><td>광섬유</td><td>멀티미디어, 오디오</td></tr>
+    </table>
+  </div>
+</div>
+
 <!-- 기출 요약 -->
 <div id="s-quiz" class="section">
   <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:12px">클릭하면 정답이 표시됩니다.</div>
-  
+
   <div class="q-box" onclick="this.classList.toggle('open')">
     <span class="year-tag">[09년 4회]</span>
     <div class="q-text">부특성 서미스터(NTC)의 특징은?</div>
     <div class="q-ans">온도가 높아지면 <b>저항이 낮아진다.</b> (온도↑ → 저항↓)<br>반대는 정특성(PTC): 온도↑ → 저항↑</div>
   </div>
-  
+
   <div class="q-box" onclick="this.classList.toggle('open')">
     <span class="year-tag">[08년 4회]</span>
     <div class="q-text">제너 다이오드를 사용하는 회로는?</div>
     <div class="q-ans"><b>정전압 회로</b><br>역방향 전압이 일정값(제너전압) 이상이면 도통 → 전압을 일정하게 유지</div>
   </div>
-  
+
   <div class="q-box" onclick="this.classList.toggle('open')">
     <span class="year-tag">[07년 2회]</span>
     <div class="q-text">트랜지스터의 대표적 기능으로 릴레이와 같은 작용은?</div>
     <div class="q-ans"><b>스위칭 작용</b><br>베이스 전류 ON/OFF → 이미터-컬렉터 회로 ON/OFF 제어</div>
   </div>
-  
+
   <div class="q-box" onclick="this.classList.toggle('open')">
     <span class="year-tag">[08년 4회]</span>
     <div class="q-text">발광 다이오드(LED)에 전류를 흘릴 때 조건은?</div>
     <div class="q-ans"><b>순방향</b>으로 전류를 흘릴 때 빛이 발생한다.<br>포토 다이오드는 반대 — 빛을 받으면 역방향 전류가 흐름.</div>
   </div>
-  
+
   <div class="q-box" onclick="this.classList.toggle('open')">
     <span class="year-tag">[08년 1회]</span>
     <div class="q-text">사이리스터(SCR)의 구성 단자가 아닌 것은?</div>
     <div class="q-ans"><b>컬렉터</b>는 트랜지스터의 단자.<br>SCR 단자: 애노드(A), 캐소드(K), 게이트(G)</div>
   </div>
-  
+
   <div class="q-box" onclick="this.classList.toggle('open')">
     <span class="year-tag">[09년 1회]</span>
     <div class="q-text">12V 배터리에 60W + 30W 전구 병렬 연결 시 전체 전류는?</div>
     <div class="q-ans">총 전력 = 60+30 = 90W<br>I = P/E = 90/12 = <b>7.5A</b></div>
   </div>
-  
+
   <div class="q-box" onclick="this.classList.toggle('open')">
     <span class="year-tag">[07년 5회]</span>
     <div class="q-text">콘덴서(축전기) 정전용량이 반비례하는 요소는?</div>
     <div class="q-ans"><b>금속판 사이의 거리</b>에 반비례<br>비례: 전압, 금속판 면적, 절연체 절연도</div>
   </div>
-  
+
   <div class="q-box" onclick="this.classList.toggle('open')">
     <span class="year-tag">[08년 4회]</span>
     <div class="q-text">오토라이트에 사용되는 조도 센서는?</div>
     <div class="q-ans"><b>광도전 셀(CdS 소자)</b><br>빛 조사량 증가 → 저항 감소 / 조사량 감소 → 저항 증가</div>
+  </div>
+
+  <div class="q-box" onclick="this.classList.toggle('open')">
+    <span class="year-tag">[기출 다수]</span>
+    <div class="q-text">전자제어 시스템 정비 시 고장 코드는 어디에 기억되는가?</div>
+    <div class="q-ans"><b>ECU(전자제어장치)</b>에 기억됨<br>점화스위치 OFF 시에도 배터리 전원으로 유지<br>&#9888; 배터리 (-)단자 분리 시 고장진단 결과 삭제!</div>
+  </div>
+
+  <div class="q-box" onclick="this.classList.toggle('open')">
+    <span class="year-tag">[기출]</span>
+    <div class="q-text">TPMS 타이어 압력센서에 대한 설명으로 틀린 것은?</div>
+    <div class="q-ans"><b>배터리 수명이 영구적이라는 설명이 틀림</b><br>센서 배터리는 소모품 — 수명이 다하면 센서 교환 필요<br>타이어 압력센서는 공기 주입 밸브와 일체로 구성됨</div>
+  </div>
+
+  <div class="q-box" onclick="this.classList.toggle('open')">
+    <span class="year-tag">[기출 다수]</span>
+    <div class="q-text">키르히호프 제1법칙(전류의 법칙)이란?</div>
+    <div class="q-ans">도체 내의 임의의 한 점으로 <b>유입된 전류의 총합 = 유출한 전류의 총합</b><br>앙페르의 법칙, 렌츠의 법칙과 혼동 주의!</div>
+  </div>
+
+  <div class="q-box" onclick="this.classList.toggle('open')">
+    <span class="year-tag">[기출]</span>
+    <div class="q-text">AND 게이트 회로에서 입력 A=1, B=1, C=1, D=0일 때 출력은?</div>
+    <div class="q-ans"><b>0</b><br>AND 회로는 입력 모두가 1일 때만 출력이 1. 하나라도 0이면 출력 0.</div>
+  </div>
+
+  <div class="q-box" onclick="this.classList.toggle('open')">
+    <span class="year-tag">[기출]</span>
+    <div class="q-text">자동차 CAN 통신 버스 양 끝단에 장착하는 종단저항 값은?</div>
+    <div class="q-ans"><b>120 Ω</b><br>CAN 버스 양 끝단에 120Ω 종단저항을 설치하여 신호 반사를 방지함</div>
+  </div>
+
+  <div class="q-box" onclick="this.classList.toggle('open')">
+    <span class="year-tag">[기출]</span>
+    <div class="q-text">논리회로에서 OR+NOT(NOR)의 출력: 입력 A=0, B=0일 때?</div>
+    <div class="q-ans"><b>1</b><br>NOR = OR 결과를 반전. OR(0,0)=0 → NOT(0)=<b>1</b><br>NOR는 둘 다 0일 때만 출력 1.</div>
   </div>
 </div>
 </div>
@@ -325,11 +438,11 @@ function calc(type){
   const r=parseFloat(document.getElementById('c-r').value);
   const out=document.getElementById('c-out');
   if(type==='i'&&!isNaN(e)&&!isNaN(r)){out.textContent='I = '+e+' / '+r+' = '+(e/r).toFixed(3)+' A';}
-  else if(type==='e'&&!isNaN(i)&&!isNaN(r)){out.textContent='E = '+i+' × '+r+' = '+(i*r).toFixed(3)+' V';}
+  else if(type==='e'&&!isNaN(i)&&!isNaN(r)){out.textContent='E = '+i+' x '+r+' = '+(i*r).toFixed(3)+' V';}
   else if(type==='r'&&!isNaN(e)&&!isNaN(i)){out.textContent='R = '+e+' / '+i+' = '+(e/i).toFixed(3)+' Ω';}
   else if(type==='p'){
-    if(!isNaN(e)&&!isNaN(i)){out.textContent='P = '+e+' × '+i+' = '+(e*i).toFixed(2)+' W';}
-    else if(!isNaN(i)&&!isNaN(r)){out.textContent='P = '+i+'² × '+r+' = '+(i*i*r).toFixed(2)+' W';}
+    if(!isNaN(e)&&!isNaN(i)){out.textContent='P = '+e+' x '+i+' = '+(e*i).toFixed(2)+' W';}
+    else if(!isNaN(i)&&!isNaN(r)){out.textContent='P = '+i+'² x '+r+' = '+(i*i*r).toFixed(2)+' W';}
     else if(!isNaN(e)&&!isNaN(r)){out.textContent='P = '+e+'² / '+r+' = '+(e*e/r).toFixed(2)+' W';}
     else out.textContent='값 2개를 입력하세요';
   }
@@ -337,6 +450,5 @@ function calc(type){
 }
 </script>
 
-</div>
 </body>
 </html>

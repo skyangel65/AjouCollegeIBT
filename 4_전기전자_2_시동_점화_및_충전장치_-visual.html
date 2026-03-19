@@ -126,6 +126,19 @@
     margin: 0 0 10px; padding-bottom: 6px;
     border-bottom: 0.5px solid var(--border);
   }
+  /* ── Section link button ── */
+  .sec-link-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 12px; border-radius: 6px;
+    font-size: 11px; font-weight: 600; text-decoration: none;
+    white-space: nowrap; transition: all .15s;
+    margin-bottom: 14px;
+  }
+  .sec-link-btn.red   { background: rgba(255,92,92,0.15);  color: var(--red);   border: 0.5px solid rgba(255,92,92,.35); }
+  .sec-link-btn.blue  { background: rgba(91,158,247,0.15); color: var(--blue);  border: 0.5px solid rgba(91,158,247,.35); }
+  .sec-link-btn.green { background: rgba(78,203,141,0.15); color: var(--green); border: 0.5px solid rgba(78,203,141,.35); }
+  .sec-link-btn.amber { background: rgba(240,168,48,0.15); color: var(--amber); border: 0.5px solid rgba(240,168,48,.35); }
+  .sec-link-btn:hover { filter: brightness(1.25); transform: translateY(-1px); }
   /* ── Trap box ── */
   .trap-box {
     background: var(--bg2); border: 0.5px solid var(--border);
@@ -213,6 +226,7 @@
 
 <!-- ① 축전지 -->
 <div id="battery" class="section active">
+  <a href="4_1_배터리_완벽정리.html" class="sec-link-btn red">📋 배터리(축전지) 완벽정리 →</a>
   <p class="sec-head">기출 빈도 분석 — 전체 단원 중 출제 1위</p>
   <div class="freq-block">
     <div class="freq-row"><span class="freq-label">비중·온도</span><div class="freq-bg"><div class="freq-fill" style="width:95%"></div></div><span class="freq-star">★★★★★ 최다</span></div>
@@ -284,6 +298,7 @@
 
 <!-- ② 시동장치 -->
 <div id="start" class="section">
+  <a href="4_2_시동장치_완벽정리.html" class="sec-link-btn blue">📋 시동장치 완벽정리 →</a>
   <div class="grid">
     <div class="card">
       <div class="badge r">★★★ 계산 필수</div>
@@ -346,6 +361,7 @@
 
 <!-- ③ 점화장치 -->
 <div id="ignition" class="section">
+  <a href="4_3_점화장치_완벽정리.html" class="sec-link-btn green">📋 점화장치 완벽정리 →</a>
   <div class="grid">
     <div class="card">
       <div class="badge r">★★★ 흐름 암기</div>
@@ -399,6 +415,7 @@
 
 <!-- ④ 충전장치 -->
 <div id="charge" class="section">
+  <a href="4_4_충전장치_완벽정리.html" class="sec-link-btn amber">📋 충전장치 완벽정리 →</a>
   <div class="grid">
     <div class="card">
       <div class="badge r">★★★ 함정</div>

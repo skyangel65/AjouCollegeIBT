@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>등화장치 완벽 정리 — 자동차정비기능사</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root {
+  --bg:      #07090d;
+  --bg2:     #0c0f16;
+  --bg3:     #121620;
+  --bg4:     #181d2a;
+  --border:  #1c2232;
+  --border2: #263044;
+  --text:    #e0e8f8;
+  --text2:   #7f90b0;
+  --text3:   #465068;
+
+  --gold:    #f5c842;
+  --gold-d:  rgba(245,200,66,.13);
+  --orange:  #f97316;
+  --orange-d:rgba(249,115,22,.13);
+  --red:     #ef4444;
+  --red-d:   rgba(239,68,68,.13);
+  --blue:    #3b82f6;
+  --blue-d:  rgba(59,130,246,.13);
+  --sky:     #38bdf8;
+  --sky-d:   rgba(56,189,248,.13);
+  --green:   #22c55e;
+  --green-d: rgba(34,197,94,.12);
+  --purple:  #a855f7;
+  --purple-d:rgba(168,85,247,.13);
+  --teal:    #14b8a6;
+  --teal-d:  rgba(20,184,166,.13);
+
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Noto Sans KR',sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.65;min-height:100vh}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(155deg,#060912 0%,#0b1220 55%,#060912 100%);
+  border-bottom:1px solid var(--border);
+  padding:2.2rem 1.5rem 1.8rem;
+  position:relative;overflow:hidden;
+}
+.hero::before{content:'';position:absolute;top:-80px;right:-70px;width:360px;height:360px;
+  background:radial-gradient(circle,rgba(245,200,66,.09) 0%,transparent 68%);border-radius:50%;pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-60px;left:-40px;width:260px;height:260px;
+  background:radial-gradient(circle,rgba(249,115,22,.07) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.hero-label{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.hero-label::before{content:'✦';font-size:9px;animation:spin 3s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero h1{font-size:24px;font-weight:900;color:#fff;margin-bottom:5px;letter-spacing:-.4px}
+.hero p{font-size:13px;color:var(--text2)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;border:1px solid;letter-spacing:.3px}
+.cg{color:var(--gold);border-color:var(--gold);background:var(--gold-d)}
+.co{color:var(--orange);border-color:var(--orange);background:var(--orange-d)}
+.cr{color:var(--red);border-color:var(--red);background:var(--red-d)}
+.cb{color:var(--blue);border-color:var(--blue);background:var(--blue-d)}
+.cs{color:var(--sky);border-color:var(--sky);background:var(--sky-d)}
+.cv{color:var(--purple);border-color:var(--purple);background:var(--purple-d)}
+.ct{color:var(--teal);border-color:var(--teal);background:var(--teal-d)}
+
+/* ── TABS ── */
+.tabs{position:sticky;top:0;z-index:100;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;overflow-x:auto;gap:0}
+.tabs::-webkit-scrollbar{height:0}
+.tab{padding:13px 16px;font-size:13px;font-weight:500;color:var(--text3);background:none;border:none;border-bottom:2.5px solid transparent;cursor:pointer;white-space:nowrap;transition:all .2s}
+.tab:hover{color:var(--text2)}
+.tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ── SECTIONS ── */
+.sec{display:none;padding:1.5rem;max-width:980px}
+.sec.on{display:block}
+
+/* ── CARDS ── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.card-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.card-ttl{font-size:15px;font-weight:700;color:#fff}
+
+/* ── BADGES ── */
+.bdg{font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px}
+.bg{background:var(--gold-d);color:var(--gold)}
+.bo{background:var(--orange-d);color:var(--orange)}
+.br{background:var(--red-d);color:var(--red)}
+.bb{background:var(--blue-d);color:var(--blue)}
+.bs{background:var(--sky-d);color:var(--sky)}
+.bv{background:var(--purple-d);color:var(--purple)}
+.bt{background:var(--teal-d);color:var(--teal)}
+.bgr{background:var(--green-d);color:var(--green)}
+
+/* ── GRID ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr}}
+@media(max-width:820px){.g3{grid-template-columns:1fr 1fr}.g4{grid-template-columns:1fr 1fr}}
+
+/* ── MINI CARD ── */
+.mc{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px}
+.mc-lbl{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
+.mc-val{font-size:21px;font-weight:900;font-family:var(--mono);line-height:1.3}
+.mc-sub{font-size:12px;color:var(--text2);margin-top:5px;line-height:1.55}
+
+/* ── FORMULA ── */
+.fml{background:var(--bg3);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:12px 16px;margin:8px 0;font-family:var(--mono);font-size:13px;color:var(--gold)}
+.fml small{display:block;font-family:var(--sans);font-size:12px;color:var(--text2);margin-top:5px}
+
+/* ── LIST ── */
+.ul{list-style:none;padding:0}
+.ul li{padding:4px 0;font-size:13px;color:var(--text2);display:flex;align-items:flex-start;gap:8px}
+.ul li::before{content:'›';color:var(--gold);font-weight:700;flex-shrink:0;margin-top:1px}
+.ul li b{color:var(--text)}
+
+/* ── ALERT BOXES ── */
+.abox{border-radius:8px;padding:10px 14px;font-size:13px;margin:8px 0;border:1px solid}
+.a-g{background:var(--gold-d);border-color:rgba(245,200,66,.3);color:var(--gold)}
+.a-o{background:var(--orange-d);border-color:rgba(249,115,22,.3);color:var(--orange)}
+.a-r{background:var(--red-d);border-color:rgba(239,68,68,.3);color:var(--red)}
+.a-b{background:var(--blue-d);border-color:rgba(59,130,246,.3);color:var(--blue)}
+.a-s{background:var(--sky-d);border-color:rgba(56,189,248,.3);color:var(--sky)}
+.a-gr{background:var(--green-d);border-color:rgba(34,197,94,.3);color:var(--green)}
+.a-t{background:var(--teal-d);border-color:rgba(20,184,166,.3);color:var(--teal)}
+
+/* ── TABLE ── */
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+th{text-align:left;padding:8px 12px;background:var(--bg3);color:var(--text2);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+td b{color:var(--red)}
+td .hg{color:var(--gold);font-weight:700}
+td .ho{color:var(--orange);font-weight:700}
+td .hs{color:var(--sky);font-weight:700}
+td .ht{color:var(--teal);font-weight:700}
+td .hv{color:var(--purple);font-weight:700}
+
+/* ── SECTION TITLE ── */
+.stl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin:22px 0 10px;display:flex;align-items:center;gap:8px}
+.stl::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── FREQ BAR ── */
+.freq-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.freq-name{font-size:13px;color:var(--text);min-width:200px;font-weight:500}
+.freq-bg{flex:1;height:7px;background:var(--bg3);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.freq-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold),var(--orange))}
+.freq-star{font-size:12px;color:var(--gold);min-width:75px;text-align:right}
+
+/* ── LAMP CARD ── */
+.lamp-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;transition:all .25s;cursor:default}
+.lamp-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.lamp-icon{font-size:32px;margin-bottom:10px;display:block}
+.lamp-name{font-size:14px;font-weight:900;color:#fff;margin-bottom:6px}
+.lamp-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;margin-bottom:8px}
+.lamp-desc{font-size:12px;color:var(--text2);line-height:1.65}
+.lamp-key{color:var(--gold);font-weight:700}
+
+/* ── COMPARE STRIP ── */
+.cstrip{display:flex;gap:0;border-radius:10px;overflow:hidden;border:1px solid var(--border);margin:8px 0}
+.cs{flex:1;padding:13px 16px}
+.cs-a{background:rgba(245,200,66,.06);border-right:1px solid var(--border)}
+.cs-b{background:rgba(249,115,22,.06)}
+.cs-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.cs-a .cs-lbl{color:var(--gold)}
+.cs-b .cs-lbl{color:var(--orange)}
+
+/* ── CALC ── */
+.calc-box{background:var(--bg3);border-radius:10px;padding:16px;margin-top:10px}
+.cr-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.cr-row label{font-size:12px;color:var(--text2);min-width:110px}
+.ci{width:100px;padding:7px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;font-family:var(--mono)}
+.ci:focus{outline:none;border-color:var(--gold)}
+.cbtn{padding:7px 18px;border-radius:6px;background:var(--gold-d);border:1px solid var(--gold);color:var(--gold);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.cbtn:hover{background:var(--gold);color:#000}
+.cres{font-size:18px;font-weight:700;font-family:var(--mono);color:var(--green);margin-top:10px;line-height:1.7}
+.cunit{font-size:12px;color:var(--text3)}
+
+/* ── WIRING COLOR GRID ── */
+.wgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.witem{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;transition:all .2s}
+.witem:hover{transform:translateY(-2px)}
+.wdot{width:26px;height:26px;border-radius:50%;margin:0 auto 6px;border:2px solid rgba(255,255,255,.12)}
+.wcode{font-size:15px;font-weight:900;font-family:var(--mono)}
+.wname{font-size:11px;color:var(--text2);margin-top:3px}
+.wstar{font-size:10px;color:var(--gold)}
+.witem.trap{border-color:var(--red)}
+@media(max-width:640px){.wgrid{grid-template-columns:repeat(3,1fr)}}
+
+/* ── TRAP ── */
+.trap-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.trap-item{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);font-size:13px}
+.trap-item:last-child{border-bottom:none}
+.trap-num{min-width:24px;height:24px;border-radius:50%;background:var(--red-d);border:1px solid rgba(239,68,68,.3);color:var(--red);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.trap-q{color:var(--text2);flex:1}
+.trap-a{color:var(--gold);font-weight:700;min-width:160px;text-align:right;font-size:12px}
+
+/* ── QUIZ ── */
+.qc{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color .2s}
+.qc:hover{border-color:var(--border2)}
+.qc.open{border-color:var(--gold)}
+.qc-q{font-size:13px;color:var(--text);line-height:1.75}
+.qtag{font-size:11px;color:var(--text3);float:right;margin-left:8px}
+.qc-ans{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.qc.open .qc-ans{display:block}
+.ans-lbl{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--green);margin-bottom:6px}
+.ans-txt{font-size:13px;color:var(--text2);line-height:1.7}
+.ans-key{color:var(--gold);font-weight:700}
+
+/* ── MOCK ── */
+.pb-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:20px}
+.pb-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pb-lbl{font-size:13px;color:var(--text2)}
+.pb-sc{font-size:22px;font-weight:900;font-family:var(--mono);color:var(--gold)}
+.pb-bg{height:6px;background:var(--bg);border-radius:3px;overflow:hidden}
+.pb-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--orange));transition:width .5s}
+.mq{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.mq-num{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:1px;margin-bottom:8px}
+.mq-text{font-size:14px;font-weight:600;color:#fff;margin-bottom:14px;line-height:1.7}
+.opts{list-style:none;padding:0}
+.opts li{margin-bottom:8px}
+.obtn{width:100%;text-align:left;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.obtn:hover:not(:disabled){background:var(--bg4);border-color:var(--border2);color:var(--text)}
+.obtn.ok{background:var(--green-d);border-color:var(--green);color:var(--green)}
+.obtn.no{background:var(--red-d);border-color:var(--red);color:var(--red)}
+.obtn:disabled{cursor:default}
+.exp{display:none;margin-top:12px;padding:12px;background:var(--bg3);border-radius:8px;font-size:13px;color:var(--text2);line-height:1.7;border-left:3px solid var(--gold)}
+.exp.show{display:block}
+.exp-lbl{font-size:11px;font-weight:700;color:var(--gold);margin-bottom:6px;letter-spacing:1px}
+
+/* ── RESULT ── */
+.res-box{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border);border-radius:16px;padding:28px;text-align:center;margin-top:20px;display:none}
+.res-box.show{display:block}
+.res-sc{font-size:56px;font-weight:900;font-family:var(--mono);margin-bottom:6px}
+.res-lbl{font-size:14px;color:var(--text2)}
+.res-msg{font-size:16px;font-weight:700;margin-top:14px;color:var(--text)}
+.retry-btn{margin-top:18px;padding:11px 30px;border-radius:8px;background:var(--gold-d);border:1px solid var(--gold);color:var(--gold);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.retry-btn:hover{background:var(--gold);color:#000}
+
+/* ── MEMORY ── */
+.mem-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .3s;min-height:130px;display:flex;flex-direction:column;justify-content:center}
+.mem-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.35);border-color:var(--gold)}
+.mem-kw{font-size:19px;font-weight:900;font-family:var(--mono);color:var(--gold);margin-bottom:7px;line-height:1.3}
+.mem-hint{font-size:12px;color:var(--text3)}
+.mem-back{display:none}
+.mem-card.flip .mem-front{display:none}
+.mem-card.flip .mem-back{display:block}
+.mem-ans{font-size:13px;color:var(--text);line-height:1.7}
+
+/* ── LAMP BEAM VISUAL ── */
+.beam-container{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;margin:10px 0;overflow:hidden;position:relative}
+.beam-title{font-size:12px;color:var(--text3);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.beam-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.beam-label{font-size:12px;color:var(--text2);min-width:90px;font-weight:600}
+.beam-bar{height:12px;border-radius:6px;position:relative;transition:width 1s ease}
+.beam-val{font-size:12px;font-family:var(--mono);color:var(--text2);min-width:50px}
+
+/* ── DIVIDER ── */
+hr.div{border:none;border-top:1px solid var(--border);margin:20px 0}
+
+/* ── PULSE LAMP ── */
+.pulse-ring{display:inline-block;width:12px;height:12px;border-radius:50%;animation:lamp-pulse 1.5s ease-in-out infinite}
+@keyframes lamp-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-label">자동차정비기능사 전기전자</div>
+  <h1>💡 등화장치 완벽 정리</h1>
+  <p>전조등 · 방향지시등 · 제동등 · 미등 · 배선 · 기출 분석 · 모의고사 20문항</p>
+  <div class="chips">
+    <span class="chip cg">출제빈도 ★★★★★</span>
+    <span class="chip co">전조등 4종류 비교</span>
+    <span class="chip cr">조도 계산 공식</span>
+    <span class="chip cb">배선 색상 암기</span>
+    <span class="chip cs">할로겐 사이클</span>
+    <span class="chip cv">HID · LED</span>
+    <span class="chip ct">함정 TOP 12</span>
+  </div>
+</div>
+
+<!-- ── TABS ── -->
+<div class="tabs">
+  <button class="tab on"  onclick="st('theory',this)">📚 핵심 이론</button>
+  <button class="tab"     onclick="st('types', this)">🔦 전조등 종류</button>
+  <button class="tab"     onclick="st('signal',this)">🔄 방향·제동·미등</button>
+  <button class="tab"     onclick="st('wire',  this)">🔌 배선·회로</button>
+  <button class="tab"     onclick="st('calc',  this)">🔢 계산 공식</button>
+  <button class="tab"     onclick="st('trap',  this)">⚠️ 함정 분석</button>
+  <button class="tab"     onclick="st('past',  this)">📄 기출 분석</button>
+  <button class="tab"     onclick="st('mock',  this)">✏️ 모의고사</button>
+  <button class="tab"     onclick="st('mem',   this)">🧠 암기 카드</button>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 1: 핵심 이론
+══════════════════════════════════════ -->
+<div id="s-theory" class="sec on">
+
+  <!-- 출제 빈도 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">📊 등화장치 단원 출제 빈도</div></div>
+    <div class="freq-row"><span class="freq-name">전조등 종류 비교 (실드빔·할로겐·HID)</span><div class="freq-bg"><div class="freq-fill" style="width:97%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-name">조도 계산 (Lux = cd ÷ 거리²)</span><div class="freq-bg"><div class="freq-fill" style="width:93%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-name">배선 색상 약어 (Gr=회색 함정)</span><div class="freq-bg"><div class="freq-fill" style="width:91%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-name">방향지시등 점멸 횟수 (60~120회/분)</span><div class="freq-bg"><div class="freq-fill" style="width:86%"></div></div><span class="freq-star">★★★★☆</span></div>
+    <div class="freq-row"><span class="freq-name">제동등 vs 미등 밝기 (3배 이상)</span><div class="freq-bg"><div class="freq-fill" style="width:83%"></div></div><span class="freq-star">★★★★☆</span></div>
+    <div class="freq-row"><span class="freq-name">헤드램프 불량 원인 (관계 없는 것)</span><div class="freq-bg"><div class="freq-fill" style="width:78%"></div></div><span class="freq-star">★★★☆☆</span></div>
+    <div class="freq-row"><span class="freq-name">단선식 vs 복선식 배선</span><div class="freq-bg"><div class="freq-fill" style="width:72%"></div></div><span class="freq-star">★★★☆☆</span></div>
+    <div class="freq-row"><span class="freq-name">할로겐 사이클 원리</span><div class="freq-bg"><div class="freq-fill" style="width:68%"></div></div><span class="freq-star">★★★☆☆</span></div>
+  </div>
+
+  <!-- 등화장치 분류 -->
+  <p class="stl">① 등화장치 전체 분류</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">자동차 등화장치 종류</div><span class="bdg bg">전체 구조 이해</span></div>
+    <table>
+      <tr><th>분류</th><th>종류</th><th>기능 및 법적 기준</th></tr>
+      <tr><td><b class="hg">전조등</b></td><td>실드빔형, 세미실드빔, 할로겐, HID, LED</td><td>전방 조명, 상향(High)·하향(Low) 전환</td></tr>
+      <tr><td><b>안개등</b></td><td>전방 안개등, 후방 안개등</td><td>안개·눈·비 시 시야 확보</td></tr>
+      <tr><td><b class="ho">방향지시등</b></td><td>전·후 좌우 4개</td><td>1분에 60~120회 점멸</td></tr>
+      <tr><td><b>제동등</b></td><td>좌우 2개 + CHMSL</td><td>미등의 <b>3배 이상</b> 밝기</td></tr>
+      <tr><td><b>미등</b></td><td>전방 차폭등, 후방 미등</td><td>차폭등+번호판등+계기판 병렬</td></tr>
+      <tr><td><b>후진등</b></td><td>후방 백색등</td><td>변속기 후진 시 자동 점등</td></tr>
+      <tr><td><b>번호판등</b></td><td>번호판 조명</td><td>미등과 연동</td></tr>
+    </table>
+  </div>
+
+  <!-- 전조등 핵심 요약 -->
+  <p class="stl">② 전조등 4종류 핵심 비교</p>
+  <div class="g2">
+    <div class="lamp-card">
+      <span class="lamp-icon">🔆</span>
+      <div class="lamp-name">실드 빔형</div>
+      <span class="lamp-tag" style="background:var(--red-d);color:var(--red)">★★★ 최빈출</span>
+      <div class="lamp-desc">
+        렌즈 + 반사경 + 필라멘트 <span class="lamp-key">일체형</span><br>
+        수명 길고 광도 안정적<br>
+        단 1개 이상 → <span class="lamp-key">전체 교환 필수</span>
+      </div>
+    </div>
+    <div class="lamp-card">
+      <span class="lamp-icon">💡</span>
+      <div class="lamp-name">세미 실드 빔형</div>
+      <span class="lamp-tag" style="background:var(--blue-d);color:var(--blue)">★★ 비교 출제</span>
+      <div class="lamp-desc">
+        렌즈+반사경 일체 / 전구 <span class="lamp-key">분리 교환 가능</span><br>
+        유지 비용↓<br>
+        먼지·습기 유입 → <span class="lamp-key">광도 변화</span> 단점
+      </div>
+    </div>
+    <div class="lamp-card">
+      <span class="lamp-icon">🌟</span>
+      <div class="lamp-name">할로겐 전구</div>
+      <span class="lamp-tag" style="background:var(--orange-d);color:var(--orange)">★★ 원리 출제</span>
+      <div class="lamp-desc">
+        텅스텐 필라멘트 + 할로겐 가스 봉입<br>
+        <span class="lamp-key">재생순환반응</span>(Halogen Cycle)으로 수명 연장<br>
+        용량: <span class="lamp-key">60W/55W</span> (상향/하향)
+      </div>
+    </div>
+    <div class="lamp-card">
+      <span class="lamp-icon">⚡</span>
+      <div class="lamp-name">HID 램프 (제논)</div>
+      <span class="lamp-tag" style="background:var(--purple-d);color:var(--purple)">★★ 특징 출제</span>
+      <div class="lamp-desc">
+        제논(Xenon) 가스 + 2개 전극<br>
+        <span class="lamp-key">필라멘트 없음</span> — 방전(아크) 방식<br>
+        시동 전압: <span class="lamp-key">20,000V</span>, 고휘도 저소비
+      </div>
+    </div>
+  </div>
+
+  <!-- 반사경 반사율 -->
+  <p class="stl">③ 반사경 재질 비교</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">전조등 반사경 재질별 반사율</div><span class="bdg bo">수치 암기</span></div>
+    <div class="beam-container">
+      <div class="beam-title">반사율 비교</div>
+      <div class="beam-row">
+        <div class="beam-label" style="color:var(--sky)">알루미늄</div>
+        <div class="beam-bar" style="width:90%;background:linear-gradient(90deg,var(--sky),var(--blue))"></div>
+        <div class="beam-val" style="color:var(--sky)">90%</div>
+      </div>
+      <div class="beam-row">
+        <div class="beam-label" style="color:var(--text2)">은(Silver)</div>
+        <div class="beam-bar" style="width:92%;background:linear-gradient(90deg,#ccc,#eee)"></div>
+        <div class="beam-val">92%</div>
+      </div>
+      <div class="beam-row">
+        <div class="beam-label" style="color:var(--text3)">크롬</div>
+        <div class="beam-bar" style="width:65%;background:linear-gradient(90deg,#666,#888)"></div>
+        <div class="beam-val">65%</div>
+      </div>
+    </div>
+    <div class="abox a-g">💡 <b>알루미늄이 주류</b>: 90% 반사율 + 가공 용이 + 내구성 양호<br>은: 최고 반사율(92%)이지만 부식에 약함 / 크롬: 내구성 우수하지만 반사율 낮음</div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 2: 전조등 종류 상세
+══════════════════════════════════════ -->
+<div id="s-types" class="sec">
+
+  <p class="stl">전조등 4종류 완전 비교표</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">종류별 구조 · 장점 · 단점 완전 정리</div><span class="bdg br">★★★★★ 최빈출</span></div>
+    <table>
+      <tr><th>종류</th><th>구조</th><th>장점</th><th>단점</th><th>교환 단위</th></tr>
+      <tr>
+        <td><b class="hg">실드 빔형</b></td>
+        <td>렌즈+반사경+필라멘트 <b>일체</b></td>
+        <td>수명 길고 광도 안정, 내구성↑</td>
+        <td>부분 이상 → 전체 교환, 가격↑</td>
+        <td><b>전체 교환</b></td>
+      </tr>
+      <tr>
+        <td><b>세미 실드 빔형</b></td>
+        <td>렌즈+반사경 일체 / 전구 분리</td>
+        <td>전구만 교환 → 유지비↓</td>
+        <td>먼지·습기 유입 → 광도 변화</td>
+        <td><b>전구만 교환</b></td>
+      </tr>
+      <tr>
+        <td><b class="ho">할로겐</b></td>
+        <td>텅스텐+할로겐 가스 봉입</td>
+        <td>할로겐 사이클로 수명↑, 60W/55W</td>
+        <td>열 발생 많음</td>
+        <td>전구 교환</td>
+      </tr>
+      <tr>
+        <td><b class="hv">HID(제논)</b></td>
+        <td>제논 가스+2전극, 필라멘트 없음</td>
+        <td>고휘도, 저소비전력, 수명↑</td>
+        <td>20,000V 고전압 필요, 가격↑</td>
+        <td>방전관 교환</td>
+      </tr>
+      <tr>
+        <td><b class="hs">LED</b></td>
+        <td>반도체 발광소자(Light Emitting Diode)</td>
+        <td>극저소비전력, 장수명, 즉시 점등</td>
+        <td>초기 가격↑, 방열 관리 필요</td>
+        <td>모듈 교환</td>
+      </tr>
+    </table>
+    <div class="abox a-r" style="margin-top:10px">
+      ⚠️ <b>함정 모음:</b><br>
+      "실드 빔형은 전구만 교환 가능?" → <b>NO!</b> 전체 교환<br>
+      "HID 램프는 필라멘트로 발광?" → <b>NO!</b> 방전 방식, 필라멘트 없음<br>
+      "할로겐 전구는 필라멘트가 없다?" → <b>NO!</b> 텅스텐 필라멘트 있음
+    </div>
+  </div>
+
+  <!-- 할로겐 사이클 상세 -->
+  <p class="stl">할로겐 사이클 (Halogen Cycle) 상세</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">재생순환반응 원리</div><span class="bdg bo">원리 암기</span></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:8px 0">
+      <div class="mc" style="min-width:120px;text-align:center">
+        <div class="mc-lbl">① 증발</div>
+        <div style="font-size:13px;color:var(--text2)">텅스텐 필라멘트에서 고온으로 W 원자 증발</div>
+      </div>
+      <div style="font-size:20px;color:var(--text3)">→</div>
+      <div class="mc" style="min-width:120px;text-align:center">
+        <div class="mc-lbl">② 결합</div>
+        <div style="font-size:13px;color:var(--text2)">증발된 W 원자가 할로겐 원소(I, Br)와 결합 → WX₂</div>
+      </div>
+      <div style="font-size:20px;color:var(--text3)">→</div>
+      <div class="mc" style="min-width:120px;text-align:center">
+        <div class="mc-lbl">③ 해리</div>
+        <div style="font-size:13px;color:var(--text2)">필라멘트 근처 고온에서 WX₂ 해리(분해)</div>
+      </div>
+      <div style="font-size:20px;color:var(--text3)">→</div>
+      <div class="mc" style="min-width:120px;text-align:center">
+        <div class="mc-lbl">④ 재증착</div>
+        <div style="font-size:13px;color:var(--text2)">W 원자가 필라멘트에 <b>재부착</b> → 수명 연장!</div>
+      </div>
+    </div>
+    <div class="abox a-o" style="margin-top:8px">
+      💡 <b>핵심:</b> 텅스텐 증발 → 할로겐 결합 → 고온 해리 → 필라멘트 재부착 (순환) → 수명 연장, 흑화 방지
+    </div>
+    <div class="abox a-s" style="margin-top:6px">
+      📌 <b>할로겐 전구 주의사항:</b> 손으로 유리구 직접 접촉 금지! → 유분이 묻으면 국소 과열 → 수명 단축
+    </div>
+  </div>
+
+  <!-- 상향/하향 전환 -->
+  <p class="stl">상향등(하이빔) vs 하향등(로빔)</p>
+  <div class="cstrip">
+    <div class="cs cs-a">
+      <div class="cs-lbl">상향등 (High Beam)</div>
+      <ul class="ul">
+        <li>할로겐: <b>60W</b></li>
+        <li>원거리 조명 (야간 국도 등)</li>
+        <li>대향차 눈부심 유발 → 적절한 사용 필요</li>
+        <li>필라멘트 상부 위치</li>
+      </ul>
+    </div>
+    <div class="cs cs-b">
+      <div class="cs-lbl">하향등 (Low Beam)</div>
+      <ul class="ul">
+        <li>할로겐: <b>55W</b></li>
+        <li>일반 도로 주행 시 기본</li>
+        <li>컷오프 라인(차단선)으로 눈부심 방지</li>
+        <li>필라멘트 하부 위치</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 3: 방향·제동·미등
+══════════════════════════════════════ -->
+<div id="s-signal" class="sec">
+
+  <p class="stl">① 방향지시등 (Turn Signal)</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">방향지시등 핵심</div><span class="bdg br">★★★★ 수치 암기</span></div>
+    <div class="g3">
+      <div class="mc">
+        <div class="mc-lbl">점멸 횟수</div>
+        <div class="mc-val" style="color:var(--orange)">60~120</div>
+        <div class="mc-sub">회/분 (1분에 60~120회 점멸)<br>이 범위 벗어나면 이상!</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">점멸 방식</div>
+        <div class="mc-val" style="color:var(--sky);font-size:15px">트랜지스터식</div>
+        <div class="mc-sub">전자식 플래셔 사용<br>(예전: 열선식 → 현재: 전자식)</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">이상 현상</div>
+        <div class="mc-val" style="color:var(--red);font-size:15px">전구 단선</div>
+        <div class="mc-sub">점멸 너무 빠름 → 전구 단선<br>점멸 너무 느림 → 릴레이 불량</div>
+      </div>
+    </div>
+    <div class="abox a-o" style="margin-top:10px">
+      💡 <b>방향지시등 회로 구성:</b> 배터리 → 퓨즈 → 방향지시등 스위치 → 플래셔 릴레이 → 전조등(좌/우)
+    </div>
+  </div>
+
+  <!-- 제동등 -->
+  <p class="stl">② 제동등 (Brake Light)</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">제동등 밝기 기준</div><span class="bdg br">★★★★ 필수</span></div>
+      <div class="mc" style="text-align:center;margin-bottom:10px">
+        <div class="mc-lbl">제동등 밝기</div>
+        <div class="mc-val" style="color:var(--red);font-size:30px">미등의 3배↑</div>
+        <div class="mc-sub">법적 최소 기준: 미등 밝기의 3배 이상</div>
+      </div>
+      <ul class="ul">
+        <li>브레이크 페달 밟을 때 자동 점등</li>
+        <li>브레이크 스위치 → ECU → 제동등 제어</li>
+        <li>전구 단선 시 <b>경고 기능</b> 포함</li>
+        <li>CHMSL(Center High Mount Stop Lamp) 추가 장착</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">미등 회로 구성</div><span class="bdg bb">병렬 연결</span></div>
+      <div class="abox a-b">
+        💡 미등 회로 = 차폭등 + 번호판등 + 계기판 조명등<br>→ 모두 <b>병렬 연결</b>
+      </div>
+      <ul class="ul" style="margin-top:8px">
+        <li>미등 스위치 ON → 전체 동시 점등</li>
+        <li>병렬이므로 1개 단선 시 나머지 정상</li>
+        <li>차폭등: 차량 폭 표시</li>
+        <li>번호판등: 야간 번호판 식별</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 후진등 & 안개등 -->
+  <p class="stl">③ 기타 등화장치</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">후진등 (Back-Up Light)</div><span class="bdg bt">백색광</span></div>
+      <ul class="ul">
+        <li>색상: <b>백색</b> (법적 기준)</li>
+        <li>변속기를 후진(R) 위치 → <b>자동 점등</b></li>
+        <li>뒤차에게 후진 예고 신호</li>
+        <li>야간 후진 시 시야 확보</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">안개등 (Fog Light)</div><span class="bdg bg">황백색</span></div>
+      <ul class="ul">
+        <li>전방 안개등: 로빔보다 낮게 설치</li>
+        <li>후방 안개등: <b>적색</b>, 단독 점등 가능</li>
+        <li>안개·눈·비 시 시인성 확보</li>
+        <li>황색/황백색 사용 (파장이 길어 안개 투과↑)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 헤드램프 불량 원인 -->
+  <p class="stl">④ 헤드램프 불량 원인 — 관계없는 것 구별</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">헤드램프 불량 원인 분석</div><span class="bdg bo">기출 반복 유형</span></div>
+    <div class="g2">
+      <div>
+        <div class="abox a-gr">✅ <b>관련 있는 원인 (실제 원인)</b><br>
+        · 와이어링(배선) 불량<br>
+        · 접지 불량<br>
+        · 헤드램프 전용 퓨즈 소손<br>
+        · 스위치 접점 불량<br>
+        · 전구(램프) 불량</div>
+      </div>
+      <div>
+        <div class="abox a-r">❌ <b>관련 없는 원인 (오답 선택지)</b><br>
+        · 미등 퓨즈 소손 → 미등 별도 회로<br>
+        · 비상경고등 스위치 소손 → 별도 회로<br>
+        · 방향지시등 퓨즈 끊어짐 → 별도 회로<br>
+        · 제동등 전구 단선 → 별도 회로</div>
+      </div>
+    </div>
+    <div class="abox a-g" style="margin-top:8px">
+      💡 <b>핵심:</b> 각 등화장치는 <b>별도의 퓨즈와 회로</b>로 구성! 한 회로의 불량이 다른 회로에 영향 주지 않음
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 4: 배선·회로
+══════════════════════════════════════ -->
+<div id="s-wire" class="sec">
+
+  <!-- 배선 색상 -->
+  <p class="stl">① 배선 색상 약어 — 최다 출제!</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">배선 색상 약어 완전 암기</div><span class="bdg br">★★★★★ 필수 암기</span></div>
+    <div class="wgrid">
+      <div class="witem"><div class="wdot" style="background:#1a1a1a"></div><div class="wcode" style="color:#aaa">B</div><div class="wname">검정 (Black)</div></div>
+      <div class="witem"><div class="wdot" style="background:#dc2626"></div><div class="wcode" style="color:var(--red)">R</div><div class="wname">빨강 (Red)</div></div>
+      <div class="witem"><div class="wdot" style="background:#ca8a04"></div><div class="wcode" style="color:var(--gold)">Y <span class="wstar">★</span></div><div class="wname">노랑 (Yellow)</div></div>
+      <div class="witem"><div class="wdot" style="background:#16a34a"></div><div class="wcode" style="color:var(--green)">G</div><div class="wname">초록 (Green)</div></div>
+      <div class="witem"><div class="wdot" style="background:#e5e7eb"></div><div class="wcode" style="color:#ccc">W</div><div class="wname">흰색 (White)</div></div>
+      <div class="witem"><div class="wdot" style="background:#2563eb"></div><div class="wcode" style="color:var(--blue)">L</div><div class="wname">파랑 (bLue)</div></div>
+      <div class="witem trap"><div class="wdot" style="background:#6b7280"></div><div class="wcode" style="color:var(--gold)">Gr <span class="wstar">★★★</span></div><div class="wname" style="color:var(--red)">회색! (Gray)</div><div style="font-size:10px;color:var(--red);margin-top:2px">보라(×) 함정!</div></div>
+      <div class="witem"><div class="wdot" style="background:#ea580c"></div><div class="wcode" style="color:var(--orange)">O</div><div class="wname">오렌지 (Orange)</div></div>
+      <div class="witem"><div class="wdot" style="background:#92400e"></div><div class="wcode" style="color:#d97706">Br</div><div class="wname">갈색 (Brown)</div></div>
+      <div class="witem"><div class="wdot" style="background:#7c3aed"></div><div class="wcode" style="color:var(--purple)">Pp</div><div class="wname">보라 (Purple)</div></div>
+      <div class="witem"><div class="wdot" style="background:#84cc16"></div><div class="wcode" style="color:#84cc16">Lg</div><div class="wname">연두 (Light Green)</div></div>
+      <div class="witem"><div class="wdot" style="background:#38bdf8"></div><div class="wcode" style="color:var(--sky)">Ll</div><div class="wname">하늘 (Light bLue)</div></div>
+    </div>
+    <div class="abox a-r" style="margin-top:12px">⚠️ <b>최다 출제 함정: Gr = 보라(✗) → 회색(✓)</b> 보라색은 Pp(Purple)!</div>
+    <div class="abox a-g" style="margin-top:6px">📌 <b>배선 표기 예:</b> <code>1.25 Y/B</code> = 단면적 1.25mm², 노란 바탕에 검정 줄무늬</div>
+  </div>
+
+  <!-- 배선 방식 -->
+  <p class="stl">② 배선 방식 — 단선식 vs 복선식</p>
+  <div class="cstrip">
+    <div class="cs cs-a">
+      <div class="cs-lbl">단선식 (Single Wire)</div>
+      <ul class="ul">
+        <li>(+) 전원선만 사용</li>
+        <li>(-)는 <b>차체를 접지</b>로 이용</li>
+        <li><b>소전류 회로</b>에 사용</li>
+        <li>경고등, 신호등, 내부 조명 등</li>
+        <li>배선 수 감소 → 경량화 유리</li>
+      </ul>
+    </div>
+    <div class="cs cs-b">
+      <div class="cs-lbl">복선식 (Double Wire)</div>
+      <ul class="ul">
+        <li>(+)(−) 전원선 <b>모두 사용</b></li>
+        <li><b>대전류 회로</b>에 사용</li>
+        <li><b>전조등</b> 등 고출력 회로에 적용</li>
+        <li>접촉 불량 방지, 전압 강하↓</li>
+        <li>방사성 노이즈 차폐 효과</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 회로 고장 분석 -->
+  <p class="stl">③ 회로 고장 분석 요령</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">전압계를 이용한 고장 진단</div><span class="bdg bs">실무 활용</span></div>
+    <table>
+      <tr><th>측정 결과</th><th>판단</th><th>조치</th></tr>
+      <tr><td>A-B 간 전압 = <b>12V</b></td><td>A-B 구간은 정상 → <b>B 이후(스위치 쪽) 단선</b></td><td>B 이후 배선 점검</td></tr>
+      <tr><td>테스트 램프 밝게 점등</td><td>해당 구간 정상 통전</td><td>다음 구간 점검</td></tr>
+      <tr><td>테스트 램프 꺼짐</td><td>해당 구간 단선</td><td>단선 부위 수리</td></tr>
+      <tr><td>ECM 등 반도체 모듈 점검</td><td>고감도 측정 필요</td><td>테스트 램프 금지 → <b>10MΩ 이상 디지털 볼트미터</b> 사용</td></tr>
+    </table>
+    <div class="abox a-r" style="margin-top:8px">⚠️ ECM, ECU 등 반도체 모듈에 테스트 램프 사용 금지! → 과전류로 손상 위험</div>
+  </div>
+
+  <!-- IG1/IG2 -->
+  <p class="stl">④ IG1 / IG2 점화 스위치 단자</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">IG1 vs IG2 구분 이유</div><span class="bdg bg">★★ 출제</span></div>
+    <table>
+      <tr><th>단자</th><th>작동 조건</th><th>연결 부하</th></tr>
+      <tr><td><b class="hg">IG1</b></td><td>ON·ST 모두 작동</td><td>점화코일, 인젝터 등 시동에 필수 장치</td></tr>
+      <tr><td><b class="ho">IG2</b></td><td>ON에서만 작동 (<b>ST 시 차단</b>)</td><td>라디오, 에어컨, 와이퍼 등 편의 장치</td></tr>
+    </table>
+    <div class="abox a-g" style="margin-top:8px">
+      💡 <b>IG2를 분리하는 이유:</b> ST(시동) 시 불필요한 전기 부하를 차단하여 시동 모터에 최대 전력 집중 → 시동 원활
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 5: 계산 공식
+══════════════════════════════════════ -->
+<div id="s-calc" class="sec">
+
+  <!-- 조도 계산기 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">🧮 조도(Lux) 계산기</div><span class="bdg br">★★★ 2회 기출!</span></div>
+    <div class="fml">
+      조도 [Lux] = 광도 [cd] ÷ 거리² [m²]
+      <small>E = I / d²   (E:조도[Lux], I:광도[cd], d:거리[m])</small>
+    </div>
+    <div class="calc-box">
+      <div class="cr-row"><label>광도 (cd)</label><input class="ci" type="number" id="cd-val" value="25000"><span class="cunit">cd (칸델라)</span></div>
+      <div class="cr-row"><label>거리 (m)</label><input class="ci" type="number" id="dist-val" value="100"><span class="cunit">m</span></div>
+      <button class="cbtn" onclick="calcLux()">계산하기</button>
+      <div class="cres" id="lux-res">—</div>
+    </div>
+    <div class="abox a-g" style="margin-top:10px">
+      💡 <b>기출 예제 1:</b> 25,000cd, 100m → 25,000 ÷ 10,000 = <b>2.5 Lux</b><br>
+      💡 <b>기출 예제 2:</b> 40,000cd, 200m → 40,000 ÷ 40,000 = <b>1.0 Lux</b><br>
+      💡 <b>기출 예제 3:</b> 36,000cd, 60m → 36,000 ÷ 3,600 = <b>10.0 Lux</b>
+    </div>
+  </div>
+
+  <!-- 핵심 수치 -->
+  <p class="stl">핵심 수치 총정리</p>
+  <div class="g4">
+    <div class="mc"><div class="mc-lbl">방향지시등 점멸</div><div class="mc-val" style="color:var(--orange)">60~120</div><div class="mc-sub">회/분</div></div>
+    <div class="mc"><div class="mc-lbl">제동등 vs 미등</div><div class="mc-val" style="color:var(--red)">3배↑</div><div class="mc-sub">미등 대비 3배 이상</div></div>
+    <div class="mc"><div class="mc-lbl">알루미늄 반사율</div><div class="mc-val" style="color:var(--sky)">90%</div><div class="mc-sub">전조등 반사경</div></div>
+    <div class="mc"><div class="mc-lbl">은 반사율</div><div class="mc-val" style="color:var(--text2)">92%</div><div class="mc-sub">내구성 약함</div></div>
+    <div class="mc"><div class="mc-lbl">크롬 반사율</div><div class="mc-val" style="color:var(--text3)">65%</div><div class="mc-sub">내구성 강함</div></div>
+    <div class="mc"><div class="mc-lbl">HID 시동전압</div><div class="mc-val" style="color:var(--purple)">20,000V</div><div class="mc-sub">제논 방전</div></div>
+    <div class="mc"><div class="mc-lbl">할로겐 상향</div><div class="mc-val" style="color:var(--gold)">60W</div><div class="mc-sub">High Beam</div></div>
+    <div class="mc"><div class="mc-lbl">할로겐 하향</div><div class="mc-val" style="color:var(--gold)">55W</div><div class="mc-sub">Low Beam</div></div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 6: 함정 분석
+══════════════════════════════════════ -->
+<div id="s-trap" class="sec">
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">⚠️ 등화장치 자주 틀리는 함정 TOP 12</div></div>
+    <p style="font-size:13px;color:var(--text2)">기출에서 반복 출제되는 오답 선택지 — 확실히 암기하세요!</p>
+  </div>
+
+  <div class="trap-wrap">
+    <div class="trap-item"><span class="trap-num">1</span><span class="trap-q">실드 빔형 전조등은 전구만 교환 가능하다?</span><span class="trap-a">❌ 전체 교환 (일체형)</span></div>
+    <div class="trap-item"><span class="trap-num">2</span><span class="trap-q">HID 램프는 텅스텐 필라멘트로 발광한다?</span><span class="trap-a">❌ 방전식, 필라멘트 없음</span></div>
+    <div class="trap-item"><span class="trap-num">3</span><span class="trap-q">할로겐 전구는 필라멘트가 없다?</span><span class="trap-a">❌ 텅스텐 필라멘트 있음</span></div>
+    <div class="trap-item"><span class="trap-num">4</span><span class="trap-q">배선 기호 Gr은 보라색이다?</span><span class="trap-a">❌ 회색 (Gray)</span></div>
+    <div class="trap-item"><span class="trap-num">5</span><span class="trap-q">방향지시등이 빠르게 점멸하면 릴레이 불량이다?</span><span class="trap-a">❌ 전구 단선 (빠름)</span></div>
+    <div class="trap-item"><span class="trap-num">6</span><span class="trap-q">헤드램프 불량 원인: 미등 퓨즈 소손?</span><span class="trap-a">❌ 별도 회로, 무관</span></div>
+    <div class="trap-item"><span class="trap-num">7</span><span class="trap-q">은(Silver) 반사경의 반사율이 알루미늄보다 낮다?</span><span class="trap-a">❌ 은 92% > 알루미늄 90%</span></div>
+    <div class="trap-item"><span class="trap-num">8</span><span class="trap-q">제동등은 미등보다 밝기가 낮아도 된다?</span><span class="trap-a">❌ 미등의 3배 이상</span></div>
+    <div class="trap-item"><span class="trap-num">9</span><span class="trap-q">미등 회로는 직렬 연결이다?</span><span class="trap-a">❌ 병렬 연결</span></div>
+    <div class="trap-item"><span class="trap-num">10</span><span class="trap-q">전조등 회로는 단선식을 사용한다?</span><span class="trap-a">❌ 복선식 (대전류)</span></div>
+    <div class="trap-item"><span class="trap-num">11</span><span class="trap-q">후진등의 색상은 적색이어야 한다?</span><span class="trap-a">❌ 백색 (법적 기준)</span></div>
+    <div class="trap-item"><span class="trap-num">12</span><span class="trap-q">할로겐 전구를 손으로 잡아도 된다?</span><span class="trap-a">❌ 유분 → 과열 → 수명 단축</span></div>
+  </div>
+
+  <!-- 비교 암기 -->
+  <p class="stl">헷갈리는 비교 쌍 완전 정리</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">전조등 교환 단위 비교</div><span class="bdg br">핵심 비교</span></div>
+      <table>
+        <tr><th>종류</th><th>교환 단위</th><th>구분 포인트</th></tr>
+        <tr><td><b class="hg">실드 빔형</b></td><td><b>전체 교환</b></td><td>3요소 일체형</td></tr>
+        <tr><td>세미 실드 빔형</td><td><b>전구만 교환</b></td><td>렌즈+반사경 일체</td></tr>
+        <tr><td>할로겐</td><td>전구 교환</td><td>필라멘트 있음</td></tr>
+        <tr><td><b class="hv">HID</b></td><td>방전관 교환</td><td><b>필라멘트 없음</b></td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">방향지시등 이상 원인</div><span class="bdg bo">진단 포인트</span></div>
+      <table>
+        <tr><th>증상</th><th>원인</th></tr>
+        <tr><td>점멸 <b>빠름</b></td><td><b class="hg">전구 단선</b> (저항↓ → 전류↑ → 빠름)</td></tr>
+        <tr><td>점멸 <b>느림</b></td><td><b>플래셔 릴레이 불량</b></td></tr>
+        <tr><td>점멸 <b>안 됨</b></td><td>퓨즈 단선, 스위치 불량</td></tr>
+        <tr><td>한쪽만 점멸</td><td>반대쪽 전구 단선</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 7: 기출 분석
+══════════════════════════════════════ -->
+<div id="s-past" class="sec">
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">📋 실제 기출문제 — 클릭하여 해설 확인</div></div>
+    <p style="font-size:13px;color:var(--text2)">자동차정비기능사 필기 기출 분석 · 클릭하면 정답과 해설이 펼쳐집니다</p>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출 최빈출</span>
+    <div class="qc-q">렌즈·반사경·필라멘트가 모두 일체형으로 구성된 전조등은?<br>
+    ㉮ 실드 빔형 &nbsp; ㉯ 세미 실드 빔형 &nbsp; ㉰ HID 램프 &nbsp; ㉱ 할로겐형</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉮ 실드 빔형</span><br>
+    실드 빔형(Sealed Beam): 렌즈+반사경+필라멘트 일체형. 세 요소 중 하나라도 이상이 생기면 전체 교환해야 합니다. 세미 실드 빔형은 렌즈+반사경 일체, 전구만 분리 교환 가능합니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출 2회 출제</span>
+    <div class="qc-q">전조등 광도가 25,000[cd]이고 전방 100[m] 지점에서의 조도는?<br>
+    ㉮ 250 Lux &nbsp; ㉯ 50 Lux &nbsp; ㉰ 12.5 Lux &nbsp; ㉱ 2.5 Lux</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉱ 2.5 Lux</span><br>
+    조도 = 광도 ÷ 거리² = 25,000 ÷ 100² = 25,000 ÷ 10,000 = 2.5 Lux<br>
+    공식: E[Lux] = I[cd] ÷ d²[m²]. 이 계산은 실제 기출에서 2회나 출제되었습니다!</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">방향지시등의 점멸 횟수 기준으로 옳은 것은?<br>
+    ㉮ 30~60회/분 &nbsp; ㉯ 60~120회/분 &nbsp; ㉰ 120~180회/분 &nbsp; ㉱ 180~240회/분</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉯ 60~120회/분</span><br>
+    방향지시등 점멸 기준: 1분에 60~120회. 점멸이 너무 빠르면(120회 초과) → 전구 단선 의심. 너무 느리면(60회 미만) → 플래셔 릴레이 불량 의심.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">제동등의 밝기 기준으로 옳은 것은?<br>
+    ㉮ 미등과 동일한 밝기 &nbsp; ㉯ 미등의 2배 이상 &nbsp; ㉰ 미등의 3배 이상 &nbsp; ㉱ 미등의 5배 이상</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉰ 미등의 3배 이상</span><br>
+    제동등은 미등의 3배 이상 밝아야 합니다. 뒤차 운전자가 제동 상황을 즉시 인식할 수 있도록 충분한 밝기가 요구됩니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">전조등 반사경으로 알루미늄을 가장 많이 사용하는 이유는?<br>
+    ㉮ 반사율이 100%이기 때문 &nbsp; ㉯ 반사율이 높고(90%) 가공성이 좋아서<br>
+    ㉰ 크롬보다 내구성이 강해서 &nbsp; ㉱ 가격이 가장 저렴해서</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉯ 반사율이 높고(90%) 가공성이 좋아서</span><br>
+    알루미늄: 반사율 90%, 가공 용이, 내구성 양호. 은(92%)은 반사율이 더 높지만 부식에 약하고, 크롬(65%)은 내구성이 강하지만 반사율이 낮습니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">미등 회로의 결선 방식은?<br>
+    ㉮ 직렬 연결 &nbsp; ㉯ 병렬 연결 &nbsp; ㉰ 직병렬 혼합 &nbsp; ㉱ 단선식</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉯ 병렬 연결</span><br>
+    미등 회로: 차폭등 + 번호판등 + 계기판 조명등 → 병렬 연결. 병렬이므로 1개 단선 시 나머지는 정상 작동합니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">배선 기호 'Gr'이 나타내는 색상은?<br>
+    ㉮ 보라색(Purple) &nbsp; ㉯ 갈색(Brown) &nbsp; ㉰ 회색(Gray) &nbsp; ㉱ 초록색(Green)</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉰ 회색(Gray)</span><br>
+    Gr = Gray(회색). 보라색=Pp(Purple), 갈색=Br(Brown). 'Gr=보라색'으로 혼동하게 만드는 최다 출제 함정 문제입니다!</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">HID 램프(제논 램프)의 특징으로 옳은 것은?<br>
+    ㉮ 텅스텐 필라멘트로 발광한다 &nbsp; ㉯ 할로겐 사이클로 수명을 연장한다<br>
+    ㉰ 필라멘트 없이 방전(아크)으로 발광한다 &nbsp; ㉱ 전압은 12V면 충분하다</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉰ 필라멘트 없이 방전(아크)으로 발광한다</span><br>
+    HID(High Intensity Discharge): 제논 가스 + 2개 전극 사이 고압 방전으로 발광. 필라멘트 없음. 시동 전압 약 20,000V 필요. 고휘도·저소비전력·장수명이 특징.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">헤드램프가 점등되지 않는 원인으로 관계없는 것은?<br>
+    ㉮ 헤드램프 배선(와이어링) 불량 &nbsp; ㉯ 헤드램프 접지 불량<br>
+    ㉰ 방향지시등 퓨즈 끊어짐 &nbsp; ㉱ 헤드램프 전용 퓨즈 소손</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉰ 방향지시등 퓨즈 끊어짐</span><br>
+    각 등화장치는 별도의 퓨즈와 독립된 회로를 가집니다. 방향지시등 퓨즈는 방향지시등 회로에만 영향을 미치고, 헤드램프 회로와는 무관합니다.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">전조등에 복선식 배선을 사용하는 주요 이유는?<br>
+    ㉮ 배선 수를 줄여 경량화하기 위해 &nbsp; ㉯ 비용 절감을 위해<br>
+    ㉰ 대전류 회로에서 접촉불량 방지 및 전압강하 최소화 &nbsp; ㉱ 소전류 회로에 적합하기 때문</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉰ 대전류 회로에서 접촉불량 방지 및 전압강하 최소화</span><br>
+    전조등은 대전류가 흐르는 회로이므로 복선식(+,- 모두 전선) 사용. 단선식은 소전류 회로(경고등, 내부 조명 등)에 사용합니다.</div></div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 8: 모의고사
+══════════════════════════════════════ -->
+<div id="s-mock" class="sec">
+  <div class="pb-wrap">
+    <div class="pb-top"><div class="pb-lbl">모의고사 진행 현황</div><div class="pb-sc" id="sc-txt">0 / 20</div></div>
+    <div class="pb-bg"><div class="pb-fill" id="sc-bar" style="width:0%"></div></div>
+  </div>
+  <div id="mock-wrap"></div>
+  <div class="res-box" id="res-box">
+    <div class="res-sc" id="res-sc">—</div>
+    <div class="res-lbl">20문제 중 정답</div>
+    <div class="res-msg" id="res-msg"></div>
+    <button class="retry-btn" onclick="retry()">🔄 다시 풀기</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 9: 암기 카드
+══════════════════════════════════════ -->
+<div id="s-mem" class="sec">
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">🧠 등화장치 플립 암기 카드</div></div>
+    <p style="font-size:13px;color:var(--text2)">카드를 클릭하면 정답 / 다시 클릭하면 돌아갑니다</p>
+  </div>
+  <div class="g2" id="mem-wrap"></div>
+</div>
+
+<script>
+// ── 탭 전환 ──
+function st(id, btn) {
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('s-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+function tq(el){el.classList.toggle('open')}
+
+// ── 조도 계산기 ──
+function calcLux(){
+  const cd=+document.getElementById('cd-val').value;
+  const d=+document.getElementById('dist-val').value;
+  if(!cd||!d)return;
+  const lux=(cd/(d*d)).toFixed(4);
+  document.getElementById('lux-res').textContent=`조도 = ${cd} ÷ ${d}² = ${cd} ÷ ${d*d} = ${lux} Lux`;
+}
+
+// ── 모의고사 데이터 ──
+const mockQ=[
+  {q:"렌즈·반사경·필라멘트가 모두 일체형으로 구성된 전조등은?",
+   opts:["세미 실드 빔형","HID 램프","실드 빔형","LED 램프"],ans:2,
+   exp:"실드 빔형: 렌즈+반사경+필라멘트 일체형. 세 요소 중 하나라도 이상 시 전체 교환. 광도 안정적이고 수명이 깁니다."},
+  {q:"세미 실드 빔형 전조등에서 교환 가능한 부품은?",
+   opts:["렌즈+반사경+전구 전체","반사경만","렌즈만","전구(전등)만"],ans:3,
+   exp:"세미 실드 빔형: 렌즈+반사경은 일체, 전구(전등)만 분리하여 교환 가능. 유지 비용이 낮은 장점이 있지만 먼지·습기 유입으로 광도 변화가 생길 수 있습니다."},
+  {q:"HID(High Intensity Discharge) 램프의 특징으로 옳은 것은?",
+   opts:["텅스텐 필라멘트 사용","12V로 직접 구동 가능","제논 가스, 방전 방식, 필라멘트 없음","할로겐 사이클로 수명 연장"],ans:2,
+   exp:"HID 램프: 제논(Xenon) 가스 + 2개 전극 사이 방전(아크) 발광. 필라멘트 없음. 시동 전압 약 20,000V. 고휘도·저소비전력·장수명 특징."},
+  {q:"할로겐 전구에서 수명이 연장되는 원리(할로겐 사이클)의 마지막 단계는?",
+   opts:["텅스텐이 할로겐과 결합","할로겐이 전구 밖으로 방출","텅스텐이 필라멘트에 재부착","전구 내 압력 상승"],ans:2,
+   exp:"할로겐 사이클: ①텅스텐 증발 → ②할로겐 결합(WX₂) → ③고온 해리 → ④텅스텐 필라멘트 재부착. 재부착으로 필라멘트가 복원되어 수명이 연장됩니다."},
+  {q:"할로겐 전구를 교환할 때 주의사항으로 옳은 것은?",
+   opts:["맨손으로 유리구를 잡고 교환한다","전원 ON 상태에서 교환해도 된다","유리구에 손이 닿지 않도록 장갑 착용 후 교환한다","전구가 완전히 식기 전에 빨리 교환한다"],ans:2,
+   exp:"할로겐 전구는 맨손으로 유리구를 만지면 안 됩니다. 손에서 유분(기름)이 묻으면 그 부분에 열이 집중되어 유리가 파손되거나 수명이 단축됩니다. 반드시 장갑 착용 후 교환."},
+  {q:"전조등 광도 36,000[cd], 거리 60[m]에서의 조도는?",
+   opts:["1 Lux","2.5 Lux","6 Lux","10 Lux"],ans:3,
+   exp:"조도 = 광도 ÷ 거리² = 36,000 ÷ 60² = 36,000 ÷ 3,600 = 10 Lux. 공식: E[Lux] = I[cd] ÷ d²[m²]"},
+  {q:"전조등 반사경으로 알루미늄이 주로 사용되는 이유는?",
+   opts:["반사율이 100%이기 때문","반사율 92%로 가장 높기 때문","반사율 90%이고 가공성·내구성이 좋기 때문","가격이 가장 저렴하기 때문"],ans:2,
+   exp:"알루미늄: 반사율 90% + 가공 용이 + 내구성 양호 → 가장 널리 사용. 은(92%)은 반사율이 더 높지만 부식에 약하고, 크롬(65%)은 내구성이 강하지만 반사율이 낮습니다."},
+  {q:"방향지시등의 점멸 횟수 기준은?",
+   opts:["30~60회/분","60~120회/분","120~180회/분","180~240회/분"],ans:1,
+   exp:"방향지시등 법적 기준: 1분에 60~120회 점멸. 이 범위를 벗어나면 이상이 있는 것입니다."},
+  {q:"방향지시등이 정상보다 빠르게 점멸할 때 의심해야 할 원인은?",
+   opts:["플래셔 릴레이 불량","배터리 방전","전구(전등) 단선","퓨즈 소손"],ans:2,
+   exp:"방향지시등이 빠르게 점멸 → 전구 단선. 전구가 끊어지면 회로 저항이 감소하여 전류가 증가 → 플래셔가 더 빨리 작동. 느리게 점멸 → 플래셔 릴레이 불량."},
+  {q:"제동등의 밝기 기준으로 법적으로 옳은 것은?",
+   opts:["미등과 동일한 밝기","미등의 2배 이상","미등의 3배 이상","미등의 5배 이상"],ans:2,
+   exp:"제동등은 미등의 3배 이상 밝아야 합니다. 뒤차 운전자가 제동 상황을 즉시 인식하여 추돌 사고를 방지하기 위한 법적 기준입니다."},
+  {q:"미등 회로를 구성하는 등화장치가 아닌 것은?",
+   opts:["차폭등","번호판등","계기판 조명등","제동등"],ans:3,
+   exp:"미등 회로: 차폭등 + 번호판등 + 계기판 조명등 → 병렬 연결. 제동등은 브레이크 페달과 연동되는 별도 회로로 미등 회로와 분리되어 있습니다."},
+  {q:"미등 회로의 결선 방식과 구성으로 옳은 것은?",
+   opts:["직렬 연결, 차폭등·번호판등·계기판 조명등","직렬 연결, 차폭등·제동등·번호판등","병렬 연결, 차폭등·번호판등·계기판 조명등","병렬 연결, 차폭등·안개등·제동등"],ans:2,
+   exp:"미등 회로: 차폭등+번호판등+계기판 조명등을 병렬로 연결. 병렬이므로 한 개가 끊어져도 나머지는 계속 작동합니다."},
+  {q:"후진등의 색상 기준은?",
+   opts:["적색","황색","백색","청색"],ans:2,
+   exp:"후진등은 백색이어야 합니다(법적 기준). 후진 시 다른 차량이나 보행자에게 후진 예고 신호를 줌과 동시에 야간 시야를 확보합니다."},
+  {q:"배선 기호 'Gr'이 나타내는 색상은?",
+   opts:["보라색","갈색","회색","초록색"],ans:2,
+   exp:"Gr = Gray(회색). 가장 많이 출제되는 함정 문제. 보라색=Pp(Purple), 갈색=Br(Brown), 초록=G(Green). 절대 잊지 마세요!"},
+  {q:"할로겐 전구에서 상향등(High Beam)과 하향등(Low Beam)의 용량은?",
+   opts:["상향 55W / 하향 60W","상향 60W / 하향 55W","상향 75W / 하향 55W","상향 55W / 하향 45W"],ans:1,
+   exp:"할로겐 전구: 상향등(High Beam) 60W, 하향등(Low Beam) 55W. 상향등이 더 높은 출력을 사용합니다."},
+  {q:"헤드램프가 점등되지 않는 원인으로 관계없는 것은?",
+   opts:["헤드램프 접지 불량","헤드램프 배선 단선","방향지시등 퓨즈 소손","헤드램프 전용 퓨즈 소손"],ans:2,
+   exp:"각 등화장치는 별도의 독립 회로를 가집니다. 방향지시등 퓨즈는 방향지시등 회로에만 영향, 헤드램프와는 무관합니다. 헤드램프 불량 원인: 헤드램프 전용 퓨즈, 배선, 접지, 스위치 불량."},
+  {q:"전조등 회로에 복선식 배선을 사용하는 이유는?",
+   opts:["배선 수를 줄여 경량화","저전류 회로이기 때문","대전류 회로에서 접촉불량 방지 및 전압강하 최소화","비용 절감"],ans:2,
+   exp:"전조등은 대전류(60~55W) 회로 → 복선식((+)(-) 모두 전선). 단선식은 소전류 회로(경고등, 내부 조명 등)에서 사용합니다."},
+  {q:"전조등 반사경 재질별 반사율이 올바르게 연결된 것은?",
+   opts:["알루미늄 92% / 은 90% / 크롬 65%","알루미늄 90% / 은 92% / 크롬 65%","알루미늄 65% / 은 90% / 크롬 92%","알루미늄 90% / 은 65% / 크롬 92%"],ans:1,
+   exp:"반사율: 알루미늄 90% / 은(Silver) 92% / 크롬 65%. 은이 반사율이 가장 높지만 내구성(부식)이 약해 알루미늄이 주류. 크롬은 내구성은 강하나 반사율이 가장 낮습니다."},
+  {q:"안개등에 황색 전구를 사용하는 이유는?",
+   opts:["백색보다 밝기가 높아서","파장이 길어 안개 투과력이 높아서","법적으로 황색만 허용되기 때문에","전력 소비가 적어서"],ans:1,
+   exp:"황색 빛은 파장이 길어 안개나 비, 눈 속을 투과하는 능력이 백색보다 높습니다. 따라서 안개 상황에서 시인성이 향상됩니다."},
+  {q:"HID 램프와 할로겐 전구의 차이점으로 옳은 것은?",
+   opts:["HID는 필라멘트가 있고 할로겐은 없다","HID는 12V로 작동하고 할로겐은 고전압이 필요하다","HID는 방전 방식이고 할로겐은 필라멘트 방식이다","HID는 수명이 짧고 할로겐은 길다"],ans:2,
+   exp:"HID: 방전(아크) 방식, 필라멘트 없음, 20,000V 필요, 고휘도·장수명. 할로겐: 텅스텐 필라멘트 방식, 12V 작동, 할로겐 사이클로 수명 연장. 두 방식의 근본 차이는 발광 원리입니다."}
+];
+
+let userAns=[],correct=0;
+function buildMock(){
+  userAns=new Array(mockQ.length).fill(null);correct=0;
+  updatePB();document.getElementById('res-box').classList.remove('show');
+  const wrap=document.getElementById('mock-wrap');wrap.innerHTML='';
+  mockQ.forEach((q,qi)=>{
+    const d=document.createElement('div');d.className='mq';
+    d.innerHTML=`<div class="mq-num">문제 ${qi+1} / ${mockQ.length}</div>
+      <div class="mq-text">${q.q}</div>
+      <ul class="opts">${q.opts.map((o,oi)=>`<li><button class="obtn" onclick="pick(${qi},${oi},this)">${['①','②','③','④'][oi]} ${o}</button></li>`).join('')}</ul>
+      <div class="exp" id="exp${qi}"><div class="exp-lbl">✅ 해설</div>${q.exp}</div>`;
+    wrap.appendChild(d);
+  });
+}
+function pick(qi,oi,btn){
+  if(userAns[qi]!==null)return;userAns[qi]=oi;
+  const btns=btn.closest('.opts').querySelectorAll('.obtn');
+  btns.forEach(b=>b.disabled=true);
+  if(oi===mockQ[qi].ans){btn.classList.add('ok');correct++;}
+  else{btn.classList.add('no');btns[mockQ[qi].ans].classList.add('ok');}
+  document.getElementById('exp'+qi).classList.add('show');
+  updatePB();
+  if(userAns.filter(a=>a!==null).length===mockQ.length)showResult();
+}
+function updatePB(){
+  const done=userAns.filter(a=>a!==null).length;
+  document.getElementById('sc-txt').textContent=`${correct} / ${mockQ.length}`;
+  document.getElementById('sc-bar').style.width=(done/mockQ.length*100)+'%';
+}
+function showResult(){
+  const pct=Math.round(correct/mockQ.length*100);
+  document.getElementById('res-sc').textContent=`${correct}점`;
+  document.getElementById('res-sc').style.color=pct>=60?'var(--green)':'var(--red)';
+  document.getElementById('res-msg').textContent=
+    pct>=90?'🏆 완벽! 등화장치 마스터!':
+    pct>=70?'👍 합격 안정권! 오답만 보완하세요.':
+    pct>=60?'⚠️ 아슬아슬 합격권. 함정 분석 탭 집중 복습!':
+    '❌ 불합격 위험! 전조등 종류와 조도 계산부터 다시 공부하세요.';
+  document.getElementById('res-box').classList.add('show');
+  document.getElementById('res-box').scrollIntoView({behavior:'smooth'});
+}
+function retry(){buildMock();document.getElementById('s-mock').scrollIntoView({behavior:'smooth'});}
+
+// ── 암기 카드 ──
+const memData=[
+  {kw:"실드 빔형",hint:"전조등 일체형",ans:"렌즈+반사경+필라멘트 일체형. 1개 이상 → 전체 교환. 수명 길고 광도 안정"},
+  {kw:"HID\n필라멘트 없음",hint:"방전식 전조등",ans:"제논 가스+2전극 방전. 필라멘트 없음. 시동전압 20,000V. 고휘도·장수명"},
+  {kw:"할로겐\n사이클",hint:"수명 연장 원리",ans:"텅스텐 증발 → 할로겐 결합 → 고온 해리 → 필라멘트 재부착 → 수명 연장"},
+  {kw:"60~120회/분",hint:"방향지시등 점멸",ans:"1분에 60~120회 점멸이 정상. 빠름→전구단선, 느림→릴레이불량"},
+  {kw:"미등의 3배↑",hint:"제동등 밝기 기준",ans:"제동등은 미등의 3배 이상 밝아야 함 (법적 기준)"},
+  {kw:"병렬 연결",hint:"미등 회로 결선",ans:"미등 = 차폭등+번호판등+계기판 조명등 → 병렬 연결"},
+  {kw:"2.5 Lux",hint:"25,000cd, 100m",ans:"25,000 ÷ 100² = 2.5 Lux. 조도 = 광도[cd] ÷ 거리²[m²]"},
+  {kw:"알루미늄 90%",hint:"반사경 반사율",ans:"알루미늄 90% / 은 92%(내구성↓) / 크롬 65%(내구성↑)"},
+  {kw:"Gr = 회색",hint:"배선 색상 최다 함정",ans:"Gr = Gray(회색). 보라색=Pp. 절대 혼동하지 말 것!"},
+  {kw:"복선식",hint:"전조등 배선 방식",ans:"전조등(대전류) → 복선식(+,-모두 전선). 소전류 → 단선식(+만, -는 접지)"},
+  {kw:"60W/55W",hint:"할로겐 전구 용량",ans:"상향등(High) 60W / 하향등(Low) 55W"},
+  {kw:"별도 회로",hint:"헤드램프 불량과 무관한 것",ans:"미등·방향지시등·제동등 퓨즈는 각각 별도 회로. 헤드램프 불량과 무관"},
+  {kw:"백색",hint:"후진등 색상",ans:"후진등 법적 기준: 백색. 변속기 후진(R) 위치 시 자동 점등"},
+  {kw:"세미실드빔",hint:"전구만 교환 가능",ans:"렌즈+반사경 일체, 전구만 분리 교환 가능. 먼지·습기 유입 주의"},
+];
+function buildMem(){
+  const wrap=document.getElementById('mem-wrap');
+  memData.forEach(m=>{
+    const d=document.createElement('div');d.className='mem-card';
+    d.innerHTML=`<div class="mem-front"><div class="mem-kw">${m.kw}</div><div class="mem-hint">${m.hint}</div><div style="font-size:11px;color:var(--text3);margin-top:8px">탭하여 답 확인</div></div>
+      <div class="mem-back"><div class="mem-ans">${m.ans}</div><div style="font-size:11px;color:var(--text3);margin-top:8px">다시 탭하여 돌아가기</div></div>`;
+    d.onclick=()=>d.classList.toggle('flip');
+    wrap.appendChild(d);
+  });
+}
+buildMock();buildMem();
+</script>
+</body>
+</html>

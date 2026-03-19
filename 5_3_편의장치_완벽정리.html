@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>편의장치 완벽 정리 — 자동차정비기능사</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root {
+  --bg:#070a0f;--bg2:#0c1019;--bg3:#131821;--bg4:#19212c;
+  --border:#1c2537;--border2:#283550;
+  --text:#dce8f8;--text2:#7d95bc;--text3:#465878;
+  --teal:#2dd4bf;--teal-d:rgba(45,212,191,.13);
+  --blue:#38bdf8;--blue-d:rgba(56,189,248,.13);
+  --violet:#818cf8;--violet-d:rgba(129,140,248,.13);
+  --green:#4ade80;--green-d:rgba(74,222,128,.12);
+  --amber:#fbbf24;--amber-d:rgba(251,191,36,.13);
+  --rose:#f43f5e;--rose-d:rgba(244,63,94,.13);
+  --orange:#f97316;--orange-d:rgba(249,115,22,.13);
+  --pink:#e879f9;--pink-d:rgba(232,121,249,.12);
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Noto Sans KR',sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.65}
+
+/* HERO */
+.hero{background:linear-gradient(158deg,#060b14 0%,#0b1526 55%,#060b14 100%);border-bottom:1px solid var(--border);padding:2.2rem 1.5rem 1.8rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-90px;right:-70px;width:380px;height:380px;background:radial-gradient(circle,rgba(45,212,191,.09) 0%,transparent 68%);border-radius:50%;pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-60px;left:-40px;width:260px;height:260px;background:radial-gradient(circle,rgba(251,191,36,.07) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.hero-lbl{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+.hero-lbl::before{content:'✦';animation:tw 2s linear infinite}
+@keyframes tw{0%,100%{opacity:1;transform:rotate(0)}50%{opacity:.4;transform:rotate(180deg)}}
+.hero h1{font-size:24px;font-weight:900;color:#fff;margin-bottom:5px;letter-spacing:-.4px}
+.hero p{font-size:13px;color:var(--text2)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;border:1px solid;letter-spacing:.3px}
+.ct{color:var(--teal);border-color:var(--teal);background:var(--teal-d)}
+.cb{color:var(--blue);border-color:var(--blue);background:var(--blue-d)}
+.cv{color:var(--violet);border-color:var(--violet);background:var(--violet-d)}
+.cg{color:var(--green);border-color:var(--green);background:var(--green-d)}
+.ca{color:var(--amber);border-color:var(--amber);background:var(--amber-d)}
+.cr{color:var(--rose);border-color:var(--rose);background:var(--rose-d)}
+.co{color:var(--orange);border-color:var(--orange);background:var(--orange-d)}
+.cp{color:var(--pink);border-color:var(--pink);background:var(--pink-d)}
+
+/* TABS */
+.tabs{position:sticky;top:0;z-index:100;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;overflow-x:auto;gap:0}
+.tabs::-webkit-scrollbar{height:0}
+.tab{padding:13px 15px;font-size:13px;font-weight:500;color:var(--text3);background:none;border:none;border-bottom:2.5px solid transparent;cursor:pointer;white-space:nowrap;transition:all .2s}
+.tab:hover{color:var(--text2)}
+.tab.on{color:var(--teal);border-bottom-color:var(--teal)}
+
+/* SECTIONS */
+.sec{display:none;padding:1.5rem;max-width:980px}
+.sec.on{display:block}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.card-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.card-ttl{font-size:15px;font-weight:700;color:#fff}
+
+/* BADGES */
+.bdg{font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px}
+.bt{background:var(--teal-d);color:var(--teal)}
+.bb{background:var(--blue-d);color:var(--blue)}
+.bv{background:var(--violet-d);color:var(--violet)}
+.bg{background:var(--green-d);color:var(--green)}
+.ba{background:var(--amber-d);color:var(--amber)}
+.br{background:var(--rose-d);color:var(--rose)}
+.bo{background:var(--orange-d);color:var(--orange)}
+.bp{background:var(--pink-d);color:var(--pink)}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr}}
+@media(max-width:820px){.g3{grid-template-columns:1fr 1fr}.g4{grid-template-columns:1fr 1fr}}
+
+/* MINI CARD */
+.mc{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px}
+.mc-lbl{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
+.mc-val{font-size:20px;font-weight:900;font-family:var(--mono);line-height:1.3}
+.mc-sub{font-size:12px;color:var(--text2);margin-top:5px;line-height:1.55}
+
+/* FORMULA */
+.fml{background:var(--bg3);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:12px 16px;margin:8px 0;font-family:var(--mono);font-size:13px;color:var(--teal)}
+.fml small{display:block;font-family:var(--sans);font-size:12px;color:var(--text2);margin-top:5px}
+
+/* LIST */
+.ul{list-style:none;padding:0}
+.ul li{padding:4px 0;font-size:13px;color:var(--text2);display:flex;align-items:flex-start;gap:8px}
+.ul li::before{content:'›';color:var(--teal);font-weight:700;flex-shrink:0;margin-top:1px}
+.ul li b{color:var(--text)}
+
+/* ALERT */
+.abox{border-radius:8px;padding:10px 14px;font-size:13px;margin:8px 0;border:1px solid}
+.a-t{background:var(--teal-d);border-color:rgba(45,212,191,.3);color:var(--teal)}
+.a-b{background:var(--blue-d);border-color:rgba(56,189,248,.3);color:var(--blue)}
+.a-g{background:var(--green-d);border-color:rgba(74,222,128,.3);color:var(--green)}
+.a-r{background:var(--rose-d);border-color:rgba(244,63,94,.3);color:var(--rose)}
+.a-a{background:var(--amber-d);border-color:rgba(251,191,36,.3);color:var(--amber)}
+.a-o{background:var(--orange-d);border-color:rgba(249,115,22,.3);color:var(--orange)}
+.a-v{background:var(--violet-d);border-color:rgba(129,140,248,.3);color:var(--violet)}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+th{text-align:left;padding:8px 12px;background:var(--bg3);color:var(--text2);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+td b{color:var(--rose)}
+td .ht{color:var(--teal);font-weight:700}
+td .hb{color:var(--blue);font-weight:700}
+td .ha{color:var(--amber);font-weight:700}
+td .hg{color:var(--green);font-weight:700}
+
+/* STITLE */
+.stl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin:22px 0 10px;display:flex;align-items:center;gap:8px}
+.stl::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* FREQ */
+.freq-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.freq-name{font-size:13px;color:var(--text);min-width:210px;font-weight:500}
+.freq-bg{flex:1;height:7px;background:var(--bg3);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.freq-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--teal),var(--blue))}
+.freq-star{font-size:12px;color:var(--amber);min-width:75px;text-align:right}
+
+/* FLOW */
+.flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 0}
+.fbox{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 14px;font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;text-align:center}
+.fbox.ht{border-color:var(--teal);color:var(--teal);background:var(--teal-d)}
+.fbox.hb{border-color:var(--blue);color:var(--blue);background:var(--blue-d)}
+.fbox.ha{border-color:var(--amber);color:var(--amber);background:var(--amber-d)}
+.farrow{color:var(--text3);font-size:18px;font-weight:700}
+
+/* TIMELINE */
+.tl{padding:8px 0}
+.tl-item{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
+.tl-dot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:2px}
+.tl-body{flex:1;padding-top:6px}
+.tl-time{font-size:12px;font-family:var(--mono);font-weight:700}
+.tl-desc{font-size:13px;color:var(--text2)}
+
+/* BWS 단계 */
+.bws-item{display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;margin-bottom:8px}
+.bws-dist{font-size:22px;font-weight:900;font-family:var(--mono);min-width:80px}
+.bws-bar-wrap{flex:1}
+.bws-label{font-size:12px;color:var(--text2);margin-bottom:4px}
+.bws-interval{font-size:13px;font-weight:700}
+
+/* CALC */
+.calc-box{background:var(--bg3);border-radius:10px;padding:16px;margin-top:10px}
+.cr-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.cr-row label{font-size:12px;color:var(--text2);min-width:110px}
+.ci{width:100px;padding:7px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;font-family:var(--mono)}
+.ci:focus{outline:none;border-color:var(--teal)}
+.cbtn{padding:7px 18px;border-radius:6px;background:var(--teal-d);border:1px solid var(--teal);color:var(--teal);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.cbtn:hover{background:var(--teal);color:#fff}
+.cres{font-size:18px;font-weight:700;font-family:var(--mono);color:var(--green);margin-top:10px;line-height:1.7}
+
+/* TRAP */
+.trap-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.trap-item{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);font-size:13px}
+.trap-item:last-child{border-bottom:none}
+.trap-num{min-width:24px;height:24px;border-radius:50%;background:var(--rose-d);border:1px solid rgba(244,63,94,.3);color:var(--rose);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.trap-q{color:var(--text2);flex:1}
+.trap-a{color:var(--amber);font-weight:700;min-width:160px;text-align:right;font-size:12px}
+
+/* QUIZ */
+.qc{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color .2s}
+.qc:hover{border-color:var(--border2)}
+.qc.open{border-color:var(--teal)}
+.qc-q{font-size:13px;color:var(--text);line-height:1.75}
+.qtag{font-size:11px;color:var(--text3);float:right;margin-left:8px}
+.qc-ans{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.qc.open .qc-ans{display:block}
+.ans-lbl{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--green);margin-bottom:6px}
+.ans-txt{font-size:13px;color:var(--text2);line-height:1.7}
+.ans-key{color:var(--amber);font-weight:700}
+
+/* MOCK */
+.pb-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:20px}
+.pb-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pb-lbl{font-size:13px;color:var(--text2)}
+.pb-sc{font-size:22px;font-weight:900;font-family:var(--mono);color:var(--amber)}
+.pb-bg{height:6px;background:var(--bg);border-radius:3px;overflow:hidden}
+.pb-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--teal),var(--blue));transition:width .5s}
+.mq{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.mq-num{font-size:11px;font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:8px}
+.mq-text{font-size:14px;font-weight:600;color:#fff;margin-bottom:14px;line-height:1.7}
+.opts{list-style:none;padding:0}
+.opts li{margin-bottom:8px}
+.obtn{width:100%;text-align:left;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.obtn:hover:not(:disabled){background:var(--bg4);border-color:var(--border2);color:var(--text)}
+.obtn.ok{background:var(--green-d);border-color:var(--green);color:var(--green)}
+.obtn.no{background:var(--rose-d);border-color:var(--rose);color:var(--rose)}
+.obtn:disabled{cursor:default}
+.exp{display:none;margin-top:12px;padding:12px;background:var(--bg3);border-radius:8px;font-size:13px;color:var(--text2);line-height:1.7;border-left:3px solid var(--teal)}
+.exp.show{display:block}
+.exp-lbl{font-size:11px;font-weight:700;color:var(--teal);margin-bottom:6px;letter-spacing:1px}
+
+/* RESULT */
+.res-box{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border);border-radius:16px;padding:28px;text-align:center;margin-top:20px;display:none}
+.res-box.show{display:block}
+.res-sc{font-size:56px;font-weight:900;font-family:var(--mono);margin-bottom:6px}
+.res-lbl{font-size:14px;color:var(--text2)}
+.res-msg{font-size:16px;font-weight:700;margin-top:14px;color:var(--text)}
+.retry-btn{margin-top:18px;padding:11px 30px;border-radius:8px;background:var(--teal-d);border:1px solid var(--teal);color:var(--teal);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.retry-btn:hover{background:var(--teal);color:#fff}
+
+/* MEMORY */
+.mem-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .3s;min-height:130px;display:flex;flex-direction:column;justify-content:center}
+.mem-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.35);border-color:var(--teal)}
+.mem-kw{font-size:18px;font-weight:900;font-family:var(--mono);color:var(--teal);margin-bottom:7px;line-height:1.3}
+.mem-hint{font-size:12px;color:var(--text3)}
+.mem-back{display:none}
+.mem-card.flip .mem-front{display:none}
+.mem-card.flip .mem-back{display:block}
+.mem-ans{font-size:13px;color:var(--text);line-height:1.7}
+
+hr.div{border:none;border-top:1px solid var(--border);margin:20px 0}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-lbl">자동차정비기능사 전기전자</div>
+  <h1>🛡️ 편의장치 완벽 정리</h1>
+  <p>와이퍼 · 에어백 · BWS · ETACS · TPMS · 에어컨 · 기출 분석 · 모의고사 20문항</p>
+  <div class="chips">
+    <span class="chip ct">와이퍼 3요소</span>
+    <span class="chip cb">에어백 타임라인</span>
+    <span class="chip cv">BWS 3단계 경보</span>
+    <span class="chip cg">ETACS 제어 수치</span>
+    <span class="chip ca">에어컨 냉매 순환</span>
+    <span class="chip cr">R-134a 특징</span>
+    <span class="chip co">FATC 센서</span>
+    <span class="chip cp">함정 TOP 12</span>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab on"  onclick="st('overview',this)">📊 전체 개요</button>
+  <button class="tab"     onclick="st('wiper',  this)">🌧️ 와이퍼</button>
+  <button class="tab"     onclick="st('airbag', this)">💥 에어백</button>
+  <button class="tab"     onclick="st('bws',    this)">📡 BWS·TPMS</button>
+  <button class="tab"     onclick="st('etacs',  this)">⏱️ ETACS</button>
+  <button class="tab"     onclick="st('ac',     this)">❄️ 에어컨</button>
+  <button class="tab"     onclick="st('trap',   this)">⚠️ 함정 분석</button>
+  <button class="tab"     onclick="st('past',   this)">📄 기출 분석</button>
+  <button class="tab"     onclick="st('mock',   this)">✏️ 모의고사</button>
+  <button class="tab"     onclick="st('mem',    this)">🧠 암기 카드</button>
+</div>
+
+<!-- ════════════════════
+     TAB 1: 전체 개요
+════════════════════ -->
+<div id="s-overview" class="sec on">
+
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">📊 편의장치 단원 출제 빈도</div></div>
+    <div class="freq-row"><span class="freq-name">에어컨 냉매 순환순서</span><div class="freq-bg"><div class="freq-fill" style="width:98%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-name">R-134a 냉매 특징</span><div class="freq-bg"><div class="freq-fill" style="width:95%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-name">와이퍼 3요소 (보호상자 아님)</span><div class="freq-bg"><div class="freq-fill" style="width:90%"></div></div><span class="freq-star">★★★★★</span></div>
+    <div class="freq-row"><span class="freq-name">에어백 팽창 가스 (질소 N₂)</span><div class="freq-bg"><div class="freq-fill" style="width:87%"></div></div><span class="freq-star">★★★★☆</span></div>
+    <div class="freq-row"><span class="freq-name">BWS 3단계 거리 기준</span><div class="freq-bg"><div class="freq-fill" style="width:85%"></div></div><span class="freq-star">★★★★☆</span></div>
+    <div class="freq-row"><span class="freq-name">ETACS 제어 시간 수치</span><div class="freq-bg"><div class="freq-fill" style="width:80%"></div></div><span class="freq-star">★★★★☆</span></div>
+    <div class="freq-row"><span class="freq-name">FATC 입력 센서 (차고센서 아님)</span><div class="freq-bg"><div class="freq-fill" style="width:78%"></div></div><span class="freq-star">★★★☆☆</span></div>
+    <div class="freq-row"><span class="freq-name">에어백 작동 시간 순서</span><div class="freq-bg"><div class="freq-fill" style="width:75%"></div></div><span class="freq-star">★★★☆☆</span></div>
+    <div class="freq-row"><span class="freq-name">팽창밸브 vs 오리피스 튜브</span><div class="freq-bg"><div class="freq-fill" style="width:70%"></div></div><span class="freq-star">★★★☆☆</span></div>
+    <div class="freq-row"><span class="freq-name">TPMS 경고 기준 (26~27psi)</span><div class="freq-bg"><div class="freq-fill" style="width:65%"></div></div><span class="freq-star">★★★☆☆</span></div>
+  </div>
+
+  <!-- 편의장치 한눈에 정리 -->
+  <p class="stl">편의장치 핵심 수치 한눈에 보기</p>
+  <div class="g4">
+    <div class="mc"><div class="mc-lbl">와이퍼 3요소</div><div class="mc-val" style="color:var(--teal);font-size:14px">전동기<br>링크기구<br>블레이드</div><div class="mc-sub">보호상자 ❌</div></div>
+    <div class="mc"><div class="mc-lbl">에어백 완전팽창</div><div class="mc-val" style="color:var(--rose)">0.35~<br>0.4초</div><div class="mc-sub">충돌 후 시간</div></div>
+    <div class="mc"><div class="mc-lbl">BWS 연속 경보</div><div class="mc-val" style="color:var(--amber)">40cm↓</div><div class="mc-sub">3차 경보 기준</div></div>
+    <div class="mc"><div class="mc-lbl">ETACS 열선 타이머</div><div class="mc-val" style="color:var(--blue)">15분</div><div class="mc-sub">뒷유리 열선</div></div>
+    <div class="mc"><div class="mc-lbl">에어컨 냉매</div><div class="mc-val" style="color:var(--green)">R-134a</div><div class="mc-sub">R-12 대체 신냉매</div></div>
+    <div class="mc"><div class="mc-lbl">에어백 팽창 가스</div><div class="mc-val" style="color:var(--violet)">N₂ 질소</div><div class="mc-sub">CO₂ 아님!</div></div>
+    <div class="mc"><div class="mc-lbl">TPMS 경고 점등</div><div class="mc-val" style="color:var(--orange)">26~27<br>psi↓</div><div class="mc-sub">경고 기준</div></div>
+    <div class="mc"><div class="mc-lbl">파워윈도우 타이머</div><div class="mc-val" style="color:var(--blue)">30초</div><div class="mc-sub">IG OFF 후 유지</div></div>
+  </div>
+
+</div>
+
+<!-- ════════════════════
+     TAB 2: 와이퍼
+════════════════════ -->
+<div id="s-wiper" class="sec">
+
+  <p class="stl">① 와이퍼 장치 3요소</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">와이퍼 3구성 요소</div><span class="bdg br">★★★★★ 반드시 암기</span></div>
+    <div class="g3">
+      <div class="mc" style="text-align:center">
+        <div class="mc-lbl">요소 ①</div>
+        <div style="font-size:28px;margin-bottom:8px">⚙️</div>
+        <div style="font-size:15px;font-weight:900;color:var(--teal)">와이퍼 전동기</div>
+        <div class="mc-sub">페라이트 자석식<br>브러시 3개, 저/고속 변환<br>복권식(저속) / 직권식(고속)</div>
+      </div>
+      <div class="mc" style="text-align:center">
+        <div class="mc-lbl">요소 ②</div>
+        <div style="font-size:28px;margin-bottom:8px">🔗</div>
+        <div style="font-size:15px;font-weight:900;color:var(--teal)">링크 기구</div>
+        <div class="mc-sub">전동기 회전운동 →<br>와이퍼 왕복운동으로 변환<br>크랭크·링크·피벗 구성</div>
+      </div>
+      <div class="mc" style="text-align:center">
+        <div class="mc-lbl">요소 ③</div>
+        <div style="font-size:28px;margin-bottom:8px">🪟</div>
+        <div style="font-size:15px;font-weight:900;color:var(--teal)">와이퍼 블레이드</div>
+        <div class="mc-sub">유리면 직접 접촉<br>물기·이물질 제거<br>고무 재질</div>
+      </div>
+    </div>
+    <div class="abox a-r" style="margin-top:12px">
+      ⚠️ <b>함정:</b> "보호 상자"는 와이퍼 구성요소가 아닙니다! 기출 반복 출제!
+    </div>
+  </div>
+
+  <p class="stl">② 와이퍼 전동기 특징</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">와이퍼 전동기 종류</div><span class="bdg bt">전동기 비교</span></div>
+      <table>
+        <tr><th>방식</th><th>특징</th><th>속도</th></tr>
+        <tr><td><b>페라이트 자석식</b></td><td>브러시 3개, 저/고속 전환</td><td>일반 사용</td></tr>
+        <tr><td>복권식 (저속)</td><td>계자+전기자 직렬+병렬</td><td>저속 와이핑</td></tr>
+        <tr><td>직권식 (고속)</td><td>계자+전기자 직렬</td><td>고속 와이핑</td></tr>
+      </table>
+      <div class="abox a-t" style="margin-top:8px">
+        💡 <b>정위치 정지:</b> 스위치 OFF 시 자동으로 하단 정위치에 정지<br>
+        캠 스위치 + 릴레이 회로로 구현
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">INT(간헐) 와이퍼</div><span class="bdg ba">편의 기능</span></div>
+      <ul class="ul">
+        <li>ETACS 제어로 간헐 작동</li>
+        <li>약한 비 → 1~30초 간격 조절</li>
+        <li>INT 스위치로 간격 설정</li>
+        <li>와셔 연동: 와셔 OFF 후 <b>2.5~3.8초</b> 뒤 정지</li>
+      </ul>
+      <div class="abox a-b" style="margin-top:8px">
+        💡 와이퍼 고속 작동 스위치: 복권→직권 전환<br>
+        브러시가 3개인 이유: 저속·고속 2개 속도 구현
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════
+     TAB 3: 에어백
+════════════════════ -->
+<div id="s-airbag" class="sec">
+
+  <p class="stl">① 에어백 작동 타임라인</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">에어백 작동 시간 순서</div><span class="bdg br">★★★★ 암기</span></div>
+    <div class="tl">
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--blue-d);border:1px solid var(--blue);color:var(--blue)">1</div>
+        <div class="tl-body"><div class="tl-time" style="color:var(--blue)">충돌 후 0.15초</div><div class="tl-desc">가스 발생기(인플레이터) <b>작동 시작</b></div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--amber-d);border:1px solid var(--amber);color:var(--amber)">2</div>
+        <div class="tl-body"><div class="tl-time" style="color:var(--amber)">충돌 후 0.2초</div><div class="tl-desc">에어백 커버 찢어짐 → <b>팽창 시작</b></div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--rose-d);border:1px solid var(--rose);color:var(--rose)">3</div>
+        <div class="tl-body"><div class="tl-time" style="color:var(--rose)">충돌 후 0.35~0.4초</div><div class="tl-desc"><b>에어백 완전 팽창</b> 완료</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--violet-d);border:1px solid var(--violet);color:var(--violet)">4</div>
+        <div class="tl-body"><div class="tl-time" style="color:var(--violet)">충돌 후 0.4~0.8초</div><div class="tl-desc">운전자 에어백에 충돌 + <b>가스 배출</b> (완충)</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--green-d);border:1px solid var(--green);color:var(--green)">5</div>
+        <div class="tl-body"><div class="tl-time" style="color:var(--green)">충돌 후 1~1.2초</div><div class="tl-desc">가스 완전 방출, <b>정상 시야 확보</b></div></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="stl">② 에어백 핵심 정보</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">에어백 구성 및 팽창 가스</div><span class="bdg bt">암기</span></div>
+      <div class="g2" style="gap:8px;margin-bottom:10px">
+        <div class="mc">
+          <div class="mc-lbl">팽창 가스</div>
+          <div class="mc-val" style="color:var(--teal)">질소 N₂</div>
+          <div class="mc-sub">CO₂·O₂ 아님!</div>
+        </div>
+        <div class="mc">
+          <div class="mc-lbl">에어백 용량</div>
+          <div class="mc-val" style="color:var(--amber)">50~60ℓ</div>
+          <div class="mc-sub">운전석 기준</div>
+        </div>
+      </div>
+      <div class="abox a-t">💡 SRS = Supplemental Restraint System (안전벨트 <b>보조</b>장치)</div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">에어백 작동 조건</div><span class="bdg ba">작동 기준</span></div>
+      <ul class="ul">
+        <li>충돌 감지 센서(G-sensor) 감지</li>
+        <li>정면 충돌 시 <b>주로 작동</b></li>
+        <li>측면 충돌 → 사이드 에어백</li>
+        <li>전복 감지 → 커튼 에어백</li>
+      </ul>
+      <div class="abox a-r" style="margin-top:8px">⚠️ 에어백 미작동 경우: 후방 추돌, 저속 충돌, 전복(일부)</div>
+    </div>
+  </div>
+
+  <p class="stl">③ 에어백 정비 주의사항</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">에어백 정비 시 안전수칙</div><span class="bdg br">실기 연계</span></div>
+    <div class="g2">
+      <ul class="ul">
+        <li>배터리 (−) 케이블 탈거 후 <b>일정 시간 대기</b></li>
+        <li>에어백 모듈에 <b>충격·열</b> 금지</li>
+        <li>클럭 스프링 교체 시 스티어링 중립 상태</li>
+        <li>전개 에어백은 <b>재사용 불가</b></li>
+      </ul>
+      <ul class="ul">
+        <li>에어백 저항 측정: <b>에어백 전용 저항계</b></li>
+        <li>멀티미터 직접 연결 금지 (오폭발 위험)</li>
+        <li>점화 스위치 ON 상태 작업 금지</li>
+        <li>에어백 인플레이터 → <b>위험물 처리</b></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════
+     TAB 4: BWS·TPMS
+════════════════════ -->
+<div id="s-bws" class="sec">
+
+  <p class="stl">① 후진 경보장치 (BWS) 3단계</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">BWS 경보 단계별 거리 & 간격</div><span class="bdg br">★★★★ 수치 암기</span></div>
+    <div class="bws-item">
+      <div class="bws-dist" style="color:var(--green)">120cm↓</div>
+      <div class="bws-bar-wrap">
+        <div class="bws-label">1차 경보</div>
+        <div class="bws-interval" style="color:var(--green)">340ms 간격 — 삐— &nbsp; 삐— &nbsp; 삐—</div>
+      </div>
+    </div>
+    <div class="bws-item">
+      <div class="bws-dist" style="color:var(--amber)">80cm↓</div>
+      <div class="bws-bar-wrap">
+        <div class="bws-label">2차 경보</div>
+        <div class="bws-interval" style="color:var(--amber)">170ms 간격 — 삐삐 삐삐 삐삐</div>
+      </div>
+    </div>
+    <div class="bws-item">
+      <div class="bws-dist" style="color:var(--rose)">40cm↓</div>
+      <div class="bws-bar-wrap">
+        <div class="bws-label">3차 경보</div>
+        <div class="bws-interval" style="color:var(--rose)">연속음 — 삐이이이이이이이이</div>
+      </div>
+    </div>
+    <div class="fml" style="margin-top:12px">
+      거리 D = T × V / 2
+      <small>T=초음파 왕복 시간[s], V=음속(340m/s), ÷2=편도 거리</small>
+    </div>
+    <div class="abox a-t" style="margin-top:8px">💡 구성: 컨트롤 유닛 + 초음파 센서 <b>4개</b> + 경보기(부저)</div>
+  </div>
+
+  <!-- BWS 계산기 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">🧮 BWS 초음파 거리 계산기</div><span class="bdg ba">계산 문제</span></div>
+    <div class="calc-box">
+      <div class="cr-row"><label>왕복 시간 T</label><input class="ci" type="number" id="bws-t" value="0.005" step="0.001"><span style="font-size:12px;color:var(--text3)">초</span></div>
+      <div class="cr-row"><label>음속 V</label><input class="ci" type="number" id="bws-v" value="340"><span style="font-size:12px;color:var(--text3)">m/s</span></div>
+      <button class="cbtn" onclick="calcBWS()">계산하기</button>
+      <div class="cres" id="bws-res">—</div>
+    </div>
+  </div>
+
+  <p class="stl">② TPMS (타이어 공기압 경보장치)</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">TPMS 경고 기준</div><span class="bdg ba">수치 암기</span></div>
+      <div class="g2" style="gap:8px;margin-bottom:10px">
+        <div class="mc">
+          <div class="mc-lbl">경고등 점등</div>
+          <div class="mc-val" style="color:var(--rose)">26~27<br>psi↓</div>
+          <div class="mc-sub">이하 시 경고등 점등</div>
+        </div>
+        <div class="mc">
+          <div class="mc-lbl">경고등 소등</div>
+          <div class="mc-val" style="color:var(--green)">30~31<br>psi↑</div>
+          <div class="mc-sub">이상 시 경고등 소등</div>
+        </div>
+      </div>
+      <table>
+        <tr><th>항목</th><th>사양</th></tr>
+        <tr><td>센서 무게</td><td><b>약 40g</b></td></tr>
+        <tr><td>배터리 수명</td><td><b>약 10년</b></td></tr>
+        <tr><td>장착 위치</td><td>각 타이어 휠 안쪽</td></tr>
+        <tr><td>신호 전달</td><td>무선 RF 신호</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">TPMS 특징</div><span class="bdg bb">원리</span></div>
+      <ul class="ul">
+        <li>각 휠에 압력/온도 센서 내장</li>
+        <li>무선으로 ECU에 신호 전송</li>
+        <li>타이어 교체 시 <b>재학습 필요</b></li>
+        <li>휠 밸런스 작업 후 재설정</li>
+        <li>경고등 켜지면 <b>즉시 압력 점검</b></li>
+      </ul>
+      <div class="abox a-a" style="margin-top:8px">⚠️ TPMS 경고등 무시 시 → 타이어 손상·사고 위험</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════
+     TAB 5: ETACS
+════════════════════ -->
+<div id="s-etacs" class="sec">
+
+  <p class="stl">ETACS (Electronic Time & Alarm Control System)</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">ETACS 제어 기능 전체</div><span class="bdg bt">★★★★ 시간 수치 암기</span></div>
+    <table>
+      <tr><th>제어 기능</th><th>수치/조건</th><th>비고</th></tr>
+      <tr><td><b>뒷유리 열선 타이머</b></td><td><b class="ht">15분</b> 작동 후 자동 OFF</td><td>과열 방지</td></tr>
+      <tr><td><b>파워윈도우 타이머</b></td><td>IG OFF 후 <b class="ht">30초</b> 유지</td><td>탑승자 편의</td></tr>
+      <tr><td><b>룸램프 감광 소등</b></td><td>도어 닫힘 후 <b class="ht">5~6초</b> 지연</td><td>75% 감광 후 서서히</td></tr>
+      <tr><td><b>와셔 연동 와이퍼</b></td><td>와셔 OFF 후 <b class="ht">2.5~3.8초</b> 후 정지</td><td>잔여 물기 제거</td></tr>
+      <tr><td>안전벨트 경고등</td><td>주기 0.6초, 차임벨 0.9초</td><td>듀티 50%</td></tr>
+      <tr><td>도어 열림 경고</td><td>주행 중 도어 열림 감지</td><td>경고음 발생</td></tr>
+    </table>
+  </div>
+
+  <!-- ETACS 수치 카드 -->
+  <div class="g4" style="margin-top:12px">
+    <div class="mc" style="text-align:center">
+      <div class="mc-lbl">뒷유리 열선</div>
+      <div class="mc-val" style="color:var(--teal)">15분</div>
+      <div class="mc-sub">자동 OFF</div>
+    </div>
+    <div class="mc" style="text-align:center">
+      <div class="mc-lbl">파워윈도우</div>
+      <div class="mc-val" style="color:var(--blue)">30초</div>
+      <div class="mc-sub">IG OFF 후 유지</div>
+    </div>
+    <div class="mc" style="text-align:center">
+      <div class="mc-lbl">룸램프 소등</div>
+      <div class="mc-val" style="color:var(--amber)">5~6초</div>
+      <div class="mc-sub">지연 소등</div>
+    </div>
+    <div class="mc" style="text-align:center">
+      <div class="mc-lbl">와셔 연동</div>
+      <div class="mc-val" style="color:var(--violet)">2.5~3.8초</div>
+      <div class="mc-sub">와이퍼 정지 지연</div>
+    </div>
+  </div>
+
+  <p class="stl">경고등 — 가솔린 vs 디젤 구분</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">가솔린 차량 경고등</div><span class="bdg bt">공통</span></div>
+      <ul class="ul">
+        <li><b>엔진오일 경고등</b> — 유압 낮을 때</li>
+        <li><b>충전 경고등</b> — 발전기 이상</li>
+        <li><b>연료 잔량 경고등</b></li>
+        <li><b>냉각수 온도 경고등</b></li>
+        <li>ABS 경고등</li>
+        <li>TPMS 경고등</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">디젤 전용 추가 경고등</div><span class="bdg ba">디젤만!</span></div>
+      <ul class="ul">
+        <li><b class="ht">연료 수분감지 경고등</b> — 디젤 전용!</li>
+        <li><b>예열 플러그 경고등</b> — 디젤 전용!</li>
+        <li><b>DPF 경고등</b> — 매연 필터</li>
+        <li>요소수 경고등 (urea/AdBlue)</li>
+      </ul>
+      <div class="abox a-r" style="margin-top:8px">⚠️ <b>함정:</b> 가솔린에도 수분감지 경고등이 있다? → <b>NO! 디젤 전용</b></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════
+     TAB 6: 에어컨
+════════════════════ -->
+<div id="s-ac" class="sec">
+
+  <p class="stl">① 에어컨 냉매 순환 순서 — 최다 출제!</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">에어컨 냉매 순환 경로</div><span class="bdg br">★★★★★ 반드시 암기</span></div>
+    <div class="flow">
+      <div class="fbox ht">압축기<br>(Compressor)</div>
+      <div class="farrow">→</div>
+      <div class="fbox ha">응축기<br>(Condenser)</div>
+      <div class="farrow">→</div>
+      <div class="fbox hb">건조기<br>(Receiver Drier)</div>
+      <div class="farrow">→</div>
+      <div class="fbox ht">팽창밸브<br>(Exp. Valve)</div>
+      <div class="farrow">→</div>
+      <div class="fbox" style="border-color:var(--violet);color:var(--violet);background:var(--violet-d)">증발기<br>(Evaporator)</div>
+      <div class="farrow">→</div>
+      <div class="fbox ht">압축기로</div>
+    </div>
+    <div class="abox a-r" style="margin-top:10px">
+      ⚠️ <b>함정 1:</b> "건조기와 팽창밸브 순서 바뀐 것" → 건조기는 <b>반드시 팽창밸브 앞!</b><br>
+      이유: 수분 제거 후 팽창밸브로 보내야 팽창밸브 동결 방지
+    </div>
+  </div>
+
+  <p class="stl">② 각 부품별 역할</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">에어컨 부품 역할 완전 정리</div><span class="bdg bt">부품 암기</span></div>
+    <table>
+      <tr><th>부품</th><th>역할</th><th>냉매 상태</th><th>핵심</th></tr>
+      <tr><td><b class="ht">압축기</b></td><td>냉매 압축</td><td>저압 기체 → 고압 고온 기체</td><td>엔진 벨트 구동, 클러치 ON/OFF</td></tr>
+      <tr><td><b class="ha">응축기</b></td><td>냉매 액화 (열 방출)</td><td>고압 기체 → 고압 액체</td><td>라디에이터 앞 설치, 공냉식</td></tr>
+      <tr><td><b class="hb">건조기</b></td><td>수분·불순물 제거, 냉매 저장</td><td>고압 액체 유지</td><td>팽창밸브 <b>앞</b>에 위치</td></tr>
+      <tr><td><b class="ht">팽창밸브</b></td><td>고압 액체 → 저압 액체 (압력 강하)</td><td>중온고압 → 저온저압</td><td>유량 조절 가능 (가변)</td></tr>
+      <tr><td><b style="color:var(--violet)">증발기</b></td><td>냉매 증발 (열 흡수) → 냉각</td><td>저온저압 액체 → 기체</td><td>실내 냉각, 제습 효과</td></tr>
+    </table>
+  </div>
+
+  <p class="stl">③ 신냉매 R-134a</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">R-134a 특징</div><span class="bdg br">★★★★★ 최빈출</span></div>
+      <ul class="ul">
+        <li><b>R-12</b> 대체 신냉매 (오존층 보호)</li>
+        <li><b>무색, 무취, 무미</b></li>
+        <li>화학적으로 <b>안정</b>, 내열성 우수</li>
+        <li><b>염소(Cl) 성분 없음</b> → 오존층 파괴 안 함</li>
+        <li>온난화 계수가 R-12보다 <b>낮음</b></li>
+        <li>R-12와 <b>혼용 불가</b></li>
+      </ul>
+      <div class="abox a-r" style="margin-top:8px">
+        ⚠️ <b>함정:</b> "R-134a는 액화·증발이 안 된다" → <b>NO!</b><br>
+        액화·증발은 정상적으로 됩니다. 오존층 보호 이유 = <b>Cl 없음</b>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">냉매 취급 주의사항</div><span class="bdg ba">★★★ 안전</span></div>
+      <ul class="ul">
+        <li><b>직사광선</b> 비치는 곳 보관 금지</li>
+        <li><b>50℃ 이상</b> 가열 금지</li>
+        <li>냉매 충전 시 용기에 <b>80% 이하</b>만 채움 (폭발 위험)</li>
+        <li>피부 접촉 금지 (동상 위험)</li>
+        <li>보호 캡 항상 씌워둠</li>
+      </ul>
+      <div class="abox a-r" style="margin-top:8px">
+        ⚠️ <b>함정:</b> "냉매 충전 시 완전히 채운다" → <b>NO!</b> 80% 이하만!
+      </div>
+    </div>
+  </div>
+
+  <p class="stl">④ FATC (전자동 에어컨)</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">FATC ECU 입력 센서</div><span class="bdg bt">★★★ 출제</span></div>
+      <table>
+        <tr><th>센서</th><th>역할</th></tr>
+        <tr><td><b>실내온도 센서</b></td><td>차량 내부 온도 감지</td></tr>
+        <tr><td><b>외기온도 센서</b></td><td>외부 온도 감지</td></tr>
+        <tr><td><b>일사량 센서</b></td><td>태양 복사열 감지</td></tr>
+        <tr><td><b>핀서모 센서</b></td><td>증발기 온도 감지 (결빙 방지)</td></tr>
+        <tr><td>수온 센서</td><td>냉각수 온도</td></tr>
+        <tr><td>AQS 센서</td><td>공기질 감지</td></tr>
+      </table>
+      <div class="abox a-r" style="margin-top:8px">⚠️ <b>함정:</b> 차고 센서는 ECS(현가장치) 센서 → FATC와 <b>무관!</b></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">FATC ECU 제어 대상</div><span class="bdg ba">출력 요소</span></div>
+      <ul class="ul">
+        <li><b>히터 밸브</b> — 온수 유량 조절</li>
+        <li><b>송풍기(블로어) 속도</b></li>
+        <li><b>컴프레서 클러치</b> ON/OFF</li>
+        <li><b>에어믹스 도어</b> — 온도 조절</li>
+        <li><b>모드 도어</b> — 바람 방향</li>
+        <li><b>내외기 도어</b> — 내기/외기 전환</li>
+      </ul>
+      <div class="abox a-t" style="margin-top:8px">💡 리시버 드라이어는 FATC가 제어하지 않음 (수동 역할)</div>
+    </div>
+  </div>
+
+  <p class="stl">⑤ 팽창밸브 vs 오리피스 튜브</p>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">팽창밸브 (Expansion Valve)</div><span class="bdg bt">가변 유량</span></div>
+      <ul class="ul">
+        <li>고압 액체 → 저압 액체 변환</li>
+        <li>유량 <b>조절 가능</b> (가변)</li>
+        <li>증발기 출구 온도에 따라 자동 조절</li>
+        <li><b>건조기</b>와 함께 사용</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">오리피스 튜브 (Orifice Tube)</div><span class="bdg ba">고정 유량</span></div>
+      <ul class="ul">
+        <li>고압 액체 → 저압 액체 변환</li>
+        <li>유량 <b>조절 불가</b> (항상 고정 개방)</li>
+        <li>건조기 대신 <b>어큐뮬레이터</b> 사용</li>
+        <li>어큐뮬레이터 위치: 증발기 <b>뒤</b></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════
+     TAB 7: 함정 분석
+════════════════════ -->
+<div id="s-trap" class="sec">
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">⚠️ 편의장치 자주 틀리는 함정 TOP 12</div></div>
+    <p style="font-size:13px;color:var(--text2)">기출에서 반복 출제되는 오답 선택지 — 확실히 암기하세요!</p>
+  </div>
+
+  <div class="trap-wrap">
+    <div class="trap-item"><span class="trap-num">1</span><span class="trap-q">와이퍼 3요소에 '보호 상자'가 포함된다?</span><span class="trap-a">❌ 전동기·링크·블레이드</span></div>
+    <div class="trap-item"><span class="trap-num">2</span><span class="trap-q">에어백 팽창 가스는 이산화탄소(CO₂)이다?</span><span class="trap-a">❌ 질소(N₂)</span></div>
+    <div class="trap-item"><span class="trap-num">3</span><span class="trap-q">에어백 완전 팽창 시간은 0.2초이다?</span><span class="trap-a">❌ 0.35~0.4초</span></div>
+    <div class="trap-item"><span class="trap-num">4</span><span class="trap-q">BWS 40cm에서 부저가 170ms 간격으로 울린다?</span><span class="trap-a">❌ 연속음</span></div>
+    <div class="trap-item"><span class="trap-num">5</span><span class="trap-q">ETACS 파워윈도우는 IG OFF 후 15분 유지된다?</span><span class="trap-a">❌ 30초 유지</span></div>
+    <div class="trap-item"><span class="trap-num">6</span><span class="trap-q">R-134a는 액화·증발이 안 돼서 오존층이 보존된다?</span><span class="trap-a">❌ 염소(Cl) 없어서</span></div>
+    <div class="trap-item"><span class="trap-num">7</span><span class="trap-q">냉매 충전 시 용기에 완전히 채운다?</span><span class="trap-a">❌ 80% 이하만</span></div>
+    <div class="trap-item"><span class="trap-num">8</span><span class="trap-q">에어컨 순환: 압축기→응축기→팽창밸브→건조기?</span><span class="trap-a">❌ 건조기→팽창밸브 순서</span></div>
+    <div class="trap-item"><span class="trap-num">9</span><span class="trap-q">FATC 입력 센서에 차고 센서가 포함된다?</span><span class="trap-a">❌ ECS 센서 (무관)</span></div>
+    <div class="trap-item"><span class="trap-num">10</span><span class="trap-q">가솔린 차에도 연료 수분감지 경고등이 있다?</span><span class="trap-a">❌ 디젤 전용</span></div>
+    <div class="trap-item"><span class="trap-num">11</span><span class="trap-q">오리피스 튜브도 팽창밸브처럼 유량 조절이 가능?</span><span class="trap-a">❌ 유량 조절 불가</span></div>
+    <div class="trap-item"><span class="trap-num">12</span><span class="trap-q">TPMS 경고등은 25psi 이하에서 점등된다?</span><span class="trap-a">❌ 26~27psi 이하</span></div>
+  </div>
+
+</div>
+
+<!-- ════════════════════
+     TAB 8: 기출 분석
+════════════════════ -->
+<div id="s-past" class="sec">
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">📋 실제 기출문제 — 클릭하여 해설 확인</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출 최빈출</span>
+    <div class="qc-q">자동차 에어컨 장치의 냉매 순환과정으로 맞는 것은?<br>
+    ㉮ 압축기→응축기→건조기→팽창밸브→증발기<br>
+    ㉯ 압축기→응축기→팽창밸브→건조기→증발기<br>
+    ㉰ 압축기→건조기→팽창밸브→응축기→증발기<br>
+    ㉱ 압축기→팽창밸브→건조기→응축기→증발기</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉮ 압축기→응축기→건조기→팽창밸브→증발기</span><br>
+    건조기는 수분 제거 후 팽창밸브로 보내야 하므로 반드시 팽창밸브 <b>앞</b>에 위치. ㉯번이 단골 오답 함정(건조기·팽창밸브 순서 바뀜).</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출 최빈출</span>
+    <div class="qc-q">윈드실드 와이퍼의 3가지 구성요소가 아닌 것은?<br>
+    ㉮ 와이퍼 전동기 &nbsp; ㉯ 블레이드 &nbsp; ㉰ 링크 기구 &nbsp; ㉱ 보호 상자</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉱ 보호 상자</span><br>
+    와이퍼 3요소: ①와이퍼 전동기, ②링크 기구(회전→왕복운동), ③와이퍼 블레이드. '보호 상자'는 와이퍼 구성요소가 아닙니다. 기출 반복 출제 문제.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">에어백 팽창 가스로 사용되는 것은?<br>
+    ㉮ 산소(O₂) &nbsp; ㉯ 이산화탄소(CO₂) &nbsp; ㉰ 질소(N₂) &nbsp; ㉱ 아르곤(Ar)</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉰ 질소(N₂)</span><br>
+    질소는 급속 팽창이 가능하고 온도 변화가 거의 없어 인체에 안전합니다. CO₂(이산화탄소)는 단골 오답 선택지.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">후진 경보장치(BWS)에서 부저가 연속으로 울리는 장애물 거리는?<br>
+    ㉮ 120cm 이하 &nbsp; ㉯ 80cm 이하 &nbsp; ㉰ 40cm 이하 &nbsp; ㉱ 20cm 이하</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉰ 40cm 이하</span><br>
+    BWS: 1차(120cm→340ms) → 2차(80cm→170ms) → 3차(40cm→연속음). 가까울수록 경보 빈도 증가.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">R-134a 냉매에 대한 설명으로 틀린 것은?<br>
+    ㉮ 무색, 무취, 무미하다<br>
+    ㉯ 화학적으로 안정되고 내열성이 좋다<br>
+    ㉰ 액화 및 증발되지 않아 오존층이 보존된다<br>
+    ㉱ 온난화 계수가 R-12보다 낮다</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉰ 액화 및 증발되지 않아 오존층이 보존된다</span><br>
+    R-134a도 정상적으로 액화·증발됩니다. 오존층 보존 이유는 <b>염소(Cl) 성분이 없기 때문</b>. ㉰가 틀린 설명.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">ETACS에서 뒷유리 열선의 자동 작동 시간은?<br>
+    ㉮ 5분 &nbsp; ㉯ 10분 &nbsp; ㉰ 15분 &nbsp; ㉱ 30분</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉰ 15분</span><br>
+    ETACS: 뒷유리 열선 15분 자동 작동. 파워윈도우 IG OFF 후 30초 유지. 룸램프 5~6초 지연 소등.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">자동차 에어컨에서 고압 기체 냉매를 액화시키는 부품은?<br>
+    ㉮ 압축기 &nbsp; ㉯ 응축기 &nbsp; ㉰ 팽창밸브 &nbsp; ㉱ 증발기</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉯ 응축기 (콘덴서)</span><br>
+    응축기: 고압 기체 → 액체 (열 방출). 라디에이터 앞 설치. 증발기는 반대로 액체 → 기체(열 흡수) → 실내 냉각.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">전자동에어컨(FATC) 시스템의 ECU 입력 센서로 거리가 먼 것은?<br>
+    ㉮ 외기온도 센서 &nbsp; ㉯ 차고 센서 &nbsp; ㉰ 일사량 센서 &nbsp; ㉱ 내기온도 센서</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉯ 차고 센서</span><br>
+    차고 센서는 ECS(전자제어 현가장치) 입력 신호. FATC 입력: 실내온도, 외기온도, 일사량, 핀서모, 수온, AQS 센서.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">에어컨 냉매 취급 시 주의사항으로 틀린 것은?<br>
+    ㉮ 냉매 용기는 직사광선이 비치는 곳에 방치하지 않는다<br>
+    ㉯ 냉매가 피부에 접촉되지 않도록 한다<br>
+    ㉰ 냉매 충전 시 냉매 용기에 완전히 채운다<br>
+    ㉱ 냉매 용기의 보호 캡을 항상 씌워 둔다</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉰ 냉매 충전 시 냉매 용기에 완전히 채운다</span><br>
+    냉매 충전은 폭발 위험으로 용기에 <b>80% 이하</b>만 채워야 합니다. "완전히 채운다"가 틀린 내용.</div></div>
+  </div>
+
+  <div class="qc" onclick="tq(this)">
+    <span class="qtag">기출</span>
+    <div class="qc-q">팽창밸브와 오리피스 튜브의 차이점으로 옳은 것은?<br>
+    ㉮ 팽창밸브는 유량 조절이 불가능하다<br>
+    ㉯ 오리피스 튜브는 유량 조절이 가능하다<br>
+    ㉰ 팽창밸브는 유량 조절이 가능하고 오리피스 튜브는 불가능하다<br>
+    ㉱ 둘 다 유량 조절이 불가능하다</div>
+    <div class="qc-ans"><div class="ans-lbl">정답 ✓</div><div class="ans-txt"><span class="ans-key">㉰ 팽창밸브는 유량 조절 가능, 오리피스 튜브는 불가능</span><br>
+    팽창밸브: 증발기 출구 온도에 따라 자동 유량 조절 (가변). 오리피스 튜브: 고정 크기, 항상 동일 유량 통과. 오리피스 방식은 건조기 대신 어큐뮬레이터 사용.</div></div>
+  </div>
+
+</div>
+
+<!-- ════════════════════
+     TAB 9: 모의고사
+════════════════════ -->
+<div id="s-mock" class="sec">
+  <div class="pb-wrap">
+    <div class="pb-top"><div class="pb-lbl">모의고사 진행 현황</div><div class="pb-sc" id="sc-txt">0 / 20</div></div>
+    <div class="pb-bg"><div class="pb-fill" id="sc-bar" style="width:0%"></div></div>
+  </div>
+  <div id="mock-wrap"></div>
+  <div class="res-box" id="res-box">
+    <div class="res-sc" id="res-sc">—</div>
+    <div class="res-lbl">20문제 중 정답</div>
+    <div class="res-msg" id="res-msg"></div>
+    <button class="retry-btn" onclick="retry()">🔄 다시 풀기</button>
+  </div>
+</div>
+
+<!-- ════════════════════
+     TAB 10: 암기 카드
+════════════════════ -->
+<div id="s-mem" class="sec">
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ttl">🧠 편의장치 플립 암기 카드</div></div>
+    <p style="font-size:13px;color:var(--text2)">카드를 클릭하면 정답 / 다시 클릭하면 돌아갑니다</p>
+  </div>
+  <div class="g2" id="mem-wrap"></div>
+</div>
+
+<script>
+function st(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('s-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+function tq(el){el.classList.toggle('open')}
+
+function calcBWS(){
+  const t=+document.getElementById('bws-t').value;
+  const v=+document.getElementById('bws-v').value;
+  if(!t||!v)return;
+  const d=(t*v/2);
+  document.getElementById('bws-res').textContent=`D = ${t} × ${v} ÷ 2 = ${d.toFixed(3)}m = ${(d*100).toFixed(1)}cm`;
+}
+
+const mockQ=[
+  {q:"자동차 에어컨 냉매 순환 순서로 옳은 것은?",
+   opts:["압축기→팽창밸브→응축기→건조기→증발기","압축기→응축기→팽창밸브→건조기→증발기","압축기→응축기→건조기→팽창밸브→증발기","압축기→건조기→응축기→팽창밸브→증발기"],
+   ans:2,exp:"압축기→응축기→건조기→팽창밸브→증발기. 건조기는 수분 제거 후 팽창밸브로 보내야 하므로 반드시 팽창밸브 앞. ②번이 단골 오답 함정."},
+  {q:"윈드실드 와이퍼 3요소에 해당하지 않는 것은?",
+   opts:["와이퍼 전동기","링크 기구","와이퍼 블레이드","보호 상자"],
+   ans:3,exp:"와이퍼 3요소: ①전동기, ②링크 기구, ③블레이드. 보호 상자는 와이퍼 구성요소가 아닙니다. 기출 반복 출제 함정."},
+  {q:"에어백 팽창 가스로 사용하는 것은?",
+   opts:["산소(O₂)","이산화탄소(CO₂)","질소(N₂)","아르곤(Ar)"],
+   ans:2,exp:"에어백은 질소(N₂) 사용. 급속 팽창이 가능하고 온도 안정적, 인체에 무해. CO₂는 단골 오답."},
+  {q:"에어백이 완전 팽창하는 시간은 충돌 후 몇 초인가?",
+   opts:["0.05~0.1초","0.15~0.2초","0.35~0.4초","0.8~1.2초"],
+   ans:2,exp:"타임라인: 0.15초(가스발생기 작동)→0.2초(팽창시작)→0.35~0.4초(완전팽창)→0.4~0.8초(충돌+가스배출). 완전팽창=0.35~0.4초."},
+  {q:"BWS에서 부저가 연속음을 내는 장애물 거리 기준은?",
+   opts:["120cm 이하","80cm 이하","40cm 이하","20cm 이하"],
+   ans:2,exp:"BWS 3단계: 1차(120cm→340ms)→2차(80cm→170ms)→3차(40cm→연속음). 40cm 이하에서 연속음."},
+  {q:"BWS 2차 경보 시 부저 간격은?",
+   opts:["340ms","170ms","연속","85ms"],
+   ans:1,exp:"1차(120cm→340ms 간격), 2차(80cm→170ms 간격), 3차(40cm→연속음). 숫자 암기: 120/340, 80/170, 40/연속."},
+  {q:"ETACS에서 뒷유리 열선이 자동으로 꺼지는 시간은?",
+   opts:["5분","10분","15분","30분"],
+   ans:2,exp:"ETACS 타이머: 뒷유리 열선 15분 자동 OFF. 파워윈도우 30초. 룸램프 5~6초."},
+  {q:"ETACS에서 IG OFF 후 파워윈도우가 작동 유지되는 시간은?",
+   opts:["10초","20초","30초","60초"],
+   ans:2,exp:"ETACS: 파워윈도우 IG OFF 후 30초 유지. 뒷유리 열선 15분. 룸램프 5~6초 지연 소등."},
+  {q:"TPMS 경고등이 점등되는 타이어 압력 기준은?",
+   opts:["20~21psi 이하","23~24psi 이하","26~27psi 이하","29~30psi 이하"],
+   ans:2,exp:"TPMS: 26~27psi 이하에서 경고등 점등, 30~31psi 이상에서 소등. 센서 무게 약 40g, 배터리 수명 10년."},
+  {q:"R-134a 냉매가 오존층을 파괴하지 않는 이유는?",
+   opts:["액화·증발이 안 되기 때문","염소(Cl) 성분이 없기 때문","수소 성분이 많기 때문","온도가 낮기 때문"],
+   ans:1,exp:"R-134a는 염소(Cl) 성분이 없어 오존층 파괴 안 함. R-12는 Cl 때문에 오존층 파괴. '액화·증발 안 됨'은 틀린 설명."},
+  {q:"냉매 R-134a 취급 시 주의사항으로 틀린 것은?",
+   opts:["직사광선 방치 금지","피부 접촉 금지","용기에 80% 이하 충전","용기에 완전히 채워서 보관"],
+   ans:3,exp:"냉매 충전은 폭발 위험으로 80% 이하만 채움. '완전히 채운다'가 틀린 내용. 50℃ 이상 가열도 금지."},
+  {q:"에어컨에서 고압 기체 냉매를 냉각해 액화시키는 부품은?",
+   opts:["압축기","응축기","팽창밸브","증발기"],
+   ans:1,exp:"응축기: 고압 기체→액체 (열 방출). 라디에이터 앞 설치. 증발기는 반대(액체→기체, 열 흡수, 실내 냉각)."},
+  {q:"자동차 에어컨에서 고압 액체 냉매를 저압으로 변환하는 부품은?",
+   opts:["압축기","응축기","팽창밸브","증발기"],
+   ans:2,exp:"팽창밸브: 중온고압 액체→저온저압 액체(습포화 증기). 유량 조절 가능. 오리피스 튜브와 혼동 주의 — 오리피스는 유량 조절 불가."},
+  {q:"FATC(전자동에어컨) ECU 입력 센서가 아닌 것은?",
+   opts:["외기온도 센서","일사량 센서","차고 센서","핀서모 센서"],
+   ans:2,exp:"차고 센서는 ECS(전자제어 현가장치) 센서. FATC 입력: 실내/외기온도, 일사량, 핀서모, 수온, AQS 센서."},
+  {q:"에어컨 건조기(Receiver Drier)의 역할이 아닌 것은?",
+   opts:["냉매 속 수분 흡수","냉매 저장","냉매 압력 조절","냉매 불순물 제거"],
+   ans:2,exp:"건조기 역할: 수분 흡수, 냉매 저장, 불순물 제거. '압력 조절'은 팽창밸브의 역할."},
+  {q:"오리피스 튜브 방식 에어컨에서 건조기 대신 사용되는 부품은?",
+   opts:["팽창밸브","어큐뮬레이터","압력스위치","리퀴드 탱크"],
+   ans:1,exp:"오리피스 튜브 방식: 건조기 없이 증발기 뒤에 어큐뮬레이터 설치. 어큐뮬레이터가 액체 냉매 분리 및 오일 순환 역할."},
+  {q:"에어백 SRS의 정식 명칭은?",
+   opts:["Speed Restraint System","Supplemental Restraint System","Safety Release System","Shock Reduction System"],
+   ans:1,exp:"SRS = Supplemental Restraint System (안전벨트 보조장치). 에어백은 안전벨트를 '보조'하는 장치입니다."},
+  {q:"가솔린 차량에는 없고 디젤 차량에만 있는 경고등은?",
+   opts:["엔진오일 경고등","충전 경고등","연료 수분감지 경고등","냉각수 온도 경고등"],
+   ans:2,exp:"연료 수분감지 경고등과 예열 플러그 경고등은 디젤 전용. 가솔린에는 없습니다."},
+  {q:"와이퍼 전동기에서 브러시가 3개인 이유는?",
+   opts:["출력을 높이기 위해","저속과 고속 2가지 속도를 구현하기 위해","내구성 향상을 위해","소음 감소를 위해"],
+   ans:1,exp:"와이퍼 전동기 브러시 3개: 공통 브러시 1개 + 저속용 1개 + 고속용 1개. 총 3개로 저/고속 전환 구현."},
+  {q:"에어컨 압축기를 구동하는 동력원은?",
+   opts:["배터리 전원","발전기 직접 구동","엔진 V벨트(구동벨트)","모터 구동"],
+   ans:2,exp:"에어컨 압축기는 엔진의 V벨트(구동벨트)로 구동됩니다. 압축기 클러치(마그네틱)로 ON/OFF. 전기차는 전동 컴프레서 사용."}
+];
+
+let userAns=[],correct=0;
+function buildMock(){
+  userAns=new Array(mockQ.length).fill(null);correct=0;
+  updatePB();document.getElementById('res-box').classList.remove('show');
+  const wrap=document.getElementById('mock-wrap');wrap.innerHTML='';
+  mockQ.forEach((q,qi)=>{
+    const d=document.createElement('div');d.className='mq';
+    d.innerHTML=`<div class="mq-num">문제 ${qi+1} / ${mockQ.length}</div>
+      <div class="mq-text">${q.q}</div>
+      <ul class="opts">${q.opts.map((o,oi)=>`<li><button class="obtn" onclick="pick(${qi},${oi},this)">${['①','②','③','④'][oi]} ${o}</button></li>`).join('')}</ul>
+      <div class="exp" id="exp${qi}"><div class="exp-lbl">✅ 해설</div>${q.exp}</div>`;
+    wrap.appendChild(d);
+  });
+}
+function pick(qi,oi,btn){
+  if(userAns[qi]!==null)return;userAns[qi]=oi;
+  const btns=btn.closest('.opts').querySelectorAll('.obtn');
+  btns.forEach(b=>b.disabled=true);
+  if(oi===mockQ[qi].ans){btn.classList.add('ok');correct++;}
+  else{btn.classList.add('no');btns[mockQ[qi].ans].classList.add('ok');}
+  document.getElementById('exp'+qi).classList.add('show');
+  updatePB();
+  if(userAns.filter(a=>a!==null).length===mockQ.length)showResult();
+}
+function updatePB(){
+  const done=userAns.filter(a=>a!==null).length;
+  document.getElementById('sc-txt').textContent=`${correct} / ${mockQ.length}`;
+  document.getElementById('sc-bar').style.width=(done/mockQ.length*100)+'%';
+}
+function showResult(){
+  const pct=Math.round(correct/mockQ.length*100);
+  document.getElementById('res-sc').textContent=`${correct}점`;
+  document.getElementById('res-sc').style.color=pct>=60?'var(--green)':'var(--rose)';
+  document.getElementById('res-msg').textContent=
+    pct>=90?'🏆 완벽! 편의장치 마스터!':
+    pct>=70?'👍 합격 안정권! 오답만 보완하세요.':
+    pct>=60?'⚠️ 아슬아슬 합격권. 에어컨·에어백 집중 복습!':
+    '❌ 불합격 위험! 전체 개요 탭부터 다시 공부하세요.';
+  document.getElementById('res-box').classList.add('show');
+  document.getElementById('res-box').scrollIntoView({behavior:'smooth'});
+}
+function retry(){buildMock();document.getElementById('s-mock').scrollIntoView({behavior:'smooth'});}
+
+const memData=[
+  {kw:"와이퍼 3요소",hint:"보호상자 아님!",ans:"①와이퍼 전동기 ②링크 기구 ③와이퍼 블레이드. 보호 상자는 포함 안 됨!"},
+  {kw:"질소 N₂",hint:"에어백 팽창 가스",ans:"에어백 = 질소(N₂). CO₂(이산화탄소) 아님! 급속팽창·온도안정·인체무해"},
+  {kw:"0.35~0.4초",hint:"에어백 완전 팽창",ans:"0.15초(가스발생)→0.2초(팽창시작)→0.35~0.4초(완전팽창)→0.4~0.8초(충돌+배출)"},
+  {kw:"40cm→연속",hint:"BWS 3차 경보",ans:"1차(120cm/340ms)→2차(80cm/170ms)→3차(40cm/연속음). 가까울수록 빠름"},
+  {kw:"15분",hint:"ETACS 뒷유리 열선",ans:"열선 15분 → 파워윈도우 30초 → 룸램프 5~6초. 숫자 순서로 암기"},
+  {kw:"30초",hint:"ETACS 파워윈도우",ans:"IG OFF 후 30초간 파워윈도우 작동 유지. 뒷유리 열선은 15분"},
+  {kw:"냉매 순환",hint:"에어컨 순서",ans:"압축기→응축기→건조기→팽창밸브→증발기. 건조기는 팽창밸브 앞!"},
+  {kw:"R-134a\n염소 없음",hint:"오존층 보존 이유",ans:"R-134a는 염소(Cl) 없음→오존층 파괴 안 함. '액화·증발 안 됨'은 틀린 설명!"},
+  {kw:"80% 이하",hint:"냉매 충전 주의",ans:"냉매 충전 시 용기에 80% 이하만 채움. 완전히 채우면 폭발 위험. 50℃ 가열 금지"},
+  {kw:"차고센서 ❌",hint:"FATC 무관 센서",ans:"차고 센서는 ECS(현가장치) 전용. FATC에는 외기·실내온도·일사량·핀서모 센서"),
+  {kw:"응축기\n액화",hint:"에어컨 부품 역할",ans:"응축기: 기체→액체(열방출). 증발기: 액체→기체(열흡수, 냉각). 방향 반대!"},
+  {kw:"오리피스\n유량조절 불가",hint:"팽창밸브 vs 오리피스",ans:"팽창밸브: 유량조절 가능(가변). 오리피스 튜브: 유량조절 불가(고정). 오리피스→어큐뮬레이터"},
+  {kw:"26~27psi",hint:"TPMS 경고 점등",ans:"26~27psi 이하 → 경고등 점등. 30~31psi 이상 → 소등. 센서 40g, 배터리 10년"},
+  {kw:"수분감지\n디젤 전용",hint:"디젤 전용 경고등",ans:"연료 수분감지 경고등 + 예열 플러그 경고등 = 디젤 전용. 가솔린엔 없음!"},
+];
+function buildMem(){
+  const wrap=document.getElementById('mem-wrap');
+  memData.forEach(m=>{
+    const d=document.createElement('div');d.className='mem-card';
+    d.innerHTML=`<div class="mem-front"><div class="mem-kw">${m.kw}</div><div class="mem-hint">${m.hint}</div><div style="font-size:11px;color:var(--text3);margin-top:8px">탭하여 답 확인</div></div>
+      <div class="mem-back"><div class="mem-ans">${m.ans}</div><div style="font-size:11px;color:var(--text3);margin-top:8px">다시 탭하여 돌아가기</div></div>`;
+    d.onclick=()=>d.classList.toggle('flip');
+    wrap.appendChild(d);
+  });
+}
+buildMock();buildMem();
+</script>
+</body>
+</html>
