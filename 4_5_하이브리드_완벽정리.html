@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>하이브리드 완벽정리 | 자동차정비기능사</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+body { margin: 0; padding: 0; font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background: #f5f4f0; }
+:root {
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f0eeea;
+  --color-background-tertiary: #e8e6e0;
+  --color-background-info: #E6F1FB;
+  --color-background-success: #E1F5EE;
+  --color-background-warning: #FAEEDA;
+  --color-background-danger: #FCEBEB;
+  --color-background-purple: #F2ECFB;
+  --color-text-primary: #1a1a18;
+  --color-text-secondary: #5a5a55;
+  --color-text-tertiary: #9a9a92;
+  --color-text-info: #0C447C;
+  --color-text-success: #085041;
+  --color-text-warning: #633806;
+  --color-text-danger: #791F1F;
+  --color-text-purple: #5B3A94;
+  --color-border-primary: rgba(0,0,0,0.15);
+  --color-border-secondary: rgba(0,0,0,0.12);
+  --color-border-tertiary: rgba(0,0,0,0.08);
+  --color-border-info: #185FA5;
+  --color-border-purple: #d4bdf0;
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --font-mono: 'Courier New', monospace;
+}
+.school-header-bar{background:#fff;border-bottom:3px solid #185FA5;padding:10px 1.5rem;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:999;box-shadow:0 2px 6px rgba(0,0,0,0.07);}
+.school-logo-img{height:48px;width:auto;object-fit:contain;}
+.school-divider-line{width:1.5px;height:38px;background:#d0cfc8;flex-shrink:0;}
+.school-info-box{display:flex;flex-direction:column;gap:2px;flex:1;}
+.school-innovation-text{font-size:15px;font-weight:700;color:#185FA5;letter-spacing:-0.3px;}
+.school-sub-text{font-size:11px;color:#8a8a82;}
+.back-to-main{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#E6F1FB;color:#0C447C;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;border:1px solid #b8d4f0;transition:all .15s;}
+.back-to-main:hover{background:#185FA5;color:#fff;border-color:#185FA5;}
+.page-content { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem; }
+@media(max-width:600px){.school-logo-img{height:36px;}.school-innovation-text{font-size:13px;}.back-to-main{font-size:12px;padding:6px 10px;}}
+
+.breadcrumb{font-size:12px;color:var(--color-text-tertiary);margin-bottom:10px;}
+.breadcrumb a{color:var(--color-text-info);text-decoration:none;}
+.breadcrumb a:hover{text-decoration:underline;}
+.page-title{font-size:20px;font-weight:700;color:var(--color-text-primary);margin:4px 0 3px;display:flex;align-items:center;gap:8px;}
+.page-sub{font-size:13px;color:var(--color-text-secondary);margin:0 0 18px;}
+
+.tab-bar{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;position:sticky;top:76px;background:#f5f4f0;padding:8px 0;z-index:10;}
+.tab-btn{appearance:none;border:1px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);font-size:12.5px;font-weight:500;padding:7px 14px;border-radius:20px;cursor:pointer;font-family:inherit;transition:all .15s;}
+.tab-btn:hover{border-color:var(--color-border-purple);color:var(--color-text-purple);}
+.tab-btn.active{background:var(--color-text-purple);border-color:var(--color-text-purple);color:#fff;}
+
+.sec-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin:0 0 10px;padding-left:4px;border-left:3px solid var(--color-border-purple);}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:18px;}
+.card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px;}
+.card-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin:0 0 6px;}
+.card-body{font-size:12px;color:var(--color-text-secondary);line-height:1.7;margin:0;}
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:2px 8px;border-radius:4px;margin-bottom:6px;}
+.badge-red{background:var(--color-background-danger);color:var(--color-text-danger);}
+.badge-blue{background:var(--color-background-info);color:var(--color-text-info);}
+.badge-green{background:var(--color-background-success);color:var(--color-text-success);}
+.badge-warn{background:var(--color-background-warning);color:var(--color-text-warning);}
+.badge-purple{background:var(--color-background-purple);color:var(--color-text-purple);}
+.formula{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:4px;padding:6px 10px;font-size:12px;color:var(--color-text-primary);font-family:var(--font-mono);margin:4px 0;}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:22px 0;}
+.tag{display:inline-block;font-size:11px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:4px;padding:1px 6px;margin:2px 2px 0 0;color:var(--color-text-secondary);}
+.highlight{color:var(--color-text-danger);font-weight:500;}
+.hl-purple{color:var(--color-text-purple);font-weight:600;}
+.freq-bar{display:flex;align-items:center;gap:8px;margin:3px 0;font-size:12px;color:var(--color-text-secondary);}
+.freq-fill{height:8px;border-radius:4px;background:var(--color-text-purple);opacity:.85;}
+.table-sm{width:100%;border-collapse:collapse;font-size:12px;}
+.table-sm th{text-align:left;font-weight:500;color:var(--color-text-secondary);padding:4px 8px;border-bottom:0.5px solid var(--color-border-tertiary);}
+.table-sm td{padding:4px 8px;color:var(--color-text-primary);border-bottom:0.5px solid var(--color-border-tertiary);}
+.table-sm tr:last-child td{border-bottom:none;}
+
+/* 모의고사 */
+.quiz-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:14px 16px;margin-bottom:12px;}
+.quiz-q{font-size:13px;font-weight:500;color:var(--color-text-primary);margin:0 0 8px;line-height:1.6;}
+.quiz-opts{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:6px;}
+.quiz-opts li{font-size:12.5px;color:var(--color-text-secondary);padding:6px 10px;background:var(--color-background-secondary);border-radius:6px;}
+.quiz-card summary{cursor:pointer;font-size:12px;font-weight:600;color:var(--color-text-purple);list-style:none;display:inline-flex;align-items:center;gap:4px;padding:5px 12px;background:var(--color-background-purple);border-radius:14px;}
+.quiz-card summary::-webkit-details-marker{display:none;}
+.quiz-answer{margin-top:10px;padding:10px 12px;background:var(--color-background-success);border-radius:6px;font-size:12.5px;color:var(--color-text-success);line-height:1.7;}
+.quiz-answer b{color:var(--color-text-danger);}
+
+/* 암기카드 */
+.flash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;}
+.flash-card{background:var(--color-background-primary);border:1px solid var(--color-border-secondary);border-radius:var(--border-radius-md);overflow:hidden;}
+.flash-card summary{cursor:pointer;list-style:none;padding:12px 14px;font-size:13px;font-weight:700;color:var(--color-text-purple);background:var(--color-background-purple);display:flex;align-items:center;justify-content:space-between;}
+.flash-card summary::-webkit-details-marker{display:none;}
+.flash-card summary::after{content:'+';font-weight:400;color:var(--color-text-tertiary);}
+.flash-card[open] summary::after{content:'−';}
+.flash-body{padding:10px 14px;font-size:12px;color:var(--color-text-secondary);line-height:1.7;}
+
+@media(max-width:600px){.tab-bar{position:static;}}
+</style>
+</head>
+<body>
+<div class="school-header-bar">
+  <img src="아주자동차대학UI.jpg" alt="아주자동차대학교" class="school-logo-img">
+  <div class="school-divider-line"></div>
+  <div class="school-info-box">
+    <span class="school-innovation-text">혁신지원사업단</span>
+    <span class="school-sub-text">자동차정비 전공 교육자료</span>
+  </div>
+  <a href="index.html" class="back-to-main">&#127968; 메인으로</a>
+</div>
+<div class="page-content">
+<div style="padding:1rem 0">
+
+<p class="breadcrumb"><a href="4_전기전자_2_시동_점화_및_충전장치_.html">← 시동·점화·충전장치 핵심내용</a> &nbsp;/&nbsp; 하이브리드 완벽정리</p>
+<p class="page-title">⑤ 하이브리드 <span class="badge badge-purple" style="margin:0">완벽정리</span></p>
+<p class="page-sub">핵심이론 · 기출분석 · 모의고사 · 암기카드 — 최근 출제 비중이 늘고 있는 하이브리드 전 범위 정리</p>
+
+<div style="background:var(--color-background-purple);border:0.5px solid var(--color-border-purple);border-radius:var(--border-radius-md);padding:14px 16px;margin-bottom:20px;">
+  <div class="freq-bar"><span style="min-width:90px">하이브리드</span><div class="freq-fill" style="width:40%"></div><span>★★★☆☆ 최근 상승세</span></div>
+  <p class="card-body" style="margin-top:8px;">전통적인 축전지·시동·점화·충전장치보다 출제 비중은 낮지만, <span class="hl-purple">최근 회차일수록 출제 빈도가 뚜렷하게 증가</span>하는 단원입니다. 특히 <b>3대 핵심 원리, 용어 약어, 고전압 안전수칙</b>은 매회 변형되어 반복 출제되므로 반드시 짚고 넘어가야 합니다.</p>
+</div>
+
+<!-- 탭 네비게이션 (앵커 이동) -->
+<div class="tab-bar">
+  <a href="#theory" class="tab-btn">📘 핵심이론</a>
+  <a href="#exam" class="tab-btn">📝 기출분석</a>
+  <a href="#quiz" class="tab-btn">✍️ 모의고사</a>
+  <a href="#cards" class="tab-btn">🗂 암기카드</a>
+</div>
+
+<!-- ══════════════ 핵심이론 ══════════════ -->
+<p class="sec-title" id="theory" style="font-size:16px;">📘 핵심이론</p>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-purple">개요</div>
+    <p class="card-title">하이브리드란?</p>
+    <p class="card-body">
+      hybrid = 잡종·혼성물. <span class="highlight">서로 다른 2개의 동력원</span>을 함께 쓰는 자동차<br>
+      주로 (가솔린·디젤·LPi 엔진) <b>+</b> 전기모터 조합<br>
+      필요성: 석유자원 고갈 대응, CO₂·배출가스 규제, CARB의 ZEV 규격
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-purple">장단점</div>
+    <p class="card-title">하이브리드 장·단점</p>
+    <p class="card-body">
+      <b>장점</b>: 연비 향상, 배기가스 저감, 엔진·모터 장점 결합<br>
+      <b>단점</b>: 구조 복잡·공간 필요, 배터리·인버터 등 부품 증가로 <span class="highlight">중량·비용 증가</span>, 아직 고가
+    </p>
+  </div>
+</div>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-red">★★★ 반드시 암기</div>
+    <p class="card-title">하이브리드 3대 핵심 원리</p>
+    <p class="card-body">
+      ① <span class="highlight">아이들 스탑(Idle Stop)</span>: 정차 시 엔진 자동 정지 → 연료소모 방지, 모터로 재시동<br>
+      ② <span class="highlight">동력보조(Power Assist)</span>: 가속·등판 시 배터리 전기로 모터 구동 → 엔진 부담↓, 연비↑<br>
+      ③ <span class="highlight">회생제동(Regenerative Brake)</span>: 제동 시 모터를 발전기로 작동 → 제동에너지를 전기로 회수해 배터리 충전
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-warn">★★ 함정주의</div>
+    <p class="card-title">일반차 vs 하이브리드 제동</p>
+    <p class="card-body">
+      일반 자동차: 제동에너지를 브레이크 <span class="highlight">마찰열로 소모(버림)</span><br>
+      하이브리드: 제동에너지를 모터(발전기 역할)로 <span class="highlight">전기에너지로 회수</span>하여 배터리에 저장 후 재사용
+    </p>
+  </div>
+</div>
+
+<p class="card-title" style="margin:4px 0 8px;color:var(--color-text-purple)">주행 단계별 동력 흐름</p>
+<table class="table-sm" style="margin-bottom:18px;background:var(--color-background-primary);border-radius:8px;">
+  <tr><th>상황</th><th>동력 흐름</th></tr>
+  <tr><td>정지 시</td><td>엔진 자동 정지 (Idle Stop)</td></tr>
+  <tr><td>정지→출발 시</td><td>배터리로 전기모터만 구동해 바퀴 구동</td></tr>
+  <tr><td>일반 주행 시</td><td>엔진 + 모터가 함께 바퀴 구동 (힘 배분 제어)</td></tr>
+  <tr><td>가속·고속 주행 시</td><td>엔진 구동 + 모터 동력보조 추가</td></tr>
+  <tr><td>감속(제동) 시</td><td>모터가 발전기로 전환 → 회생제동으로 배터리 충전</td></tr>
+</table>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-blue">★★★ 분류① 모터 사용방법</div>
+    <p class="card-title">시리즈 / 패러렐 / 시리즈-패러렐</p>
+    <p class="card-body">
+      <b>시리즈</b>: 구동은 <span class="highlight">모터만</span>, 엔진은 발전 전용<br>
+      <b>패러렐</b>: 모터 <span class="highlight">+ 엔진이 함께</span> 구동<br>
+      <b>시리즈-패러렐(combine)</b>: 상황에 따라 모터 단독 / 엔진 단독 / 모터+엔진 선택 구동
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-blue">★★★ 분류② 클러치 위치</div>
+    <p class="card-title">소프트(FMED) / 하드(TMED)</p>
+    <table class="table-sm">
+      <tr><th>구분</th><th>클러치 위치</th><th>출발 시</th></tr>
+      <tr><td>FMED(소프트)</td><td>변속기-모터 사이</td><td>엔진+모터 동시 구동</td></tr>
+      <tr><td>TMED(하드)</td><td>엔진-모터 사이</td><td><span class="highlight">모터 단독</span> EV 구동 가능</td></tr>
+    </table>
+    <p class="card-body" style="margin-top:6px">TMED만 순수 EV(전기) 모드가 존재 — 시험 함정 포인트!</p>
+  </div>
+  <div class="card">
+    <div class="badge badge-green">★★ 분류③ 충전방법</div>
+    <p class="card-title">플러그인 하이브리드(PHEV)</p>
+    <p class="card-body">
+      일반 HEV 대비 <span class="highlight">전기 주행거리 확대</span><br>
+      가정용 전기 또는 외부 전원으로 배터리를 직접 충전 가능
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-green">★★ 시스템 구성</div>
+    <p class="card-title">하이브리드 전기동력 4대 부품</p>
+    <p class="card-body">
+      전기 모터(엔진측 장착) + 인버터 + 컨버터 + 배터리(후방 통합 패키지)<br>
+      인버터: 배터리 직류 ↔ 모터 교류 변환<br>
+      컨버터(LDC): 고전압 → 저전압(12V 보조배터리)용 변환
+    </p>
+  </div>
+</div>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-red">★★★ 모터 시동 금지조건</div>
+    <p class="card-title">이럴 때는 모터로 시동 못 건다</p>
+    <p class="card-body">
+      고전압 배터리 온도 <span class="highlight">&lt; −10℃ 또는 &gt; 45℃</span><br>
+      MCU Inverter 온도 <span class="highlight">&gt; 94℃</span><br>
+      SOC <span class="highlight">18% 이하</span><br>
+      엔진 냉각수 수온 −10℃ 이하<br>
+      ECU/MCU/BMS 고장 시<br>
+      → 이 조건이면 <b>기존 스타터(시동전동기)</b>로 시동
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-red">★★★ 고전압 안전 수칙</div>
+    <p class="card-title">고전압 시스템 작업 시 필수</p>
+    <p class="card-body">
+      고전압 범위: <span class="highlight">140~380V</span><br>
+      절연장갑 착용 + 안전(세이프티) 스위치 OFF<br>
+      OFF 후 <span class="highlight">5분 이상</span> 대기 (MCU 방전시간)<br>
+      금속 액세서리(시계·반지·목걸이) 제거<br>
+      고전압 케이블 작업 전 전압계로 <span class="highlight">0.1V 이하</span> 확인
+    </p>
+  </div>
+</div>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-warn">★★ 작업 순서</div>
+    <p class="card-title">하이브리드 차량 정비 작업 순서</p>
+    <p class="card-body">
+      ① 이그니션 스위치 OFF<br>
+      ② 후석 시트 등받이 제거<br>
+      ③ 절연장갑 착용 후 12V 배터리 케이블 탈거<br>
+      ④ 안전(세이프티) 스위치 OFF<br>
+      ⑤ <span class="highlight">5~10분 이상 대기</span> 후 고전압 부품 취급
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-warn">★ 사고 시 조치</div>
+    <p class="card-title">차량 사고/화재/침수 시 조치</p>
+    <p class="card-body">
+      벗겨진 고전압 케이블은 손대지 말 것<br>
+      화재 시 <span class="highlight">ABC 소화기</span> 사용<br>
+      침수 시 안전스위치 등 일체 접근 금지<br>
+      리튬폴리머 배터리: 겔(Gel)타입 전해질(액상 아님)<br>
+      차단 필요시: P단+사이드브레이크 → IG키 제거·보조배터리(−) 탈거 → 절연장갑 착용 후 안전스위치 OFF
+    </p>
+  </div>
+</div>
+
+<p class="card-title" style="margin:4px 0 8px;color:var(--color-text-purple)">하이브리드 필수 용어(약어) 총정리</p>
+<table class="table-sm" style="margin-bottom:8px;background:var(--color-background-primary);border-radius:8px;">
+  <tr><th>약어</th><th>영문</th><th>비고</th></tr>
+  <tr><td><b>HEV</b></td><td>Hybrid Electric Vehicle</td><td>하이브리드 전기차</td></tr>
+  <tr><td><b>HCU</b></td><td>Hybrid Control Unit</td><td>하이브리드 통합 제어</td></tr>
+  <tr><td><b>MCU</b></td><td>Motor Control Unit</td><td>모터(인버터) 제어</td></tr>
+  <tr><td><b>LDC</b></td><td>Low DC-DC Converter</td><td>고전압→12V 변환(컨버터)</td></tr>
+  <tr><td><b>IFB</b></td><td>Inter Face Box</td><td>고전압 정션박스</td></tr>
+  <tr><td><b>SOC</b></td><td>State Of Charge</td><td>배터리 충전상태(%)</td></tr>
+  <tr><td><b>HSG</b></td><td>Hybrid Starter Generator</td><td>시동+발전 겸용 모터</td></tr>
+  <tr><td><b>PRA</b></td><td>Power Relay Assembly</td><td>고전압 배터리 릴레이 조립체</td></tr>
+  <tr><td><b>FMED</b></td><td>Flywheel Mounted Electric Device</td><td>소프트 타입</td></tr>
+  <tr><td><b>TMED</b></td><td>Transmission Mounted Electric Device</td><td>하드 타입</td></tr>
+  <tr><td><b>레졸버</b></td><td>Resolver</td><td>모터 회전자 위치 센서</td></tr>
+  <tr><td><b>안전플러그</b></td><td>Safety Plug</td><td>고전압 차단 플러그</td></tr>
+</table>
+
+<hr class="divider">
+
+<!-- ══════════════ 기출분석 ══════════════ -->
+<p class="sec-title" id="exam" style="font-size:16px;">📝 기출분석</p>
+
+<div class="card" style="margin-bottom:14px;">
+  <div class="badge badge-red">기출 확인 (2015년 4회 56번)</div>
+  <p class="card-title">하이브리드 자동차의 고전압 배터리 취급 시 안전한 방법이 아닌 것은?</p>
+  <p class="card-body">
+    ① 절연 장갑을 착용한다 &nbsp; ② 점화 스위치는 OFF한다 &nbsp; ③ 12V 배터리 접지선을 분리한다 &nbsp; ④ 반드시 세이프티 플러그를 <b>연결</b>한다<br><br>
+    <span class="hl-purple">정답 ④</span> — 고전압 배터리 점검·정비 시에는 세이프티 플러그를 <span class="highlight">연결이 아니라 반드시 분리</span>해야 한다. "연결한다"로 바꿔치기하는 것이 대표적인 출제 함정이다.
+  </p>
+</div>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="badge badge-purple">출제 경향</div>
+    <p class="card-title">어떤 방식으로 출제되는가</p>
+    <p class="card-body">
+      ① 안전수칙 뒤집기형: "분리" ↔ "연결", "OFF" ↔ "ON" 바꿔치기<br>
+      ② 용어-정의 매칭형: 약어(HCU, MCU, SOC 등)와 뜻 짝짓기<br>
+      ③ 개념 비교형: 시리즈↔패러렐, FMED↔TMED 헷갈리게 서술<br>
+      ④ 숫자 암기형: 고전압 범위, 대기시간, SOC 기준값 등
+    </p>
+  </div>
+  <div class="card">
+    <div class="badge badge-purple">최우선 암기 포인트</div>
+    <p class="card-body">
+      1순위: <b>세이프티 플러그는 반드시 분리</b> (연결 아님)<br>
+      2순위: 회생제동 = 제동에너지 → 전기에너지 회수(마찰열 소모 아님)<br>
+      3순위: 시리즈=모터만 구동 / 패러렐=모터+엔진 구동<br>
+      4순위: 고전압 140~380V, 안전스위치 OFF 후 5분 대기
+    </p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════ 모의고사 ══════════════ -->
+<p class="sec-title" id="quiz" style="font-size:16px;">✍️ 모의고사 (8문항)</p>
+<p class="card-body" style="margin-bottom:14px;">※ 위 핵심이론 내용을 기반으로 구성한 예상 문제입니다. 정답을 누르면 해설이 펼쳐집니다.</p>
+
+<div class="quiz-card">
+  <p class="quiz-q">1. 하이브리드 자동차의 3대 핵심 원리에 해당하지 않는 것은?</p>
+  <ul class="quiz-opts"><li>① 아이들 스탑</li><li>② 회생제동</li><li>③ 동력보조</li><li>④ 슬립(제동력) 제어</li></ul>
+  <details><summary>정답 확인</summary><div class="quiz-answer"><b>정답 ④</b><br>3대 핵심 원리는 아이들 스탑, 동력보조(Power Assist), 회생제동이다. 슬립 제어는 ABS/TCS 등 제동·구동력 제어장치의 개념으로 하이브리드 3대 원리와는 관계없다.</div></details>
+</div>
+
+<div class="quiz-card">
+  <p class="quiz-q">2. 하이브리드 자동차에서 구동은 전기모터로만 하고, 엔진은 오직 발전용으로만 사용하는 방식은?</p>
+  <ul class="quiz-opts"><li>① 패러렐 하이브리드</li><li>② 시리즈 하이브리드</li><li>③ 시리즈-패러렐 하이브리드</li><li>④ 플러그인 하이브리드</li></ul>
+  <details><summary>정답 확인</summary><div class="quiz-answer"><b>정답 ②</b><br>시리즈 하이브리드는 구동을 모터가 전담하고, 엔진은 발전기를 돌려 전기를 만드는 용도로만 쓰인다. 모터와 엔진이 함께 구동에 참여하는 것은 패러렐 방식이다.</div></details>
+</div>
+
+<div class="quiz-card">
+  <p class="quiz-q">3. FMED(소프트 타입)와 TMED(하드 타입)에 대한 설명으로 틀린 것은?</p>
+  <ul class="quiz-opts"><li>① FMED는 변속기와 모터 사이에 클러치를 둔다</li><li>② TMED는 엔진과 모터 사이에 클러치를 둔다</li><li>③ TMED는 순수 EV 주행 모드가 존재한다</li><li>④ FMED는 출발 시 모터만으로 구동한다</li></ul>
+  <details><summary>정답 확인</summary><div class="quiz-answer"><b>정답 ④</b><br>FMED(소프트 타입)는 출발 시 <b>엔진+모터</b>가 함께 구동하며, 주행 중에는 엔진으로 구동한다. 출발 시 모터만으로 구동하고 순수 EV 모드가 존재하는 것은 TMED(하드 타입)의 특징이다.</div></details>
+</div>
+
+<div class="quiz-card">
+  <p class="quiz-q">4. 하이브리드 모터에 의한 시동을 금지해야 하는 조건으로 틀린 것은?</p>
+  <ul class="quiz-opts"><li>① 고전압 배터리 온도가 −10℃ 미만일 때</li><li>② SOC가 50% 이상일 때</li><li>③ MCU Inverter 온도가 94℃를 초과할 때</li><li>④ 엔진 냉각수 온도가 −10℃ 이하일 때</li></ul>
+  <details><summary>정답 확인</summary><div class="quiz-answer"><b>정답 ②</b><br>모터 시동 금지 조건은 SOC가 <b>18% 이하</b>일 때이다. SOC 50% 이상은 오히려 배터리 충전 상태가 충분한 정상 범위이므로 시동 금지 사유가 아니다.</div></details>
+</div>
+
+<div class="quiz-card">
+  <p class="quiz-q">5. 하이브리드 고전압 시스템 정비 시 안전 스위치를 OFF한 후 최소 몇 분 이상 대기해야 하는가?</p>
+  <ul class="quiz-opts"><li>① 1분</li><li>② 3분</li><li>③ 5분</li><li>④ 10분</li></ul>
+  <details><summary>정답 확인</summary><div class="quiz-answer"><b>정답 ③</b><br>안전 스위치를 OFF한 뒤 MCU 내 콘덴서 방전 시간을 확보하기 위해 최소 5분(작업 순서상으로는 5~10분) 이상 대기한 후 고전압 부품을 취급해야 한다.</div></details>
+</div>
+
+<div class="quiz-card">
+  <p class="quiz-q">6. 안전 플러그(Safety Plug)를 다르게 부르는 명칭으로 옳은 것은?</p>
+  <ul class="quiz-opts"><li>① 인터페이스 박스(IFB)</li><li>② 고전압 차단 플러그</li><li>③ 레졸버</li><li>④ 파워릴레이 어셈블리(PRA)</li></ul>
+  <details><summary>정답 확인</summary><div class="quiz-answer"><b>정답 ②</b><br>안전 플러그(safety plug)는 고전압 회로를 물리적으로 차단하는 부품으로, '고전압 차단 플러그'라고도 부른다.</div></details>
+</div>
+
+<div class="quiz-card">
+  <p class="quiz-q">7. 레졸버(Resolver)의 주된 역할은?</p>
+  <ul class="quiz-opts"><li>① 배터리 충전 상태(SOC) 감지</li><li>② 구동모터의 회전자 위치 감지</li><li>③ 인버터 내부 온도 감지</li><li>④ 냉각수 온도 감지</li></ul>
+  <details><summary>정답 확인</summary><div class="quiz-answer"><b>정답 ②</b><br>레졸버는 모터 위치 센서로, 구동모터 회전자(로터)의 정확한 회전 위치를 감지하여 모터 제어(MCU)에 필요한 정보를 제공한다.</div></details>
+</div>
+
+<div class="quiz-card">
+  <p class="quiz-q">8. 하이브리드 자동차의 회생제동(Regenerative Brake)에 대한 설명으로 옳은 것은?</p>
+  <ul class="quiz-opts"><li>① 제동 에너지를 브레이크 마찰열로 전부 소모시킨다</li><li>② 제동 시 모터를 발전기로 작동시켜 전기에너지로 회수한다</li><li>③ 제동 시 엔진 회전수를 높여 제동력을 보조한다</li><li>④ 저전압(12V) 배터리에만 충전된다</li></ul>
+  <details><summary>정답 확인</summary><div class="quiz-answer"><b>정답 ②</b><br>회생제동은 제동 시 구동모터를 발전기로 전환시켜, 버려지던 제동 에너지를 전기에너지로 변환해 고전압 배터리에 저장하는 기술이다. 저장된 전기는 이후 모터 구동(동력보조)에 재사용된다.</div></details>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════ 암기카드 ══════════════ -->
+<p class="sec-title" id="cards" style="font-size:16px;">🗂 암기카드 (탭하여 정답 확인)</p>
+<div class="flash-grid">
+  <details class="flash-card"><summary>HCU</summary><div class="flash-body">Hybrid Control Unit — 하이브리드 시스템 전체를 총괄하는 통합 제어기</div></details>
+  <details class="flash-card"><summary>MCU</summary><div class="flash-body">Motor Control Unit — 구동모터(인버터)를 제어하는 유닛</div></details>
+  <details class="flash-card"><summary>LDC</summary><div class="flash-body">Low DC-DC Converter — 고전압을 12V로 낮춰 저전압 보조배터리계를 충전</div></details>
+  <details class="flash-card"><summary>SOC</summary><div class="flash-body">State Of Charge — 고전압 배터리의 충전 상태(%). 18% 이하면 모터 시동 금지</div></details>
+  <details class="flash-card"><summary>HSG</summary><div class="flash-body">Hybrid Starter Generator — 엔진 시동과 발전을 겸하는 모터</div></details>
+  <details class="flash-card"><summary>PRA</summary><div class="flash-body">Power Relay Assembly — 고전압 배터리와 시스템을 잇는 릴레이 조립체</div></details>
+  <details class="flash-card"><summary>FMED</summary><div class="flash-body">Flywheel Mounted Electric Device — 소프트 타입, 변속기-모터 사이에 클러치, 출발 시 엔진+모터 구동</div></details>
+  <details class="flash-card"><summary>TMED</summary><div class="flash-body">Transmission Mounted Electric Device — 하드 타입, 엔진-모터 사이에 클러치, 순수 EV 모드 존재</div></details>
+  <details class="flash-card"><summary>레졸버</summary><div class="flash-body">Resolver — 구동모터 회전자의 위치를 감지하는 센서</div></details>
+  <details class="flash-card"><summary>안전플러그</summary><div class="flash-body">Safety Plug — 고전압 차단 플러그. 점검·정비 시 반드시 분리(연결 아님)</div></details>
+  <details class="flash-card"><summary>고전압 범위</summary><div class="flash-body">140V ~ 380V — 감전·쇼트·누전에 특히 주의해야 하는 전압대</div></details>
+  <details class="flash-card"><summary>대기시간</summary><div class="flash-body">안전스위치 OFF 후 5분(작업순서상 5~10분) 이상 대기 — MCU 콘덴서 방전 시간 확보</div></details>
+  <details class="flash-card"><summary>시리즈 하이브리드</summary><div class="flash-body">구동 = 모터 전담, 엔진 = 발전 전용</div></details>
+  <details class="flash-card"><summary>패러렐 하이브리드</summary><div class="flash-body">모터 + 엔진이 함께 구동력을 낸다</div></details>
+  <details class="flash-card"><summary>회생제동</summary><div class="flash-body">제동 시 모터→발전기 전환, 제동에너지를 전기에너지로 회수해 배터리 충전</div></details>
+  <details class="flash-card"><summary>Ni-MH / Li-PB</summary><div class="flash-body">Nikel Metal Hybride(니켈수소) / Lithium Ion Polymer(리튬이온폴리머) — 고전압 배터리 종류</div></details>
+</div>
+
+<hr class="divider">
+<p class="card-body" style="text-align:center;color:var(--color-text-tertiary);">자동차정비기능사 필기 특강 · 하이브리드 완벽정리 &nbsp;|&nbsp; <a href="4_전기전자_2_시동_점화_및_충전장치_.html" style="color:var(--color-text-info);">← 시동·점화·충전장치 목록으로 돌아가기</a></p>
+
+</div>
+</div>
+</body>
+</html>
